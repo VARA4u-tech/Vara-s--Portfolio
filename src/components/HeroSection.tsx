@@ -67,16 +67,25 @@ const HeroSection = () => {
     const drops: number[] = Array(columns).fill(1);
 
     const draw = () => {
-      ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.fillStyle = "rgba(255, 255, 255, 0.04)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.font = `${fontSize}px monospace`;
-      ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
 
       for (let i = 0; i < drops.length; i++) {
         const char = chars[Math.floor(Math.random() * chars.length)];
+
+        // Lead character — brighter
+        ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
 
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        // Trail character — slightly dimmer
+        if (drops[i] > 1) {
+          const trailChar = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillStyle = "rgba(0, 0, 0, 0.07)";
+          ctx.fillText(trailChar, i * fontSize, (drops[i] - 1) * fontSize);
+        }
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.97) {
           drops[i] = 0;
         }
         drops[i]++;
@@ -174,7 +183,7 @@ const HeroSection = () => {
           ].map((tech) => (
             <span
               key={tech}
-              className="px-3 py-1 font-mono text-[11px] border border-foreground/15 text-foreground/50 tracking-wider hover:bg-foreground hover:text-background transition-all duration-300 cursor-default"
+              className="px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-all duration-300 cursor-default"
             >
               {tech}
             </span>
