@@ -45,9 +45,10 @@ const ContactSection = () => {
         </div>
         <button
           type="submit"
-          className="border border-foreground text-foreground px-8 py-3 text-xs uppercase tracking-[0.2em] hover:bg-foreground hover:text-background transition-colors duration-300"
+          className="group w-full md:w-auto relative cursor-pointer inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
         >
-          Send
+          <span>Send Message</span>
+          <span className="w-2 h-2 border-r-2 border-t-2 border-current rotate-45 group-hover:translate-x-1 transition-transform duration-300"></span>
         </button>
       </form>
     </SectionBlock>

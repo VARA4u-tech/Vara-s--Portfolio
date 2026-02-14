@@ -61,7 +61,7 @@ const ProjectsSection = () => (
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm font-medium text-foreground/80 hover:text-black transition-colors"
+              className="flex items-center gap-2 px-4 py-2 border-2 border-black bg-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-black hover:text-white"
             >
               <Github className="w-4 h-4" />
               Source
@@ -70,10 +70,10 @@ const ProjectsSection = () => (
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm font-medium text-foreground/80 hover:text-black transition-colors"
+              className="flex items-center gap-2 px-4 py-2 border-2 border-black bg-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-black hover:text-white"
             >
               <ExternalLink className="w-4 h-4" />
-              Demo
+              Live Demo
             </a>
           </div>
         </div>
