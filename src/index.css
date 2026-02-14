@@ -82,7 +82,7 @@
   }
 
   .nav-link {
-    @apply uppercase text-xs tracking-[0.2em] text-foreground/60 hover:text-foreground transition-opacity duration-300;
+    @apply uppercase text-xs tracking-[0.2em] text-foreground hover:text-foreground/70 font-medium transition-colors duration-300;
   }
 
   .fade-in {
