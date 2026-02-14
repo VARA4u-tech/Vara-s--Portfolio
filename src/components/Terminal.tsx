@@ -241,7 +241,7 @@ const Terminal = () => {
 
   if (!isOpen) {
     return (
-      <div className="fixed bottom-6 right-20 z-50 group">
+      <div className="fixed bottom-6 right-6 z-50 group">
         <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
           Ctrl + K
         </div>
