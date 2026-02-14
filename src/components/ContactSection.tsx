@@ -18,15 +18,14 @@ const ContactSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio Contact: ${form.name}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`,
-    );
-    window.location.href = `mailto:[EMAIL_ADDRESS]?subject=${subject}&body=${body}`;
+    const phoneNumber = "+919550533315";
+    const text = `Name: ${form.name}\nEmail: ${form.email}\nMessage: ${form.message}`;
+    const encodedText = encodeURIComponent(text);
+    window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, "_blank");
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("[EMAIL_ADDRESS]");
+    navigator.clipboard.writeText("pappuridurgavaraprasad4pl@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -76,7 +75,7 @@ const ContactSection = () => {
                 <p className="text-xs uppercase tracking-widest text-foreground/50 mb-1">
                   Whatsapp
                 </p>
-                <p className="font-mono text-sm">+91 93982 95423</p>
+                <p className="font-mono text-sm">+91 9550533315</p>
               </div>
             </div>
           </div>
@@ -153,9 +152,9 @@ const ContactSection = () => {
             type="submit"
             className="w-full group relative flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-mono uppercase tracking-widest overflow-hidden transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:translate-y-0 active:shadow-none"
           >
-            <span className="relative z-10 font-bold">Send Message</span>
-            <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
-            <div className="absolute inset-0 bg-zinc-800 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+            <span className="relative z-10 font-bold">Send via WhatsApp</span>
+            <MessageCircle className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
+            <div className="absolute inset-0 bg-green-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
           </button>
         </form>
       </div>
