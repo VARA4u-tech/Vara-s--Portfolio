@@ -56,10 +56,9 @@
     @apply bg-background text-foreground;
     font-family: "Inter", sans-serif;
     background-image: url("/images/paper-texture.png");
-    background-size: cover;
+    background-repeat: repeat;
+    background-size: auto;
     background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
   }
 
   html {
