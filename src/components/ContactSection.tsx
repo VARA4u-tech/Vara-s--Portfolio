@@ -9,6 +9,7 @@ import {
   Github,
   Linkedin,
   Twitter,
+  MessageCircle,
 } from "lucide-react";
 
 const ContactSection = () => {
@@ -21,11 +22,11 @@ const ContactSection = () => {
     const body = encodeURIComponent(
       `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`,
     );
-    window.location.href = `mailto:puttadurga@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:[EMAIL_ADDRESS]?subject=${subject}&body=${body}`;
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("puttadurga@gmail.com");
+    navigator.clipboard.writeText("[EMAIL_ADDRESS]");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -51,7 +52,7 @@ const ContactSection = () => {
                   Email
                 </p>
                 <p className="font-mono text-sm truncate">
-                  puttadurga@gmail.com
+                  pappuridurgavaraprasad4pl@gamil.com
                 </p>
               </div>
               <button
@@ -69,13 +70,13 @@ const ContactSection = () => {
 
             <div className="flex items-center gap-4 p-4 border border-foreground/10 bg-white/50 hover:border-black transition-colors duration-300">
               <div className="p-3 bg-black text-white">
-                <MapPin className="w-5 h-5" />
+                <MessageCircle className="w-5 h-5" />
               </div>
               <div>
                 <p className="text-xs uppercase tracking-widest text-foreground/50 mb-1">
-                  Location
+                  Whatsapp
                 </p>
-                <p className="font-mono text-sm">Andhra Pradesh, India</p>
+                <p className="font-mono text-sm">+91 93982 95423</p>
               </div>
             </div>
           </div>
