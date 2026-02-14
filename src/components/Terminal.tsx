@@ -24,8 +24,9 @@ const Terminal = () => {
         <div className="mb-2">
           <p>Welcome to Vara's Portfolio Terminal v1.0.0</p>
           <p>
-            Type <span className="text-green-400">help</span> to see available
-            commands.
+            I am a conversational AI. Type{" "}
+            <span className="text-green-400">help</span> for commands, or just
+            chat with me!
           </p>
         </div>
       ),
@@ -62,24 +63,12 @@ const Terminal = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
-  const handleCommand = (cmd: string) => {
-    const trimmedCmd = cmd.trim().toLowerCase();
+  // ... existing imports
 
-    // Add command to history
-    const newHistory: CommandOutput[] = [
-      ...history,
-      {
-        id: Date.now(),
-        type: "command",
-        content: `guest@portfolio:~$ ${cmd}`,
-      },
-    ];
-
-    let response: React.ReactNode = "";
-
-    switch (trimmedCmd) {
+  const getCommandResponse = (cmd: string): React.ReactNode | null => {
+    switch (cmd) {
       case "help":
-        response = (
+        return (
           <div className="grid grid-cols-[100px_1fr] gap-2">
             <span className="text-green-400">about</span>{" "}
             <span>Learn about me</span>
@@ -95,13 +84,10 @@ const Terminal = () => {
             <span>Close terminal</span>
           </div>
         );
-        break;
       case "about":
-        response =
-          "I'm Pappuri Durga Vara Prasad, a passionate developer specializing in Flutter, React, and Blockchain technologies. I build modern, high-performance applications.";
-        break;
+        return "I'm Pappuri Durga Vara Prasad, a passionate developer specializing in Flutter, React, and Blockchain technologies. I build modern, high-performance applications.";
       case "skills":
-        response = (
+        return (
           <div>
             <p className="mb-1">CORE STACK:</p>
             <p>• Flutter / Dart</p>
@@ -110,9 +96,8 @@ const Terminal = () => {
             <p>• Blockchain (Aptos/Move)</p>
           </div>
         );
-        break;
       case "projects":
-        response = (
+        return (
           <div className="flex flex-col gap-1">
             <a href="#projects" className="text-blue-400 hover:underline">
               1. EduPredict (AI Analytics)
@@ -125,9 +110,8 @@ const Terminal = () => {
             </a>
           </div>
         );
-        break;
       case "contact":
-        response = (
+        return (
           <div>
             <p>
               Email:{" "}
@@ -162,37 +146,95 @@ const Terminal = () => {
             </p>
           </div>
         );
-        break;
-      case "clear":
-        setHistory([]);
-        return;
-      case "exit":
-        setIsOpen(false);
-        return;
-      case "":
-        response = "";
-        break;
       default:
-        response = (
-          <span className="text-red-400">
-            Command not found: {trimmedCmd}. Type 'help' for available commands.
-          </span>
-        );
+        return null;
+    }
+  };
+
+  const processQuery = (input: string): React.ReactNode | null => {
+    const lower = input.toLowerCase();
+
+    // Greeting
+    if (lower.match(/^(hi|hello|hey|greetings)/)) {
+      return "Hello! I'm Vara's virtual assistant. How can I help you today?";
     }
 
-    if (response) {
-      newHistory.push({
-        id: Date.now() + 1,
-        type: "response",
-        content: response,
-      });
+    // About
+    if (lower.match(/(who|about|author|creator|developer)/)) {
+      return getCommandResponse("about");
     }
+
+    // Skills
+    if (lower.match(/(skill|stack|tech|language|framework)/)) {
+      return getCommandResponse("skills");
+    }
+
+    // Projects
+    if (lower.match(/(project|work|app|site|portfolio)/)) {
+      return getCommandResponse("projects");
+    }
+
+    // Contact
+    if (lower.match(/(contact|email|reach|hire|github|linkedin)/)) {
+      return getCommandResponse("contact");
+    }
+
+    return null;
+  };
+
+  const handleCommand = (cmd: string) => {
+    const trimmedCmd = cmd.trim();
+    if (!trimmedCmd) return;
+
+    const newHistory: CommandOutput[] = [
+      ...history,
+      {
+        id: Date.now(),
+        type: "command",
+        content: `guest@portfolio:~$ ${cmd}`,
+      },
+    ];
+
+    // Check for clear/exit first
+    if (trimmedCmd.toLowerCase() === "clear") {
+      setHistory([]);
+      return;
+    }
+    if (trimmedCmd.toLowerCase() === "exit") {
+      setIsOpen(false);
+      return;
+    }
+
+    // Try exact command match
+    let response = getCommandResponse(trimmedCmd.toLowerCase());
+
+    // If no exact match, try natural language processing
+    if (!response) {
+      response = processQuery(trimmedCmd);
+    }
+
+    // Default fallback
+    if (!response) {
+      response = (
+        <span className="text-red-400">
+          Command not understood. Try asking "who are you?", "show skills", or
+          type 'help'.
+        </span>
+      );
+    }
+
+    newHistory.push({
+      id: Date.now() + 1,
+      type: "response",
+      content: response,
+    });
 
     setHistory(newHistory);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!input.trim()) return;
     handleCommand(input);
     setInput("");
   };
