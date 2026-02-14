@@ -1,73 +1,75 @@
-# Welcome to your Lovable project
+# Vara's Portfolio
 
-## Project info
+A modern, high-performance portfolio website built with React, TypeScript, and Vite. This project showcases my skills, experience, and projects as a Full Stack Developer, featuring a unique neo-brutalist aesthetic mixed with interactive elements.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 🚀 Features
 
-## How can I edit this code?
+- **Interactive Hero Section**: Features a dynamic matrix rain effect and typewriter animations for a high-tech first impression.
+- **Neo-Brutalist Design**: Distinct aesthetics with paper textures, bold borders, and high-contrast monochromatic styling.
+- **Interactive Terminal**: A custom-built terminal simulation that provides a developer-centric interactive experience.
+- **GitHub Integration**: Live visualization of GitHub contributions using `react-github-calendar`.
+- **Direct WhatsApp Messaging**: Integrated contact form that redirects users directly to WhatsApp for instant communication.
+- **Responsive & Accessible**: Fully optimized for mobile, tablet, and desktop viewports with a focus on semantic HTML and accessibility.
+- **Modern Performance**: Standardized with Vite for lightning-fast HMR and optimized production builds.
 
-There are several ways of editing your application.
+## 🛠️ Tech Stack
 
-**Use Lovable**
+- **Framework**: [React 18](https://reactjs.org/) + [Vite](https://vitejs.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Animations**: Tailwind CSS Animate
+- **Routing**: React Router DOM v6
+- **State Management**: React Query (TanStack Query)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## 📦 Installation & Setup
 
-Changes made via Lovable will be committed automatically to this repo.
+To get a local copy up and running, follow these steps:
 
-**Use your preferred IDE**
+1. **Clone the repository**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+   ```bash
+   git clone https://github.com/VARA4u-tech/Vara-s--Portfolio.git
+   cd Vara-s--Portfolio
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+2. **Install dependencies**
 
-Follow these steps:
+   ```bash
+   npm install
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. **Start the development server**
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+   ```bash
+   npm run dev
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+4. **Build for production**
+   ```bash
+   npm run build
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+## 📂 Project Structure
+
+```text
+src/
+├── components/     # High-level sections (Hero, Contact, Terminal, etc.)
+├── pages/          # Individual page components (Index, etc.)
+├── ui/             # shadcn/ui primitive components
+├── hooks/          # Custom React hooks
+├── App.tsx         # Main application routing & structure
+└── main.tsx        # Entry point
 ```
 
-**Edit a file directly in GitHub**
+## 📬 Contact
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- **Author**: Pappuri Durga Vara Prasad
+- **Email**: [pappuridurgavaraprasad4pl@gmail.com](mailto:pappuridurgavaraprasad4pl@gmail.com)
+- **WhatsApp**: [+91 9550533315](https://wa.me/919550533315)
+- **GitHub**: [@VARA4u-tech](https://github.com/VARA4u-tech)
+- **LinkedIn**: [vara4u](https://linkedin.com/in/vara4u)
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+_Built with ❤️ and a lot of caffeine by Vara._
