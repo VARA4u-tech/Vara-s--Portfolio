@@ -18,7 +18,7 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
           observer.disconnect();
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
@@ -28,7 +28,7 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
     <section
       id={id}
       ref={ref}
-      className={`max-w-4xl mx-auto px-6 py-24 md:py-32 transition-all duration-700 ${
+      className={`max-w-4xl mx-auto px-6 py-16 md:py-32 transition-all duration-700 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >

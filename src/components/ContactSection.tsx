@@ -33,9 +33,9 @@ const ContactSection = () => {
 
   return (
     <SectionBlock id="contact" title="Get in touch">
-      <div className="grid md:grid-cols-2 gap-12 md:gap-20">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-20">
         {/* Left Column: Contact Info */}
-        <div className="space-y-10">
+        <div className="space-y-8 md:space-y-10">
           <p className="text-foreground/80 leading-relaxed font-light text-lg">
             I'm always interested in hearing about new projects and
             opportunities. Whether you have a question or just want to say hi,
@@ -44,15 +44,15 @@ const ContactSection = () => {
 
           <div className="space-y-6">
             <div className="group flex items-center gap-4 p-4 border border-foreground/10 bg-white/50 hover:border-black transition-colors duration-300">
-              <div className="p-3 bg-black text-white">
+              <div className="p-3 bg-black text-white self-start">
                 <Mail className="w-5 h-5" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs uppercase tracking-widest text-foreground/50 mb-1">
                   Email
                 </p>
-                <p className="font-mono text-sm truncate">
-                  pappuridurgavaraprasad4pl@gamil.com
+                <p className="font-mono text-sm break-all">
+                  pappuridurgavaraprasad4pl@gmail.com
                 </p>
               </div>
               <button
@@ -69,7 +69,7 @@ const ContactSection = () => {
             </div>
 
             <div className="flex items-center gap-4 p-4 border border-foreground/10 bg-white/50 hover:border-black transition-colors duration-300">
-              <div className="p-3 bg-black text-white">
+              <div className="p-3 bg-black text-white self-start">
                 <MessageCircle className="w-5 h-5" />
               </div>
               <div>
