@@ -6,7 +6,11 @@ const ContactSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // placeholder
+    const subject = encodeURIComponent(`Portfolio Contact: ${form.name}`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`,
+    );
+    window.location.href = `mailto:puttadurga@gmail.com?subject=${subject}&body=${body}`;
   };
 
   return (

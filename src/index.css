@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -45,36 +45,6 @@
     --sidebar-border: 0 0% 85%;
     --sidebar-ring: 0 0% 50%;
   }
-
-  .dark {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 96%;
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 96%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 96%;
-    --primary: 0 0% 96%;
-    --primary-foreground: 0 0% 5%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 96%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 96%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 96%;
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 80%;
-    --sidebar-background: 0 0% 10%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 0 0% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 0 0% 60%;
-  }
 }
 
 @layer base {
@@ -84,8 +54,8 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
-    background-image: url('/images/paper-texture.png');
+    font-family: "Inter", sans-serif;
+    background-image: url("/images/paper-texture.png");
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;

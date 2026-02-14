@@ -7,16 +7,18 @@ import SkillsSection from "@/components/SkillsSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 import ScrollToTop from "@/components/ScrollToTop";
-import DarkModeToggle from "@/components/DarkModeToggle";
+
 import Chatbot from "@/components/Chatbot";
+import Terminal from "@/components/Terminal";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <DarkModeToggle />
+
       <ScrollToTop />
       <Chatbot />
+      <Terminal />
       <HeroSection />
       <AboutSection />
       <EducationSection />
