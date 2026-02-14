@@ -199,13 +199,18 @@ const Terminal = () => {
 
   if (!isOpen) {
     return (
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-20 z-50 p-3 bg-background border border-foreground/20 hover:bg-foreground hover:text-background transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-        aria-label="Open Terminal"
-      >
-        <TerminalIcon className="w-5 h-5" />
-      </button>
+      <div className="fixed bottom-6 right-20 z-50 group">
+        <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+          Ctrl + K
+        </div>
+        <button
+          onClick={() => setIsOpen(true)}
+          className="p-3 bg-white border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white transition-all duration-300"
+          aria-label="Open Terminal"
+        >
+          <TerminalIcon className="w-5 h-5" />
+        </button>
+      </div>
     );
   }
 

@@ -46,6 +46,16 @@ const HeroSection = () => {
             <Mail className="w-5 h-5" />
           </a>
         </div>
+
+        <div className="mt-12">
+          <a
+            href="/resume.pdf"
+            download
+            className="inline-flex items-center gap-2 px-8 py-3 border border-black text-sm font-medium tracking-widest uppercase hover:bg-black hover:text-white transition-all duration-300"
+          >
+            Download Resume
+          </a>
+        </div>
       </div>
       <div className="absolute bottom-10 left-6 md:left-10">
         <span className="text-foreground/40 text-xs tracking-[0.2em] uppercase">
