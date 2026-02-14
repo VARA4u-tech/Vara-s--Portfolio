@@ -109,7 +109,7 @@ const HeroSection = () => {
 
       {/* Top-left code comment */}
       <div className="absolute top-28 left-6 md:left-10 z-10 hidden md:block">
-        <p className="font-mono text-[11px] text-foreground/25 leading-relaxed">
+        <p className="font-mono text-xs text-foreground/60 leading-relaxed font-medium">
           // portfolio.tsx
           <br />
           // version: 3.0.0
@@ -122,7 +122,7 @@ const HeroSection = () => {
 
       {/* Top-right line numbers */}
       <div className="absolute top-28 right-6 md:right-10 z-10 hidden md:block">
-        <p className="font-mono text-[11px] text-foreground/15 leading-relaxed text-right">
+        <p className="font-mono text-xs text-foreground/40 leading-relaxed text-right font-medium">
           {Array.from({ length: 6 }, (_, i) => (
             <span key={i} className="block">
               {String(i + 1).padStart(3, "0")}
@@ -134,9 +134,9 @@ const HeroSection = () => {
       {/* Main content */}
       <div className="text-center relative z-10">
         {/* Tag line */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 border border-foreground/15 bg-background/60 backdrop-blur-sm">
-          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          <span className="font-mono text-xs text-foreground/60 tracking-[0.15em] uppercase">
+        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 border border-foreground/30 bg-background/80 backdrop-blur-md shadow-sm">
+          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
+          <span className="font-mono text-xs text-foreground/90 tracking-[0.15em] uppercase font-medium">
             Available for work
           </span>
         </div>
@@ -238,14 +238,14 @@ const HeroSection = () => {
 
       {/* Bottom-left info */}
       <div className="absolute bottom-10 left-6 md:left-10 z-10">
-        <span className="text-foreground/40 text-xs tracking-[0.2em] uppercase font-mono">
+        <span className="text-foreground/80 text-xs tracking-[0.2em] uppercase font-mono font-medium">
           www.prasad.dev
         </span>
       </div>
 
       {/* Bottom-right stats */}
       <div className="absolute bottom-10 right-6 md:right-10 z-10 hidden md:block">
-        <div className="font-mono text-[11px] text-foreground/25 text-right leading-relaxed">
+        <div className="font-mono text-xs text-foreground/80 text-right leading-relaxed font-medium">
           <p>const experience = "2+ years";</p>
           <p>const projects = 10;</p>
           <p>const passion = Infinity;</p>
