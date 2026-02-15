@@ -5,7 +5,7 @@ import { Badge } from "./ui/badge";
 
 const projects = [
   {
-    title: "Academy of Tech Masters (AOTMS)",
+    title: "🚀Academy of Tech Masters (AOTMS)",
     description:
       "A premier tech education platform featuring AI-powered assistance, interactive student dashboards, and comprehensive course management. Delivered as a high-performance freelance project for a real-world client.",
     tags: [
@@ -20,7 +20,7 @@ const projects = [
     liveUrl: "https://aotms.in",
   },
   {
-    title: "Elara Cosmetics",
+    title: "🌷Elara Cosmetics",
     description:
       "A luxury Ayurvedic e-commerce platform with a focus on premium user experience. Features category-based filtering, shopping cart, wishlist, and a custom WhatsApp-integrated checkout system.",
     tags: ["React", "TypeScript", "Tailwind", "Vite", "Shadcn UI", "Vitest"],
@@ -29,7 +29,7 @@ const projects = [
     liveUrl: "https://elara-cosmetics.vercel.app/",
   },
   {
-    title: "EduPredict",
+    title: "👨🏻‍🎓EduPredict",
     description:
       "An AI-powered predictive analytics system for student success, featuring a unique comic book-inspired UI, interactive dashboards, and real-time at-risk student alerts.",
     tags: [
@@ -44,7 +44,7 @@ const projects = [
     liveUrl: "https://edu-pridect.vercel.app/",
   },
   {
-    title: "SmartQuack",
+    title: "🦆SmartQuack",
     description:
       "A delightful, offline-first task manager with a gamified twist! Features a reactive duck mascot that changes moods based on your productivity progress.",
     tags: ["Flutter", "Riverpod", "Firebase", "Hive", "Dart"],

@@ -2,14 +2,16 @@ import SectionBlock from "./SectionBlock";
 
 const education = [
   {
-    degree: "Bachelor of Technology — Computer Science",
-    school: "University of Technology",
-    year: "2019 – 2023",
+    degree:
+      "Master of Computer Applications (MCA), DVR & Dr. HS MIC College of Technology (Autonomous),Kanchikacherla",
+    school: "Jawaharlal Nehru Technological University Kakinada",
+    year: "2024 – 2026(Pursuing)",
   },
   {
-    degree: "Higher Secondary Education",
-    school: "State Board of Education",
-    year: "2017 – 2019",
+    degree:
+      "Bachelor of Science (B.Sc-MSCs), Gowtham Degree College,Vijayawada",
+    school: "Krishna University",
+    year: "2021 – 2024",
   },
 ];
 
