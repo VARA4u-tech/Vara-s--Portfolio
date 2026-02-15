@@ -4,37 +4,30 @@ const experiences = [
   {
     role: "Full Stack Developer (Freelance)",
     company: "Academy of Tech Masters (AOTMS)",
-    period: "2024 – Present",
+    period: "[23DEC 2025 – 23JAN 2026]",
     description:
       "Led the development of a premier tech education platform. Implemented an AI-powered student assistant, an interactive learning dashboard, and a scalable course catalog. Ensured high performance and full responsiveness using React, TypeScript, and Vite.",
   },
   {
     role: "Frontend Developer (Project Lead)",
     company: "Elara Cosmetics",
-    period: "2024",
+    period: "[25JAN 2026 – 30JAN 2026]",
     description:
       "Architected and developed a premium Ayurvedic e-commerce platform. Focused on creating a seamless user journey with high-performance product filtering, a custom WhatsApp checkout integration, and robust form validation using TypeScript and Vitest.",
   },
   {
     role: "Lead Full Stack Developer",
     company: "EduPredict",
-    period: "2024 - Present",
+    period: "[07FEB 2026 IN 24HRS]",
     description:
       "Designed and developed an AI-driven student performance forecasting platform. Integrated predictive analytics with a gamified, comic-book aesthetic UI. Implemented role-based dashboards and automated reporting systems.",
   },
   {
-    role: "Frontend Developer",
-    company: "Tech Corp",
-    period: "2023 – Present",
+    role: "Mobile App Developer",
+    company: "SmartQuack (Personal Project)",
+    period: "[15FEB 2026 - 19FEB 2026]",
     description:
-      "Building scalable web applications with React and TypeScript. Leading UI architecture decisions and mentoring junior developers.",
-  },
-  {
-    role: "Mobile Developer Intern",
-    company: "Startup Studio",
-    period: "2022 – 2023",
-    description:
-      "Developed cross-platform mobile applications using Flutter. Shipped 3 production apps with 10k+ downloads.",
+      "Engineered an offline-first task management application using Flutter and Hive. Built a reactive mascot system that tracks user productivity and provides gamified feedback. Integrated Firebase for secure cloud synchronization and multi-device support.",
   },
 ];
 

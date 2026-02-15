@@ -26,8 +26,7 @@ const projects = [
     tags: ["React", "TypeScript", "Tailwind", "Vite", "Shadcn UI", "Vitest"],
     githubUrl:
       "https://github.com/VARA4u-tech/Elara-Cosmetics-E--Commerce-Website-",
-    liveUrl:
-      "https://github.com/VARA4u-tech/Elara-Cosmetics-E--Commerce-Website-",
+    liveUrl: "https://elara-cosmetics.vercel.app/",
   },
   {
     title: "EduPredict",
@@ -43,6 +42,14 @@ const projects = [
     ],
     githubUrl: "https://github.com/VARA4u-tech/EduPredict",
     liveUrl: "https://edu-pridect.vercel.app/",
+  },
+  {
+    title: "SmartQuack",
+    description:
+      "A delightful, offline-first task manager with a gamified twist! Features a reactive duck mascot that changes moods based on your productivity progress.",
+    tags: ["Flutter", "Riverpod", "Firebase", "Hive", "Dart"],
+    githubUrl: "https://github.com/VARA4u-tech/my-first-flutter-app",
+    liveUrl: "https://github.com/VARA4u-tech/my-first-flutter-app",
   },
 ];
 
