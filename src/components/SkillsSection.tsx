@@ -3,19 +3,29 @@ import GithubGraph from "./GithubGraph";
 
 const skills = [
   "Flutter",
-  "Firebase",
   "React",
   "TypeScript",
-  "Aptos",
-  "Move",
-  "Git",
+  "Dart",
+  "Firebase",
   "Tailwind CSS",
   "Node.js",
+  "TanStack Query",
+  "Zustand",
+  "Framer Motion",
+  "Riverpod",
+  "Shadcn UI",
+  "MongoDB",
+  "AI Integration",
+  "Aptos",
+  "Move",
+  "Hive",
+  "Vitest",
+  "Git",
   "Figma",
 ];
 
 const SkillsSection = () => (
-  <SectionBlock id="skills" title="Technical skill">
+  <SectionBlock id="skills" title="Technical Skills">
     <div className="flex flex-wrap gap-3 mb-12">
       {skills.map((skill) => (
         <span
