@@ -16,6 +16,13 @@ const experiences = [
       "Architected and developed a premium Ayurvedic e-commerce platform. Focused on creating a seamless user journey with high-performance product filtering, a custom WhatsApp checkout integration, and robust form validation using TypeScript and Vitest.",
   },
   {
+    role: "Lead Full Stack Developer",
+    company: "EduPredict",
+    period: "2024 - Present",
+    description:
+      "Designed and developed an AI-driven student performance forecasting platform. Integrated predictive analytics with a gamified, comic-book aesthetic UI. Implemented role-based dashboards and automated reporting systems.",
+  },
+  {
     role: "Frontend Developer",
     company: "Tech Corp",
     period: "2023 – Present",

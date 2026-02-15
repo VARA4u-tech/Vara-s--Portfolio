@@ -30,12 +30,19 @@ const projects = [
       "https://github.com/VARA4u-tech/Elara-Cosmetics-E--Commerce-Website-",
   },
   {
-    title: "DevConnect",
+    title: "EduPredict",
     description:
-      "A developer networking platform with real-time chat, project showcases, and community-driven code reviews.",
-    tags: ["Next.js", "Supabase", "Tailwind"],
-    githubUrl: "#",
-    liveUrl: "#",
+      "An AI-powered predictive analytics system for student success, featuring a unique comic book-inspired UI, interactive dashboards, and real-time at-risk student alerts.",
+    tags: [
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "Vite",
+      "Lucide React",
+      "Framer Motion",
+    ],
+    githubUrl: "https://github.com/VARA4u-tech/EduPredict",
+    liveUrl: "https://edu-pridect.vercel.app/",
   },
 ];
 
