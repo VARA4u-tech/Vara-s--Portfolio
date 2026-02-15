@@ -200,7 +200,7 @@ const HeroSection = () => {
             },
             {
               Icon: Linkedin,
-              href: "https://linkedin.com/in/vara4u",
+              href: "https://www.linkedin.com/in/durga-vara-prasad-pappuri-1797701b6/",
               label: "LinkedIn",
             },
             {
@@ -227,7 +227,7 @@ const HeroSection = () => {
         <div className="mt-10">
           <a
             href="/resume.pdf"
-            download
+            download="Durga_Vara_Prasad_Resume.pdf"
             className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
           >
             <span>Download Resume</span>
