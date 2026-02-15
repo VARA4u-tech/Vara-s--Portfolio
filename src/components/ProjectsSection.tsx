@@ -5,20 +5,29 @@ import { Badge } from "./ui/badge";
 
 const projects = [
   {
-    title: "DeFi Dashboard",
+    title: "Academy of Tech Masters (AOTMS)",
     description:
-      "A decentralized finance dashboard built on Aptos blockchain with real-time analytics and portfolio tracking.",
-    tags: ["React", "TypeScript", "Aptos", "Move"],
-    githubUrl: "#",
-    liveUrl: "#",
+      "A premier tech education platform featuring AI-powered assistance, interactive student dashboards, and comprehensive course management. Delivered as a high-performance freelance project for a real-world client.",
+    tags: [
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "Vite",
+      "Zustand",
+      "Framer Motion",
+    ],
+    githubUrl: "https://github.com/VARA4u-tech/AOTMS",
+    liveUrl: "https://aotms.in",
   },
   {
-    title: "TaskFlow",
+    title: "Elara Cosmetics",
     description:
-      "A minimal task management app with drag-and-drop, built with Flutter and Firebase for seamless cross-platform sync.",
-    tags: ["Flutter", "Firebase", "Dart"],
-    githubUrl: "#",
-    liveUrl: "#",
+      "A luxury Ayurvedic e-commerce platform with a focus on premium user experience. Features category-based filtering, shopping cart, wishlist, and a custom WhatsApp-integrated checkout system.",
+    tags: ["React", "TypeScript", "Tailwind", "Vite", "Shadcn UI", "Vitest"],
+    githubUrl:
+      "https://github.com/VARA4u-tech/Elara-Cosmetics-E--Commerce-Website-",
+    liveUrl:
+      "https://github.com/VARA4u-tech/Elara-Cosmetics-E--Commerce-Website-",
   },
   {
     title: "DevConnect",

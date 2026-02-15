@@ -2,6 +2,20 @@ import SectionBlock from "./SectionBlock";
 
 const experiences = [
   {
+    role: "Full Stack Developer (Freelance)",
+    company: "Academy of Tech Masters (AOTMS)",
+    period: "2024 – Present",
+    description:
+      "Led the development of a premier tech education platform. Implemented an AI-powered student assistant, an interactive learning dashboard, and a scalable course catalog. Ensured high performance and full responsiveness using React, TypeScript, and Vite.",
+  },
+  {
+    role: "Frontend Developer (Project Lead)",
+    company: "Elara Cosmetics",
+    period: "2024",
+    description:
+      "Architected and developed a premium Ayurvedic e-commerce platform. Focused on creating a seamless user journey with high-performance product filtering, a custom WhatsApp checkout integration, and robust form validation using TypeScript and Vitest.",
+  },
+  {
     role: "Frontend Developer",
     company: "Tech Corp",
     period: "2023 – Present",
