@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter, ArrowUp, Heart } from "lucide-react";
+import { Github, Linkedin, ArrowUp, Heart, InstagramIcon } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -14,7 +14,11 @@ const Footer = () => {
       href: "https://linkedin.com/in/vara4u",
       label: "LinkedIn",
     },
-    { icon: Twitter, href: "https://twitter.com/vara4u", label: "Twitter" },
+    {
+      icon: InstagramIcon,
+      href: "https://instagram.com/d_v_p6",
+      label: "Instagram",
+    },
   ];
 
   const navLinks = [

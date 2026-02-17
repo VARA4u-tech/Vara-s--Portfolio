@@ -8,8 +8,8 @@ import {
   ArrowRight,
   Github,
   Linkedin,
-  Twitter,
   MessageCircle,
+  InstagramIcon,
 } from "lucide-react";
 
 const ContactSection = () => {
@@ -88,7 +88,7 @@ const ContactSection = () => {
               {[
                 { Icon: Github, href: "https://github.com/VARA4u-tech" },
                 { Icon: Linkedin, href: "https://linkedin.com/in/vara4u" },
-                { Icon: Twitter, href: "https://twitter.com/vara4u" },
+                { Icon: InstagramIcon, href: "https://instagram.com/d_v_p6" },
               ].map(({ Icon, href }, i) => (
                 <a
                   key={i}

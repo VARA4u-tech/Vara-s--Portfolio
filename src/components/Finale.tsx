@@ -93,23 +93,23 @@ const Finale = () => {
               Available for Freelance Projects
             </span>
           </div>
-          <p className="text-xs font-mono text-black/40 uppercase tracking-widest leading-loose max-w-sm">
+          <p className="text-xs font-mono text-black/70 uppercase tracking-widest leading-loose max-w-sm">
             From India 🇮🇳 to the World 🌍 • Crafting Scalable Digital Products
           </p>
         </div>
       </div>
 
       {/* Extreme Bottom Bar */}
-      <div className="w-full bg-black pt-10 pb-24 md:pb-10 px-6 mt-auto border-t border-white/10">
+      <div className="w-full bg-white pt-10 pb-24 md:pb-10 px-6 mt-auto border-t border-white/10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 opacity-60">
-          <p className="text-[9px] md:text-[10px] font-mono text-white uppercase tracking-[0.1em] md:tracking-[0.3em] text-center md:text-left">
+          <p className="text-[12px] md:text-[12px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.3em] text-center md:text-left">
             © {currentYear} Pappuri Durga Vara Prasad
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[9px] md:text-[10px] font-mono text-white uppercase tracking-[0.1em] md:tracking-[0.3em] text-center md:text-right">
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[12px] md:text-[12px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.3em] text-center md:text-right">
             <span className="whitespace-nowrap">Designed & Engineered</span>
             <span className="flex items-center gap-2">
               <span>with</span>
-              <Heart className="w-3 h-3 text-white fill-white animate-heartbeat inline-block" />
+              <Heart className="w-3 h-3 text-black fill-black animate-heartbeat inline-block" />
               <span>by Vara</span>
             </span>
           </div>
