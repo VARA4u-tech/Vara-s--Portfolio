@@ -96,8 +96,9 @@ const Footer = () => {
             © {currentYear} Pappuri Durga Vara Prasad
           </p>
           <p className="text-xs font-mono text-black/40 flex items-center gap-2 uppercase tracking-widest">
-            Made with <Heart className="w-3 h-3 text-red-500 fill-red-500" /> by
-            Vara
+            Designed & Engineered with{" "}
+            <Heart className="w-3.5 h-3.5 text-black fill-black animate-heartbeat inline-block" />{" "}
+            by Vara
           </p>
         </div>
       </div>
