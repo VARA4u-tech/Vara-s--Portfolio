@@ -27,7 +27,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="w-full bg-white border-t-4 border-black pt-16 pb-8 px-6">
+    <footer className="w-full bg-white border-t-4 border-black pt-16 pb-32 px-6 md:pb-24">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Brand Column */}
@@ -91,11 +91,11 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs font-mono text-black/40 uppercase tracking-widest">
+        <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-6 px-4 md:px-12 lg:px-0">
+          <p className="text-xs font-mono text-black/40 uppercase tracking-widest text-center md:text-left">
             © {currentYear} Pappuri Durga Vara Prasad
           </p>
-          <p className="text-xs font-mono text-black/40 flex items-center gap-2 uppercase tracking-widest">
+          <p className="text-xs font-mono text-black/40 flex items-center justify-center gap-2 uppercase tracking-widest text-center md:text-right">
             Designed & Engineered with{" "}
             <Heart className="w-3.5 h-3.5 text-black fill-black animate-heartbeat inline-block" />{" "}
             by Vara
