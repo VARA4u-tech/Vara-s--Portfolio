@@ -32,8 +32,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Brand Column */}
           <div className="md:col-span-2 space-y-6">
-            <h2 className="text-3xl font-black uppercase tracking-tighter italic">
-              Vara<span className="text-foreground">.</span>
+            <h2 className="text-2xl font-black uppercase tracking-tighter italic">
+              DURGA VARA PRASAD<span className="text-foreground">.....</span>
             </h2>
             <p className="text-foreground/60 max-w-sm leading-relaxed">
               Full-stack developer focused on building high-performance web
