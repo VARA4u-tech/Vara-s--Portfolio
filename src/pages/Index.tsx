@@ -8,7 +8,7 @@ import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 import ScrollToTop from "@/components/ScrollToTop";
 import Terminal from "@/components/Terminal";
-import Footer from "@/components/Footer";
+import Finale from "@/components/Finale";
 
 const Index = () => {
   return (
@@ -23,7 +23,7 @@ const Index = () => {
       <ProjectsSection />
       <SkillsSection />
       <ContactSection />
-      <Footer />
+      <Finale />
     </div>
   );
 };
