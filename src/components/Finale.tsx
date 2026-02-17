@@ -34,7 +34,7 @@ const Finale = () => {
 
   return (
     <section className="relative w-full bg-white border-t-8 border-black pt-20 overflow-hidden">
-      {/* Marquee Section */}
+      {/* ... marquee ... */}
       <div className="absolute top-0 left-0 w-full py-4 bg-black overflow-hidden flex whitespace-nowrap">
         <div className="animate-marquee flex items-center shrink-0">
           {[...Array(10)].map((_, i) => (
@@ -53,7 +53,7 @@ const Finale = () => {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-20 flex flex-col items-center">
-        {/* Big Thank You */}
+        {/* ... content ... */}
         <div className="relative mb-20 text-center">
           <h2 className="text-[12vw] md:text-[8vw] font-black uppercase leading-none tracking-tighter text-black/5 absolute -top-1/2 left-1/2 -translate-x-1/2 select-none pointer-events-none">
             THANK YOU
@@ -67,7 +67,6 @@ const Finale = () => {
           </p>
         </div>
 
-        {/* Social Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mb-24">
           {socialLinks.map((link) => (
             <a
@@ -85,7 +84,6 @@ const Finale = () => {
           ))}
         </div>
 
-        {/* Status Line */}
         <div className="flex flex-col md:flex-row items-center gap-4 text-center">
           <div className="flex items-center gap-2 px-4 py-2 bg-green-100 border-2 border-green-600 rounded-full">
             <span className="w-2 h-2 bg-green-600 rounded-full animate-pulse" />
@@ -100,16 +98,16 @@ const Finale = () => {
       </div>
 
       {/* Extreme Bottom Bar */}
-      <div className="w-full bg-white pt-10 pb-24 md:pb-10 px-6 mt-auto border-t border-white/10">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 opacity-60">
-          <p className="text-[12px] md:text-[12px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.3em] text-center md:text-left">
+      <div className="w-full bg-white pt-10 pb-24 md:pb-10 px-6 mt-auto border-t border-black/10">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 opacity-70">
+          <p className="text-[10px] md:text-[11px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.2em] text-center md:text-left">
             © {currentYear} Pappuri Durga Vara Prasad
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[12px] md:text-[12px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.3em] text-center md:text-right">
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.2em] text-center md:text-right font-medium">
             <span className="whitespace-nowrap">Designed & Engineered</span>
             <span className="flex items-center gap-2">
               <span>with</span>
-              <Heart className="w-3 h-3 text-black fill-black animate-heartbeat inline-block" />
+              <Heart className="w-3.5 h-3.5 text-black fill-black animate-heartbeat inline-block" />
               <span>by Vara</span>
             </span>
           </div>
