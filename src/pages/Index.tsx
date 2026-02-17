@@ -8,10 +8,11 @@ import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 import ScrollToTop from "@/components/ScrollToTop";
 import Terminal from "@/components/Terminal";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <ScrollToTop />
       <Terminal />
@@ -22,11 +23,7 @@ const Index = () => {
       <ProjectsSection />
       <SkillsSection />
       <ContactSection />
-      <footer className="py-12 text-center">
-        <p className="text-foreground/30 text-xs tracking-[0.2em] uppercase">
-          © 2026 Pappuri Durga Vara Prasad
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 };

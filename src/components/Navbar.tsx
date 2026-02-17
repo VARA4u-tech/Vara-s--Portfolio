@@ -5,7 +5,7 @@ const links = [
   { label: "Education", href: "#education" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
-  { label: "Technical Skill", href: "#skills" },
+  { label: "Technical Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -31,10 +31,7 @@ const Navbar = () => {
 
         {/* Mobile toggle */}
         <div className="md:hidden flex justify-center">
-          <button
-            onClick={() => setOpen(!open)}
-            className="nav-link"
-          >
+          <button onClick={() => setOpen(!open)} className="nav-link">
             {open ? "Close" : "Menu"}
           </button>
         </div>
