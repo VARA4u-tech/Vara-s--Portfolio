@@ -1,5 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { Github, Linkedin, Twitter, Mail, ChevronDown } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Twitter,
+  Mail,
+  ChevronDown,
+  InstagramIcon,
+} from "lucide-react";
 
 const roles = [
   "Flutter Developer",
@@ -204,11 +211,15 @@ const HeroSection = () => {
               label: "LinkedIn",
             },
             {
-              Icon: Twitter,
-              href: "https://twitter.com/vara4u",
-              label: "Twitter",
+              Icon: InstagramIcon,
+              href: "https://www.instagram.com/d_v_p6/",
+              label: "Instagram",
             },
-            { Icon: Mail, href: "mailto:contact@vara.dev", label: "Email" },
+            {
+              Icon: Mail,
+              href: "mailto:pappuridurgavaraprasad4pl@gmail.com",
+              label: "Email",
+            },
           ].map(({ Icon, href, label }, i) => (
             <a
               key={i}
