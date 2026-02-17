@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter, Mail, Heart } from "lucide-react";
+import { Github, Linkedin, InstagramIcon, Mail, Heart } from "lucide-react";
 
 const Finale = () => {
   const currentYear = new Date().getFullYear();
@@ -10,11 +10,15 @@ const Finale = () => {
       href: "https://linkedin.com/in/vara4u",
       label: "LinkedIn",
     },
-    { icon: Twitter, href: "https://twitter.com/vara4u", label: "Twitter" },
     {
       icon: Mail,
       href: "mailto:pappuridurgavaraprasad4pl@gmail.com",
       label: "Email",
+    },
+    {
+      icon: InstagramIcon,
+      href: "https://instagram.com/d_v_p6",
+      label: "Instagram",
     },
   ];
 
