@@ -2,32 +2,11 @@ import SectionBlock from "./SectionBlock";
 
 const experiences = [
   {
-    role: "Full Stack Developer (Freelance)",
+    role: "MERN Stack Developer (Freelance)",
     company: "Academy of Tech Masters (AOTMS)",
     period: "[23DEC 2025 – 23JAN 2026]",
     description:
-      "Led the development of a premier tech education platform. Implemented an AI-powered student assistant, an interactive learning dashboard, and a scalable course catalog. Ensured high performance and full responsiveness using React, TypeScript, and Vite.",
-  },
-  {
-    role: "Frontend Developer (Project Lead)",
-    company: "Elara Cosmetics",
-    period: "[25JAN 2026 – 30JAN 2026]",
-    description:
-      "Architected and developed a premium Ayurvedic e-commerce platform. Focused on creating a seamless user journey with high-performance product filtering, a custom WhatsApp checkout integration, and robust form validation using TypeScript and Vitest.",
-  },
-  {
-    role: "Lead Full Stack Developer",
-    company: "EduPredict",
-    period: "[07FEB 2026 IN 24HRS]",
-    description:
-      "Designed and developed an AI-driven student performance forecasting platform. Integrated predictive analytics with a gamified, comic-book aesthetic UI. Implemented role-based dashboards and automated reporting systems.",
-  },
-  {
-    role: "Mobile App Developer",
-    company: "SmartQuack (Personal Project)",
-    period: "[15FEB 2026 - 19FEB 2026]",
-    description:
-      "Engineered an offline-first task management application using Flutter and Hive. Built a reactive mascot system that tracks user productivity and provides gamified feedback. Integrated Firebase for secure cloud synchronization and multi-device support.",
+      "🚀Freelance Project – Successfully Delivered Completed a real-world client project with my team using [Tech Stack – e.g., React, Node.js, MongoDB]. Key learnings: 🔹 Building scalable features 🔹 Team collaboration & Git workflows 🔹 Meeting client expectations & deadlines.",
   },
 ];
 
