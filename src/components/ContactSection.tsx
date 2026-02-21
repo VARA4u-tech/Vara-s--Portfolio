@@ -10,6 +10,7 @@ import {
   Linkedin,
   MessageCircle,
   InstagramIcon,
+  BookOpen,
 } from "lucide-react";
 
 const ContactSection = () => {
@@ -89,6 +90,10 @@ const ContactSection = () => {
                 { Icon: Github, href: "https://github.com/VARA4u-tech" },
                 { Icon: Linkedin, href: "https://linkedin.com/in/vara4u" },
                 { Icon: InstagramIcon, href: "https://instagram.com/d_v_p6" },
+                {
+                  Icon: BookOpen,
+                  href: "https://durgavaraprasad.hashnode.dev/",
+                },
               ].map(({ Icon, href }, i) => (
                 <a
                   key={i}

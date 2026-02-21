@@ -6,6 +6,7 @@ const links = [
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
   { label: "Technical Skills", href: "#skills" },
+  { label: "Blog", href: "https://durgavaraprasad.hashnode.dev/" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -19,7 +20,16 @@ const Navbar = () => {
         <div className="hidden md:flex items-center justify-center gap-0">
           {links.map((link, i) => (
             <span key={link.href} className="flex items-center">
-              <a href={link.href} className="nav-link px-4 py-1">
+              <a
+                href={link.href}
+                className="nav-link px-4 py-1"
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={
+                  link.href.startsWith("http")
+                    ? "noopener noreferrer"
+                    : undefined
+                }
+              >
                 {link.label}
               </a>
               {i < links.length - 1 && (
@@ -45,6 +55,12 @@ const Navbar = () => {
                 href={link.href}
                 className="nav-link"
                 onClick={() => setOpen(false)}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={
+                  link.href.startsWith("http")
+                    ? "noopener noreferrer"
+                    : undefined
+                }
               >
                 {link.label}
               </a>

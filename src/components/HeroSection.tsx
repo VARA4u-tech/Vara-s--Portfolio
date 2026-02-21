@@ -6,6 +6,7 @@ import {
   Mail,
   ChevronDown,
   InstagramIcon,
+  BookOpen,
 } from "lucide-react";
 
 const roles = [
@@ -214,6 +215,11 @@ const HeroSection = () => {
               Icon: InstagramIcon,
               href: "https://www.instagram.com/d_v_p6/",
               label: "Instagram",
+            },
+            {
+              Icon: BookOpen,
+              href: "https://durgavaraprasad.hashnode.dev/",
+              label: "Blog",
             },
             {
               Icon: Mail,

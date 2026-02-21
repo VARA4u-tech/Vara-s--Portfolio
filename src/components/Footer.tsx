@@ -1,4 +1,11 @@
-import { Github, Linkedin, ArrowUp, Heart, InstagramIcon } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  ArrowUp,
+  Heart,
+  InstagramIcon,
+  BookOpen,
+} from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -18,6 +25,11 @@ const Footer = () => {
       icon: InstagramIcon,
       href: "https://instagram.com/d_v_p6",
       label: "Instagram",
+    },
+    {
+      icon: BookOpen,
+      href: "https://durgavaraprasad.hashnode.dev/",
+      label: "Blog",
     },
   ];
 
