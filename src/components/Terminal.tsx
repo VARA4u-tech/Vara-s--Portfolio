@@ -130,7 +130,7 @@ const Terminal = () => {
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:underline"
               >
-                https://www.linkedin.com/in/durga-vara-prasad-pappuri-1797701b6/
+                www.linkedin.com/in/durga-vara-prasad-pappuri-1797701b6/
               </a>
             </p>
             <p>
