@@ -1,6 +1,6 @@
 
 
-# 🚀 Durga Vara Prasad's Portfolio
+ # 🚀 Durga Vara Prasad's Portfolio
 
 **A High-Performance Digital Identity built with the Modern Web Stack**
 
@@ -61,7 +61,7 @@ Welcome to my portfolio! This project is more than just a resume; it's a showcas
 
 ---
 
-## � Screenshots
+## 🖨️ Screenshots
 
 |                               Hero Section                                |                                Skills & Stats                                 |
 | :-----------------------------------------------------------------------: | :---------------------------------------------------------------------------: |
@@ -138,9 +138,9 @@ If you have any questions or want to collaborate, feel free to reach out!
 - **WhatsApp**: [+91 9550533315](https://wa.me/919550533315)
 
 ---
-
 <div align="center">
-  <p>Built with 🖤 by <b>Durga Vara Prasad</b></p>
-  <img src="https://forthebadge.com/images/featured/featured-built-with-love.svg" alt="Built with Love" />
-  <img src="https://forthebadge.com/images/featured/featured-coffee-driven-development.svg" alt="Coffee Driven Development" />
+  <h2 style="font-size:32px; animation: glow 2s ease-in-out infinite alternate;">
+    Built with 🤍🖤 and powered by coffee-driven development by Durga Vara Prasad.
+  </h2>
 </div>
+
