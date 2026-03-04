@@ -8,7 +8,7 @@
 let ctx: AudioContext | null = null;
 
 const getCtx = (): AudioContext | null => {
-  if (typeof window === "undefined") return null;
+  if (typeof window === 'undefined') return null;
   if (!ctx) {
     try {
       ctx = new (
@@ -21,7 +21,7 @@ const getCtx = (): AudioContext | null => {
     }
   }
   // Resume if suspended (browser autoplay policy)
-  if (ctx.state === "suspended") ctx.resume();
+  if (ctx.state === 'suspended') ctx.resume();
   return ctx;
 };
 
@@ -39,7 +39,7 @@ export const getMasterVolume = () => masterVolume;
 const playTone = (
   frequency: number,
   duration: number,
-  type: OscillatorType = "sine",
+  type: OscillatorType = 'sine',
   volume = 1,
   fadeOut = true,
 ) => {
@@ -67,7 +67,7 @@ const playTone = (
 const playChord = (
   frequencies: number[],
   duration: number,
-  type: OscillatorType = "sine",
+  type: OscillatorType = 'sine',
   volume = 0.7,
 ) => {
   frequencies.forEach((f) =>
@@ -81,17 +81,17 @@ const playChord = (
 
 /** Short, crisp UI click (navbar links, buttons) */
 export const playClick = () => {
-  playTone(600, 0.06, "square", 0.7);
+  playTone(600, 0.06, 'square', 0.7);
 };
 
 /** Slightly softer click — used for secondary actions */
 export const playSoftClick = () => {
-  playTone(400, 0.05, "sine", 0.5);
+  playTone(400, 0.05, 'sine', 0.5);
 };
 
 /** Keyboard tick — used on every keypress in the terminal */
 export const playKeyTick = () => {
-  playTone(900 + Math.random() * 200, 0.03, "square", 0.28);
+  playTone(900 + Math.random() * 200, 0.03, 'square', 0.28);
 };
 
 /** Success chime — two ascending tones (form submit, copy) */
@@ -101,7 +101,7 @@ export const playSuccess = () => {
   const times = [0, 0.12];
   const freqs = [523, 784]; // C5, G5
   times.forEach((t, i) =>
-    setTimeout(() => playTone(freqs[i], 0.18, "sine", 0.85), t * 1000),
+    setTimeout(() => playTone(freqs[i], 0.18, 'sine', 0.85), t * 1000),
   );
 };
 
@@ -115,7 +115,7 @@ export const playPop = () => {
   gain.connect(c.destination);
 
   const osc = c.createOscillator();
-  osc.type = "sine";
+  osc.type = 'sine';
   osc.frequency.setValueAtTime(880, c.currentTime);
   osc.frequency.exponentialRampToValueAtTime(220, c.currentTime + 0.09);
   osc.connect(gain);
@@ -134,7 +134,7 @@ export const playWhoosh = () => {
   gain.connect(c.destination);
 
   const osc = c.createOscillator();
-  osc.type = "sine";
+  osc.type = 'sine';
   osc.frequency.setValueAtTime(120, c.currentTime);
   osc.frequency.exponentialRampToValueAtTime(800, c.currentTime + 0.25);
   osc.connect(gain);
@@ -154,7 +154,7 @@ export const playTerminalOpen = () => {
   gain.connect(c.destination);
 
   const osc = c.createOscillator();
-  osc.type = "sawtooth";
+  osc.type = 'sawtooth';
   osc.frequency.setValueAtTime(80, c.currentTime);
   osc.frequency.exponentialRampToValueAtTime(220, c.currentTime + 0.45);
   osc.connect(gain);
@@ -162,7 +162,7 @@ export const playTerminalOpen = () => {
   osc.stop(c.currentTime + 0.45);
 
   // Overlay a short blip
-  setTimeout(() => playTone(440, 0.08, "square", 0.2), 120);
+  setTimeout(() => playTone(440, 0.08, 'square', 0.2), 120);
 };
 
 /** Terminal close — mirrored whoosh down */
@@ -175,7 +175,7 @@ export const playTerminalClose = () => {
   gain.connect(c.destination);
 
   const osc = c.createOscillator();
-  osc.type = "sawtooth";
+  osc.type = 'sawtooth';
   osc.frequency.setValueAtTime(220, c.currentTime);
   osc.frequency.exponentialRampToValueAtTime(60, c.currentTime + 0.2);
   osc.connect(gain);
@@ -185,12 +185,12 @@ export const playTerminalClose = () => {
 
 /** Command error — low negative blip */
 export const playError = () => {
-  playChord([200, 190], 0.2, "square", 0.7);
+  playChord([200, 190], 0.2, 'square', 0.7);
 };
 
 /** Hover ping — very subtle, for project cards */
 export const playHover = () => {
-  playTone(1200, 0.04, "sine", 0.22);
+  playTone(1200, 0.04, 'sine', 0.22);
 };
 
 // ---------------------------------------------------------------------------

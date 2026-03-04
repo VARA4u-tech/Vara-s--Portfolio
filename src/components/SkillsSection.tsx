@@ -1,36 +1,36 @@
-import SectionBlock from "./SectionBlock";
-import GithubGraph from "./GithubGraph";
+import SectionBlock from './SectionBlock';
+import GithubGraph from './GithubGraph';
 
 const skillCategories = [
   {
-    title: "Frontend",
+    title: 'Frontend',
     skills: [
-      "React",
-      "TypeScript",
-      "JavaScript",
-      "Tailwind CSS",
-      "Zustand",
-      "TanStack Query",
-      "Framer Motion",
-      "Shadcn UI",
-      "Vite",
+      'React',
+      'TypeScript',
+      'JavaScript',
+      'Tailwind CSS',
+      'Zustand',
+      'TanStack Query',
+      'Framer Motion',
+      'Shadcn UI',
+      'Vite',
     ],
   },
   {
-    title: "Mobile",
-    skills: ["Flutter", "Dart", "Riverpod", "Material Design"],
+    title: 'Mobile',
+    skills: ['Flutter', 'Dart', 'Riverpod', 'Material Design'],
   },
   {
-    title: "Backend & DB",
-    skills: ["Node.js", "Firebase", "MongoDB", "Hive", "REST APIs"],
+    title: 'Backend & DB',
+    skills: ['Node.js', 'Firebase', 'MongoDB', 'Hive', 'REST APIs'],
   },
   {
-    title: "Web3 & AI",
-    skills: ["Aptos", "Move", "AI Integration", "Prompt Engineering"],
+    title: 'Web3 & AI',
+    skills: ['Aptos', 'Move', 'AI Integration', 'Prompt Engineering'],
   },
   {
-    title: "Tools & Others",
-    skills: ["Git", "GitHub", "Figma", "Vitest", "Lucide React", "Vercel"],
+    title: 'Tools & Others',
+    skills: ['Git', 'GitHub', 'Figma', 'Vitest', 'Lucide React', 'Vercel'],
   },
 ];
 
@@ -43,8 +43,8 @@ const SkillsSection = () => (
           className="group opacity-0 animate-in fade-in slide-in-from-bottom-4 fill-mode-forwards"
           style={{
             animationDelay: `${idx * 100}ms`,
-            animationDuration: "600ms",
-            animationFillMode: "forwards",
+            animationDuration: '600ms',
+            animationFillMode: 'forwards',
           }}
         >
           <div className="flex flex-col h-full border-t-2 border-black pt-4">

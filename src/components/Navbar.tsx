@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { playClick } from "@/hooks/useSoundEffects";
+import { useState } from 'react';
+import { playClick } from '@/hooks/useSoundEffects';
 
 const links = [
-  { label: "About", href: "#about" },
-  { label: "Education", href: "#education" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Technical Skills", href: "#skills" },
-  { label: "Blog", href: "https://durgavaraprasad.hashnode.dev/" },
-  { label: "Contact", href: "#contact" },
+  { label: 'About', href: '#about' },
+  { label: 'Education', href: '#education' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Technical Skills', href: '#skills' },
+  { label: 'Blog', href: 'https://durgavaraprasad.hashnode.dev/' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 const Navbar = () => {
@@ -25,10 +25,10 @@ const Navbar = () => {
                 href={link.href}
                 className="nav-link px-4 py-1"
                 onClick={playClick}
-                target={link.href.startsWith("http") ? "_blank" : undefined}
+                target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={
-                  link.href.startsWith("http")
-                    ? "noopener noreferrer"
+                  link.href.startsWith('http')
+                    ? 'noopener noreferrer'
                     : undefined
                 }
               >
@@ -43,8 +43,14 @@ const Navbar = () => {
 
         {/* Mobile toggle */}
         <div className="md:hidden flex justify-center">
-          <button onClick={() => { playClick(); setOpen(!open); }} className="nav-link">
-            {open ? "Close" : "Menu"}
+          <button
+            onClick={() => {
+              playClick();
+              setOpen(!open);
+            }}
+            className="nav-link"
+          >
+            {open ? 'Close' : 'Menu'}
           </button>
         </div>
 
@@ -56,11 +62,14 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 className="nav-link"
-                onClick={() => { playClick(); setOpen(false); }}
-                target={link.href.startsWith("http") ? "_blank" : undefined}
+                onClick={() => {
+                  playClick();
+                  setOpen(false);
+                }}
+                target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={
-                  link.href.startsWith("http")
-                    ? "noopener noreferrer"
+                  link.href.startsWith('http')
+                    ? 'noopener noreferrer'
                     : undefined
                 }
               >

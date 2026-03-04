@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 const AnimatedAvatar = () => {
   const [imageError, setImageError] = useState(false);
@@ -26,7 +26,7 @@ const AnimatedAvatar = () => {
           className="absolute inset-0 pointer-events-none opacity-[0.03]"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(0deg, transparent, transparent 2px, #000 2px, #000 3px)",
+              'repeating-linear-gradient(0deg, transparent, transparent 2px, #000 2px, #000 3px)',
           }}
         />
       </div>

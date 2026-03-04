@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { playPop, playSuccess, playClick } from "@/hooks/useSoundEffects";
-import SectionBlock from "./SectionBlock";
+import { useState } from 'react';
+import { playPop, playSuccess, playClick } from '@/hooks/useSoundEffects';
+import SectionBlock from './SectionBlock';
 import {
   Mail,
   MapPin,
@@ -12,23 +12,23 @@ import {
   MessageCircle,
   InstagramIcon,
   BookOpen,
-} from "lucide-react";
+} from 'lucide-react';
 
 const ContactSection = () => {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [copied, setCopied] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     playSuccess();
-    const phoneNumber = "+919550533315";
+    const phoneNumber = '+919550533315';
     const text = `Name: ${form.name}\nEmail: ${form.email}\nMessage: ${form.message}`;
     const encodedText = encodeURIComponent(text);
-    window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, "_blank");
+    window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, '_blank');
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("pappuridurgavaraprasad4pl@gmail.com");
+    navigator.clipboard.writeText('pappuridurgavaraprasad4pl@gmail.com');
     playPop();
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -90,12 +90,12 @@ const ContactSection = () => {
             </p>
             <div className="flex gap-4">
               {[
-                { Icon: Github, href: "https://github.com/VARA4u-tech" },
-                { Icon: Linkedin, href: "https://linkedin.com/in/vara4u" },
-                { Icon: InstagramIcon, href: "https://instagram.com/d_v_p6" },
+                { Icon: Github, href: 'https://github.com/VARA4u-tech' },
+                { Icon: Linkedin, href: 'https://linkedin.com/in/vara4u' },
+                { Icon: InstagramIcon, href: 'https://instagram.com/d_v_p6' },
                 {
                   Icon: BookOpen,
-                  href: "https://durgavaraprasad.hashnode.dev/",
+                  href: 'https://durgavaraprasad.hashnode.dev/',
                 },
               ].map(({ Icon, href }, i) => (
                 <a

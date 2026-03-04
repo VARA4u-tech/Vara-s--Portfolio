@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { ArrowUp } from "lucide-react";
-import { playWhoosh } from "@/hooks/useSoundEffects";
+import { useState, useEffect } from 'react';
+import { ArrowUp } from 'lucide-react';
+import { playWhoosh } from '@/hooks/useSoundEffects';
 
 const ScrollToTop = () => {
   const [visible, setVisible] = useState(false);
@@ -17,8 +17,8 @@ const ScrollToTop = () => {
       setVisible(scrollTop > 400);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Circle configuration
@@ -31,11 +31,14 @@ const ScrollToTop = () => {
 
   return (
     <button
-      onClick={() => { playWhoosh(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+      onClick={() => {
+        playWhoosh();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }}
       className={`fixed bottom-6 left-6 z-50 group transition-all duration-500 ease-out ${
         visible
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-8 pointer-events-none"
+          ? 'opacity-100 translate-y-0'
+          : 'opacity-0 translate-y-8 pointer-events-none'
       }`}
       aria-label="Scroll to top"
     >

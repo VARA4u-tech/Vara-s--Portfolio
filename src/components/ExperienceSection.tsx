@@ -1,12 +1,12 @@
-import SectionBlock from "./SectionBlock";
+import SectionBlock from './SectionBlock';
 
 const experiences = [
   {
-    role: "MERN Stack Developer (Freelance)",
-    company: "Academy of Tech Masters (AOTMS)",
-    period: "[23DEC 2025 – 23JAN 2026]",
+    role: 'MERN Stack Developer (Freelance)',
+    company: 'Academy of Tech Masters (AOTMS)',
+    period: '[23DEC 2025 – 23JAN 2026]',
     description:
-      "🚀Freelance Project – Successfully Delivered Completed a real-world client project with my team using [Tech Stack – e.g., React, Node.js, MongoDB]. Key learnings: 🔹 Building scalable features 🔹 Team collaboration & Git workflows 🔹 Meeting client expectations & deadlines.",
+      '🚀Freelance Project – Successfully Delivered Completed a real-world client project with my team using [Tech Stack – e.g., React, Node.js, MongoDB]. Key learnings: 🔹 Building scalable features 🔹 Team collaboration & Git workflows 🔹 Meeting client expectations & deadlines.',
   },
 ];
 

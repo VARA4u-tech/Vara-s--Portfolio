@@ -5,41 +5,41 @@ import {
   Heart,
   InstagramIcon,
   BookOpen,
-} from "lucide-react";
+} from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const socialLinks = [
-    { icon: Github, href: "https://github.com/VARA4u-tech", label: "GitHub" },
+    { icon: Github, href: 'https://github.com/VARA4u-tech', label: 'GitHub' },
     {
       icon: Linkedin,
-      href: "https://linkedin.com/in/vara4u",
-      label: "LinkedIn",
+      href: 'https://linkedin.com/in/vara4u',
+      label: 'LinkedIn',
     },
     {
       icon: InstagramIcon,
-      href: "https://instagram.com/d_v_p6",
-      label: "Instagram",
+      href: 'https://instagram.com/d_v_p6',
+      label: 'Instagram',
     },
     {
       icon: BookOpen,
-      href: "https://durgavaraprasad.hashnode.dev/",
-      label: "Blog",
+      href: 'https://durgavaraprasad.hashnode.dev/',
+      label: 'Blog',
     },
   ];
 
   const navLinks = [
-    { label: "Home", href: "#hero" },
-    { label: "About", href: "#about" },
-    { label: "Experience", href: "#experience" },
-    { label: "Projects", href: "#projects" },
-    { label: "Skills", href: "#skills" },
-    { label: "Contact", href: "#contact" },
+    { label: 'Home', href: '#hero' },
+    { label: 'About', href: '#about' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Contact', href: '#contact' },
   ];
 
   return (
@@ -100,7 +100,7 @@ const Footer = () => {
               onClick={scrollToTop}
               className="group flex items-center gap-3 px-6 py-3 border-2 border-black bg-white font-bold uppercase tracking-wider transition-all duration-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
             >
-              Top{" "}
+              Top{' '}
               <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
             </button>
           </div>
@@ -112,8 +112,8 @@ const Footer = () => {
             © {currentYear} Pappuri Durga Vara Prasad
           </p>
           <p className="text-xs font-mono text-black/40 flex items-center justify-center gap-2 uppercase tracking-widest text-center md:text-right">
-            Designed & Engineered with{" "}
-            <Heart className="w-3.5 h-3.5 text-black fill-black animate-heartbeat inline-block" />{" "}
+            Designed & Engineered with{' '}
+            <Heart className="w-3.5 h-3.5 text-black fill-black animate-heartbeat inline-block" />{' '}
             by Vara
           </p>
         </div>

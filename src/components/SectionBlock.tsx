@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 interface SectionBlockProps {
   id: string;
@@ -29,7 +29,7 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
       id={id}
       ref={ref}
       className={`max-w-4xl mx-auto px-6 py-16 md:py-32 transition-all duration-700 ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
     >
       <h2 className="section-title mb-12">{title}.</h2>

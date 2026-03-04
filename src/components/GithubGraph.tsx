@@ -1,5 +1,5 @@
-import React from "react";
-import { GitHubCalendar } from "react-github-calendar";
+import React from 'react';
+import { GitHubCalendar } from 'react-github-calendar';
 
 const GithubGraph = () => {
   return (
@@ -12,10 +12,10 @@ const GithubGraph = () => {
           username="VARA4u-tech"
           colorScheme="light"
           style={{
-            fontFamily: "monospace",
+            fontFamily: 'monospace',
           }}
           theme={{
-            light: ["#e5e5e5", "#a3a3a3", "#737373", "#404040", "#171717"],
+            light: ['#e5e5e5', '#a3a3a3', '#737373', '#404040', '#171717'],
           }}
           blockSize={12}
           blockMargin={4}

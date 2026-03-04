@@ -1,6 +1,6 @@
-import SectionBlock from "./SectionBlock";
-import AnimatedAvatar from "./AnimatedAvatar";
-import { BookOpen } from "lucide-react";
+import SectionBlock from './SectionBlock';
+import AnimatedAvatar from './AnimatedAvatar';
+import { BookOpen } from 'lucide-react';
 
 const AboutSection = () => (
   <SectionBlock id="about" title="About me">

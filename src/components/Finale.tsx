@@ -5,40 +5,40 @@ import {
   Mail,
   Heart,
   BookOpen,
-} from "lucide-react";
+} from 'lucide-react';
 
 const Finale = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Github, href: "https://github.com/VARA4u-tech", label: "GitHub" },
+    { icon: Github, href: 'https://github.com/VARA4u-tech', label: 'GitHub' },
     {
       icon: Linkedin,
-      href: "https://linkedin.com/in/vara4u",
-      label: "LinkedIn",
+      href: 'https://linkedin.com/in/vara4u',
+      label: 'LinkedIn',
     },
     {
       icon: Mail,
-      href: "mailto:pappuridurgavaraprasad4pl@gmail.com",
-      label: "Email",
+      href: 'mailto:pappuridurgavaraprasad4pl@gmail.com',
+      label: 'Email',
     },
     {
       icon: InstagramIcon,
-      href: "https://instagram.com/d_v_p6",
-      label: "Instagram",
+      href: 'https://instagram.com/d_v_p6',
+      label: 'Instagram',
     },
     {
       icon: BookOpen,
-      href: "https://durgavaraprasad.hashnode.dev/",
-      label: "Blog",
+      href: 'https://durgavaraprasad.hashnode.dev/',
+      label: 'Blog',
     },
   ];
 
   const marqueeTags = [
-    "Durga Vara Prasad 🚀",
-    "Full Stack Dev | Flutter | React | Blockchain | AI",
-    "Designing clean UI/UX + Smart solutions🔖",
-    "Exploring tech through Vibe Coding",
+    'Durga Vara Prasad 🚀',
+    'Full Stack Dev | Flutter | React | Blockchain | AI',
+    'Designing clean UI/UX + Smart solutions🔖',
+    'Exploring tech through Vibe Coding',
   ];
 
   return (
@@ -68,10 +68,10 @@ const Finale = () => {
             THANK YOU
           </h2>
           <p className="text-xl md:text-3xl font-black uppercase tracking-tight italic z-10 relative">
-            Let's build something{" "}
+            Let's build something{' '}
             <span className="text-white bg-black px-4 py-1 not-italic">
               unforgettable
-            </span>{" "}
+            </span>{' '}
             together.
           </p>
         </div>

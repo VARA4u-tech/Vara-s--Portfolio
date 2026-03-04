@@ -1,73 +1,73 @@
-import { Github, ExternalLink } from "lucide-react";
-import SectionBlock from "./SectionBlock";
-import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
-import { playHover, playClick } from "@/hooks/useSoundEffects";
+import { Github, ExternalLink } from 'lucide-react';
+import SectionBlock from './SectionBlock';
+import { Button } from './ui/button';
+import { Badge } from './ui/badge';
+import { playHover, playClick } from '@/hooks/useSoundEffects';
 
 const projects = [
   {
-    title: "SafeTrip Pro",
+    title: 'SafeTrip Pro',
     isNew: true,
     description:
-      "A premium, AI-powered navigation and safety companion featuring real-time intelligence, drowsiness detection, SOS guardian network, and predictive analytics for a safer driving experience.",
+      'A premium, AI-powered navigation and safety companion featuring real-time intelligence, drowsiness detection, SOS guardian network, and predictive analytics for a safer driving experience.',
     tags: [
-      "React",
-      "TypeScript",
-      "Tailwind",
-      "Supabase",
-      "Framer Motion",
-      "Vite",
+      'React',
+      'TypeScript',
+      'Tailwind',
+      'Supabase',
+      'Framer Motion',
+      'Vite',
     ],
     githubUrl:
-      "https://github.com/VARA4u-tech/safe-trip-smart-driving-safety-application",
-    liveUrl: "https://safe-trip-smart-driving-safety-appl.vercel.app",
+      'https://github.com/VARA4u-tech/safe-trip-smart-driving-safety-application',
+    liveUrl: 'https://safe-trip-smart-driving-safety-appl.vercel.app',
   },
   {
-    title: "Academy of Tech Masters (AOTMS)",
+    title: 'Academy of Tech Masters (AOTMS)',
     description:
-      "A premier tech education platform featuring AI-powered assistance, interactive student dashboards, and comprehensive course management. Delivered as a high-performance freelance project for a real-world client.",
+      'A premier tech education platform featuring AI-powered assistance, interactive student dashboards, and comprehensive course management. Delivered as a high-performance freelance project for a real-world client.',
     tags: [
-      "React",
-      "TypeScript",
-      "Tailwind",
-      "Vite",
-      "Zustand",
-      "Framer Motion",
+      'React',
+      'TypeScript',
+      'Tailwind',
+      'Vite',
+      'Zustand',
+      'Framer Motion',
     ],
-    githubUrl: "https://github.com/VARA4u-tech/AOTMS",
-    liveUrl: "https://aotms.in",
+    githubUrl: 'https://github.com/VARA4u-tech/AOTMS',
+    liveUrl: 'https://aotms.in',
   },
   {
-    title: "Elara Cosmetics",
+    title: 'Elara Cosmetics',
     description:
-      "A luxury Ayurvedic e-commerce platform with a focus on premium user experience. Features category-based filtering, shopping cart, wishlist, and a custom WhatsApp-integrated checkout system.",
-    tags: ["React", "TypeScript", "Tailwind", "Vite", "Shadcn UI", "Vitest"],
+      'A luxury Ayurvedic e-commerce platform with a focus on premium user experience. Features category-based filtering, shopping cart, wishlist, and a custom WhatsApp-integrated checkout system.',
+    tags: ['React', 'TypeScript', 'Tailwind', 'Vite', 'Shadcn UI', 'Vitest'],
     githubUrl:
-      "https://github.com/VARA4u-tech/Elara-Cosmetics-E--Commerce-Website-",
-    liveUrl: "https://elara-cosmetics.vercel.app/",
+      'https://github.com/VARA4u-tech/Elara-Cosmetics-E--Commerce-Website-',
+    liveUrl: 'https://elara-cosmetics.vercel.app/',
   },
   {
-    title: "EduPredict",
+    title: 'EduPredict',
     description:
-      "An AI-powered predictive analytics system for student success, featuring a unique comic book-inspired UI, interactive dashboards, and real-time at-risk student alerts.",
+      'An AI-powered predictive analytics system for student success, featuring a unique comic book-inspired UI, interactive dashboards, and real-time at-risk student alerts.',
     tags: [
-      "React",
-      "TypeScript",
-      "Tailwind",
-      "Vite",
-      "Lucide React",
-      "Framer Motion",
+      'React',
+      'TypeScript',
+      'Tailwind',
+      'Vite',
+      'Lucide React',
+      'Framer Motion',
     ],
-    githubUrl: "https://github.com/VARA4u-tech/EduPredict",
-    liveUrl: "https://edu-pridect.vercel.app/",
+    githubUrl: 'https://github.com/VARA4u-tech/EduPredict',
+    liveUrl: 'https://edu-pridect.vercel.app/',
   },
   {
-    title: "SmartQuack",
+    title: 'SmartQuack',
     description:
-      "A delightful, offline-first task manager with a gamified twist! Features a reactive duck mascot that changes moods based on your productivity progress.",
-    tags: ["Flutter", "Riverpod", "Firebase", "Hive", "Dart"],
-    githubUrl: "https://github.com/VARA4u-tech/my-first-flutter-app",
-    liveUrl: "https://github.com/VARA4u-tech/my-first-flutter-app",
+      'A delightful, offline-first task manager with a gamified twist! Features a reactive duck mascot that changes moods based on your productivity progress.',
+    tags: ['Flutter', 'Riverpod', 'Firebase', 'Hive', 'Dart'],
+    githubUrl: 'https://github.com/VARA4u-tech/my-first-flutter-app',
+    liveUrl: 'https://github.com/VARA4u-tech/my-first-flutter-app',
   },
 ];
 
@@ -80,7 +80,7 @@ const ProjectsSection = () => (
           onMouseEnter={playHover}
           className="group relative border-2 border-black p-5 flex flex-col justify-between hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 bg-white"
         >
-          {"isNew" in project && project.isNew && (
+          {'isNew' in project && project.isNew && (
             <div className="absolute -top-3 -right-3 bg-black text-white px-2 py-1 text-[10px] font-black uppercase tracking-tighter border-2 border-black z-10 rotate-12">
               LATEST WORK
             </div>

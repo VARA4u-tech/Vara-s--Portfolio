@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import {
   X,
   Terminal as TerminalIcon,
   Maximize2,
   Minimize2,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   playTerminalOpen,
   playTerminalClose,
@@ -12,27 +12,27 @@ import {
   playSuccess,
   playError,
   playClick,
-} from "@/hooks/useSoundEffects";
+} from '@/hooks/useSoundEffects';
 
 interface CommandOutput {
   id: number;
-  type: "command" | "response" | "error";
+  type: 'command' | 'response' | 'error';
   content: React.ReactNode;
 }
 
 const Terminal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [history, setHistory] = useState<CommandOutput[]>([
     {
       id: 0,
-      type: "response",
+      type: 'response',
       content: (
         <div className="mb-2">
           <p>Welcome to Vara's Portfolio Terminal v1.0.0</p>
           <p>
-            I am a conversational AI. Type{" "}
+            I am a conversational AI. Type{' '}
             <span className="text-green-400">help</span> for commands, or just
             chat with me!
           </p>
@@ -58,48 +58,49 @@ const Terminal = () => {
   // Global keyboard shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         setIsOpen((prev) => {
           const next = !prev;
-          if (next) playTerminalOpen(); else playTerminalClose();
+          if (next) playTerminalOpen();
+          else playTerminalClose();
           return next;
         });
       }
-      if (e.key === "Escape" && isOpen) {
+      if (e.key === 'Escape' && isOpen) {
         playTerminalClose();
         setIsOpen(false);
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
   // ... existing imports
 
   const getCommandResponse = (cmd: string): React.ReactNode | null => {
     switch (cmd) {
-      case "help":
+      case 'help':
         return (
           <div className="grid grid-cols-[100px_1fr] gap-2">
-            <span className="text-green-400">about</span>{" "}
+            <span className="text-green-400">about</span>{' '}
             <span>Learn about me</span>
-            <span className="text-green-400">skills</span>{" "}
+            <span className="text-green-400">skills</span>{' '}
             <span>View technical skills</span>
-            <span className="text-green-400">projects</span>{" "}
+            <span className="text-green-400">projects</span>{' '}
             <span>List recent projects</span>
-            <span className="text-green-400">contact</span>{" "}
+            <span className="text-green-400">contact</span>{' '}
             <span>How to reach me</span>
-            <span className="text-green-400">clear</span>{" "}
+            <span className="text-green-400">clear</span>{' '}
             <span>Clear the terminal</span>
-            <span className="text-green-400">exit</span>{" "}
+            <span className="text-green-400">exit</span>{' '}
             <span>Close terminal</span>
           </div>
         );
-      case "about":
+      case 'about':
         return "I'm Pappuri Durga Vara Prasad, a passionate developer specializing in Flutter, React, and Blockchain technologies. I build modern, high-performance applications.";
-      case "skills":
+      case 'skills':
         return (
           <div>
             <p className="mb-1">CORE STACK:</p>
@@ -109,7 +110,7 @@ const Terminal = () => {
             <p>• Blockchain (Aptos/Move)</p>
           </div>
         );
-      case "projects":
+      case 'projects':
         return (
           <div className="flex flex-col gap-1">
             <a href="#projects" className="text-blue-400 hover:underline">
@@ -123,11 +124,11 @@ const Terminal = () => {
             </a>
           </div>
         );
-      case "contact":
+      case 'contact':
         return (
           <div>
             <p>
-              Email:{" "}
+              Email:{' '}
               <a
                 href="mailto:pappuridurgavaraprasad4pl@gmail.com"
                 className="text-blue-400 hover:underline"
@@ -136,7 +137,7 @@ const Terminal = () => {
               </a>
             </p>
             <p>
-              LinkedIn:{" "}
+              LinkedIn:{' '}
               <a
                 href="https://www.linkedin.com/in/durga-vara-prasad-pappuri-1797701b6/"
                 target="_blank"
@@ -147,7 +148,7 @@ const Terminal = () => {
               </a>
             </p>
             <p>
-              GitHub:{" "}
+              GitHub:{' '}
               <a
                 href="https://github.com/VARA4u-tech"
                 target="_blank"
@@ -174,22 +175,22 @@ const Terminal = () => {
 
     // About
     if (lower.match(/(who|about|author|creator|developer)/)) {
-      return getCommandResponse("about");
+      return getCommandResponse('about');
     }
 
     // Skills
     if (lower.match(/(skill|stack|tech|language|framework)/)) {
-      return getCommandResponse("skills");
+      return getCommandResponse('skills');
     }
 
     // Projects
     if (lower.match(/(project|work|app|site|portfolio)/)) {
-      return getCommandResponse("projects");
+      return getCommandResponse('projects');
     }
 
     // Contact
     if (lower.match(/(contact|email|reach|hire|github|linkedin)/)) {
-      return getCommandResponse("contact");
+      return getCommandResponse('contact');
     }
 
     return null;
@@ -203,18 +204,18 @@ const Terminal = () => {
       ...history,
       {
         id: Date.now(),
-        type: "command",
+        type: 'command',
         content: `guest@portfolio:~$ ${cmd}`,
       },
     ];
 
     // Check for clear/exit first
-    if (trimmedCmd.toLowerCase() === "clear") {
+    if (trimmedCmd.toLowerCase() === 'clear') {
       playClick();
       setHistory([]);
       return;
     }
-    if (trimmedCmd.toLowerCase() === "exit") {
+    if (trimmedCmd.toLowerCase() === 'exit') {
       playTerminalClose();
       setIsOpen(false);
       return;
@@ -243,7 +244,7 @@ const Terminal = () => {
 
     newHistory.push({
       id: Date.now() + 1,
-      type: "response",
+      type: 'response',
       content: response,
     });
 
@@ -254,7 +255,7 @@ const Terminal = () => {
     e.preventDefault();
     if (!input.trim()) return;
     handleCommand(input);
-    setInput("");
+    setInput('');
   };
 
   if (!isOpen) {
@@ -264,7 +265,10 @@ const Terminal = () => {
           Ctrl + K
         </div>
         <button
-          onClick={() => { playTerminalOpen(); setIsOpen(true); }}
+          onClick={() => {
+            playTerminalOpen();
+            setIsOpen(true);
+          }}
           className="p-3 bg-white border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white transition-all duration-300"
           aria-label="Open Terminal"
         >
@@ -281,7 +285,7 @@ const Terminal = () => {
     >
       <div
         className={`bg-[#0c0c0c] border border-white/20 shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] w-full transition-all duration-300 flex flex-col font-mono text-sm md:text-base ${
-          isMaximized ? "h-[95vh] w-[95vw]" : "max-w-2xl h-[600px]"
+          isMaximized ? 'h-[95vh] w-[95vw]' : 'max-w-2xl h-[600px]'
         }`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -290,7 +294,10 @@ const Terminal = () => {
           <div className="flex items-center gap-2">
             <div
               className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 cursor-pointer"
-              onClick={() => { playTerminalClose(); setIsOpen(false); }}
+              onClick={() => {
+                playTerminalClose();
+                setIsOpen(false);
+              }}
             />
             <div
               className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-600 cursor-pointer"
@@ -309,7 +316,10 @@ const Terminal = () => {
               {isMaximized ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
             </button>
             <button
-              onClick={() => { playTerminalClose(); setIsOpen(false); }}
+              onClick={() => {
+                playTerminalClose();
+                setIsOpen(false);
+              }}
               className="hover:text-white"
             >
               <X size={14} />
@@ -335,7 +345,10 @@ const Terminal = () => {
               ref={inputRef}
               type="text"
               value={input}
-              onChange={(e) => { setInput(e.target.value); playKeyTick(); }}
+              onChange={(e) => {
+                setInput(e.target.value);
+                playKeyTick();
+              }}
               className="flex-1 bg-transparent border-none outline-none text-white focus:ring-0 p-0"
               autoFocus
               spellCheck={false}

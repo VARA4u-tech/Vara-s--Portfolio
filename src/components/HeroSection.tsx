@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { playClick, playHover } from "@/hooks/useSoundEffects";
+import { useState, useEffect, useRef } from 'react';
+import { playClick, playHover } from '@/hooks/useSoundEffects';
 import {
   Github,
   Linkedin,
@@ -8,18 +8,18 @@ import {
   ChevronDown,
   InstagramIcon,
   BookOpen,
-} from "lucide-react";
+} from 'lucide-react';
 
 const roles = [
-  "Flutter Developer",
-  "React Engineer",
-  "Blockchain Builder",
-  "Full-Stack Creator",
+  'Flutter Developer',
+  'React Engineer',
+  'Blockchain Builder',
+  'Full-Stack Creator',
 ];
 
 const HeroSection = () => {
   const [roleIndex, setRoleIndex] = useState(0);
-  const [displayText, setDisplayText] = useState("");
+  const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [cursorVisible, setCursorVisible] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -60,7 +60,7 @@ const HeroSection = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const resize = () => {
@@ -68,15 +68,15 @@ const HeroSection = () => {
       canvas.height = window.innerHeight;
     };
     resize();
-    window.addEventListener("resize", resize);
+    window.addEventListener('resize', resize);
 
-    const chars = "01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz";
+    const chars = '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
     const fontSize = 14;
     const columns = Math.floor(canvas.width / fontSize);
     const drops: number[] = Array(columns).fill(1);
 
     const draw = () => {
-      ctx.fillStyle = "rgba(255, 255, 255, 0.04)";
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.font = `${fontSize}px monospace`;
 
@@ -84,13 +84,13 @@ const HeroSection = () => {
         const char = chars[Math.floor(Math.random() * chars.length)];
 
         // Lead character — brighter
-        ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
 
         // Trail character — slightly dimmer
         if (drops[i] > 1) {
           const trailChar = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillStyle = "rgba(0, 0, 0, 0.07)";
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
           ctx.fillText(trailChar, i * fontSize, (drops[i] - 1) * fontSize);
         }
 
@@ -104,7 +104,7 @@ const HeroSection = () => {
     const interval = setInterval(draw, 60);
     return () => {
       clearInterval(interval);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener('resize', resize);
     };
   }, []);
 
@@ -125,7 +125,7 @@ const HeroSection = () => {
           <br />
           // status: production
           <br />
-          // last_build: {new Date().toISOString().split("T")[0]}
+          // last_build: {new Date().toISOString().split('T')[0]}
         </p>
       </div>
 
@@ -134,7 +134,7 @@ const HeroSection = () => {
         <p className="font-mono text-xs text-foreground/40 leading-relaxed text-right font-medium">
           {Array.from({ length: 6 }, (_, i) => (
             <span key={i} className="block">
-              {String(i + 1).padStart(3, "0")}
+              {String(i + 1).padStart(3, '0')}
             </span>
           ))}
         </p>
@@ -153,7 +153,7 @@ const HeroSection = () => {
         {/* Name */}
         <h1
           className="heading-brutal leading-[0.85]"
-          style={{ fontSize: "clamp(48px, 10vw, 130px)" }}
+          style={{ fontSize: 'clamp(48px, 10vw, 130px)' }}
         >
           Durga Vara
           <br />
@@ -163,32 +163,32 @@ const HeroSection = () => {
         {/* Typewriter role */}
         <div className="mt-6 h-8 flex items-center justify-center">
           <span className="font-mono text-sm md:text-base tracking-[0.2em] text-foreground/50">
-            {"< "}
+            {'< '}
           </span>
           <span className="font-mono text-sm md:text-base tracking-[0.15em] text-foreground/70 font-medium">
             {displayText}
           </span>
           <span
             className={`font-mono text-sm md:text-base text-foreground/70 ${
-              cursorVisible ? "opacity-100" : "opacity-0"
+              cursorVisible ? 'opacity-100' : 'opacity-0'
             }`}
           >
             |
           </span>
           <span className="font-mono text-sm md:text-base tracking-[0.2em] text-foreground/50">
-            {" />"}
+            {' />'}
           </span>
         </div>
 
         {/* Tech tags */}
         <div className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto">
           {[
-            "Flutter",
-            "React",
-            "TypeScript",
-            "Firebase",
-            "Blockchain",
-            "Node.js",
+            'Flutter',
+            'React',
+            'TypeScript',
+            'Firebase',
+            'Blockchain',
+            'Node.js',
           ].map((tech) => (
             <span
               key={tech}
@@ -205,28 +205,28 @@ const HeroSection = () => {
           {[
             {
               Icon: Github,
-              href: "https://github.com/VARA4u-tech",
-              label: "GitHub",
+              href: 'https://github.com/VARA4u-tech',
+              label: 'GitHub',
             },
             {
               Icon: Linkedin,
-              href: "https://www.linkedin.com/in/durga-vara-prasad-pappuri-1797701b6/",
-              label: "LinkedIn",
+              href: 'https://www.linkedin.com/in/durga-vara-prasad-pappuri-1797701b6/',
+              label: 'LinkedIn',
             },
             {
               Icon: InstagramIcon,
-              href: "https://www.instagram.com/d_v_p6/",
-              label: "Instagram",
+              href: 'https://www.instagram.com/d_v_p6/',
+              label: 'Instagram',
             },
             {
               Icon: BookOpen,
-              href: "https://durgavaraprasad.hashnode.dev/",
-              label: "Blog",
+              href: 'https://durgavaraprasad.hashnode.dev/',
+              label: 'Blog',
             },
             {
               Icon: Mail,
-              href: "mailto:pappuridurgavaraprasad4pl@gmail.com",
-              label: "Email",
+              href: 'mailto:pappuridurgavaraprasad4pl@gmail.com',
+              label: 'Email',
             },
           ].map(({ Icon, href, label }, i) => (
             <a
