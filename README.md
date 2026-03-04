@@ -65,11 +65,12 @@ Welcome to my portfolio! This project is more than just a resume; it's a showcas
 
 |                               Hero Section                                |                                Skills & Stats                                 |
 | :-----------------------------------------------------------------------: | :---------------------------------------------------------------------------: |
-| ![Hero](https://via.placeholder.com/400x250?text=Hero+Section+Screenshot) | ![Skills](https://via.placeholder.com/400x250?text=Skills+Section+Screenshot) |
+| <img width="1887" height="892" alt="image" src="https://github.com/user-attachments/assets/2b52ca06-3fe3-4d11-a248-d9075099549e" />| <img width="1880" height="884" alt="image" src="https://github.com/user-attachments/assets/50d6f0d4-73e6-43f4-b335-e7f22cd57154" />
+
 
 |                                Terminal Interface                                 |                                 Projects Showcase                                 |
 | :-------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: |
-| ![Terminal](https://via.placeholder.com/400x250?text=Terminal+Section+Screenshot) | ![Projects](https://via.placeholder.com/400x250?text=Projects+Section+Screenshot) |
+| <img width="1888" height="896" alt="image" src="https://github.com/user-attachments/assets/a4e685c3-5f7b-4f7e-97ae-741c7ae8ac34" />|<img width="1873" height="884" alt="image" src="https://github.com/user-attachments/assets/c08cebbf-8104-415a-a761-90c289aac3d5" />
 
 ---
 
