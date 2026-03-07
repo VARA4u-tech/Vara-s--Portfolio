@@ -89,24 +89,23 @@ const projects = [
 
 const ProjectsSection = () => (
   <SectionBlock id="projects" title="Projects">
-    <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-x-auto md:overflow-x-visible pb-8 md:pb-0 snap-x snap-mandatory scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0">
+    <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 overflow-x-auto md:overflow-x-visible pt-6 pb-12 md:py-0 snap-x snap-mandatory scrollbar-hide">
       {projects.map((project) => (
         <div
           key={project.title}
           onMouseEnter={playHover}
-          onTouchStart={playHover}
-          className="group relative border-2 border-black p-5 flex flex-col justify-between hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 bg-white min-w-[280px] sm:min-w-[320px] md:min-w-0 snap-center active:scale-[0.98] md:active:scale-100"
+          className="group relative border-2 border-black p-6 flex flex-col justify-between hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 bg-white min-w-[290px] w-[85vw] md:w-auto md:min-w-0 snap-start"
         >
           {'isNew' in project && project.isNew && (
-            <div className="absolute -top-3 -right-3 bg-black text-white px-2 py-1 text-[10px] font-black uppercase tracking-tighter border-2 border-black z-10 rotate-12">
+            <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[10px] font-black uppercase tracking-tighter border-2 border-black z-10 rotate-12 group-hover:rotate-6 transition-transform">
               LATEST WORK
             </div>
           )}
           <div>
-            <h3 className="text-xl font-black text-foreground group-hover:underline decoration-4 underline-offset-4">
+            <h3 className="text-2xl font-black text-foreground group-hover:underline decoration-4 underline-offset-4">
               {project.title}
             </h3>
-            <p className="body-text mt-4 text-sm font-normal">
+            <p className="body-text mt-4 text-sm font-normal leading-relaxed">
               {project.description}
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
@@ -128,8 +127,7 @@ const ProjectsSection = () => (
               target="_blank"
               rel="noopener noreferrer"
               onClick={playClick}
-              onTouchStart={playClick}
-              className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-black bg-white text-[10px] font-black uppercase tracking-wider transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-black hover:text-white active:scale-95 touch-manipulation"
+              className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-black bg-white text-[10px] font-black uppercase tracking-wider transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-black hover:text-white"
             >
               <Github className="w-3.5 h-3.5" />
               Source
@@ -139,8 +137,7 @@ const ProjectsSection = () => (
               target="_blank"
               rel="noopener noreferrer"
               onClick={playClick}
-              onTouchStart={playClick}
-              className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-black bg-white text-[10px] font-black uppercase tracking-wider transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-black hover:text-white active:scale-95 touch-manipulation"
+              className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-black bg-white text-[10px] font-black uppercase tracking-wider transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-black hover:text-white"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               Live Demo
