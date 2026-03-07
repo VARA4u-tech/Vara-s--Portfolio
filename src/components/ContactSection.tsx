@@ -104,7 +104,8 @@ const ContactSection = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={playClick}
-                  className="p-3 border border-foreground/20 hover:bg-black hover:text-white transition-all duration-300 hover:-translate-y-1"
+                  onTouchStart={playClick}
+                  className="p-3 border border-foreground/20 hover:bg-black hover:text-white transition-all duration-300 hover:-translate-y-1 active:scale-95 touch-manipulation"
                 >
                   <Icon className="w-5 h-5" />
                 </a>
@@ -159,7 +160,9 @@ const ContactSection = () => {
 
           <button
             type="submit"
-            className="w-full group relative flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-mono uppercase tracking-widest overflow-hidden transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:translate-y-0 active:shadow-none"
+            onClick={playClick}
+            onTouchStart={playClick}
+            className="w-full group relative flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-mono uppercase tracking-widest overflow-hidden transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:scale-95 active:shadow-none touch-manipulation"
           >
             <span className="relative z-10 font-bold">Send via WhatsApp</span>
             <MessageCircle className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />

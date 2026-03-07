@@ -154,4 +154,17 @@
   .animate-marquee-reverse {
     animation: marquee 60s linear infinite reverse;
   }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
 }

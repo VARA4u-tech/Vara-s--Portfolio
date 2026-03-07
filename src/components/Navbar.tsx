@@ -23,8 +23,9 @@ const Navbar = () => {
             <span key={link.href} className="flex items-center">
               <a
                 href={link.href}
-                className="nav-link px-4 py-1"
+                className="nav-link px-4 py-1 active:opacity-50 transition-opacity"
                 onClick={playClick}
+                onTouchStart={playClick}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={
                   link.href.startsWith('http')
@@ -48,7 +49,8 @@ const Navbar = () => {
               playClick();
               setOpen(!open);
             }}
-            className="nav-link"
+            onTouchStart={playClick}
+            className="nav-link active:scale-95 transition-transform"
           >
             {open ? 'Close' : 'Menu'}
           </button>
@@ -56,16 +58,17 @@ const Navbar = () => {
 
         {/* Mobile menu */}
         {open && (
-          <div className="md:hidden flex flex-col items-center gap-4 mt-6">
+          <div className="md:hidden flex flex-col items-center gap-4 mt-6 animate-in fade-in slide-in-from-top-4 duration-300">
             {links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="nav-link"
+                className="nav-link text-lg active:scale-95 transition-transform"
                 onClick={() => {
                   playClick();
                   setOpen(false);
                 }}
+                onTouchStart={playClick}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={
                   link.href.startsWith('http')
