@@ -142,11 +142,11 @@ const HeroSection = () => {
       </div>
 
       {/* Main content */}
-      <div className="text-center relative z-10 pt-12 md:pt-20">
+      <div className="text-center relative z-10 -mt-10 md:mt-0 pt-4 md:pt-20">
         {/* Name */}
         <h1
           className="heading-brutal leading-[0.85]"
-          style={{ fontSize: 'clamp(52px, 11vw, 140px)' }}
+          style={{ fontSize: 'clamp(65px, 13vw, 140px)' }}
         >
           <div className="glitch-text" data-text="Durga Vara">
             Durga Vara
