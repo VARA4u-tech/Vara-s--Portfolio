@@ -69,7 +69,7 @@ const Finale = () => {
           </h2>
           <p className="text-xl md:text-3xl font-black uppercase tracking-tight italic z-10 relative">
             Let's build something{' '}
-            <span className="text-white bg-black px-4 py-1 not-italic">
+            <span className="text-white bg-black px-4 py-1 not-italic rounded-lg tracking-normal">
               unforgettable
             </span>{' '}
             together.
@@ -83,7 +83,7 @@ const Finale = () => {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center justify-center p-8 border-2 border-black bg-white hover:bg-black transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
+              className="group flex flex-col items-center justify-center p-8 border-2 border-black bg-white hover:bg-black transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] rounded-2xl"
             >
               <link.icon className="w-8 h-8 group-hover:text-white transition-colors duration-300" />
               <span className="mt-4 font-mono text-xs uppercase tracking-widest font-black group-hover:text-white">
