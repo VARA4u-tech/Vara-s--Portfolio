@@ -144,7 +144,7 @@ const HeroSection = () => {
       {/* Main content */}
       <div className="text-center relative z-10 pt-12 md:pt-20">
         {/* Tag line */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 border border-foreground/30 bg-background/80 backdrop-blur-md shadow-sm">
+        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 border border-foreground/30 bg-background/80 backdrop-blur-md shadow-sm rounded-full">
           <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
           <span className="font-mono text-xs text-foreground/90 tracking-[0.15em] uppercase font-medium">
             Available for work
@@ -197,7 +197,7 @@ const HeroSection = () => {
           ].map((tech) => (
             <span
               key={tech}
-              className="px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-all duration-300 cursor-default"
+              className="px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-all duration-300 cursor-default rounded-lg"
               onMouseEnter={playHover}
             >
               {tech}
@@ -241,7 +241,7 @@ const HeroSection = () => {
                 rel="noopener noreferrer"
                 aria-label={label}
                 onClick={playClick}
-                className="group relative inline-flex items-center justify-center p-3 border-2 border-black bg-white text-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-black hover:text-white"
+                className="group relative inline-flex items-center justify-center p-3 border-2 border-black bg-white text-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-black hover:text-white rounded-xl"
               >
                 <Icon className="w-5 h-5" />
               </a>
@@ -256,7 +256,7 @@ const HeroSection = () => {
               href="/resume.pdf"
               download="Durga_Vara_Prasad_Resume.pdf"
               onClick={playClick}
-              className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+              className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-xl"
             >
               <span>Download Resume</span>
               <span className="w-2 h-2 border-r-2 border-b-2 border-current rotate-45 -translate-y-[1px] group-hover:translate-y-[1px] transition-transform duration-300"></span>

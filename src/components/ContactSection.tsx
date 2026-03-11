@@ -46,8 +46,8 @@ const ContactSection = () => {
           </p>
 
           <div className="space-y-6">
-            <div className="group flex items-center gap-4 p-4 border border-foreground/10 bg-white/50 hover:border-black transition-colors duration-300">
-              <div className="p-3 bg-black text-white self-start">
+            <div className="group flex items-center gap-4 p-4 border border-foreground/10 bg-white/50 hover:border-black transition-colors duration-300 rounded-xl">
+              <div className="p-3 bg-black text-white self-start rounded-lg">
                 <Mail className="w-5 h-5" />
               </div>
               <div className="flex-1 min-w-0">
@@ -71,8 +71,8 @@ const ContactSection = () => {
               </button>
             </div>
 
-            <div className="flex items-center gap-4 p-4 border border-foreground/10 bg-white/50 hover:border-black transition-colors duration-300">
-              <div className="p-3 bg-black text-white self-start">
+            <div className="flex items-center gap-4 p-4 border border-foreground/10 bg-white/50 hover:border-black transition-colors duration-300 rounded-xl">
+              <div className="p-3 bg-black text-white self-start rounded-lg">
                 <MessageCircle className="w-5 h-5" />
               </div>
               <div>
@@ -105,7 +105,7 @@ const ContactSection = () => {
                   rel="noopener noreferrer"
                   onClick={playClick}
                   onTouchStart={playClick}
-                  className="p-3 border border-foreground/20 hover:bg-black hover:text-white transition-all duration-300 hover:-translate-y-1 active:scale-95 touch-manipulation"
+                  className="p-3 border border-foreground/20 hover:bg-black hover:text-white transition-all duration-300 hover:-translate-y-1 active:scale-95 touch-manipulation rounded-lg"
                 >
                   <Icon className="w-5 h-5" />
                 </a>
@@ -123,7 +123,7 @@ const ContactSection = () => {
               placeholder=" "
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="peer w-full bg-transparent border-2 border-foreground/10 px-4 py-4 text-foreground focus:outline-none focus:border-black transition-colors"
+              className="peer w-full bg-transparent border-2 border-foreground/10 px-4 py-4 text-foreground focus:outline-none focus:border-black transition-colors rounded-xl"
             />
             <label className="absolute left-4 top-4 text-foreground/40 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-black peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-black peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2">
               Your Name
@@ -137,7 +137,7 @@ const ContactSection = () => {
               placeholder=" "
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="peer w-full bg-transparent border-2 border-foreground/10 px-4 py-4 text-foreground focus:outline-none focus:border-black transition-colors"
+              className="peer w-full bg-transparent border-2 border-foreground/10 px-4 py-4 text-foreground focus:outline-none focus:border-black transition-colors rounded-xl"
             />
             <label className="absolute left-4 top-4 text-foreground/40 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-black peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-black peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2">
               Email Address
@@ -151,7 +151,7 @@ const ContactSection = () => {
               placeholder=" "
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
-              className="peer w-full bg-transparent border-2 border-foreground/10 px-4 py-4 text-foreground focus:outline-none focus:border-black transition-colors resize-none"
+              className="peer w-full bg-transparent border-2 border-foreground/10 px-4 py-4 text-foreground focus:outline-none focus:border-black transition-colors resize-none rounded-xl"
             />
             <label className="absolute left-4 top-4 text-foreground/40 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-black peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-black peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2">
               Message
@@ -162,7 +162,7 @@ const ContactSection = () => {
             type="submit"
             onClick={playClick}
             onTouchStart={playClick}
-            className="w-full group relative flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-mono uppercase tracking-widest overflow-hidden transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:scale-95 active:shadow-none touch-manipulation"
+            className="w-full group relative flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-mono uppercase tracking-widest overflow-hidden transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:scale-95 active:shadow-none touch-manipulation rounded-xl"
           >
             <span className="relative z-10 font-bold">Send via WhatsApp</span>
             <MessageCircle className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />

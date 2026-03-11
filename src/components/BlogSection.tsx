@@ -79,9 +79,9 @@ const BlogSection = () => {
             [1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="border-2 border-black p-4 h-[400px] flex flex-col gap-4 animate-pulse bg-white"
+                className="border-2 border-black p-4 h-[400px] flex flex-col gap-4 animate-pulse bg-white rounded-2xl"
               >
-                <div className="w-full h-48 bg-gray-200 border-b-2 border-black/10" />
+                <div className="w-full h-48 bg-gray-200 border-b-2 border-black/10 rounded-xl" />
                 <div className="h-6 bg-gray-200 w-3/4" />
                 <div className="h-4 bg-gray-200 w-full" />
                 <div className="h-4 bg-gray-200 w-5/6" />
@@ -92,10 +92,10 @@ const BlogSection = () => {
             posts.map((post) => (
               <article
                 key={post.url}
-                className="group relative border-4 border-black bg-white p-4 flex flex-col transition-all duration-300 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1"
+                className="group relative border-4 border-black bg-white p-4 flex flex-col transition-all duration-300 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 rounded-2xl"
                 onMouseEnter={playHover}
               >
-                <div className="relative h-48 mb-4 overflow-hidden border-4 border-black">
+                <div className="relative h-48 mb-4 overflow-hidden border-4 border-black rounded-xl">
                   <img
                     src={post.coverImage.url}
                     alt={post.title}
@@ -131,7 +131,7 @@ const BlogSection = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={playClick}
-                    className="inline-flex items-center justify-center w-full py-3 border-2 border-black bg-white text-black text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:bg-black hover:text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none translate-y-0 active:translate-y-[2px]"
+                    className="inline-flex items-center justify-center w-full py-3 border-2 border-black bg-white text-black text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:bg-black hover:text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none translate-y-0 active:translate-y-[2px] rounded-xl"
                   >
                     Read Full Post
                   </a>
