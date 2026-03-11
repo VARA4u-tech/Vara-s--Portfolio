@@ -143,14 +143,6 @@ const HeroSection = () => {
 
       {/* Main content */}
       <div className="text-center relative z-10 pt-12 md:pt-20">
-        {/* Tag line */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 border border-foreground/30 bg-background/80 backdrop-blur-md shadow-sm rounded-full">
-          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
-          <span className="font-mono text-xs text-foreground/90 tracking-[0.15em] uppercase font-medium">
-            Available for work
-          </span>
-        </div>
-
         {/* Name */}
         <h1
           className="heading-brutal leading-[0.85]"
