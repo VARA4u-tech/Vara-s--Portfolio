@@ -7,7 +7,7 @@ const links = [
   { label: 'Education', href: '#education' },
   { label: 'Experience', href: '#experience' },
   { label: 'Work', href: '#projects' },
-  { label: 'Technical Skills', href: '#skills' },
+  { label: 'Skills', href: '#skills' },
   { label: 'Blog', href: '#blog' },
   { label: 'Contact', href: '#contact' },
 ];
@@ -17,9 +17,9 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 py-6 bg-background/80 backdrop-blur-sm">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between md:justify-center relative">
+      <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between lg:justify-center relative">
         {/* Desktop Navbar (Hidden on Mobile) */}
-        <div className="hidden md:flex items-center justify-center gap-0">
+        <div className="hidden lg:flex items-center justify-center gap-0">
           {links.map((link, i) => (
             <span key={link.href} className="flex items-center">
               <a
@@ -45,12 +45,12 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Sound Toggle (Absolute Right) */}
-        <div className="hidden md:block absolute right-6">
+        <div className="hidden lg:block absolute right-6">
           <SoundToggle />
         </div>
 
         {/* Mobile Header (Toggle Left, Sound Right) */}
-        <div className="md:hidden flex justify-between w-full items-center">
+        <div className="lg:hidden flex justify-between w-full items-center">
           <button
             onClick={() => {
               playClick();
@@ -69,7 +69,7 @@ const Navbar = () => {
 
         {/* Mobile menu (Centered Links) */}
         {open && (
-          <div className="md:hidden flex flex-col items-center justify-center w-full gap-6 mt-12 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="lg:hidden flex flex-col items-center justify-center w-full gap-6 mt-12 animate-in fade-in slide-in-from-top-4 duration-300">
             {links.map((link) => (
               <a
                 key={link.href}

@@ -110,7 +110,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center relative px-6 overflow-hidden">
+    <section className="min-h-screen flex flex-col justify-center items-center relative px-6 overflow-hidden pb-12">
       {/* Matrix rain canvas */}
       <canvas
         ref={canvasRef}
@@ -274,7 +274,7 @@ const HeroSection = () => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
         <ChevronDown className="w-5 h-5 text-foreground/60 animate-bounce" />
       </div>
     </section>
