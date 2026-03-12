@@ -142,7 +142,7 @@ const HeroSection = () => {
       </div>
 
       {/* Main content */}
-      <div className="text-center relative z-10 -mt-10 md:mt-0 pt-4 md:pt-20">
+      <div className="text-center relative z-10 pt-24 md:pt-20">
         {/* Name */}
         <h1
           className="heading-brutal leading-[0.85]"
