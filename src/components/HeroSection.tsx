@@ -3,13 +3,13 @@ import { playClick, playHover } from '@/hooks/useSoundEffects';
 import {
   Github,
   Linkedin,
-  Twitter,
   Mail,
   ChevronDown,
   InstagramIcon,
   BookOpen,
 } from 'lucide-react';
 import Magnetic from './Magnetic';
+import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
 
 const roles = [
   'Flutter Developer',
@@ -17,6 +17,14 @@ const roles = [
   'Blockchain Builder',
   'Full-Stack Creator',
 ];
+
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  github: Github,
+  linkedin: Linkedin,
+  instagram: InstagramIcon,
+  blog: BookOpen,
+  email: Mail,
+};
 
 const HeroSection = () => {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -56,10 +64,14 @@ const HeroSection = () => {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, roleIndex]);
 
-  // Matrix-style rain effect
+  // Matrix-style rain effect using requestAnimationFrame + prefers-reduced-motion check
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Skip animation for users who prefer reduced motion
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (motionQuery.matches) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -76,7 +88,16 @@ const HeroSection = () => {
     const columns = Math.floor(canvas.width / fontSize);
     const drops: number[] = Array(columns).fill(1);
 
-    const draw = () => {
+    let lastFrameTime = 0;
+    const frameInterval = 60; // ~16fps throttle
+    let animationId: number;
+
+    const draw = (timestamp: number) => {
+      animationId = requestAnimationFrame(draw);
+
+      if (timestamp - lastFrameTime < frameInterval) return;
+      lastFrameTime = timestamp;
+
       ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.font = `${fontSize}px monospace`;
@@ -102,9 +123,9 @@ const HeroSection = () => {
       }
     };
 
-    const interval = setInterval(draw, 60);
+    animationId = requestAnimationFrame(draw);
     return () => {
-      clearInterval(interval);
+      cancelAnimationFrame(animationId);
       window.removeEventListener('resize', resize);
     };
   }, []);
@@ -115,6 +136,7 @@ const HeroSection = () => {
       <canvas
         ref={canvasRef}
         className="absolute inset-0 z-0 pointer-events-none"
+        aria-hidden="true"
       />
 
       {/* Top-left code comment */}
@@ -199,46 +221,24 @@ const HeroSection = () => {
 
         {/* Social links */}
         <div className="flex gap-4 justify-center mt-10">
-          {[
-            {
-              Icon: Github,
-              href: 'https://github.com/VARA4u-tech',
-              label: 'GitHub',
-            },
-            {
-              Icon: Linkedin,
-              href: 'https://www.linkedin.com/in/durga-vara-prasad-pappuri-1797701b6/',
-              label: 'LinkedIn',
-            },
-            {
-              Icon: InstagramIcon,
-              href: 'https://www.instagram.com/d_v_p6/',
-              label: 'Instagram',
-            },
-            {
-              Icon: BookOpen,
-              href: 'https://durgavaraprasad.hashnode.dev/',
-              label: 'Blog',
-            },
-            {
-              Icon: Mail,
-              href: 'mailto:pappuridurgavaraprasad4pl@gmail.com',
-              label: 'Email',
-            },
-          ].map(({ Icon, href, label }, i) => (
-            <Magnetic key={i} strength={0.3}>
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                onClick={playClick}
-                className="group relative inline-flex items-center justify-center p-3 border-2 border-black bg-white text-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-black hover:text-white rounded-none"
-              >
-                <Icon className="w-5 h-5" />
-              </a>
-            </Magnetic>
-          ))}
+          {SOCIAL_LINKS.map((link) => {
+            const Icon = ICON_MAP[link.id];
+            if (!Icon) return null;
+            return (
+              <Magnetic key={link.id} strength={0.3}>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  onClick={playClick}
+                  className="group relative inline-flex items-center justify-center p-3 border-2 border-black bg-white text-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-black hover:text-white rounded-none"
+                >
+                  <Icon className="w-5 h-5" />
+                </a>
+              </Magnetic>
+            );
+          })}
         </div>
 
         {/* Resume button */}
@@ -260,7 +260,7 @@ const HeroSection = () => {
       {/* Bottom-left info */}
       <div className="absolute bottom-10 left-6 md:left-10 z-10">
         <span className="text-foreground text-xs tracking-[0.2em] uppercase font-mono font-medium">
-          www.prasad.dev
+          {PROFILE.website}
         </span>
       </div>
 

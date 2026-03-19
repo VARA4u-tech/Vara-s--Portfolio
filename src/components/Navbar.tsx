@@ -27,7 +27,6 @@ const Navbar = () => {
                 className="nav-link px-4 py-1 active:opacity-50 transition-opacity"
                 onClick={playClick}
                 onMouseEnter={playHover}
-                onTouchStart={playClick}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={
                   link.href.startsWith('http')
@@ -57,8 +56,10 @@ const Navbar = () => {
               setOpen(!open);
             }}
             onMouseEnter={playHover}
-            onTouchStart={playClick}
             className="nav-link active:scale-95 transition-transform"
+            aria-expanded={open}
+            aria-controls="mobile-nav-menu"
+            aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
           >
             {open ? 'Close' : 'Menu'}
           </button>
@@ -69,7 +70,11 @@ const Navbar = () => {
 
         {/* Mobile menu (Centered Links) */}
         {open && (
-          <div className="lg:hidden flex flex-col items-center justify-center w-full gap-6 mt-12 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div
+            id="mobile-nav-menu"
+            role="navigation"
+            className="lg:hidden flex flex-col items-center justify-center w-full gap-6 mt-12 animate-in fade-in slide-in-from-top-4 duration-300"
+          >
             {links.map((link) => (
               <a
                 key={link.href}
@@ -80,7 +85,6 @@ const Navbar = () => {
                   setOpen(false);
                 }}
                 onMouseEnter={playHover}
-                onTouchStart={playClick}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={
                   link.href.startsWith('http')

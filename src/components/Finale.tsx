@@ -6,36 +6,21 @@ import {
   Heart,
   BookOpen,
 } from 'lucide-react';
+import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
+
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  github: Github,
+  linkedin: Linkedin,
+  email: Mail,
+  instagram: InstagramIcon,
+  blog: BookOpen,
+};
 
 const Finale = () => {
   const currentYear = new Date().getFullYear();
 
-  const socialLinks = [
-    { icon: Github, href: 'https://github.com/VARA4u-tech', label: 'GitHub' },
-    {
-      icon: Linkedin,
-      href: 'https://linkedin.com/in/vara4u',
-      label: 'LinkedIn',
-    },
-    {
-      icon: Mail,
-      href: 'mailto:pappuridurgavaraprasad4pl@gmail.com',
-      label: 'Email',
-    },
-    {
-      icon: InstagramIcon,
-      href: 'https://instagram.com/d_v_p6',
-      label: 'Instagram',
-    },
-    {
-      icon: BookOpen,
-      href: 'https://durgavaraprasad.hashnode.dev/',
-      label: 'Blog',
-    },
-  ];
-
   const marqueeTags = [
-    'Durga Vara Prasad 🚀',
+    `${PROFILE.shortName} 🚀`,
     'Full Stack Dev | Flutter | React | Blockchain | AI',
     'Designing clean UI/UX + Smart solutions🔖',
     'Exploring tech through Vibe Coding',
@@ -77,20 +62,25 @@ const Finale = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mb-24">
-          {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col items-center justify-center p-8 border-2 border-black bg-white hover:bg-black transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] rounded-none"
-            >
-              <link.icon className="w-8 h-8 group-hover:text-white transition-colors duration-300" />
-              <span className="mt-4 font-mono text-xs uppercase tracking-widest font-black group-hover:text-white">
-                {link.label}
-              </span>
-            </a>
-          ))}
+          {SOCIAL_LINKS.map((link) => {
+            const Icon = ICON_MAP[link.id];
+            if (!Icon) return null;
+            return (
+              <a
+                key={link.id}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.label}
+                className="group flex flex-col items-center justify-center p-8 border-2 border-black bg-white hover:bg-black transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] rounded-none"
+              >
+                <Icon className="w-8 h-8 group-hover:text-white transition-colors duration-300" />
+                <span className="mt-4 font-mono text-xs uppercase tracking-widest font-black group-hover:text-white">
+                  {link.label}
+                </span>
+              </a>
+            );
+          })}
         </div>
 
         <div className="flex flex-col md:flex-row items-center gap-4 text-center">
@@ -110,14 +100,14 @@ const Finale = () => {
       <div className="w-full bg-white pt-10 pb-24 md:pb-10 px-6 mt-auto border-t border-black/10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 opacity-70">
           <p className="text-[10px] md:text-[11px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.2em] text-center md:text-left">
-            © {currentYear} Pappuri Durga Vara Prasad
+            © {currentYear} {PROFILE.name}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.2em] text-center md:text-right font-medium">
             <span className="whitespace-nowrap">Designed & Engineered</span>
             <span className="flex items-center gap-2">
               <span>with</span>
               <Heart className="w-3.5 h-3.5 text-black fill-black animate-heartbeat inline-block" />
-              <span>by Vara</span>
+              <span>by {PROFILE.alias}</span>
             </span>
           </div>
         </div>

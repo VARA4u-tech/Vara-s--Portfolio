@@ -3,19 +3,25 @@ import { playPop, playSuccess, playClick } from '@/hooks/useSoundEffects';
 import SectionBlock from './SectionBlock';
 import {
   Mail,
-  MapPin,
   Copy,
   Check,
-  ArrowRight,
   Github,
   Linkedin,
-  MessageCircle,
   InstagramIcon,
-  Globe,
   BookOpen,
   Send,
   LucideGlobe2,
 } from 'lucide-react';
+import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
+
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  github: Github,
+  linkedin: Linkedin,
+  instagram: InstagramIcon,
+  blog: BookOpen,
+};
+
+const contactSocials = SOCIAL_LINKS.filter((l) => l.id !== 'email');
 
 const ContactSection = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -24,14 +30,14 @@ const ContactSection = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     playSuccess();
-    const telegramNumber = '+919550533315';
+    const telegramNumber = PROFILE.phone;
     const text = `Name: ${form.name}\nEmail: ${form.email}\nMessage: ${form.message}`;
     const encodedText = encodeURIComponent(text);
     window.open(`https://t.me/${telegramNumber}?text=${encodedText}`, '_blank');
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText('pappuridurgavaraprasad4pl@gmail.com');
+    navigator.clipboard.writeText(PROFILE.email);
     playPop();
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -57,14 +63,13 @@ const ContactSection = () => {
                 <p className="text-xs uppercase tracking-widest text-foreground/50 mb-1">
                   Email
                 </p>
-                <p className="font-mono text-sm break-all">
-                  pappuridurgavaraprasad4pl@gmail.com
-                </p>
+                <p className="font-mono text-sm break-all">{PROFILE.email}</p>
               </div>
               <button
                 onClick={copyEmail}
                 className="p-2 hover:bg-black/5 rounded-none transition-colors relative"
                 title="Copy email"
+                aria-label={copied ? 'Email copied' : 'Copy email address'}
               >
                 {copied ? (
                   <Check className="w-4 h-4 text-green-600" />
@@ -92,27 +97,23 @@ const ContactSection = () => {
               Connect
             </p>
             <div className="flex gap-4">
-              {[
-                { Icon: Github, href: 'https://github.com/VARA4u-tech' },
-                { Icon: Linkedin, href: 'https://linkedin.com/in/vara4u' },
-                { Icon: InstagramIcon, href: 'https://instagram.com/d_v_p6' },
-                {
-                  Icon: BookOpen,
-                  href: 'https://durgavaraprasad.hashnode.dev/',
-                },
-              ].map(({ Icon, href }, i) => (
-                <a
-                  key={i}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={playClick}
-                  onTouchStart={playClick}
-                  className="p-3 border border-foreground/20 hover:bg-black hover:text-white transition-all duration-300 hover:-translate-y-1 active:scale-95 touch-manipulation rounded-none"
-                >
-                  <Icon className="w-5 h-5" />
-                </a>
-              ))}
+              {contactSocials.map((link) => {
+                const Icon = ICON_MAP[link.id];
+                if (!Icon) return null;
+                return (
+                  <a
+                    key={link.id}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={playClick}
+                    aria-label={link.label}
+                    className="p-3 border border-foreground/20 hover:bg-black hover:text-white transition-all duration-300 hover:-translate-y-1 active:scale-95 touch-manipulation rounded-none"
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -121,6 +122,7 @@ const ContactSection = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="group relative">
             <input
+              id="contact-name"
               type="text"
               required
               placeholder=" "
@@ -128,13 +130,17 @@ const ContactSection = () => {
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               className="peer w-full bg-transparent border-2 border-foreground/10 px-4 py-4 text-foreground focus:outline-none focus:border-black transition-colors rounded-none"
             />
-            <label className="absolute left-4 top-4 text-foreground/40 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-black peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-black peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2">
+            <label
+              htmlFor="contact-name"
+              className="absolute left-4 top-4 text-foreground/40 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-black peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-black peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2"
+            >
               Your Name
             </label>
           </div>
 
           <div className="group relative">
             <input
+              id="contact-email"
               type="email"
               required
               placeholder=" "
@@ -142,13 +148,17 @@ const ContactSection = () => {
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               className="peer w-full bg-transparent border-2 border-foreground/10 px-4 py-4 text-foreground focus:outline-none focus:border-black transition-colors rounded-none"
             />
-            <label className="absolute left-4 top-4 text-foreground/40 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-black peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-black peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2">
+            <label
+              htmlFor="contact-email"
+              className="absolute left-4 top-4 text-foreground/40 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-black peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-black peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2"
+            >
               Email Address
             </label>
           </div>
 
           <div className="group relative">
             <textarea
+              id="contact-message"
               required
               rows={5}
               placeholder=" "
@@ -156,7 +166,10 @@ const ContactSection = () => {
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               className="peer w-full bg-transparent border-2 border-foreground/10 px-4 py-4 text-foreground focus:outline-none focus:border-black transition-colors resize-none rounded-none"
             />
-            <label className="absolute left-4 top-4 text-foreground/40 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-black peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-black peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2">
+            <label
+              htmlFor="contact-message"
+              className="absolute left-4 top-4 text-foreground/40 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-black peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-black peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2"
+            >
               Message
             </label>
           </div>
@@ -164,7 +177,6 @@ const ContactSection = () => {
           <button
             type="submit"
             onClick={playClick}
-            onTouchStart={playClick}
             className="w-full group relative flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-mono uppercase tracking-widest overflow-hidden transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:scale-95 active:shadow-none touch-manipulation rounded-none"
           >
             <span className="relative z-10 font-bold">Send via Telegram</span>
