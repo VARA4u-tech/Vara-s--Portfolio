@@ -6,8 +6,26 @@ import { playHover, playClick } from '@/hooks/useSoundEffects';
 
 const projects = [
   {
-    title: 'Lakshmi Fashion Designers',
+    title: 'LOGICIA — Your AI Logic Brain',
     isNew: true,
+    description:
+      'An intelligent, all-in-one AI tutor designed specifically for competitive exams like UPSC, SSC, and Banking, featuring step-by-step logic, exam shortcuts, and bilingual support.',
+    tags: [
+      'React',
+      'Vite',
+      'TypeScript',
+      'FastAPI',
+      'Python',
+      'SymPy',
+      'MongoDB',
+      'AI',
+      'Agile',
+    ],
+    githubUrl: 'https://github.com/VARA4u-tech/-LOGICIA_Your_AI_Logic_Brain_',
+    liveUrl: 'https://logicia-your-ai-logic-brain.vercel.app',
+  },
+  {
+    title: 'Lakshmi Fashion Designers',
     description:
       'A premium e-commerce portal for a modern tailoring and fancy store, featuring multi-language support (English & Telugu) and AI-powered product collections.',
     tags: [
