@@ -86,10 +86,22 @@ const HeroSection = () => {
     const chars = '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
     const fontSize = 14;
     const columns = Math.floor(canvas.width / fontSize);
-    const drops: number[] = Array(columns).fill(1);
+    
+    // Structure each drop with depth data
+    const dropObjects = Array.from({ length: columns }, () => ({
+      y: Math.random() * -100,
+      depth: Math.random(), // 0 to 1
+      speed: 0,
+      char: '',
+    }));
+
+    // Initialize speeds based on depth
+    dropObjects.forEach(drop => {
+      drop.speed = 1 + drop.depth * 2; // Further is slower
+    });
 
     let lastFrameTime = 0;
-    const frameInterval = 60; // ~16fps throttle
+    const frameInterval = 50; 
     let animationId: number;
 
     const draw = (timestamp: number) => {
@@ -98,29 +110,39 @@ const HeroSection = () => {
       if (timestamp - lastFrameTime < frameInterval) return;
       lastFrameTime = timestamp;
 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+      // Clear with slight trail
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.font = `${fontSize}px monospace`;
 
-      for (let i = 0; i < drops.length; i++) {
+      dropObjects.forEach((drop, i) => {
         const char = chars[Math.floor(Math.random() * chars.length)];
+        
+        // Depth-based styles
+        const currentFontSize = fontSize * (0.5 + drop.depth * 0.7);
+        const opacity = 0.03 + drop.depth * 0.12;
+        
+        ctx.font = `${currentFontSize}px monospace`;
+        
+        // Lead character
+        ctx.fillStyle = `rgba(0, 0, 0, ${opacity * 1.5})`;
+        ctx.fillText(char, i * fontSize, drop.y * fontSize);
 
-        // Lead character — brighter
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-
-        // Trail character — slightly dimmer
-        if (drops[i] > 1) {
+        // Trail character
+        if (drop.y > 1) {
           const trailChar = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
-          ctx.fillText(trailChar, i * fontSize, (drops[i] - 1) * fontSize);
+          ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
+          ctx.fillText(trailChar, i * fontSize, (drop.y - 1) * fontSize);
         }
 
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.97) {
-          drops[i] = 0;
+        // Move and reset
+        drop.y += drop.speed;
+        
+        if (drop.y * fontSize > canvas.height && Math.random() > 0.97) {
+          drop.y = -5;
+          drop.depth = Math.random(); // Randomize depth for next pass
+          drop.speed = 1 + drop.depth * 2;
         }
-        drops[i]++;
-      }
+      });
     };
 
     animationId = requestAnimationFrame(draw);

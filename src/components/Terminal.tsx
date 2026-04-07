@@ -500,18 +500,25 @@ const Terminal = () => {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-300"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-lg p-4 animate-in fade-in duration-500"
       onClick={() => setIsOpen(false)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
       <div
-        className={`bg-[#0c0c0c] border border-white/20 shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] w-full transition-all duration-300 flex flex-col font-mono text-sm md:text-base selection:bg-white/20 active:border-white/40 rounded-none overflow-hidden ${
+        className={`bg-[#0c0c0c] border border-white/30 shadow-[0_45px_100px_-20px_rgba(0,0,0,0.8),0_12px_24px_-12px_rgba(255,255,255,0.2),12px_12px_0px_0px_rgba(255,255,255,0.05)] w-full transition-all duration-700 flex flex-col font-mono text-sm md:text-base selection:bg-white/20 active:border-white/40 rounded-none overflow-hidden ${
           isMaximized ? 'h-[95vh] w-[95vw]' : 'max-w-2xl h-[600px]'
         }`}
+        style={{
+          transform: isMaximized 
+            ? 'none' 
+            : 'perspective(1500px) rotateX(1.5deg) rotateY(-1.5deg) scale(1.01)',
+          transformStyle: 'preserve-3d',
+        }}
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/5 to-transparent opacity-50 z-0" />
         {/* Drag indicator for mobile */}
         <div className="md:hidden w-12 h-1.5 bg-white/20 rounded-none mx-auto mt-2" />
 
@@ -565,7 +572,7 @@ const Terminal = () => {
 
         {/* content */}
         <div
-          className={`flex-1 overflow-y-auto p-4 selection:bg-white/20 ${terminalTheme}`}
+          className={`flex-1 overflow-y-auto p-4 selection:bg-white/20 terminal-scrollbar ${terminalTheme}`}
           ref={scrollRef}
           onClick={handleTerminalClick}
         >
