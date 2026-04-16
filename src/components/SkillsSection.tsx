@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import SectionBlock from './SectionBlock';
 import GithubGraph from './GithubGraph';
+import GithubStats from './GithubStats';
 import TiltCard from './ui/TiltCard';
 import { playHover } from '@/hooks/useSoundEffects';
 
@@ -155,6 +156,7 @@ const SkillsSection = () => {
               <div className="h-[2px] flex-1 bg-black/10"></div>
             </div>
             <GithubGraph />
+            <GithubStats />
           </div>
         </div>
       </div>
