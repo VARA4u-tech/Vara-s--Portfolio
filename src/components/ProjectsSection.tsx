@@ -6,8 +6,25 @@ import { playHover, playClick } from '@/hooks/useSoundEffects';
 
 const projects = [
   {
-    title: 'LOGICIA — Your AI Logic Brain',
+    title: 'Vidyalaya',
     isNew: true,
+    description:
+      'An AI-powered study platform that transforms any PDF into summaries, quizzes, and personalized study plans in seconds.',
+    tags: [
+      'React',
+      'Vite',
+      'TypeScript',
+      'Tailwind',
+      'Framer Motion',
+      'Node.js',
+      'Vercel',
+      'AI',
+    ],
+    githubUrl: 'https://github.com/VARA4u-tech/Vidyalaya',
+    liveUrl: 'https://vidyalaya-nine.vercel.app',
+  },
+  {
+    title: 'LOGICIA — Your AI Logic Brain',
     description:
       'An intelligent, all-in-one AI tutor designed specifically for competitive exams like UPSC, SSC, and Banking, featuring step-by-step logic, exam shortcuts, and bilingual support.',
     tags: [

@@ -151,16 +151,16 @@ const Terminal = () => {
             <div className="flex flex-col gap-1">
               <p className="mb-1 text-purple-400">RECENT WORK:</p>
               <a href="#projects" className="text-blue-400 hover:underline">
-                1. Lakshmi Fashion Designers (LATEST)
+                1. Vidyalaya (LATEST)
               </a>
               <a href="#projects" className="text-blue-400 hover:underline">
-                2. AI Voice Editor
+                2. LOGICIA — AI Logic Brain
               </a>
               <a href="#projects" className="text-blue-400 hover:underline">
-                3. SafeTrip Pro (Safety App)
+                3. Lakshmi Fashion Designers
               </a>
               <a href="#projects" className="text-blue-400 hover:underline">
-                4. AOTMS (Freelance)
+                4. AI Voice Editor
               </a>
             </div>
           );
