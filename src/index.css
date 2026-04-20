@@ -79,6 +79,39 @@
   html {
     scroll-behavior: smooth;
   }
+
+  /* Unique Brutalist Sharp Scrollbar */
+  ::-webkit-scrollbar {
+    width: 14px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+    border-left: 1px solid hsl(var(--foreground) / 0.1);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--foreground));
+    border: 1px solid hsl(var(--background));
+    /* Bevel & Shadow for 3D look */
+    box-shadow: 
+      inset 1px 1px 0px hsl(var(--background) / 0.3),
+      inset -1px -1px 0px hsl(var(--foreground) / 0.5),
+      3px 3px 0px hsl(var(--foreground) / 0.05);
+    border-radius: 0px;
+    transition: all 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--foreground) / 0.9);
+    filter: brightness(1.1);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: hsl(var(--foreground)) hsl(var(--background));
+  }
 }
 
 @layer utilities {
