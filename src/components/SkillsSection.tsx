@@ -91,7 +91,23 @@ const skillCategories = [
 const SkillsSection = () => {
   return (
     <SectionBlock id="skills" title="Technical Arsenal">
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col gap-12">
+        {/* Infinite Tech Ticker */}
+        <div className="relative w-full overflow-hidden border-t-2 border-b-2 border-black py-4 bg-black/5 -mx-4 md:mx-0">
+          <div className="flex whitespace-nowrap animate-marquee">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="flex items-center gap-8 px-4">
+                {skillCategories.flatMap(c => c.skills).map((skill) => (
+                  <span key={skill} className="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-3">
+                    <span className="w-1.5 h-1.5 bg-black rotate-45" />
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Skill Modules */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillCategories.map((category, idx) => (

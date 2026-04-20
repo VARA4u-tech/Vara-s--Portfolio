@@ -1,4 +1,4 @@
-import { Github, ExternalLink } from 'lucide-react';
+import { Github, ExternalLink, Code2 } from 'lucide-react';
 import SectionBlock from './SectionBlock';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -144,74 +144,144 @@ const projects = [
 
 const ProjectsSection = () => (
   <SectionBlock id="projects" title="Projects">
-    <div className="flex md:grid md:grid-cols-2 lg:grid-cols-2 gap-8 overflow-x-auto md:overflow-x-visible pt-6 pb-12 md:py-0 snap-x snap-mandatory scrollbar-hide px-4 md:px-0 -mx-4 md:mx-0">
-      {projects.map((project) => (
-        <div
-          key={project.title}
-          onMouseEnter={playHover}
-          className="group relative border-4 border-black p-8 flex flex-col justify-between hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 bg-white min-w-[300px] w-full md:w-auto snap-start rounded-none"
-        >
-          {'isNew' in project && project.isNew && (
-            <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[10px] font-black uppercase tracking-tighter border-4 border-black z-10 rotate-12 group-hover:rotate-6 transition-transform rounded-none">
-              LATEST WORK
-            </div>
-          )}
-          <div>
-            <h3 className="text-xl font-black text-foreground group-hover:underline decoration-4 underline-offset-4">
-              {project.title}
-            </h3>
-            <p className="body-text mt-4 text-sm font-normal leading-relaxed">
-              {project.description}
-            </p>
-            <div className="flex flex-wrap gap-2 mt-4">
-              {project.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className="font-mono text-[10px] font-bold border border-black/10 px-1.5 py-0"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-6 pb-12">
+      {projects.map((project, index) => {
+        // Bento Grid Span Logic
+        const isVidyalaya = project.title === 'Vidyalaya';
+        const isLogicia = project.title.includes('LOGICIA');
+        
+        const gridClasses = isVidyalaya 
+          ? "md:col-span-2 md:row-span-2 lg:col-span-2 lg:row-span-2" 
+          : isLogicia 
+            ? "md:col-span-2 lg:col-span-2" 
+            : "col-span-1";
 
-          <div className="flex flex-col sm:flex-row gap-3 mt-8 pt-6 border-t border-black/10">
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={playClick}
-              className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-black bg-white text-[10px] font-black uppercase tracking-wider transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-black hover:text-white rounded-none"
-            >
-              <Github className="w-3.5 h-3.5" />
-              Source
-            </a>
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={playClick}
-              className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-black bg-white text-[10px] font-black uppercase tracking-wider transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-black hover:text-white rounded-none"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              Live Demo
-            </a>
+        return (
+          <div
+            key={project.title}
+            onMouseEnter={playHover}
+            className={`group relative border-2 border-black p-6 flex flex-col justify-between hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 bg-white snap-start rounded-none ${gridClasses}`}
+          >
+            {project.isNew && (
+              <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-10 rotate-3 group-hover:rotate-0 transition-transform">
+                LATEST WORK
+              </div>
+            )}
+            
+            <div>
+              <div className="flex justify-between items-start mb-4">
+                <h3 className={`font-black text-foreground leading-tight ${isVidyalaya ? 'text-4xl' : 'text-lg'}`}>
+                  {project.title}
+                </h3>
+              </div>
+              
+              <p className={`body-text mb-6 font-normal leading-relaxed text-foreground/80 ${isVidyalaya ? 'text-lg max-w-2xl' : 'text-xs line-clamp-3'}`}>
+                {project.description}
+              </p>
+              
+              {isVidyalaya && (
+                <div className="mt-8 mb-10 group/terminal">
+                  <div className="relative border border-black/10 bg-black/[0.02] p-4 font-mono text-[10px] overflow-hidden">
+                    {/* Terminal Header */}
+                    <div className="flex gap-1.5 mb-4 opacity-30">
+                      <div className="w-2 h-2 rounded-full bg-black" />
+                      <div className="w-2 h-2 rounded-full bg-black/40" />
+                      <div className="w-2 h-2 rounded-full bg-black/20" />
+                    </div>
+                    
+                    {/* Execution Lines */}
+                    <div className="space-y-2 relative z-10">
+                      <div className="flex items-center gap-2">
+                        <span className="text-black/30">01</span>
+                        <span className="text-black/50">const </span>
+                        <span>processEngine</span>
+                        <span className="text-black/50"> = </span>
+                        <span className="text-black/80 font-bold">async</span>
+                        <span className="text-black/50"> (doc) {'=>'} {'{'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 pl-4">
+                        <span className="text-black/30">02</span>
+                        <span className="text-black/50">  await </span>
+                        <span className="text-black/80">AI.summarize</span>
+                        <span className="text-black/50">(doc);</span>
+                      </div>
+                      <div className="flex items-center gap-2 pl-4">
+                        <span className="text-black/30">03</span>
+                        <span className="text-black/50">  return </span>
+                        <span className="text-black/80">VectorStore.query</span>
+                        <span className="text-black/50">(prompt);</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-black/30">04</span>
+                        <span className="text-black/50">{'}'}</span>
+                      </div>
+                    </div>
+
+                    {/* Decorative Element */}
+                    <div className="absolute top-0 right-0 p-4 opacity-[0.03] select-none pointer-events-none">
+                      <Code2 className="w-32 h-32 rotate-12" />
+                    </div>
+                  </div>
+                  <div className="mt-2 text-[9px] font-mono text-black/30 flex justify-between uppercase tracking-tighter">
+                    <span>// Log: AI Execution Pipeline Active</span>
+                    <span className="animate-pulse">● Live Sync</span>
+                  </div>
+                </div>
+              )}
+              
+              <div className="flex flex-wrap gap-1.5 mb-6">
+                {project.tags.slice(0, isVidyalaya ? 10 : 5).map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="secondary"
+                    className="font-mono text-[9px] font-bold border border-black/5 bg-black/5 px-2 py-0.5 rounded-none"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+                {!isVidyalaya && project.tags.length > 5 && (
+                  <span className="text-[9px] font-bold opacity-30">+{project.tags.length - 5}</span>
+                )}
+              </div>
+            </div>
+
+            <div className={`flex gap-3 mt-4 ${isVidyalaya ? 'pt-6 border-t border-black/5' : ''}`}>
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={playClick}
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border-2 border-black bg-white text-[9px] font-black uppercase tracking-widest transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] hover:bg-black hover:text-white"
+              >
+                <Github className="w-3.5 h-3.5" />
+                Source
+              </a>
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={playClick}
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border-2 border-black bg-black text-white text-[9px] font-black uppercase tracking-widest transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] hover:bg-white hover:text-black"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                Live
+              </a>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
 
-    <div className="mt-12 flex justify-center md:justify-start">
+    <div className="mt-8">
       <a
         href="https://github.com/VARA4u-tech"
         target="_blank"
         rel="noopener noreferrer"
         onClick={playClick}
-        className="group flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] border-b-2 border-black pb-1 hover:gap-4 transition-all"
+        className="group flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] border-b-2 border-black pb-1 hover:gap-5 transition-all w-fit"
       >
         <Github className="w-4 h-4" />
-        View All Projects
+        Explore Original Repositories
       </a>
     </div>
   </SectionBlock>
