@@ -6,8 +6,25 @@ import { playHover, playClick } from '@/hooks/useSoundEffects';
 
 const projects = [
   {
-    title: 'Vidyalaya',
+    title: 'TrueVex Technologies',
     isNew: true,
+    description:
+      'A premium software consultancy platform designed with a high-end, Brutalist-Modern aesthetic, focusing on immersive interactivity and pixel-perfect responsiveness.',
+    tags: [
+      'React',
+      'TypeScript',
+      'Tailwind',
+      'Framer Motion',
+      'GSAP',
+      'TanStack Router',
+      'Vite',
+    ],
+    githubUrl: 'https://github.com/VARA4u-tech/true-vex-tech',
+    liveUrl: 'https://truevextechnologies.netlify.app/',
+  },
+  {
+    title: 'Vidyalaya',
+    isNew: false,
     description:
       'An AI-powered study platform that transforms any PDF into summaries, quizzes, and personalized study plans in seconds.',
     tags: [
@@ -147,14 +164,17 @@ const ProjectsSection = () => (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-6 pb-12">
       {projects.map((project, index) => {
         // Bento Grid Span Logic
+        const isTrueVex = project.title === 'TrueVex Technologies';
         const isVidyalaya = project.title === 'Vidyalaya';
         const isLogicia = project.title.includes('LOGICIA');
         
         const gridClasses = isVidyalaya 
           ? "md:col-span-2 md:row-span-2 lg:col-span-2 lg:row-span-2" 
-          : isLogicia 
-            ? "md:col-span-2 lg:col-span-2" 
-            : "col-span-1";
+          : isTrueVex
+            ? "md:col-span-2 lg:col-span-2"
+            : isLogicia 
+              ? "md:col-span-2 lg:col-span-2" 
+              : "col-span-1";
 
         return (
           <div
