@@ -172,14 +172,6 @@ const ProjectsSection = () => (
       className="flex gap-6 pt-6 pb-12 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:-mx-8 lg:px-8"
     >
       {projects.map((project, index) => {
-        const isTrueVex = project.title === 'TrueVex Technologies';
-        const isVidyalaya = project.title === 'Vidyalaya';
-        const isLogicia = project.title.includes('LOGICIA');
-        
-        const widthClasses = (isVidyalaya || isTrueVex || isLogicia)
-          ? "w-[85vw] md:w-[600px] lg:w-[800px]"
-          : "w-[85vw] md:w-[400px] lg:w-[450px]";
-
         return (
           <motion.div
             key={project.title}
@@ -188,7 +180,7 @@ const ProjectsSection = () => (
               visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
             }}
             onMouseEnter={playHover}
-            className={`flex-shrink-0 ${widthClasses} snap-center group relative border-2 border-black p-8 flex flex-col justify-between hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 bg-white rounded-none`}
+            className="flex-shrink-0 w-[85vw] md:w-[450px] lg:w-[500px] snap-center group relative border-2 border-black p-8 flex flex-col justify-between hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 bg-white rounded-none"
           >
             {project.isNew && (
               <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-10 rotate-3 group-hover:rotate-0 transition-transform">
@@ -198,17 +190,17 @@ const ProjectsSection = () => (
             
             <div>
               <div className="flex justify-between items-start mb-4">
-                <h3 className={`font-black text-foreground leading-tight ${isVidyalaya ? 'text-4xl' : 'text-lg'}`}>
+                <h3 className="font-black text-foreground leading-tight text-xl">
                   {project.title}
                 </h3>
               </div>
               
-              <p className={`body-text mb-6 font-normal leading-relaxed text-foreground/80 ${isVidyalaya ? 'text-lg max-w-2xl' : 'text-xs line-clamp-3'}`}>
+              <p className="body-text mb-6 font-normal leading-relaxed text-foreground/80 text-xs line-clamp-4">
                 {project.description}
               </p>
               
               <div className="flex flex-wrap gap-1.5 mb-6">
-                {project.tags.slice(0, isVidyalaya ? 10 : 5).map((tag) => (
+                {project.tags.slice(0, 6).map((tag) => (
                   <Badge
                     key={tag}
                     variant="secondary"
@@ -217,13 +209,13 @@ const ProjectsSection = () => (
                     {tag}
                   </Badge>
                 ))}
-                {!isVidyalaya && project.tags.length > 5 && (
-                  <span className="text-[9px] font-bold opacity-30">+{project.tags.length - 5}</span>
+                {project.tags.length > 6 && (
+                  <span className="text-[9px] font-bold opacity-30">+{project.tags.length - 6}</span>
                 )}
               </div>
             </div>
 
-            <div className={`flex gap-3 mt-4 ${isVidyalaya ? 'pt-6 border-t border-black/5' : ''}`}>
+            <div className="flex gap-3 mt-4">
               <a
                 href={project.githubUrl}
                 target="_blank"
