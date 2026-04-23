@@ -1,4 +1,4 @@
-import { Github, ExternalLink, Code2 } from 'lucide-react';
+import { Github, ExternalLink } from 'lucide-react';
 import SectionBlock from './SectionBlock';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -161,26 +161,22 @@ const projects = [
 
 const ProjectsSection = () => (
   <SectionBlock id="projects" title="Projects">
-    <div className="flex lg:grid lg:grid-cols-4 gap-6 pt-6 pb-12 overflow-x-auto lg:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
+    <div className="flex gap-6 pt-6 pb-12 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:-mx-8 lg:px-8">
       {projects.map((project, index) => {
-        // Bento Grid Span Logic
         const isTrueVex = project.title === 'TrueVex Technologies';
         const isVidyalaya = project.title === 'Vidyalaya';
         const isLogicia = project.title.includes('LOGICIA');
         
-        const gridClasses = isVidyalaya 
-          ? "lg:col-span-2 lg:row-span-2" 
-          : isTrueVex
-            ? "lg:col-span-2"
-            : isLogicia 
-              ? "lg:col-span-2" 
-              : "lg:col-span-1";
+        // Featured sizing for horizontal scroll
+        const widthClasses = (isVidyalaya || isTrueVex || isLogicia)
+          ? "w-[85vw] md:w-[600px] lg:w-[800px]"
+          : "w-[85vw] md:w-[400px] lg:w-[450px]";
 
         return (
           <div
             key={project.title}
             onMouseEnter={playHover}
-            className={`flex-shrink-0 w-[85vw] md:w-[450px] lg:w-auto snap-center lg:snap-align-none group relative border-2 border-black p-6 flex flex-col justify-between hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 bg-white rounded-none ${gridClasses}`}
+            className={`flex-shrink-0 ${widthClasses} snap-center group relative border-2 border-black p-8 flex flex-col justify-between hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 bg-white rounded-none`}
           >
             {project.isNew && (
               <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-10 rotate-3 group-hover:rotate-0 transition-transform">
@@ -199,55 +195,7 @@ const ProjectsSection = () => (
                 {project.description}
               </p>
               
-              {isVidyalaya && (
-                <div className="mt-8 mb-10 group/terminal">
-                  <div className="relative border border-black/10 bg-black/[0.02] p-4 font-mono text-[10px] overflow-hidden">
-                    {/* Terminal Header */}
-                    <div className="flex gap-1.5 mb-4 opacity-30">
-                      <div className="w-2 h-2 rounded-full bg-black" />
-                      <div className="w-2 h-2 rounded-full bg-black/40" />
-                      <div className="w-2 h-2 rounded-full bg-black/20" />
-                    </div>
-                    
-                    {/* Execution Lines */}
-                    <div className="space-y-2 relative z-10">
-                      <div className="flex items-center gap-2">
-                        <span className="text-black/30">01</span>
-                        <span className="text-black/50">const </span>
-                        <span>processEngine</span>
-                        <span className="text-black/50"> = </span>
-                        <span className="text-black/80 font-bold">async</span>
-                        <span className="text-black/50"> (doc) {'=>'} {'{'}</span>
-                      </div>
-                      <div className="flex items-center gap-2 pl-4">
-                        <span className="text-black/30">02</span>
-                        <span className="text-black/50">  await </span>
-                        <span className="text-black/80">AI.summarize</span>
-                        <span className="text-black/50">(doc);</span>
-                      </div>
-                      <div className="flex items-center gap-2 pl-4">
-                        <span className="text-black/30">03</span>
-                        <span className="text-black/50">  return </span>
-                        <span className="text-black/80">VectorStore.query</span>
-                        <span className="text-black/50">(prompt);</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-black/30">04</span>
-                        <span className="text-black/50">{'}'}</span>
-                      </div>
-                    </div>
 
-                    {/* Decorative Element */}
-                    <div className="absolute top-0 right-0 p-4 opacity-[0.03] select-none pointer-events-none">
-                      <Code2 className="w-32 h-32 rotate-12" />
-                    </div>
-                  </div>
-                  <div className="mt-2 text-[9px] font-mono text-black/30 flex justify-between uppercase tracking-tighter">
-                    <span>// Log: AI Execution Pipeline Active</span>
-                    <span className="animate-pulse">● Live Sync</span>
-                  </div>
-                </div>
-              )}
               
               <div className="flex flex-wrap gap-1.5 mb-6">
                 {project.tags.slice(0, isVidyalaya ? 10 : 5).map((tag) => (
