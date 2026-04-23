@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { motion } from 'framer-motion';
+import { type ReactNode } from 'react';
 
 interface SectionBlockProps {
   id: string;
@@ -7,34 +8,33 @@ interface SectionBlockProps {
 }
 
 const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
-  const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 },
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section
+    <motion.section
       id={id}
-      ref={ref}
-      className={`max-w-6xl mx-auto px-6 py-16 md:py-32 transition-all duration-700 ${
-        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, margin: "-100px" }}
+      transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] as [number, number, number, number] }}
+      className="max-w-6xl mx-auto px-6 py-16 md:py-32"
     >
-      <h2 className="section-title mb-12">{title}.</h2>
-      {children}
-    </section>
+      <motion.h2 
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: false }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="section-title mb-12"
+      >
+        {title}.
+      </motion.h2>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        {children}
+      </motion.div>
+    </motion.section>
   );
 };
 

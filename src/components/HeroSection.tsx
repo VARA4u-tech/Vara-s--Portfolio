@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
 import {
   Github,
@@ -33,6 +34,11 @@ const HeroSection = () => {
   const [cursorVisible, setCursorVisible] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  const y2 = useTransform(scrollY, [0, 500], [0, -150]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
   // Blinking cursor
   useEffect(() => {
     const cursorInterval = setInterval(() => {
@@ -64,12 +70,11 @@ const HeroSection = () => {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, roleIndex]);
 
-  // Matrix-style rain effect using requestAnimationFrame + prefers-reduced-motion check
+  // Matrix-style rain effect
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Skip animation for users who prefer reduced motion
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (motionQuery.matches) return;
 
@@ -87,17 +92,15 @@ const HeroSection = () => {
     const fontSize = 14;
     const columns = Math.floor(canvas.width / fontSize);
     
-    // Structure each drop with depth data
     const dropObjects = Array.from({ length: columns }, () => ({
       y: Math.random() * -100,
-      depth: Math.random(), // 0 to 1
+      depth: Math.random(),
       speed: 0,
       char: '',
     }));
 
-    // Initialize speeds based on depth
     dropObjects.forEach(drop => {
-      drop.speed = 1 + drop.depth * 2; // Further is slower
+      drop.speed = 1 + drop.depth * 2;
     });
 
     let lastFrameTime = 0;
@@ -110,36 +113,29 @@ const HeroSection = () => {
       if (timestamp - lastFrameTime < frameInterval) return;
       lastFrameTime = timestamp;
 
-      // Clear with slight trail
       ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       dropObjects.forEach((drop, i) => {
         const char = chars[Math.floor(Math.random() * chars.length)];
-        
-        // Depth-based styles
         const currentFontSize = fontSize * (0.5 + drop.depth * 0.7);
         const opacity = 0.03 + drop.depth * 0.12;
         
         ctx.font = `${currentFontSize}px monospace`;
-        
-        // Lead character
         ctx.fillStyle = `rgba(0, 0, 0, ${opacity * 1.5})`;
         ctx.fillText(char, i * fontSize, drop.y * fontSize);
 
-        // Trail character
         if (drop.y > 1) {
           const trailChar = chars[Math.floor(Math.random() * chars.length)];
           ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
           ctx.fillText(trailChar, i * fontSize, (drop.y - 1) * fontSize);
         }
 
-        // Move and reset
         drop.y += drop.speed;
         
         if (drop.y * fontSize > canvas.height && Math.random() > 0.97) {
           drop.y = -5;
-          drop.depth = Math.random(); // Randomize depth for next pass
+          drop.depth = Math.random();
           drop.speed = 1 + drop.depth * 2;
         }
       });
@@ -152,17 +148,50 @@ const HeroSection = () => {
     };
   }, []);
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] as [number, number, number, number] },
+    },
+  };
+
   return (
     <section className="min-h-screen flex flex-col justify-center items-center relative px-6 overflow-hidden pb-12">
-      {/* Matrix rain canvas */}
-      <canvas
+      <motion.canvas
         ref={canvasRef}
-        className="absolute inset-0 z-0 pointer-events-none"
+        style={{ y: y1 }}
+        className="absolute inset-0 z-0 pointer-events-none opacity-40"
         aria-hidden="true"
       />
 
+      {/* Background decoration */}
+      <motion.div 
+        style={{ y: y2, opacity }}
+        className="absolute top-[15%] left-[5%] text-[15vw] font-bold text-foreground/5 pointer-events-none z-0 hidden lg:block"
+      >
+        DURGA.
+      </motion.div>
+
       {/* Top-left code comment */}
-      <div className="absolute top-28 left-6 md:left-10 z-10 hidden md:block">
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.8, duration: 0.8 }}
+        className="absolute top-28 left-6 md:left-10 z-10 hidden md:block"
+      >
         <p className="font-mono text-xs text-foreground/90 leading-relaxed font-medium">
           // portfolio.tsx
           <br />
@@ -172,10 +201,15 @@ const HeroSection = () => {
           <br />
           // last_build: {new Date().toISOString().split('T')[0]}
         </p>
-      </div>
+      </motion.div>
 
       {/* Top-right line numbers */}
-      <div className="absolute top-28 right-6 md:right-10 z-10 hidden md:block">
+      <motion.div 
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.8, duration: 0.8 }}
+        className="absolute top-28 right-6 md:right-10 z-10 hidden md:block"
+      >
         <p className="font-mono text-xs text-foreground/80 leading-relaxed text-right font-medium">
           {Array.from({ length: 6 }, (_, i) => (
             <span key={i} className="block">
@@ -183,12 +217,19 @@ const HeroSection = () => {
             </span>
           ))}
         </p>
-      </div>
+      </motion.div>
 
       {/* Main content */}
-      <div className="text-center relative z-10 pt-24 md:pt-20">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false }}
+        className="text-center relative z-10 pt-24 md:pt-20"
+      >
         {/* Name */}
-        <h1
+        <motion.h1
+          variants={itemVariants}
           className="heading-brutal leading-[0.85]"
           style={{ fontSize: 'clamp(65px, 13vw, 140px)' }}
         >
@@ -199,10 +240,10 @@ const HeroSection = () => {
           <div className="glitch-text" data-text="Prasad.">
             <span className="text-foreground/20">Prasad.</span>
           </div>
-        </h1>
+        </motion.h1>
 
         {/* Typewriter role */}
-        <div className="mt-6 h-8 flex items-center justify-center">
+        <motion.div variants={itemVariants} className="mt-6 h-8 flex items-center justify-center">
           <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-foreground/50">
             {'< '}
           </span>
@@ -219,10 +260,10 @@ const HeroSection = () => {
           <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-foreground/50">
             {' />'}
           </span>
-        </div>
+        </motion.div>
 
         {/* Tech tags */}
-        <div className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto">
+        <motion.div variants={itemVariants} className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto">
           {[
             'Flutter',
             'React',
@@ -230,19 +271,22 @@ const HeroSection = () => {
             'Firebase',
             'Blockchain',
             'Node.js',
-          ].map((tech) => (
-            <span
+          ].map((tech, i) => (
+            <motion.span
               key={tech}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1 + i * 0.1 }}
               className="px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-all duration-300 cursor-default rounded-none"
               onMouseEnter={playHover}
             >
               {tech}
-            </span>
+            </motion.span>
           ))}
-        </div>
+        </motion.div>
 
         {/* Social links */}
-        <div className="flex gap-4 justify-center mt-10">
+        <motion.div variants={itemVariants} className="flex gap-4 justify-center mt-10">
           {SOCIAL_LINKS.map((link) => {
             const Icon = ICON_MAP[link.id];
             if (!Icon) return null;
@@ -261,10 +305,10 @@ const HeroSection = () => {
               </Magnetic>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Resume button */}
-        <div className="mt-10">
+        <motion.div variants={itemVariants} className="mt-10">
           <Magnetic strength={0.1}>
             <a
               href="/resume.pdf"
@@ -276,29 +320,44 @@ const HeroSection = () => {
               <span className="w-2 h-2 border-r-2 border-b-2 border-current rotate-45 -translate-y-[1px] group-hover:translate-y-[1px] transition-transform duration-300"></span>
             </a>
           </Magnetic>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Bottom-left info */}
-      <div className="absolute bottom-10 left-6 md:left-10 z-10">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-10 left-6 md:left-10 z-10"
+      >
         <span className="text-foreground text-xs tracking-[0.2em] uppercase font-mono font-medium">
           {PROFILE.website}
         </span>
-      </div>
+      </motion.div>
 
       {/* Bottom-right stats */}
-      <div className="absolute bottom-10 right-6 md:right-10 z-10 hidden md:block">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-10 right-6 md:right-10 z-10 hidden md:block"
+      >
         <div className="font-mono text-xs text-foreground text-right leading-relaxed font-medium">
           <p>const experience = "2+ years";</p>
           <p>const projects = 10;</p>
           <p>const passion = Infinity;</p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 1 }}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10"
+      >
         <ChevronDown className="w-5 h-5 text-foreground/60 animate-bounce" />
-      </div>
+      </motion.div>
     </section>
   );
 };

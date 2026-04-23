@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import {
   Code2,
   Smartphone,
@@ -92,57 +93,77 @@ const SkillsSection = () => {
     <SectionBlock id="skills" title="Technical Arsenal">
       <div className="flex flex-col gap-12">
         {/* Skill Modules */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, margin: "-50px" }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.1 } },
+            hidden: {}
+          }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           {skillCategories.map((category, idx) => (
-            <TiltCard
+            <motion.div
               key={category.title}
-              className="h-full"
-              maxTilt={12}
-              scale={1.03}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
             >
-              <div
-                onMouseEnter={playHover}
-                className="group border-2 border-black p-6 bg-white h-full relative rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none transition-all duration-300"
-                style={{
-                  animationDelay: `${idx * 100}ms`,
-                }}
+              <TiltCard
+                className="h-full"
+                maxTilt={12}
+                scale={1.03}
               >
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2 border-2 border-black bg-black text-white group-hover:bg-white group-hover:text-black transition-colors rounded-none">
-                    {category.icon}
+                <div
+                  onMouseEnter={playHover}
+                  className="group border-2 border-black p-6 bg-white h-full relative rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none transition-all duration-300"
+                >
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 border-2 border-black bg-black text-white group-hover:bg-white group-hover:text-black transition-colors rounded-none">
+                      {category.icon}
+                    </div>
+                    <h3 className="font-mono text-sm font-bold uppercase tracking-wide">
+                      {category.title}
+                    </h3>
                   </div>
-                  <h3 className="font-mono text-sm font-bold uppercase tracking-wide">
-                    {category.title}
-                  </h3>
-                </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {category.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-2 py-1 border border-black/10 text-[11px] font-mono hover:border-black hover:bg-black/5 transition-all cursor-default rounded-none"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+                  <div className="flex flex-wrap gap-2">
+                    {category.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-2 py-1 border border-black/10 text-[11px] font-mono hover:border-black hover:bg-black/5 transition-all cursor-default rounded-none"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </TiltCard>
+              </TiltCard>
+            </motion.div>
           ))}
 
           {/* Final "Load" Card */}
-          <TiltCard className="h-full" maxTilt={15} scale={1.05}>
-            <div
-              onMouseEnter={playHover}
-              className="h-full border-2 border-black p-6 bg-black/5 flex flex-col items-center justify-center text-center opacity-60 hover:opacity-100 transition-all rounded-none"
-            >
-              <Box className="w-8 h-8 mb-4 opacity-20" />
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] font-medium">
-                // Always Learning...
-              </p>
-            </div>
-          </TiltCard>
-        </div>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+            }}
+          >
+            <TiltCard className="h-full" maxTilt={15} scale={1.05}>
+              <div
+                onMouseEnter={playHover}
+                className="h-full border-2 border-black p-6 bg-black/5 flex flex-col items-center justify-center text-center opacity-60 hover:opacity-100 transition-all rounded-none"
+              >
+                <Box className="w-8 h-8 mb-4 opacity-20" />
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] font-medium">
+                  // Always Learning...
+                </p>
+              </div>
+            </TiltCard>
+          </motion.div>
+        </motion.div>
 
         {/* Activity Section */}
         <div className="w-full pt-12 border-t-4 border-black border-dashed">

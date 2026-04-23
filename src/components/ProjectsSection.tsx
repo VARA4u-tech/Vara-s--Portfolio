@@ -1,6 +1,6 @@
+import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 import SectionBlock from './SectionBlock';
-import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { playHover, playClick } from '@/hooks/useSoundEffects';
 
@@ -161,20 +161,32 @@ const projects = [
 
 const ProjectsSection = () => (
   <SectionBlock id="projects" title="Projects">
-    <div className="flex gap-6 pt-6 pb-12 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:-mx-8 lg:px-8">
+    <motion.div 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: false, margin: "-50px" }}
+      variants={{
+        visible: { transition: { staggerChildren: 0.1 } },
+        hidden: {}
+      }}
+      className="flex gap-6 pt-6 pb-12 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:-mx-8 lg:px-8"
+    >
       {projects.map((project, index) => {
         const isTrueVex = project.title === 'TrueVex Technologies';
         const isVidyalaya = project.title === 'Vidyalaya';
         const isLogicia = project.title.includes('LOGICIA');
         
-        // Featured sizing for horizontal scroll
         const widthClasses = (isVidyalaya || isTrueVex || isLogicia)
           ? "w-[85vw] md:w-[600px] lg:w-[800px]"
           : "w-[85vw] md:w-[400px] lg:w-[450px]";
 
         return (
-          <div
+          <motion.div
             key={project.title}
+            variants={{
+              hidden: { opacity: 0, x: 20 },
+              visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
+            }}
             onMouseEnter={playHover}
             className={`flex-shrink-0 ${widthClasses} snap-center group relative border-2 border-black p-8 flex flex-col justify-between hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 bg-white rounded-none`}
           >
@@ -194,8 +206,6 @@ const ProjectsSection = () => (
               <p className={`body-text mb-6 font-normal leading-relaxed text-foreground/80 ${isVidyalaya ? 'text-lg max-w-2xl' : 'text-xs line-clamp-3'}`}>
                 {project.description}
               </p>
-              
-
               
               <div className="flex flex-wrap gap-1.5 mb-6">
                 {project.tags.slice(0, isVidyalaya ? 10 : 5).map((tag) => (
@@ -235,10 +245,10 @@ const ProjectsSection = () => (
                 Live
               </a>
             </div>
-          </div>
+          </motion.div>
         );
       })}
-    </div>
+    </motion.div>
 
     <div className="mt-8">
       <a
