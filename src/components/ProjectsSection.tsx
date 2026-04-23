@@ -161,7 +161,7 @@ const projects = [
 
 const ProjectsSection = () => (
   <SectionBlock id="projects" title="Projects">
-    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-6 pb-12">
+    <div className="flex lg:grid lg:grid-cols-4 gap-6 pt-6 pb-12 overflow-x-auto lg:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
       {projects.map((project, index) => {
         // Bento Grid Span Logic
         const isTrueVex = project.title === 'TrueVex Technologies';
@@ -169,18 +169,18 @@ const ProjectsSection = () => (
         const isLogicia = project.title.includes('LOGICIA');
         
         const gridClasses = isVidyalaya 
-          ? "md:col-span-2 md:row-span-2 lg:col-span-2 lg:row-span-2" 
+          ? "lg:col-span-2 lg:row-span-2" 
           : isTrueVex
-            ? "md:col-span-2 lg:col-span-2"
+            ? "lg:col-span-2"
             : isLogicia 
-              ? "md:col-span-2 lg:col-span-2" 
-              : "col-span-1";
+              ? "lg:col-span-2" 
+              : "lg:col-span-1";
 
         return (
           <div
             key={project.title}
             onMouseEnter={playHover}
-            className={`group relative border-2 border-black p-6 flex flex-col justify-between hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 bg-white snap-start rounded-none ${gridClasses}`}
+            className={`flex-shrink-0 w-[85vw] md:w-[450px] lg:w-auto snap-center lg:snap-align-none group relative border-2 border-black p-6 flex flex-col justify-between hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 bg-white rounded-none ${gridClasses}`}
           >
             {project.isNew && (
               <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-10 rotate-3 group-hover:rotate-0 transition-transform">
