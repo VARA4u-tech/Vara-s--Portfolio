@@ -189,18 +189,18 @@ const ProjectsSection = () => (
         visible: { transition: { staggerChildren: 0.1 } },
         hidden: {}
       }}
-      className="flex gap-6 pt-6 pb-12 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:-mx-8 lg:px-8"
+      className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 pb-12"
     >
       {projects.map((project, index) => {
         return (
           <motion.div
             key={project.title}
             variants={{
-              hidden: { opacity: 0, x: 20 },
-              visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
             }}
             onMouseEnter={playHover}
-            className="flex-shrink-0 w-[85vw] md:w-[450px] lg:w-[500px] snap-center group relative border-2 border-black p-8 flex flex-col justify-between hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 bg-white rounded-none"
+            className="w-full group relative border-2 border-black p-8 flex flex-col justify-between hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 bg-white rounded-none"
           >
             {project.isNew && (
               <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-10 rotate-3 group-hover:rotate-0 transition-transform">
