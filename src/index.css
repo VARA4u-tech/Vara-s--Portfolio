@@ -68,19 +68,6 @@
     display: none;
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    body {
-      cursor: none;
-    }
-    a,
-    button,
-    [role='button'],
-    input,
-    textarea,
-    select {
-      cursor: none !important;
-    }
-  }
 
   html {
     scroll-behavior: smooth;
