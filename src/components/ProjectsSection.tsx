@@ -144,7 +144,7 @@ const projects = [
       'Framer Motion',
     ],
     githubUrl: 'https://github.com/VARA4u-tech/AOTMS',
-    liveUrl: 'https://aotms.in',
+    liveUrl: 'https://www.aotms.in/',
   },
   {
     title: 'Elara Cosmetics',
@@ -182,13 +182,13 @@ const projects = [
 
 const ProjectsSection = () => (
   <SectionBlock id="projects" title="Projects">
-    <motion.div 
+    <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, margin: "-50px" }}
+      viewport={{ once: false, margin: '-50px' }}
       variants={{
         visible: { transition: { staggerChildren: 0.1 } },
-        hidden: {}
+        hidden: {},
       }}
       className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 pb-12"
     >
@@ -198,34 +198,30 @@ const ProjectsSection = () => (
             key={project.title}
             variants={{
               hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
             }}
             onMouseEnter={playHover}
             className="w-full h-full"
           >
-            <TiltCard 
-              className="w-full h-full"
-              maxTilt={10}
-              scale={1.02}
-            >
+            <TiltCard className="w-full h-full" maxTilt={10} scale={1.02}>
               <div className="w-full h-full group relative border-2 border-black p-8 flex flex-col justify-between shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500 bg-white rounded-none">
                 {project.isNew && (
                   <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-10 rotate-3 group-hover:rotate-0 transition-transform">
                     LATEST WORK
                   </div>
                 )}
-                
+
                 <div>
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="font-black text-foreground leading-tight text-xl">
                       {project.title}
                     </h3>
                   </div>
-                  
+
                   <p className="body-text mb-6 font-normal leading-relaxed text-foreground/80 text-xs line-clamp-4">
                     {project.description}
                   </p>
-                  
+
                   <div className="flex flex-wrap gap-1.5 mb-6">
                     {project.tags.slice(0, 6).map((tag) => (
                       <Badge
@@ -237,7 +233,9 @@ const ProjectsSection = () => (
                       </Badge>
                     ))}
                     {project.tags.length > 6 && (
-                      <span className="text-[9px] font-bold opacity-30">+{project.tags.length - 6}</span>
+                      <span className="text-[9px] font-bold opacity-30">
+                        +{project.tags.length - 6}
+                      </span>
                     )}
                   </div>
                 </div>
