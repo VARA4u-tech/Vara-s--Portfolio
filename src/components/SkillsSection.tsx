@@ -11,7 +11,6 @@ import {
 } from 'lucide-react';
 import SectionBlock from './SectionBlock';
 import GithubGraph from './GithubGraph';
-import TiltCard from './ui/TiltCard';
 import { playHover } from '@/hooks/useSoundEffects';
 
 const skillCategories = [
@@ -111,36 +110,30 @@ const SkillsSection = () => {
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
-              <TiltCard
-                className="h-full"
-                maxTilt={12}
-                scale={1.03}
+              <div
+                onMouseEnter={playHover}
+                className="group border-2 border-black p-6 bg-white h-full relative rounded-none shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500"
               >
-                <div
-                  onMouseEnter={playHover}
-                  className="group border-2 border-black p-6 bg-white h-full relative rounded-none shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500"
-                >
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 border-2 border-black bg-black text-white group-hover:bg-white group-hover:text-black transition-colors rounded-none">
-                      {category.icon}
-                    </div>
-                    <h3 className="font-mono text-sm font-bold uppercase tracking-wide">
-                      {category.title}
-                    </h3>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 border-2 border-black bg-black text-white group-hover:bg-white group-hover:text-black transition-colors rounded-none">
+                    {category.icon}
                   </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-2 py-1 border border-black/10 text-[11px] font-mono hover:border-black hover:bg-black/5 transition-all cursor-default rounded-none"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+                  <h3 className="font-mono text-sm font-bold uppercase tracking-wide">
+                    {category.title}
+                  </h3>
                 </div>
-              </TiltCard>
+
+                <div className="flex flex-wrap gap-2">
+                  {category.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-2 py-1 border border-black/10 text-[11px] font-mono hover:border-black hover:bg-black/5 transition-all cursor-default rounded-none"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           ))}
 
@@ -151,17 +144,15 @@ const SkillsSection = () => {
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
             }}
           >
-            <TiltCard className="h-full" maxTilt={15} scale={1.05}>
-              <div
-                onMouseEnter={playHover}
-                className="h-full border-2 border-black p-6 bg-black/5 flex flex-col items-center justify-center text-center opacity-60 hover:opacity-100 transition-all rounded-none"
-              >
-                <Box className="w-8 h-8 mb-4 opacity-20" />
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] font-medium">
-                  // Always Learning...
-                </p>
-              </div>
-            </TiltCard>
+            <div
+              onMouseEnter={playHover}
+              className="h-full border-2 border-black p-6 bg-black/5 flex flex-col items-center justify-center text-center opacity-60 hover:opacity-100 transition-all rounded-none"
+            >
+              <Box className="w-8 h-8 mb-4 opacity-20" />
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] font-medium">
+                // Always Learning...
+              </p>
+            </div>
           </motion.div>
         </motion.div>
 
