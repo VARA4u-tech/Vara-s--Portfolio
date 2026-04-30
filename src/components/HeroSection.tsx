@@ -13,7 +13,7 @@ import Magnetic from './Magnetic';
 import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
 
 const roles = [
-  'Flutter Developer',
+  'Vibe Coder',
   'React Engineer',
   'Blockchain Builder',
   'Full-Stack Creator',

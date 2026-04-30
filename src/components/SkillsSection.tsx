@@ -35,8 +35,6 @@ const skillCategories = [
     icon: <Smartphone className="w-5 h-5" />,
     color: 'bg-green-50',
     skills: [
-      'Flutter',
-      'Dart',
       'Riverpod',
       'Material Design',
       'Mobile UI/UX',
@@ -92,13 +90,13 @@ const SkillsSection = () => {
     <SectionBlock id="skills" title="Technical Arsenal">
       <div className="flex flex-col gap-12">
         {/* Skill Modules */}
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: "-50px" }}
+          viewport={{ once: false, margin: '-50px' }}
           variants={{
             visible: { transition: { staggerChildren: 0.1 } },
-            hidden: {}
+            hidden: {},
           }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
@@ -107,7 +105,7 @@ const SkillsSection = () => {
               key={category.title}
               variants={{
                 hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
               }}
             >
               <div
@@ -141,7 +139,7 @@ const SkillsSection = () => {
           <motion.div
             variants={{
               hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
           >
             <div

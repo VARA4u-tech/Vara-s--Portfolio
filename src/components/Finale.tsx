@@ -21,7 +21,7 @@ const Finale = () => {
 
   const marqueeTags = [
     `${PROFILE.shortName} 🚀`,
-    'Full Stack Dev | Flutter | React | Blockchain | AI',
+    'Full Stack Dev | Supabase | React | Blockchain | AI',
     'Designing clean UI/UX + Smart solutions🔖',
     'Exploring tech through Vibe Coding',
   ];

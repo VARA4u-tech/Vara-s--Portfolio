@@ -140,7 +140,7 @@ const Terminal = () => {
           return (
             <div>
               <p className="mb-1 text-yellow-400">CORE STACK:</p>
-              <p>• Flutter / Dart</p>
+              <p>• Supabase / Framer Motion</p>
               <p>• React / TypeScript</p>
               <p>• Firebase / Node.js</p>
               <p>• Blockchain (Aptos/Move)</p>
@@ -270,9 +270,7 @@ const Terminal = () => {
           newHistory.push({
             id: Date.now() + 1,
             type: 'response',
-            content: (
-              <span className="text-yellow-400">Exited game mode.</span>
-            ),
+            content: <span className="text-yellow-400">Exited game mode.</span>,
           });
           playTerminalClose();
         } else if (isNaN(num)) {
@@ -511,8 +509,8 @@ const Terminal = () => {
           isMaximized ? 'h-[95vh] w-[95vw]' : 'max-w-2xl h-[600px]'
         }`}
         style={{
-          transform: isMaximized 
-            ? 'none' 
+          transform: isMaximized
+            ? 'none'
             : 'perspective(1500px) rotateX(1.5deg) rotateY(-1.5deg) scale(1.01)',
           transformStyle: 'preserve-3d',
         }}
