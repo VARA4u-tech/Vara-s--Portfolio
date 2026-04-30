@@ -91,7 +91,7 @@ const HeroSection = () => {
     const chars = '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
     const fontSize = 14;
     const columns = Math.floor(canvas.width / fontSize);
-    
+
     const dropObjects = Array.from({ length: columns }, () => ({
       y: Math.random() * -100,
       depth: Math.random(),
@@ -99,12 +99,12 @@ const HeroSection = () => {
       char: '',
     }));
 
-    dropObjects.forEach(drop => {
+    dropObjects.forEach((drop) => {
       drop.speed = 1.5 + drop.depth * 3.5;
     });
 
     let lastFrameTime = 0;
-    const frameInterval = 30; 
+    const frameInterval = 30;
     let animationId: number;
 
     const draw = (timestamp: number) => {
@@ -120,7 +120,7 @@ const HeroSection = () => {
         const char = chars[Math.floor(Math.random() * chars.length)];
         const currentFontSize = fontSize * (0.5 + drop.depth * 0.7);
         const opacity = 0.05 + drop.depth * 0.25;
-        
+
         ctx.font = `${currentFontSize}px monospace`;
         ctx.fillStyle = `rgba(0, 0, 0, ${opacity * 1.5})`;
         ctx.fillText(char, i * fontSize, drop.y * fontSize);
@@ -132,7 +132,7 @@ const HeroSection = () => {
         }
 
         drop.y += drop.speed;
-        
+
         if (drop.y * fontSize > canvas.height && Math.random() > 0.97) {
           drop.y = -5;
           drop.depth = Math.random();
@@ -164,7 +164,10 @@ const HeroSection = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] as [number, number, number, number] },
+      transition: {
+        duration: 0.6,
+        ease: [0.21, 0.47, 0.32, 0.98] as [number, number, number, number],
+      },
     },
   };
 
@@ -178,7 +181,7 @@ const HeroSection = () => {
       />
 
       {/* Background decoration */}
-      <motion.div 
+      <motion.div
         style={{ y: y2, opacity }}
         className="absolute top-[15%] left-[5%] text-[15vw] font-bold text-foreground/5 pointer-events-none z-0 hidden lg:block"
       >
@@ -186,7 +189,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Top-left code comment */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.8, duration: 0.8 }}
@@ -204,7 +207,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Top-right line numbers */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.8, duration: 0.8 }}
@@ -220,7 +223,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Main content */}
-      <motion.div 
+      <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
@@ -243,7 +246,10 @@ const HeroSection = () => {
         </motion.h1>
 
         {/* Typewriter role */}
-        <motion.div variants={itemVariants} className="mt-6 h-8 flex items-center justify-center">
+        <motion.div
+          variants={itemVariants}
+          className="mt-6 h-8 flex items-center justify-center"
+        >
           <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-foreground/50">
             {'< '}
           </span>
@@ -263,30 +269,31 @@ const HeroSection = () => {
         </motion.div>
 
         {/* Tech tags */}
-        <motion.div variants={itemVariants} className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto">
-          {[
-            'Flutter',
-            'React',
-            'TypeScript',
-            'Firebase',
-            'AI',
-            'Node.js',
-          ].map((tech, i) => (
-            <motion.span
-              key={tech}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1 + i * 0.1 }}
-              className="px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-all duration-300 cursor-default rounded-none"
-              onMouseEnter={playHover}
-            >
-              {tech}
-            </motion.span>
-          ))}
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto"
+        >
+          {['Flutter', 'React', 'TypeScript', 'Firebase', 'AI', 'Node.js'].map(
+            (tech, i) => (
+              <motion.span
+                key={tech}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1 + i * 0.1 }}
+                className="px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-all duration-300 cursor-default rounded-none"
+                onMouseEnter={playHover}
+              >
+                {tech}
+              </motion.span>
+            ),
+          )}
         </motion.div>
 
         {/* Social links */}
-        <motion.div variants={itemVariants} className="flex gap-4 justify-center mt-10">
+        <motion.div
+          variants={itemVariants}
+          className="flex gap-4 justify-center mt-10"
+        >
           {SOCIAL_LINKS.map((link) => {
             const Icon = ICON_MAP[link.id];
             if (!Icon) return null;
@@ -311,8 +318,8 @@ const HeroSection = () => {
         <motion.div variants={itemVariants} className="mt-10">
           <Magnetic strength={0.1}>
             <a
-              href="/resume.pdf"
-              download="Durga_Vara_Prasad_Resume.pdf"
+              href="/Durga Vara Prasad's_Resume.pdf"
+              download="Durga_Vara_Prasad's_Resume.pdf"
               onClick={playClick}
               className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none"
             >
@@ -324,7 +331,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Bottom-left info */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5 }}
@@ -336,7 +343,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Bottom-right stats */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5 }}
@@ -350,7 +357,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Scroll indicator */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
