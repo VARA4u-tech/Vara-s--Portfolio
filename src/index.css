@@ -100,6 +100,19 @@
     @apply uppercase text-xs tracking-[0.2em] text-foreground hover:text-foreground/70 font-medium transition-colors duration-300;
   }
 
+  .shadow-brutal-3d {
+    box-shadow: 
+      4px 4px 0px 0px rgba(0, 0, 0, 1),
+      8px 8px 0px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  .shadow-brutal-3d-hover {
+    box-shadow: 
+      12px 12px 0px 0px rgba(0, 0, 0, 1),
+      16px 16px 0px 0px rgba(0, 0, 0, 0.1),
+      20px 20px 0px 0px rgba(0, 0, 0, 0.05);
+  }
+
   .fade-in {
     animation: fadeIn 0.8s ease-out forwards;
     opacity: 0;

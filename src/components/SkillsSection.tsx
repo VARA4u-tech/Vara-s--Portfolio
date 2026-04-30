@@ -118,7 +118,7 @@ const SkillsSection = () => {
               >
                 <div
                   onMouseEnter={playHover}
-                  className="group border-2 border-black p-6 bg-white h-full relative rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none transition-all duration-300"
+                  className="group border-2 border-black p-6 bg-white h-full relative rounded-none shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500"
                 >
                   <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 border-2 border-black bg-black text-white group-hover:bg-white group-hover:text-black transition-colors rounded-none">
