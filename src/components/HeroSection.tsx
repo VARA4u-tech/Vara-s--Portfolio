@@ -180,14 +180,6 @@ const HeroSection = () => {
         aria-hidden="true"
       />
 
-      {/* Background decoration */}
-      <motion.div
-        style={{ y: y2, opacity }}
-        className="absolute top-[15%] left-[5%] text-[15vw] font-bold text-foreground/5 pointer-events-none z-0 hidden lg:block"
-      >
-        DURGA.
-      </motion.div>
-
       {/* Top-left code comment */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
