@@ -61,7 +61,7 @@ const Navbar = () => {
             aria-controls="mobile-nav-menu"
             aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
           >
-            {open ? 'Close' : 'Menu'}
+            {open ? '[ Close ]' : '[ Menu ]'}
           </button>
           <div className="scale-75">
             <SoundToggle />
