@@ -189,7 +189,7 @@ const ProjectsSection = () => (
         visible: { transition: { staggerChildren: 0.1 } },
         hidden: {},
       }}
-      className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 pb-12"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6 pb-12"
     >
       {projects.map((project, index) => {
         return (
@@ -202,7 +202,7 @@ const ProjectsSection = () => (
             onMouseEnter={playHover}
             className="w-full h-full"
           >
-            <div className="w-full h-full group relative border-2 border-black p-8 flex flex-col justify-between shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500 bg-white rounded-none">
+            <div className="w-full h-full group relative border-2 border-black px-6 py-10 flex flex-col justify-between shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500 bg-white rounded-none min-h-[480px]">
               {project.isNew && (
                 <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-10 rotate-3 group-hover:rotate-0 transition-transform">
                   LATEST WORK
@@ -210,18 +210,18 @@ const ProjectsSection = () => (
               )}
 
               <div>
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex justify-between items-start mb-6">
                   <h3 className="font-black text-foreground leading-tight text-xl">
                     {project.title}
                   </h3>
                 </div>
 
-                <p className="body-text mb-6 font-normal leading-relaxed text-foreground/80 text-xs line-clamp-4">
+                <p className="body-text mb-8 font-normal leading-relaxed text-foreground/80 text-xs line-clamp-6">
                   {project.description}
                 </p>
 
                 <div className="flex flex-wrap gap-1.5 mb-6">
-                  {project.tags.slice(0, 6).map((tag) => (
+                  {project.tags.slice(0, 8).map((tag) => (
                     <Badge
                       key={tag}
                       variant="secondary"
@@ -230,15 +230,15 @@ const ProjectsSection = () => (
                       {tag}
                     </Badge>
                   ))}
-                  {project.tags.length > 6 && (
+                  {project.tags.length > 8 && (
                     <span className="text-[9px] font-bold opacity-30">
-                      +{project.tags.length - 6}
+                      +{project.tags.length - 8}
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="flex gap-3 mt-4">
+              <div className="flex gap-3 mt-auto">
                 <a
                   href={project.githubUrl}
                   target="_blank"
