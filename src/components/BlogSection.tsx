@@ -125,12 +125,12 @@ const BlogSection = () => {
                   </div>
                 </div>
 
-                <div className="relative h-48 mb-6 overflow-hidden border-[3px] border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <div className="relative h-48 mb-6 overflow-hidden border-[3px] border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-gray-200">
                   <img
                     src={post.coverImage.url}
                     alt={post.title}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover grayscale brightness-110 contrast-125 transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105"
                   />
                 </div>
 
