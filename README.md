@@ -93,31 +93,32 @@ The project was developed using a disciplined **Agile (Scrum)** approach:
 
 ## 🔄 Application Workflow
 
-While the portfolio acts as the hub, it highlights deep engineering workflows like the **Vidyalaya** AI ecosystem:
+The portfolio is designed as an interactive funnel that guides recruiters through a technical discovery journey.
 
-### **The "Knowledge-to-Plan" Flow (Case Study: Vidyalaya)**
+### **The Technical Discovery Journey**
 
-1.  **PDF Ingestion**: User uploads a complex academic PDF.
-2.  **AI Semantic Analysis**: The system extracts key concepts and context.
-3.  **Dynamic Generation**:
-    - **Summarizer**: Condenses content into digestible insights.
-    - **Quiz Engine**: Generates adaptive questions to test comprehension.
-4.  **Personalized Planner**: AI builds a study schedule based on the document's complexity.
+1.  **Immersive First Impression**: User lands on the **Matrix Hero Engine**, experiencing a high-performance visual introduction.
+2.  **CLI-Driven Exploration**: Power users and recruiters use the **Interactive Terminal** to query profile data, project history, and technical stacks via shell commands.
+3.  **Visual Validation**: The user navigates the **Neo-Brutalist Project Grid**, exploring high-fidelity cards with interactive hover states and direct links to source code.
+4.  **Evidence of Consistency**: Real-time integration with the **GitHub API** provides a visual heat-map of coding consistency and open-source contributions.
+5.  **Direct Conversion**: The journey concludes with a frictionless **Telegram/WhatsApp Integration**, allowing for instant professional collaboration.
 
 ```mermaid
 sequenceDiagram
-    participant User
-    participant Frontend
-    participant AI_Module
-    participant Planner
-
-    User->>Frontend: Uploads PDF
-    Frontend->>AI_Module: Vectorization & Extraction
-    AI_Module-->>Frontend: Summary & Key Insights
-    Frontend->>AI_Module: Generate Quiz based on Content
-    AI_Module-->>Frontend: Interactive Quiz Data
-    Frontend->>Planner: Calculate Study Schedule
-    Planner-->>User: Personalized Learning Roadmap
+    participant Recruiter
+    participant Hero as Hero (Matrix Engine)
+    participant CLI as Terminal CLI
+    participant Projects as Project Grid
+    participant Contact as Contact System
+    
+    Recruiter->>Hero: Lands on Page
+    Hero-->>Recruiter: High-Tech Visual Hook
+    Recruiter->>CLI: Executes 'help' / 'projects'
+    CLI-->>Recruiter: Structured Technical Data
+    Recruiter->>Projects: Explores Project Cards
+    Projects-->>Recruiter: Interactive Deep-Dive
+    Recruiter->>Contact: Sends Message via Telegram
+    Contact-->>Recruiter: Instant Notification sent to Vara
 ```
 
 ---
