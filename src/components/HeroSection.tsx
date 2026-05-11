@@ -310,8 +310,8 @@ const HeroSection = () => {
         <motion.div variants={itemVariants} className="mt-10">
           <Magnetic strength={0.1}>
             <a
-              href="/Durga Vara Prasad's_Resume.pdf"
-              download="Durga_Vara_Prasad's_Resume.pdf"
+              href="/resume.pdf"
+              download="Durga_Vara_Prasad_Resume.pdf"
               onClick={playClick}
               className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none"
             >
