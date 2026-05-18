@@ -1,25 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { playWhoosh } from '@/hooks/useSoundEffects';
+import { useLenis } from 'lenis/react';
 
 const ScrollToTop = () => {
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-
-      setProgress(scrollPercent);
-      setVisible(scrollTop > 400);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const lenis = useLenis(({ scroll, progress }) => {
+    setProgress(progress * 100);
+    setVisible(scroll > 400);
+  });
 
   // Circle configuration
   const size = 48;
@@ -33,7 +24,10 @@ const ScrollToTop = () => {
     <button
       onClick={() => {
         playWhoosh();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        lenis?.scrollTo(0, {
+          duration: 1.5,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        });
       }}
       className={`fixed bottom-6 left-6 z-50 group transition-all duration-500 ease-out ${
         visible

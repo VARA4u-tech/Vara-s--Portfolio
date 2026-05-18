@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
+import { useLenis } from 'lenis/react';
 import SoundToggle from './SoundToggle';
 
 const links = [
@@ -15,6 +16,18 @@ const links = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const lenis = useLenis();
+
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      lenis?.scrollTo(href, {
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+    }
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 py-6 bg-background/80 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between lg:justify-center relative">
@@ -25,7 +38,10 @@ const Navbar = () => {
               <a
                 href={link.href}
                 className="nav-link px-4 py-1 active:opacity-50 transition-opacity"
-                onClick={playClick}
+                onClick={(e) => {
+                  playClick();
+                  handleScroll(e, link.href);
+                }}
                 onMouseEnter={playHover}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={
@@ -82,9 +98,10 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 className="nav-link text-sm tracking-[0.3em] active:scale-95 transition-transform"
-                onClick={() => {
+                onClick={(e) => {
                   playClick();
                   setOpen(false);
+                  handleScroll(e, link.href);
                 }}
                 onMouseEnter={playHover}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
