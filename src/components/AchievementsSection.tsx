@@ -10,6 +10,14 @@ import { Maximize2 } from 'lucide-react';
 
 const achievements = [
   {
+    title: 'Machine Learning & LLMs Webinar',
+    issuer: 'GUVI | HCL',
+    date: '[OCT 2025]',
+    description:
+      'Participated in the "Step into Machine Learning - From Foundations to Deep Learning and LLMs" webinar organized by GUVI and HCL, gaining valuable insights into advanced AI and machine learning concepts.',
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777567637/WhatsApp_Image_2026-04-30_at_10.08.49_PM_ambhw8.jpg', // Upload this to Cloudinary or place in public/
+  },
+  {
     title: 'Winter School on Decentralised Trust and Blockchains',
     issuer: 'IIT Madras (CyStar)',
     date: '[SEP 2025]',
