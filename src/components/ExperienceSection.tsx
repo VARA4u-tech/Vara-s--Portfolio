@@ -8,6 +8,13 @@ const experiences = [
     description:
       '🚀Freelance Project – Successfully Delivered Completed a real-world client project with my team using [Tech Stack – e.g., React, Node.js, MongoDB]. Key learnings: 🔹 Building scalable features 🔹 Team collaboration & Git workflows 🔹 Meeting client expectations & deadlines.',
   },
+  {
+    role: 'Generative AI & Prompt Engineering Intern',
+    company: 'Blackbuck Engineers',
+    period: '[MAY 2025 – JUL 2025]',
+    description:
+      'Completed a 120-hour Short-Term Internship program focusing on ChatGPT, Prompt Engineering, and Generative AI. Developed expertise in designing structured prompt templates, leveraging Large Language Models, and integrating Generative AI workflows into application development.',
+  },
 ];
 
 const ExperienceSection = () => (
