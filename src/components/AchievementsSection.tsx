@@ -15,7 +15,7 @@ const achievements = [
     date: '[AUG 2025]',
     description:
       'Participated in "CODE SPARK INDIA 2025", a two-day National-Level Coding and Innovation Hackathon. Demonstrated dedication, problem-solving abilities, and technical excellence in software development.',
-    image: '/codespark-certificate.png', // Upload this to Cloudinary or place in public/
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777568705/ChatGPT_Image_Apr_30_2026_10_34_37_PM_hlgdqz.png', // Upload this to Cloudinary or place in public/
   },
   {
     title: 'Rise In & Build On Aptos Bootcamp Graduate',
