@@ -10,6 +10,14 @@ import { Maximize2 } from 'lucide-react';
 
 const achievements = [
   {
+    title: 'CODE SPARK India 2025 Participant',
+    issuer: 'KBN College (Autonomous)',
+    date: '[AUG 2025]',
+    description:
+      'Participated in "CODE SPARK INDIA 2025", a two-day National-Level Coding and Innovation Hackathon. Demonstrated dedication, problem-solving abilities, and technical excellence in software development.',
+    image: '/codespark-certificate.png', // Upload this to Cloudinary or place in public/
+  },
+  {
     title: 'Rise In & Build On Aptos Bootcamp Graduate',
     issuer: 'Rise in Aptos',
     date: '[2025]',
@@ -24,14 +32,6 @@ const achievements = [
     description:
       'Participated in the Innovate Andhra Hackathon 2025 (Data & AI) held at the Academy Of Tech Masters, showcasing strong innovation, problem-solving, and teamwork skills in building data-driven AI solutions.',
     image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777568671/ChatGPT_Image_Apr_30_2026_10_34_14_PM_g4hcev.png',
-  },
-  {
-    title: 'Generative AI & Prompt Engineering Certificate',
-    issuer: 'Blackbuck Engineers',
-    date: '[MAY 2025 – JUL 2025]',
-    description:
-      'Completed a 120-hour Short-Term Internship program focusing on ChatGPT, Prompt Engineering, and Generative AI. Developed expertise in designing structured prompt templates, leveraging Large Language Models, and integrating Generative AI workflows into application development.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1779377183/blackbucks_chrnv6.png',
   },
 ];
 
