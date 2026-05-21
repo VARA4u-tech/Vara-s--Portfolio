@@ -10,6 +10,14 @@ import { Maximize2 } from 'lucide-react';
 
 const achievements = [
   {
+    title: 'Rise In & Build On Aptos Bootcamp Graduate',
+    issuer: 'Rise in Aptos',
+    date: '[2025]',
+    description:
+      'Successfully graduated from the Rise In & Build On Aptos Bootcamp, demonstrating proficiency in Aptos blockchain development and building decentralized applications.',
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777568814/ChatGPT_Image_Apr_30_2026_10_36_44_PM_pzo6dn.png', // Upload this to Cloudinary or place in public/
+  },
+  {
     title: 'Innovate Andhra Hackathon 2025 (Data & AI) Participant',
     issuer: 'Academy of Tech Masters',
     date: '[DEC 2025]',
