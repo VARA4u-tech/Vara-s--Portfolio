@@ -10,6 +10,14 @@ import { Maximize2 } from 'lucide-react';
 
 const achievements = [
   {
+    title: 'How Software Teams Actually Work - Participant',
+    issuer: 'Frontlines EduTech (FLM)',
+    date: '[2025]',
+    description:
+      'Actively participated in the "How Software Teams Actually Work" session organized by Frontlines EduTech Private Limited, learning about agile workflows, team collaboration, and industry software development practices.',
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1779377800/WhatsApp_Image_2026-05-21_at_9.05.51_PM_etr9z3.jpg', // Upload this to Cloudinary or place in public/
+  },
+  {
     title: 'Machine Learning & LLMs Webinar',
     issuer: 'GUVI | HCL',
     date: '[OCT 2025]',
