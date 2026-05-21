@@ -21,14 +21,14 @@ const achievements: {
   tag: string;
 }[] = [
   {
-    title: 'Generative AI & Prompt Engineering Certificate',
-    issuer: 'Blackbuck Engineers',
-    date: 'MAY – JUL 2025',
+    title: 'How Software Teams Actually Work',
+    issuer: 'Frontlines EduTech (FLM)',
+    date: 'MAY 2026',
     description:
-      'Completed a 120-hour Short-Term Internship program focusing on ChatGPT, Prompt Engineering, and Generative AI. Developed expertise in designing structured prompt templates, leveraging Large Language Models, and integrating Generative AI workflows into application development.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1779377183/blackbucks_chrnv6.png',
-    category: 'Internship',
-    tag: '120 Hours',
+      'Actively participated in the "How Software Teams Actually Work" session organized by Frontlines EduTech Private Limited, learning about agile workflows, team collaboration, and industry software development practices.',
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1779377800/WhatsApp_Image_2026-05-21_at_9.05.51_PM_etr9z3.jpg',
+    category: 'Workshop',
+    tag: 'Industry Skills',
   },
   {
     title: 'Innovate Andhra Hackathon 2025 (Data & AI)',
@@ -39,6 +39,26 @@ const achievements: {
     image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777568671/ChatGPT_Image_Apr_30_2026_10_34_14_PM_g4hcev.png',
     category: 'Hackathon',
     tag: 'National Level',
+  },
+  {
+    title: 'Machine Learning & LLMs Webinar',
+    issuer: 'GUVI | HCL',
+    date: 'OCT 2025',
+    description:
+      'Participated in the "Step into Machine Learning – From Foundations to Deep Learning and LLMs" webinar organized by GUVI and HCL, gaining valuable insights into advanced AI and machine learning concepts.',
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777567637/WhatsApp_Image_2026-04-30_at_10.08.49_PM_ambhw8.jpg',
+    category: 'Workshop',
+    tag: 'AI / ML',
+  },
+  {
+    title: 'Winter School on Decentralised Trust & Blockchains',
+    issuer: 'IIT Madras (CyStar)',
+    date: 'SEP 2025',
+    description:
+      'Successfully completed the Online Phase of the Winter School on Decentralised Trust and Blockchains 2025 organized by the Centre for Cybersecurity, Trust and Reliability (CyStar), IIT Madras.',
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777567622/CODE25CEP133331087_blqiix.jpg',
+    category: 'Workshop',
+    tag: 'IIT Madras',
   },
   {
     title: 'Rise In & Build On Aptos Bootcamp',
@@ -61,34 +81,14 @@ const achievements: {
     tag: '2-Day Event',
   },
   {
-    title: 'Winter School on Decentralised Trust & Blockchains',
-    issuer: 'IIT Madras (CyStar)',
-    date: 'SEP 2025',
+    title: 'Generative AI & Prompt Engineering Certificate',
+    issuer: 'Blackbuck Engineers',
+    date: 'MAY – JUL 2025',
     description:
-      'Successfully completed the Online Phase of the Winter School on Decentralised Trust and Blockchains 2025 organized by the Centre for Cybersecurity, Trust and Reliability (CyStar), IIT Madras.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777567622/CODE25CEP133331087_blqiix.jpg',
-    category: 'Workshop',
-    tag: 'IIT Madras',
-  },
-  {
-    title: 'Machine Learning & LLMs Webinar',
-    issuer: 'GUVI | HCL',
-    date: 'OCT 2025',
-    description:
-      'Participated in the "Step into Machine Learning – From Foundations to Deep Learning and LLMs" webinar organized by GUVI and HCL, gaining valuable insights into advanced AI and machine learning concepts.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777567637/WhatsApp_Image_2026-04-30_at_10.08.49_PM_ambhw8.jpg',
-    category: 'Workshop',
-    tag: 'AI / ML',
-  },
-  {
-    title: 'How Software Teams Actually Work',
-    issuer: 'Frontlines EduTech (FLM)',
-    date: 'MAY 2026',
-    description:
-      'Actively participated in the "How Software Teams Actually Work" session organized by Frontlines EduTech Private Limited, learning about agile workflows, team collaboration, and industry software development practices.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1779377800/WhatsApp_Image_2026-05-21_at_9.05.51_PM_etr9z3.jpg',
-    category: 'Workshop',
-    tag: 'Industry Skills',
+      'Completed a 120-hour Short-Term Internship program focusing on ChatGPT, Prompt Engineering, and Generative AI. Developed expertise in designing structured prompt templates, leveraging Large Language Models, and integrating Generative AI workflows into application development.',
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1779377183/blackbucks_chrnv6.png',
+    category: 'Internship',
+    tag: '120 Hours',
   },
 ];
 
