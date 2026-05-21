@@ -79,7 +79,8 @@
   }
 
   /* Lenis smooth scrolling rules */
-  html.lenis, html.lenis body {
+  html.lenis,
+  html.lenis body {
     height: auto;
   }
 

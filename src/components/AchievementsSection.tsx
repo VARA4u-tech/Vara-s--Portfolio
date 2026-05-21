@@ -26,7 +26,8 @@ const achievements: {
     date: 'MAY 2026',
     description:
       'Actively participated in the "How Software Teams Actually Work" session organized by Frontlines EduTech Private Limited, learning about agile workflows, team collaboration, and industry software development practices.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1779377800/WhatsApp_Image_2026-05-21_at_9.05.51_PM_etr9z3.jpg',
+    image:
+      'https://res.cloudinary.com/dqi1epget/image/upload/v1779377800/WhatsApp_Image_2026-05-21_at_9.05.51_PM_etr9z3.jpg',
     category: 'Workshop',
     tag: 'Industry Skills',
   },
@@ -36,7 +37,8 @@ const achievements: {
     date: 'DEC 2025',
     description:
       'Participated in the Innovate Andhra Hackathon 2025 (Data & AI) held at Academy Of Tech Masters, showcasing strong innovation, problem-solving, and teamwork skills in building data-driven AI solutions.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777568671/ChatGPT_Image_Apr_30_2026_10_34_14_PM_g4hcev.png',
+    image:
+      'https://res.cloudinary.com/dqi1epget/image/upload/v1777568671/ChatGPT_Image_Apr_30_2026_10_34_14_PM_g4hcev.png',
     category: 'Hackathon',
     tag: 'National Level',
   },
@@ -46,7 +48,8 @@ const achievements: {
     date: 'OCT 2025',
     description:
       'Participated in the "Step into Machine Learning – From Foundations to Deep Learning and LLMs" webinar organized by GUVI and HCL, gaining valuable insights into advanced AI and machine learning concepts.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777567637/WhatsApp_Image_2026-04-30_at_10.08.49_PM_ambhw8.jpg',
+    image:
+      'https://res.cloudinary.com/dqi1epget/image/upload/v1777567637/WhatsApp_Image_2026-04-30_at_10.08.49_PM_ambhw8.jpg',
     category: 'Workshop',
     tag: 'AI / ML',
   },
@@ -56,7 +59,8 @@ const achievements: {
     date: 'SEP 2025',
     description:
       'Successfully completed the Online Phase of the Winter School on Decentralised Trust and Blockchains 2025 organized by the Centre for Cybersecurity, Trust and Reliability (CyStar), IIT Madras.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777567622/CODE25CEP133331087_blqiix.jpg',
+    image:
+      'https://res.cloudinary.com/dqi1epget/image/upload/v1777567622/CODE25CEP133331087_blqiix.jpg',
     category: 'Workshop',
     tag: 'IIT Madras',
   },
@@ -66,7 +70,8 @@ const achievements: {
     date: 'AUG 2025',
     description:
       'Successfully graduated from the Rise In & Build On Aptos Bootcamp, demonstrating proficiency in Aptos blockchain development and building decentralized applications.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777568814/ChatGPT_Image_Apr_30_2026_10_36_44_PM_pzo6dn.png',
+    image:
+      'https://res.cloudinary.com/dqi1epget/image/upload/v1777568814/ChatGPT_Image_Apr_30_2026_10_36_44_PM_pzo6dn.png',
     category: 'Bootcamp',
     tag: 'Blockchain',
   },
@@ -76,7 +81,8 @@ const achievements: {
     date: 'AUG 2025',
     description:
       'Participated in "CODE SPARK INDIA 2025", a two-day National-Level Coding and Innovation Hackathon. Demonstrated dedication, problem-solving abilities, and technical excellence in software development.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777568705/ChatGPT_Image_Apr_30_2026_10_34_37_PM_hlgdqz.png',
+    image:
+      'https://res.cloudinary.com/dqi1epget/image/upload/v1777568705/ChatGPT_Image_Apr_30_2026_10_34_37_PM_hlgdqz.png',
     category: 'Hackathon',
     tag: '2-Day Event',
   },
@@ -86,38 +92,46 @@ const achievements: {
     date: 'MAY – JUL 2025',
     description:
       'Completed a 120-hour Short-Term Internship program focusing on ChatGPT, Prompt Engineering, and Generative AI. Developed expertise in designing structured prompt templates, leveraging Large Language Models, and integrating Generative AI workflows into application development.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1779377183/blackbucks_chrnv6.png',
+    image:
+      'https://res.cloudinary.com/dqi1epget/image/upload/v1779377183/blackbucks_chrnv6.png',
     category: 'Internship',
     tag: '120 Hours',
   },
 ];
 
-const CATEGORIES: Category[] = ['All', 'Hackathon', 'Bootcamp', 'Workshop', 'Internship'];
+const CATEGORIES: Category[] = [
+  'All',
+  'Hackathon',
+  'Bootcamp',
+  'Workshop',
+  'Internship',
+];
 
 const categoryAccent: Record<Exclude<Category, 'All'>, string> = {
-  Hackathon:  'bg-black text-white',
-  Bootcamp:   'bg-black text-white',
-  Workshop:   'bg-black text-white',
+  Hackathon: 'bg-black text-white',
+  Bootcamp: 'bg-black text-white',
+  Workshop: 'bg-black text-white',
   Internship: 'bg-black text-white',
 };
 
 const categoryBorder: Record<Exclude<Category, 'All'>, string> = {
-  Hackathon:  'border-black',
-  Bootcamp:   'border-black',
-  Workshop:   'border-black',
+  Hackathon: 'border-black',
+  Bootcamp: 'border-black',
+  Workshop: 'border-black',
   Internship: 'border-black',
 };
 
 const AchievementsSection = () => {
-  const [active, setActive]   = useState<Category>('All');
+  const [active, setActive] = useState<Category>('All');
   const [hovered, setHovered] = useState<number | null>(null);
 
   const filtered =
-    active === 'All' ? achievements : achievements.filter((a) => a.category === active);
+    active === 'All'
+      ? achievements
+      : achievements.filter((a) => a.category === active);
 
   return (
     <SectionBlock id="achievements" title="Achievements">
-
       {/* ── Top bar ──────────────────────────────────────────────── */}
       <div className="mb-8 pb-6 border-b-2 border-black/10 space-y-4">
         {/* Stats row */}
@@ -183,7 +197,9 @@ const AchievementsSection = () => {
                     className="w-full h-full object-cover object-top"
                   />
                   <div className="absolute inset-0 bg-black/50" />
-                  <div className={`absolute left-0 top-0 h-full border-l-4 ${categoryBorder[item.category]}`} />
+                  <div
+                    className={`absolute left-0 top-0 h-full border-l-4 ${categoryBorder[item.category]}`}
+                  />
                 </div>
 
                 {/* ═══════════════════════════════════
@@ -204,7 +220,9 @@ const AchievementsSection = () => {
                   <div className="flex-1 min-w-0">
                     {/* Category + date on same line */}
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                      <span className={`text-[9px] font-mono font-black px-1.5 py-0.5 leading-none ${categoryAccent[item.category]}`}>
+                      <span
+                        className={`text-[9px] font-mono font-black px-1.5 py-0.5 leading-none ${categoryAccent[item.category]}`}
+                      >
                         {item.category.toUpperCase()}
                       </span>
                       <span className="font-mono text-[9px] text-foreground/40 tracking-widest uppercase">
@@ -228,14 +246,15 @@ const AchievementsSection = () => {
                     Full awwwards row
                 ════════════════════════════════════ */}
                 <div className="hidden sm:flex items-center gap-4 lg:gap-6 px-6 lg:px-8 py-5 lg:py-6 pr-[12rem] lg:pr-[15rem] relative z-20 transition-colors duration-[480ms]">
-
                   {/* Index */}
                   <span className="font-mono text-xs font-bold text-foreground/25 group-hover:text-white/30 transition-colors duration-300 w-6 shrink-0 select-none">
                     {String(idx + 1).padStart(2, '0')}
                   </span>
 
                   {/* Category pill */}
-                  <span className={`text-[10px] font-mono font-black px-2 py-1 shrink-0 leading-none ${categoryAccent[item.category]}`}>
+                  <span
+                    className={`text-[10px] font-mono font-black px-2 py-1 shrink-0 leading-none ${categoryAccent[item.category]}`}
+                  >
                     {item.category.toUpperCase()}
                   </span>
 
@@ -277,7 +296,9 @@ const AchievementsSection = () => {
               "
             >
               <DialogTitle className="sr-only">{item.title}</DialogTitle>
-              <DialogDescription className="sr-only">{item.issuer} — {item.category}</DialogDescription>
+              <DialogDescription className="sr-only">
+                {item.issuer} — {item.category}
+              </DialogDescription>
 
               {/* Stacks vertically on mobile, side-by-side on md+ */}
               <div className="flex flex-col md:flex-row h-full">
@@ -294,7 +315,9 @@ const AchievementsSection = () => {
                 <div className="md:w-72 p-4 sm:p-6 border-t-2 md:border-t-0 md:border-l-4 border-black flex flex-col justify-between bg-white">
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <span className={`text-[10px] font-mono font-black px-2 py-1 ${categoryAccent[item.category]}`}>
+                      <span
+                        className={`text-[10px] font-mono font-black px-2 py-1 ${categoryAccent[item.category]}`}
+                      >
                         {item.category.toUpperCase()}
                       </span>
                       <span className="font-mono text-xs text-foreground/30 font-bold">

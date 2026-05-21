@@ -19,7 +19,10 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const lenis = useLenis();
 
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
     if (href.startsWith('#')) {
       e.preventDefault();
       lenis?.scrollTo(href, {
