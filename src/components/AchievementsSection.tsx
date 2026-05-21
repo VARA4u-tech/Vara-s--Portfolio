@@ -1,20 +1,20 @@
 import SectionBlock from './SectionBlock';
 
-const certifications = [
+const achievements = [
   {
-    title: 'Your Certificate Name',
+    title: 'Your Achievement Name',
     issuer: 'Issuing Organization',
     date: '[MMM YYYY]',
     description: 'Add a brief description about what you learned or achieved here.',
   },
 ];
 
-const CertificationsSection = () => (
-  <SectionBlock id="certifications" title="Certifications">
+const AchievementsSection = () => (
+  <SectionBlock id="achievements" title="Achievements">
     <div className="space-y-12">
-      {certifications.map((cert) => (
+      {achievements.map((item) => (
         <div
-          key={cert.title}
+          key={item.title}
           className="relative pl-8 md:pl-0 border-l md:border-l-0 border-black/20 md:grid md:grid-cols-[1fr_2fr] md:gap-8 pb-12 last:pb-0"
         >
           <div className="md:text-right md:pr-8 md:border-r border-black/20 relative">
@@ -22,19 +22,19 @@ const CertificationsSection = () => (
             <div className="md:hidden absolute top-1 -left-[5px] w-[9px] h-[9px] rounded-none bg-black"></div>
 
             <h4 className="font-mono text-xs tracking-widest text-foreground/60 uppercase mb-1">
-              {cert.date}
+              {item.date}
             </h4>
-            <h3 className="font-bold text-base md:text-lg">{cert.issuer}</h3>
+            <h3 className="font-bold text-base md:text-lg">{item.issuer}</h3>
           </div>
 
           <div className="mt-2 md:mt-0">
             <h3 className="text-base font-bold text-foreground md:hidden mb-2">
-              {cert.title}
+              {item.title}
             </h3>
             <h3 className="text-lg font-bold text-foreground hidden md:block mb-3">
-              {cert.title}
+              {item.title}
             </h3>
-            <p className="body-text text-sm">{cert.description}</p>
+            <p className="body-text text-sm">{item.description}</p>
           </div>
         </div>
       ))}
@@ -42,4 +42,4 @@ const CertificationsSection = () => (
   </SectionBlock>
 );
 
-export default CertificationsSection;
+export default AchievementsSection;
