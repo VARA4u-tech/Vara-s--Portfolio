@@ -43,7 +43,7 @@ const achievements: {
   {
     title: 'Rise In & Build On Aptos Bootcamp',
     issuer: 'Rise in Aptos',
-    date: '2025',
+    date: 'AUG 2025',
     description:
       'Successfully graduated from the Rise In & Build On Aptos Bootcamp, demonstrating proficiency in Aptos blockchain development and building decentralized applications.',
     image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777568814/ChatGPT_Image_Apr_30_2026_10_36_44_PM_pzo6dn.png',
@@ -83,7 +83,7 @@ const achievements: {
   {
     title: 'How Software Teams Actually Work',
     issuer: 'Frontlines EduTech (FLM)',
-    date: '2025',
+    date: 'MAY 2026',
     description:
       'Actively participated in the "How Software Teams Actually Work" session organized by Frontlines EduTech Private Limited, learning about agile workflows, team collaboration, and industry software development practices.',
     image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1779377800/WhatsApp_Image_2026-05-21_at_9.05.51_PM_etr9z3.jpg',
