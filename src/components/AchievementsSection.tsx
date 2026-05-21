@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { Maximize2, Award, ExternalLink } from 'lucide-react';
+import { ArrowUpRight, Award } from 'lucide-react';
 
 type Category = 'All' | 'Hackathon' | 'Bootcamp' | 'Workshop' | 'Internship';
 
@@ -94,139 +94,185 @@ const achievements: {
 
 const CATEGORIES: Category[] = ['All', 'Hackathon', 'Bootcamp', 'Workshop', 'Internship'];
 
-const categoryColors: Record<Exclude<Category, 'All'>, string> = {
-  Hackathon: 'bg-orange-100 text-orange-800 border-orange-300',
-  Bootcamp: 'bg-purple-100 text-purple-800 border-purple-300',
-  Workshop: 'bg-blue-100 text-blue-800 border-blue-300',
-  Internship: 'bg-green-100 text-green-800 border-green-300',
+const categoryAccent: Record<Exclude<Category, 'All'>, string> = {
+  Hackathon: 'bg-orange-400 text-black',
+  Bootcamp:  'bg-violet-500 text-white',
+  Workshop:  'bg-sky-400 text-black',
+  Internship:'bg-emerald-400 text-black',
+};
+
+const categoryBorder: Record<Exclude<Category, 'All'>, string> = {
+  Hackathon: 'border-orange-400',
+  Bootcamp:  'border-violet-500',
+  Workshop:  'border-sky-400',
+  Internship:'border-emerald-400',
 };
 
 const AchievementsSection = () => {
-  const [active, setActive] = useState<Category>('All');
+  const [active, setActive]   = useState<Category>('All');
+  const [hovered, setHovered] = useState<number | null>(null);
 
   const filtered =
     active === 'All' ? achievements : achievements.filter((a) => a.category === active);
 
   return (
     <SectionBlock id="achievements" title="Achievements">
-      {/* Stats Bar */}
-      <div className="flex flex-wrap gap-6 mb-10 pb-8 border-b-2 border-black/10">
-        <div className="flex items-center gap-2">
-          <Award className="w-5 h-5 text-black" />
-          <span className="font-mono text-sm font-bold">{achievements.length} Certificates</span>
+
+      {/* ── Top bar ─────────────────────────────────────────── */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-10 pb-6 border-b-2 border-black/10">
+        {/* Stats */}
+        <div className="flex items-center gap-3">
+          <Award className="w-5 h-5" />
+          <span className="font-mono text-sm font-bold tracking-widest uppercase">
+            {achievements.length} Certificates
+          </span>
+          <span className="font-mono text-xs text-foreground/40">/ {filtered.length} shown</span>
         </div>
-        {CATEGORIES.filter((c) => c !== 'All').map((cat) => {
-          const count = achievements.filter((a) => a.category === cat).length;
-          if (count === 0) return null;
-          return (
-            <div key={cat} className="flex items-center gap-1.5">
-              <span className={`text-xs font-mono px-2 py-0.5 border font-semibold ${categoryColors[cat]}`}>
-                {cat}
-              </span>
-              <span className="text-xs text-foreground/50 font-mono">×{count}</span>
-            </div>
-          );
-        })}
+
+        {/* Filter pills */}
+        <div className="flex flex-wrap gap-2">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActive(cat)}
+              className={`font-mono text-[11px] tracking-widest uppercase px-4 py-1.5 border-2 transition-all duration-200 ${
+                active === cat
+                  ? 'bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.25)]'
+                  : 'bg-transparent text-foreground border-black/25 hover:border-black hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Filter Pills */}
-      <div className="flex flex-wrap gap-2 mb-8">
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActive(cat)}
-            className={`font-mono text-xs tracking-widest uppercase px-4 py-2 border-2 transition-all duration-200 ${
-              active === cat
-                ? 'bg-black text-white border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,0.3)]'
-                : 'bg-transparent text-foreground border-black/30 hover:border-black hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-            }`}
-          >
-            {cat}
-            {cat !== 'All' && (
-              <span className="ml-1.5 opacity-60">
-                ({achievements.filter((a) => a.category === cat).length})
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* Certificate Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map((item) => (
+      {/* ── Awwwards List ────────────────────────────────────── */}
+      <div className="border-t-2 border-black">
+        {filtered.map((item, idx) => (
           <Dialog key={item.title}>
             <DialogTrigger asChild>
-              <button className="group relative flex flex-col text-left overflow-hidden border-2 border-black bg-white transition-all duration-300 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
-                
-                {/* Certificate Thumbnail */}
-                <div className="relative w-full aspect-[1.414/1] overflow-hidden bg-muted/30">
+              {/* Row */}
+              <div
+                role="button"
+                tabIndex={0}
+                aria-label={`View certificate: ${item.title}`}
+                className="group relative border-b-2 border-black cursor-pointer overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                onMouseEnter={() => setHovered(idx)}
+                onMouseLeave={() => setHovered(null)}
+              >
+                {/* ── Animated black fill (slides up on hover) */}
+                <div
+                  className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-[480ms] ease-[cubic-bezier(0.76,0,0.24,1)] pointer-events-none"
+                  aria-hidden="true"
+                />
+
+                {/* ── Certificate thumbnail (slides from right) */}
+                <div
+                  className="absolute top-0 right-0 h-full w-56 z-10 overflow-hidden pointer-events-none translate-x-full group-hover:translate-x-0 transition-transform duration-[480ms] ease-[cubic-bezier(0.76,0,0.24,1)]"
+                  aria-hidden="true"
+                >
                   <img
                     src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-110 group-hover:grayscale-0 grayscale-[20%]"
+                    alt=""
+                    className="w-full h-full object-cover object-top"
                   />
-                  {/* Dark overlay on hover */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
-                    <div className="opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 bg-white text-black p-3 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
-                      <Maximize2 className="w-5 h-5" />
-                    </div>
-                  </div>
-                  {/* Category badge */}
-                  <div className="absolute top-2 left-2">
-                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 border ${categoryColors[item.category]}`}>
-                      {item.category.toUpperCase()}
-                    </span>
-                  </div>
+                  <div className="absolute inset-0 bg-black/50" />
+                  {/* Left border on the image panel */}
+                  <div className={`absolute left-0 top-0 h-full w-1 ${categoryBorder[item.category]} border-l-4`} />
                 </div>
 
-                {/* Card Info */}
-                <div className="p-4 border-t-2 border-black/10 w-full">
-                  <div className="flex items-start justify-between gap-2 mb-1">
-                    <h3 className="font-bold text-sm leading-snug text-foreground line-clamp-2 flex-1">
+                {/* ── Row content */}
+                <div className="relative z-20 flex items-center gap-4 sm:gap-6 px-4 sm:px-8 py-5 sm:py-6 pr-4 sm:pr-60 transition-colors duration-[480ms]">
+
+                  {/* Index */}
+                  <span className="font-mono text-xs font-bold text-foreground/25 group-hover:text-white/30 transition-colors duration-300 w-6 shrink-0 select-none">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
+
+                  {/* Category pill */}
+                  <span
+                    className={`hidden sm:inline-block text-[10px] font-mono font-black px-2 py-1 shrink-0 leading-none ${categoryAccent[item.category]}`}
+                  >
+                    {item.category.toUpperCase()}
+                  </span>
+
+                  {/* Title + issuer */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-black text-base sm:text-lg leading-tight tracking-tight group-hover:text-white transition-colors duration-300 line-clamp-1">
                       {item.title}
                     </h3>
-                    <ExternalLink className="w-3.5 h-3.5 text-foreground/30 group-hover:text-black transition-colors shrink-0 mt-0.5" />
+                    <p className="font-mono text-xs text-foreground/50 group-hover:text-white/50 transition-colors duration-300 mt-0.5">
+                      {item.issuer}
+                    </p>
                   </div>
-                  <p className="font-mono text-xs text-foreground/60 mb-2">{item.issuer}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] text-foreground/40 tracking-widest uppercase">
-                      {item.date}
-                    </span>
-                    <span className="text-[10px] font-mono bg-black/5 px-2 py-0.5 border border-black/10">
-                      {item.tag}
-                    </span>
-                  </div>
+
+                  {/* Tag chip */}
+                  <span className="hidden lg:inline-block font-mono text-[10px] border border-black/20 group-hover:border-white/30 px-2 py-1 text-foreground/50 group-hover:text-white/50 transition-colors duration-300 shrink-0">
+                    {item.tag}
+                  </span>
+
+                  {/* Date */}
+                  <span className="font-mono text-[10px] tracking-widest uppercase text-foreground/35 group-hover:text-white/40 transition-colors duration-300 shrink-0 hidden sm:block">
+                    {item.date}
+                  </span>
+
+                  {/* Arrow */}
+                  <ArrowUpRight
+                    className="w-5 h-5 text-foreground/25 group-hover:text-white group-hover:rotate-12 transition-all duration-300 shrink-0"
+                  />
                 </div>
-              </button>
+              </div>
             </DialogTrigger>
 
-            {/* Lightbox */}
-            <DialogContent className="max-w-5xl w-full p-0 border-4 border-black rounded-none shadow-[20px_20px_0px_0px_rgba(0,0,0,0.8)] overflow-hidden bg-white">
+            {/* ── Lightbox ──────────────────────────────────── */}
+            <DialogContent className="max-w-5xl w-full p-0 border-4 border-black rounded-none shadow-[20px_20px_0px_0px_rgba(0,0,0,0.85)] overflow-hidden bg-white">
               <DialogTitle className="sr-only">{item.title}</DialogTitle>
               <DialogDescription className="sr-only">{item.issuer} — {item.category}</DialogDescription>
+
               <div className="flex flex-col md:flex-row h-full">
                 {/* Image panel */}
-                <div className="flex-1 bg-muted/20 flex items-center justify-center p-4 min-h-[50vh]">
+                <div className="flex-1 bg-black/5 flex items-center justify-center p-4 min-h-[45vh] relative overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-auto max-h-[75vh] object-contain"
+                    className="w-full h-auto max-h-[72vh] object-contain"
                   />
                 </div>
-                {/* Details panel */}
+
+                {/* Details sidebar */}
                 <div className="md:w-72 p-6 border-t-4 md:border-t-0 md:border-l-4 border-black flex flex-col justify-between bg-white">
                   <div>
-                    <span className={`text-[10px] font-mono font-bold px-2 py-1 border inline-block mb-4 ${categoryColors[item.category]}`}>
-                      {item.category.toUpperCase()}
-                    </span>
-                    <h2 className="font-bold text-lg leading-tight mb-2">{item.title}</h2>
-                    <p className="font-mono text-sm text-foreground/70 font-semibold mb-1">{item.issuer}</p>
-                    <p className="font-mono text-xs text-foreground/40 tracking-widest uppercase mb-6">{item.date}</p>
-                    <p className="text-sm text-foreground/70 leading-relaxed">{item.description}</p>
+                    {/* Top index + category */}
+                    <div className="flex items-center justify-between mb-5">
+                      <span className={`text-[10px] font-mono font-black px-2 py-1 ${categoryAccent[item.category]}`}>
+                        {item.category.toUpperCase()}
+                      </span>
+                      <span className="font-mono text-xs text-foreground/30 font-bold">
+                        {String(filtered.indexOf(item) + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+
+                    <h2 className="font-black text-xl leading-tight mb-2 tracking-tight">
+                      {item.title}
+                    </h2>
+                    <p className="font-mono text-sm text-foreground/70 font-semibold mb-1">
+                      {item.issuer}
+                    </p>
+                    <p className="font-mono text-xs text-foreground/35 tracking-widest uppercase mb-6">
+                      {item.date}
+                    </p>
+                    <p className="text-sm text-foreground/65 leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
-                  <div className="mt-6 pt-4 border-t-2 border-black/10">
-                    <span className="font-mono text-xs bg-black text-white px-3 py-1 inline-block">
+
+                  <div className="mt-6 pt-4 border-t-2 border-black/10 flex items-center justify-between">
+                    <span className="font-mono text-xs bg-black text-white px-3 py-1.5 inline-block font-bold tracking-wider">
                       {item.tag}
+                    </span>
+                    <span className="font-mono text-[10px] text-foreground/30 uppercase tracking-widest">
+                      Certificate
                     </span>
                   </div>
                 </div>
@@ -235,6 +281,14 @@ const AchievementsSection = () => {
           </Dialog>
         ))}
       </div>
+
+      {/* ── Empty state */}
+      {filtered.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-24 border-b-2 border-black text-foreground/30">
+          <Award className="w-10 h-10 mb-3 opacity-20" />
+          <p className="font-mono text-sm">No certificates in this category</p>
+        </div>
+      )}
     </SectionBlock>
   );
 };
