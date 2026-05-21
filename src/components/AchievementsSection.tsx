@@ -95,17 +95,17 @@ const achievements: {
 const CATEGORIES: Category[] = ['All', 'Hackathon', 'Bootcamp', 'Workshop', 'Internship'];
 
 const categoryAccent: Record<Exclude<Category, 'All'>, string> = {
-  Hackathon:  'bg-orange-400 text-black',
-  Bootcamp:   'bg-violet-500 text-white',
-  Workshop:   'bg-sky-400 text-black',
-  Internship: 'bg-emerald-400 text-black',
+  Hackathon:  'bg-black text-white',
+  Bootcamp:   'bg-black text-white',
+  Workshop:   'bg-black text-white',
+  Internship: 'bg-black text-white',
 };
 
 const categoryBorder: Record<Exclude<Category, 'All'>, string> = {
-  Hackathon:  'border-orange-400',
-  Bootcamp:   'border-violet-500',
-  Workshop:   'border-sky-400',
-  Internship: 'border-emerald-400',
+  Hackathon:  'border-black',
+  Bootcamp:   'border-black',
+  Workshop:   'border-black',
+  Internship: 'border-black',
 };
 
 const AchievementsSection = () => {
