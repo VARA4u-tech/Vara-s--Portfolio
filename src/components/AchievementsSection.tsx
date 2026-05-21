@@ -15,7 +15,7 @@ const achievements = [
     date: '[DEC 2025]',
     description:
       'Participated in the Innovate Andhra Hackathon 2025 (Data & AI) held at the Academy Of Tech Masters, showcasing strong innovation, problem-solving, and teamwork skills in building data-driven AI solutions.',
-    image: '/aotms-certificate.png', // Upload this to Cloudinary or place in public/
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777568671/ChatGPT_Image_Apr_30_2026_10_34_14_PM_g4hcev.png',
   },
   {
     title: 'Generative AI & Prompt Engineering Certificate',
