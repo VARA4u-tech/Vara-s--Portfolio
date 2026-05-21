@@ -10,6 +10,14 @@ import { Maximize2 } from 'lucide-react';
 
 const achievements = [
   {
+    title: 'Winter School on Decentralised Trust and Blockchains',
+    issuer: 'IIT Madras (CyStar)',
+    date: '[SEP 2025]',
+    description:
+      'Successfully completed the Online Phase of the Winter School on Decentralised Trust and Blockchains 2025 organized by the Centre for Cybersecurity, Trust and Reliability (CyStar), IIT Madras.',
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777567622/CODE25CEP133331087_blqiix.jpg', // Upload this to Cloudinary or place in public/
+  },
+  {
     title: 'CODE SPARK India 2025 Participant',
     issuer: 'KBN College (Autonomous)',
     date: '[AUG 2025]',
