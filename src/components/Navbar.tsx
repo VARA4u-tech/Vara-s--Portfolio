@@ -8,7 +8,7 @@ const links = [
   { label: 'About', href: '#about' },
   { label: 'Education', href: '#education' },
   { label: 'Experience', href: '#experience' },
-  { label: 'Achievements', href: '#achievements' },
+  // { label: 'Achievements', href: '#achievements' },
   { label: 'Work', href: '#projects' },
   { label: 'Skills', href: '#skills' },
   { label: 'Blog', href: '#blog' },
