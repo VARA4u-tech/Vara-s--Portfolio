@@ -146,15 +146,6 @@ const ContactSection = () => {
     }
   };
 
-  const handleTelegramFallback = () => {
-    playClick();
-    const values = getValues();
-    const telegramNumber = PROFILE.phone;
-    const text = `Name: ${values.name || 'Anonymous'}\nEmail: ${values.email || 'No email'}\nMessage: ${values.message || 'No message'}`;
-    const encodedText = encodeURIComponent(text);
-    window.open(`https://t.me/${telegramNumber}?text=${encodedText}`, '_blank');
-  };
-
   const copyEmail = () => {
     navigator.clipboard.writeText(PROFILE.email);
     playPop();
@@ -377,13 +368,13 @@ const ContactSection = () => {
                 )}
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div>
                 {/* Submit button */}
                 <button
                   type="submit"
                   disabled={isSubmitting || rateLimited}
                   onClick={playClick}
-                  className="flex-1 group relative flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-mono uppercase tracking-widest overflow-hidden transition-all duration-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:scale-95 active:shadow-none disabled:opacity-75 disabled:cursor-not-allowed disabled:transform-none rounded-none"
+                  className="w-full group relative flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-mono uppercase tracking-widest overflow-hidden transition-all duration-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:scale-95 active:shadow-none disabled:opacity-75 disabled:cursor-not-allowed disabled:transform-none rounded-none"
                 >
                   {isSubmitting ? (
                     <>
@@ -402,22 +393,6 @@ const ContactSection = () => {
                     </>
                   )}
                   <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                </button>
-
-                {/* Secondary Telegram button */}
-                <button
-                  type="button"
-                  onClick={handleTelegramFallback}
-                  className="group relative flex items-center justify-center gap-3 px-6 py-4 border-2 border-black bg-white text-black font-mono uppercase tracking-widest transition-all duration-300 hover:-translate-y-1 active:scale-95 hover:bg-black hover:text-white rounded-none"
-                >
-                  <span className="font-bold">Send via Telegram</span>
-                  <svg
-                    className="w-4 h-4 fill-current group-hover:translate-x-1 transition-transform"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.67-.52.36-.97.53-1.34.52-.41-.01-1.21-.24-1.8-.43-.72-.24-1.3-.37-1.25-.79.03-.22.3-.44.82-.67 3.2-1.39 5.34-2.31 6.42-2.75 3.07-1.28 3.7-1.5 4.12-1.5.09 0 .3.02.44.14.12.1.15.24.16.34-.01.06.01.2-.01.29z"/>
-                  </svg>
                 </button>
               </div>
             </form>
