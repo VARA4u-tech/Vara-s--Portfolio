@@ -27,7 +27,7 @@ This portfolio is a **World-Class Digital Identity** built to bridge the gap bet
 
 - **Transparency**: Direct links to original repositories and live deployments.
 - **Interactivity**: Custom-built Terminal CLI and Matrix-style visual engines.
-- **Conversion**: Seamless lead generation via integrated contact systems (Telegram/WhatsApp).
+- **Conversion**: Seamless lead generation via integrated professional contact forms (Formspree).
 - **Quality**: Demonstrating MNC-level code standards, documentation, and performance.
 
 ---
@@ -49,11 +49,11 @@ graph TD
     ProjectHub -->|Logicia| AITutor[AI Logic Tutor]
 
     Frontend -->|Integrations| GitHub[GitHub API]
-    Frontend -->|Communication| Telegram[Telegram Bot API]
+    Frontend -->|Communication| Formspree[Formspree API]
 
     subgraph "External Modules"
         GitHub
-        Telegram
+        Formspree
         AIStudy
         AIEmail
     end
@@ -101,7 +101,7 @@ The portfolio is designed as an interactive funnel that guides recruiters throug
 2.  **CLI-Driven Exploration**: Power users and recruiters use the **Interactive Terminal** to query profile data, project history, and technical stacks via shell commands.
 3.  **Visual Validation**: The user navigates the **Neo-Brutalist Project Grid**, exploring high-fidelity cards with interactive hover states and direct links to source code.
 4.  **Evidence of Consistency**: Real-time integration with the **GitHub API** provides a visual heat-map of coding consistency and open-source contributions.
-5.  **Direct Conversion**: The journey concludes with a frictionless **Telegram/WhatsApp Integration**, allowing for instant professional collaboration.
+5.  **Direct Conversion**: The journey concludes with a frictionless **Professional Contact Form (Formspree)**, allowing for instant and reliable communication.
 
 ```mermaid
 sequenceDiagram
@@ -117,8 +117,8 @@ sequenceDiagram
     CLI-->>Recruiter: Structured Technical Data
     Recruiter->>Projects: Explores Project Cards
     Projects-->>Recruiter: Interactive Deep-Dive
-    Recruiter->>Contact: Sends Message via Telegram
-    Contact-->>Recruiter: Instant Notification sent to Vara
+    Recruiter->>Contact: Sends Message via Contact Form
+    Contact-->>Recruiter: Email securely delivered via Formspree
 ```
 
 ---
@@ -136,7 +136,7 @@ sequenceDiagram
 ### **Integrations & Deployment**
 
 - **GitHub API**: For real-time repository and contribution data.
-- **Telegram/WhatsApp**: Direct communication protocols for professional inquiries.
+- **Formspree**: Secure, serverless email delivery for professional inquiries.
 - **Vercel**: CI/CD pipeline for automated production deployments.
 
 ---
