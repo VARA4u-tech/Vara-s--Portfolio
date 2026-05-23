@@ -11,6 +11,7 @@ export const PROFILE = {
   phone: '+919550533315',
   website: 'www.prasad.dev',
   blogHost: 'durgavaraprasad.hashnode.dev',
+  formspreeId: '', // Set your Formspree Form ID here to enable emails (or configure via VITE_FORMSPREE_ID in .env)
 } as const;
 
 export const SOCIAL_LINKS = [
