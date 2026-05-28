@@ -4,7 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
-import { playPop, playSuccess, playClick, playError } from '@/hooks/useSoundEffects';
+import {
+  playPop,
+  playSuccess,
+  playClick,
+  playError,
+} from '@/hooks/useSoundEffects';
 import SectionBlock from './SectionBlock';
 import {
   Mail,
@@ -35,7 +40,9 @@ const contactSocials = SOCIAL_LINKS.filter((l) => l.id !== 'email');
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
-  message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
+  message: z
+    .string()
+    .min(10, { message: 'Message must be at least 10 characters.' }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -51,9 +58,17 @@ const ContactSection = () => {
   const RATE_LIMIT_MS = 60_000; // 60 seconds between submissions
   const RATE_LIMIT_KEY = 'contact_last_submit';
 
-  const formspreeId = ((import.meta.env.VITE_FORMSPREE_ID as string) || PROFILE.formspreeId || '').trim();
+  const formspreeId = (
+    (import.meta.env.VITE_FORMSPREE_ID as string) ||
+    PROFILE.formspreeId ||
+    ''
+  ).trim();
   const cleanId = formspreeId.replace('https://formspree.io/f/', '');
-  const isDemoMode = !cleanId || cleanId === 'YOUR_FORMSPREE_ID' || cleanId.toLowerCase() === 'placeholder' || cleanId.toLowerCase() === 'demo';
+  const isDemoMode =
+    !cleanId ||
+    cleanId === 'YOUR_FORMSPREE_ID' ||
+    cleanId.toLowerCase() === 'placeholder' ||
+    cleanId.toLowerCase() === 'demo';
 
   const {
     register,
@@ -82,7 +97,10 @@ const ContactSection = () => {
     }
 
     // ── Security: Rate limiting ──
-    const lastSubmit = parseInt(localStorage.getItem(RATE_LIMIT_KEY) || '0', 10);
+    const lastSubmit = parseInt(
+      localStorage.getItem(RATE_LIMIT_KEY) || '0',
+      10,
+    );
     const now = Date.now();
     const elapsed = now - lastSubmit;
     if (elapsed < RATE_LIMIT_MS) {
@@ -111,21 +129,23 @@ const ContactSection = () => {
         await new Promise((resolve) => setTimeout(resolve, 1500));
         console.log('Form submitted successfully (Demo Mode):', data);
       } else {
-        const targetUrl = formspreeId.startsWith('http') 
-          ? formspreeId 
+        const targetUrl = formspreeId.startsWith('http')
+          ? formspreeId
           : `https://formspree.io/f/${formspreeId}`;
 
         const response = await fetch(targetUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            Accept: 'application/json',
           },
           body: JSON.stringify(data),
         });
 
         if (!response.ok) {
-          throw new Error('Could not register submission with Formspree. Try again later.');
+          throw new Error(
+            'Could not register submission with Formspree. Try again later.',
+          );
         }
       }
 
@@ -141,7 +161,10 @@ const ContactSection = () => {
       toast.success('Your message has been received!');
     } catch (err: any) {
       playError();
-      setSubmitError(err.message || 'Something went wrong. Please check your network connection.');
+      setSubmitError(
+        err.message ||
+          'Something went wrong. Please check your network connection.',
+      );
       toast.error(err.message || 'Failed to submit form');
     }
   };
@@ -239,7 +262,9 @@ const ContactSection = () => {
                 Message Received!
               </h3>
               <p className="text-sm font-light text-foreground/80 leading-relaxed max-w-sm">
-                Thank you for reaching out, <strong>{getValues('name')}</strong>. Your message has been successfully routed. I'll get back to you as soon as possible.
+                Thank you for reaching out, <strong>{getValues('name')}</strong>
+                . Your message has been successfully routed. I'll get back to
+                you as soon as possible.
               </p>
 
               {isDemoMode && (
@@ -247,8 +272,14 @@ const ContactSection = () => {
                   <p className="font-bold uppercase tracking-wider text-amber-900 flex items-center gap-1">
                     <AlertTriangle className="w-3.5 h-3.5" /> Developer Notice:
                   </p>
-                  <p>This form is in demo mode because a custom Formspree ID is not configured.</p>
-                  <p className="underline">Please set `VITE_FORMSPREE_ID` in your `.env` file (which is ignored by Git) to receive real submissions.</p>
+                  <p>
+                    This form is in demo mode because a custom Formspree ID is
+                    not configured.
+                  </p>
+                  <p className="underline">
+                    Please set `VITE_FORMSPREE_ID` in your `.env` file (which is
+                    ignored by Git) to receive real submissions.
+                  </p>
                 </div>
               )}
 
@@ -264,10 +295,17 @@ const ContactSection = () => {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit, () => playError())} className="space-y-6" noValidate>
-
+            <form
+              onSubmit={handleSubmit(onSubmit, () => playError())}
+              className="space-y-6"
+              noValidate
+            >
               {/* ── Security: Honeypot field — hidden from real users, bots fill it ── */}
-              <div aria-hidden="true" className="absolute -z-50 opacity-0 h-0 overflow-hidden" tabIndex={-1}>
+              <div
+                aria-hidden="true"
+                className="absolute -z-50 opacity-0 h-0 overflow-hidden"
+                tabIndex={-1}
+              >
                 <input
                   type="text"
                   name="_gotcha"
@@ -295,13 +333,17 @@ const ContactSection = () => {
                   placeholder=" "
                   {...register('name')}
                   className={`peer w-full bg-transparent border-2 ${
-                    errors.name ? 'border-red-500 focus:border-red-500' : 'border-foreground/10 focus:border-black'
+                    errors.name
+                      ? 'border-red-500 focus:border-red-500'
+                      : 'border-foreground/10 focus:border-black'
                   } px-4 py-4 text-foreground focus:outline-none transition-colors rounded-none`}
                 />
                 <label
                   htmlFor="contact-name"
                   className={`absolute left-4 top-4 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2 ${
-                    errors.name ? 'text-red-500 peer-focus:text-red-500' : 'text-foreground/40 peer-focus:text-black'
+                    errors.name
+                      ? 'text-red-500 peer-focus:text-red-500'
+                      : 'text-foreground/40 peer-focus:text-black'
                   }`}
                 >
                   Your Name
@@ -322,13 +364,17 @@ const ContactSection = () => {
                   placeholder=" "
                   {...register('email')}
                   className={`peer w-full bg-transparent border-2 ${
-                    errors.email ? 'border-red-500 focus:border-red-500' : 'border-foreground/10 focus:border-black'
+                    errors.email
+                      ? 'border-red-500 focus:border-red-500'
+                      : 'border-foreground/10 focus:border-black'
                   } px-4 py-4 text-foreground focus:outline-none transition-colors rounded-none`}
                 />
                 <label
                   htmlFor="contact-email"
                   className={`absolute left-4 top-4 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2 ${
-                    errors.email ? 'text-red-500 peer-focus:text-red-500' : 'text-foreground/40 peer-focus:text-black'
+                    errors.email
+                      ? 'text-red-500 peer-focus:text-red-500'
+                      : 'text-foreground/40 peer-focus:text-black'
                   }`}
                 >
                   Email Address
@@ -349,13 +395,17 @@ const ContactSection = () => {
                   placeholder=" "
                   {...register('message')}
                   className={`peer w-full bg-transparent border-2 ${
-                    errors.message ? 'border-red-500 focus:border-red-500' : 'border-foreground/10 focus:border-black'
+                    errors.message
+                      ? 'border-red-500 focus:border-red-500'
+                      : 'border-foreground/10 focus:border-black'
                   } px-4 py-4 text-foreground focus:outline-none transition-colors resize-none rounded-none`}
                 />
                 <label
                   htmlFor="contact-message"
                   className={`absolute left-4 top-4 text-sm uppercase tracking-widest transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:bg-background peer-focus:px-2 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-2 ${
-                    errors.message ? 'text-red-500 peer-focus:text-red-500' : 'text-foreground/40 peer-focus:text-black'
+                    errors.message
+                      ? 'text-red-500 peer-focus:text-red-500'
+                      : 'text-foreground/40 peer-focus:text-black'
                   }`}
                 >
                   Message
@@ -378,17 +428,23 @@ const ContactSection = () => {
                 >
                   {isSubmitting ? (
                     <>
-                      <span className="relative z-10 font-bold">Sending...</span>
+                      <span className="relative z-10 font-bold">
+                        Sending...
+                      </span>
                       <Loader2 className="w-4 h-4 relative z-10 animate-spin" />
                     </>
                   ) : rateLimited ? (
                     <>
-                      <span className="relative z-10 font-bold">Wait {cooldownSeconds}s</span>
+                      <span className="relative z-10 font-bold">
+                        Wait {cooldownSeconds}s
+                      </span>
                       <Loader2 className="w-4 h-4 relative z-10 animate-spin" />
                     </>
                   ) : (
                     <>
-                      <span className="relative z-10 font-bold">Send Message</span>
+                      <span className="relative z-10 font-bold">
+                        Send Message
+                      </span>
                       <Send className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
