@@ -159,13 +159,14 @@ const ContactSection = () => {
       });
       setIsSubmitted(true);
       toast.success('Your message has been received!');
-    } catch (err: any) {
+    } catch (err) {
       playError();
-      setSubmitError(
-        err.message ||
-          'Something went wrong. Please check your network connection.',
-      );
-      toast.error(err.message || 'Failed to submit form');
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong. Please check your network connection.';
+      setSubmitError(message);
+      toast.error(message);
     }
   };
 
