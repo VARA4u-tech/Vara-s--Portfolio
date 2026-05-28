@@ -103,9 +103,9 @@ const projects = [
     liveUrl: 'https://lakshmi-fashion-designers-e-commerc.vercel.app/',
   },
   {
-    title: 'AI Voice Editor',
+    title: 'AI Voice-Controlled PDF Editor',
     description:
-      'AI-driven document editor that uses real-time voice commands to edit and reshape text.',
+      'A mystical, AI-driven document editor where your voice commands reshape text and edit PDFs in real time. Upload a PDF, speak your intent, and watch the Gilded Scribe bring your words to life.',
     tags: [
       'React',
       'TypeScript',
@@ -113,10 +113,11 @@ const projects = [
       'AI',
       'Speech Recognition',
       'Vite',
-      'Supabase',
+      'PDF.js',
+      'LLM',
     ],
-    githubUrl: 'https://github.com/VARA4u-tech/AI-Voice-Editor',
-    liveUrl: 'https://ai-voice-editor-4rpa.vercel.app',
+    githubUrl: 'https://github.com/VARA4u-tech/AI-VoiceControlled-PDF-Editor',
+    liveUrl: 'https://ai-voice-controlled-pdf-editor.vercel.app',
   },
   {
     title: 'SafeTrip Pro',
