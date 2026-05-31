@@ -5,6 +5,7 @@ import { Badge } from './ui/badge';
 import { playHover, playClick } from '@/hooks/useSoundEffects';
 
 const projects = [
+  
   {
     title: 'AI Meeting Summarizer & Task Manager',
     isNew: true,
@@ -23,7 +24,7 @@ const projects = [
     ],
     githubUrl:
       'https://github.com/VARA4u-tech/AI_Meeting_Summerizer_Task_Manager',
-    liveUrl: 'https://ai-meeting-summerizer-task-manager.vercel.app',
+   
   },
   {
     title: 'MAIL-MIND-AI',
