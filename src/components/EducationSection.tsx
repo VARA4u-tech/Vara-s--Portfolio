@@ -1,11 +1,23 @@
 import SectionBlock from './SectionBlock';
 
-const education = [
+interface EducationItem {
+  degree: string;
+  school: string;
+  year: string;
+  description?: string[];
+}
+
+const education: EducationItem[] = [
   {
     degree:
       'Master of Computer Applications (MCA), DVR & Dr. HS MIC College of Technology (Autonomous),Kanchikacherla',
-    school: 'Jawaharlal Nehru Technological University Kakinada',
+    school: 'Affiliated to Jawaharlal Nehru Technological University Kakinada (JNTUK)',
     year: '2024 – 2026(Pursuing)',
+    description: [
+      'Building a strong foundation in software development, database management, and computer networks.',
+      'Developing problem-solving and programming skills using modern technologies.',
+      'Gaining practical experience in web development, application development, and software engineering principles.',
+    ],
   },
   {
     degree:
@@ -35,6 +47,15 @@ const EducationSection = () => (
               {item.year}
             </span>
           </div>
+          {item.description && (
+            <ul className="mt-4 space-y-2 list-disc list-outside pl-4 text-sm text-foreground/80">
+              {item.description.map((point, index) => (
+                <li key={index} className="leading-relaxed">
+                  {point}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       ))}
     </div>
@@ -42,3 +63,4 @@ const EducationSection = () => (
 );
 
 export default EducationSection;
+
