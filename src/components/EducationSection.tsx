@@ -21,9 +21,14 @@ const education: EducationItem[] = [
   },
   {
     degree:
-      'Bachelor of Science (B.Sc-MSCs), Gowtham Degree College,Vijayawada',
-    school: 'Krishna University',
+      'Bachelor of Science (B.Sc. – Mathematics, Statistics & Computer Science),Gowtham Degree College,Vijayawada',
+    school: 'Affiliated to Krishna University',
     year: '2021 – 2024',
+    description: [
+      'Built a strong foundation in Computer Science, programming, database management, and problem-solving.',
+      'Developed analytical and quantitative skills through Mathematics and Statistics.',
+      'Gained knowledge of software development concepts, data analysis, and computational thinking.',
+    ],
   },
 ];
 
