@@ -14,9 +14,10 @@ const education: EducationItem[] = [
     school: 'Affiliated to Jawaharlal Nehru Technological University Kakinada (JNTUK)',
     year: '2024 – 2026(Pursuing)',
     description: [
-      'Building a strong foundation in software development, database management, and computer networks.',
-      'Developing problem-solving and programming skills using modern technologies.',
-      'Gaining practical experience in web development, application development, and software engineering principles.',
+      'Completed industry-focused training in Full Stack Web Development, covering React.js, Node.js, Express.js , MongoDB, and RESTful APIs.',
+      'Acquired practical knowledge of Java Programming, Object-Oriented Programming (OOP), and Data Structures.',
+      'Strengthened skills in Database Management Systems (DBMS), SQL query optimization, and database design.',
+      'Gained hands-on experience in Web Technologies including HTML5, CSS3, JavaScript, and responsive design principles.',
     ],
   },
   {
