@@ -11,6 +11,8 @@ import {
 } from 'lucide-react';
 import Magnetic from './Magnetic';
 import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
+import { gsap } from '@/lib/gsap';
+import { useGSAPContext } from '@/hooks/useGSAPContext';
 
 const roles = [
   'Vibe Coder',
@@ -33,11 +35,90 @@ const HeroSection = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [cursorVisible, setCursorVisible] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
 
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  // ── GSAP Hero Entrance Timeline ──
+  useGSAPContext(
+    () => {
+      const tl = gsap.timeline({ delay: 0.1 });
+
+      // Split name letters into spans for stagger
+      const nameLines = heroRef.current?.querySelectorAll('.gsap-name-line');
+      if (nameLines && nameLines.length > 0) {
+        tl.from(nameLines, {
+          opacity: 0,
+          y: 80,
+          skewY: 4,
+          stagger: 0.12,
+          duration: 1,
+          ease: 'power4.out',
+        });
+      }
+
+      // Typewriter container
+      tl.from(
+        '.gsap-role',
+        { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out' },
+        '-=0.4',
+      );
+
+      // Tech tags stagger
+      tl.from(
+        '.gsap-tag',
+        {
+          opacity: 0,
+          scale: 0.7,
+          y: 10,
+          stagger: 0.07,
+          duration: 0.5,
+          ease: 'back.out(1.7)',
+        },
+        '-=0.3',
+      );
+
+      // Social icons pop in
+      tl.from(
+        '.gsap-social',
+        {
+          opacity: 0,
+          scale: 0,
+          stagger: 0.08,
+          duration: 0.5,
+          ease: 'back.out(2)',
+        },
+        '-=0.2',
+      );
+
+      // Resume button slides up
+      tl.from(
+        '.gsap-resume',
+        { opacity: 0, y: 30, duration: 0.6, ease: 'power3.out' },
+        '-=0.3',
+      );
+
+      // Corner decorations
+      tl.from(
+        '.gsap-corner',
+        {
+          opacity: 0,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: 'power2.out',
+        },
+        '-=0.5',
+      );
+
+      // Scroll chevron
+      tl.from('.gsap-chevron', { opacity: 0, y: -10, duration: 0.6 }, '-=0.3');
+    },
+    heroRef,
+    [],
+  );
 
   // Blinking cursor
   useEffect(() => {
@@ -148,17 +229,7 @@ const HeroSection = () => {
     };
   }, []);
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
+  // Keep itemVariants for any remaining Framer Motion elements
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -172,7 +243,10 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center relative px-6 overflow-hidden pb-12">
+    <section
+      ref={heroRef}
+      className="min-h-screen flex flex-col justify-center items-center relative px-6 overflow-hidden pb-12"
+    >
       <motion.canvas
         ref={canvasRef}
         style={{ y: y1 }}
@@ -181,12 +255,7 @@ const HeroSection = () => {
       />
 
       {/* Top-left code comment */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.8, duration: 0.8 }}
-        className="absolute top-28 left-6 md:left-10 z-10 hidden md:block"
-      >
+      <div className="gsap-corner absolute top-28 left-6 md:left-10 z-10 hidden md:block">
         <p className="font-mono text-xs text-foreground/90 leading-relaxed font-medium">
           // portfolio.tsx
           <br />
@@ -196,15 +265,10 @@ const HeroSection = () => {
           <br />
           // last_build: {new Date().toISOString().split('T')[0]}
         </p>
-      </motion.div>
+      </div>
 
       {/* Top-right line numbers */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.8, duration: 0.8 }}
-        className="absolute top-28 right-6 md:right-10 z-10 hidden md:block"
-      >
+      <div className="gsap-corner absolute top-28 right-6 md:right-10 z-10 hidden md:block">
         <p className="font-mono text-xs text-foreground/80 leading-relaxed text-right font-medium">
           {Array.from({ length: 6 }, (_, i) => (
             <span key={i} className="block">
@@ -212,36 +276,26 @@ const HeroSection = () => {
             </span>
           ))}
         </p>
-      </motion.div>
+      </div>
 
       {/* Main content */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false }}
-        className="text-center relative z-10 pt-24 md:pt-20"
-      >
-        {/* Name */}
-        <motion.h1
-          variants={itemVariants}
-          className="heading-brutal leading-[0.85]"
+      <div className="text-center relative z-10 pt-24 md:pt-20">
+        {/* Name — GSAP animates each line */}
+        <h1
+          className="heading-brutal leading-[0.85] overflow-hidden"
           style={{ fontSize: 'clamp(65px, 13vw, 140px)' }}
         >
-          <div className="glitch-text" data-text="Durga Vara">
+          <div className="gsap-name-line glitch-text" data-text="Durga Vara">
             Durga Vara
           </div>
           <br />
-          <div className="glitch-text" data-text="Prasad.">
+          <div className="gsap-name-line glitch-text" data-text="Prasad.">
             <span className="text-foreground/20">Prasad.</span>
           </div>
-        </motion.h1>
+        </h1>
 
         {/* Typewriter role */}
-        <motion.div
-          variants={itemVariants}
-          className="mt-6 h-8 flex items-center justify-center"
-        >
+        <div className="gsap-role mt-6 h-8 flex items-center justify-center">
           <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-foreground/50">
             {'< '}
           </span>
@@ -258,56 +312,49 @@ const HeroSection = () => {
           <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-foreground/50">
             {' />'}
           </span>
-        </motion.div>
+        </div>
 
         {/* Tech tags */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto"
-        >
+        <div className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto">
           {['Flutter', 'React', 'TypeScript', 'Firebase', 'AI', 'Node.js'].map(
-            (tech, i) => (
-              <motion.span
+            (tech) => (
+              <span
                 key={tech}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1 + i * 0.1 }}
-                className="px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-all duration-300 cursor-default rounded-none"
+                className="gsap-tag px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-all duration-300 cursor-default rounded-none"
                 onMouseEnter={playHover}
               >
                 {tech}
-              </motion.span>
+              </span>
             ),
           )}
-        </motion.div>
+        </div>
 
         {/* Social links */}
-        <motion.div
-          variants={itemVariants}
-          className="flex gap-4 justify-center mt-10"
-        >
+        <div className="flex gap-4 justify-center mt-10">
           {SOCIAL_LINKS.map((link) => {
             const Icon = ICON_MAP[link.id];
             if (!Icon) return null;
             return (
-              <Magnetic key={link.id} strength={0.3}>
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.label}
-                  onClick={playClick}
-                  className="group relative inline-flex items-center justify-center p-3 border-2 border-black bg-white text-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-black hover:text-white rounded-none"
-                >
-                  <Icon className="w-5 h-5" />
-                </a>
-              </Magnetic>
+              <div key={link.id} className="gsap-social">
+                <Magnetic strength={0.3}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    onClick={playClick}
+                    className="group relative inline-flex items-center justify-center p-3 border-2 border-black bg-white text-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-black hover:text-white rounded-none"
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                </Magnetic>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
 
         {/* Resume button */}
-        <motion.div variants={itemVariants} className="mt-10">
+        <div className="gsap-resume mt-10">
           <Magnetic strength={0.1}>
             <a
               href="/resume.pdf"
@@ -319,44 +366,29 @@ const HeroSection = () => {
               <span className="w-2 h-2 border-r-2 border-b-2 border-current rotate-45 -translate-y-[1px] group-hover:translate-y-[1px] transition-transform duration-300"></span>
             </a>
           </Magnetic>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Bottom-left info */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-10 left-6 md:left-10 z-10"
-      >
+      <div className="gsap-corner absolute bottom-10 left-6 md:left-10 z-10">
         <span className="text-foreground text-xs tracking-[0.2em] uppercase font-mono font-medium">
           {PROFILE.website}
         </span>
-      </motion.div>
+      </div>
 
       {/* Bottom-right stats */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-10 right-6 md:right-10 z-10 hidden md:block"
-      >
+      <div className="gsap-corner absolute bottom-10 right-6 md:right-10 z-10 hidden md:block">
         <div className="font-mono text-xs text-foreground text-right leading-relaxed font-medium">
           <p>const experience = "1+ years";</p>
           <p>const projects = 11;</p>
           <p>const passion = Infinity;</p>
         </div>
-      </motion.div>
+      </div>
 
       {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10"
-      >
+      <div className="gsap-chevron absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
         <ChevronDown className="w-5 h-5 text-foreground/60 animate-bounce" />
-      </motion.div>
+      </div>
     </section>
   );
 };

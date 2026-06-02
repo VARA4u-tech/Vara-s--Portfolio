@@ -11,7 +11,8 @@ const education: EducationItem[] = [
   {
     degree:
       'Master of Computer Applications (MCA), DVR & Dr. HS MIC College of Technology (Autonomous),Kanchikacherla',
-    school: 'Affiliated to Jawaharlal Nehru Technological University Kakinada (JNTUK)',
+    school:
+      'Affiliated to Jawaharlal Nehru Technological University Kakinada (JNTUK)',
     year: '2024 – 2026(Pursuing)',
     description: [
       'Completed industry-focused training in Full Stack Web Development, covering React.js, Node.js, Express.js , MongoDB, and RESTful APIs.',
@@ -69,4 +70,3 @@ const EducationSection = () => (
 );
 
 export default EducationSection;
-

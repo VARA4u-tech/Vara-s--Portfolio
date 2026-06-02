@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion';
-import { type ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { useGSAPContext } from '@/hooks/useGSAPContext';
 
 interface SectionBlockProps {
   id: string;
@@ -8,36 +9,54 @@ interface SectionBlockProps {
 }
 
 const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useGSAPContext(
+    () => {
+      const section = sectionRef.current;
+      if (!section) return;
+
+      // Section title — slides in from left with an underline draw
+      gsap.from(section.querySelector('.gsap-section-title'), {
+        opacity: 0,
+        x: -40,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 82%',
+          end: 'top 50%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+
+      // Children content — fade + parallax rise tied to scroll
+      gsap.from(section.querySelector('.gsap-section-content'), {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 75%',
+          end: 'top 40%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    },
+    sectionRef,
+    [id],
+  );
+
   return (
-    <motion.section
+    <section
+      ref={sectionRef}
       id={id}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, margin: '-100px' }}
-      transition={{
-        duration: 0.8,
-        ease: [0.21, 0.47, 0.32, 0.98] as [number, number, number, number],
-      }}
       className="max-w-6xl mx-auto px-6 py-16 md:py-32"
     >
-      <motion.h2
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: false }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="section-title mb-12"
-      >
-        {title}.
-      </motion.h2>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-      >
-        {children}
-      </motion.div>
-    </motion.section>
+      <h2 className="gsap-section-title section-title mb-12">{title}.</h2>
+      <div className="gsap-section-content">{children}</div>
+    </section>
   );
 };
 

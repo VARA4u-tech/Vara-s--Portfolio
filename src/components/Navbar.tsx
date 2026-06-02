@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef } from 'react';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
 import { useLenis } from 'lenis/react';
 import SoundToggle from './SoundToggle';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { useGSAPContext } from '@/hooks/useGSAPContext';
 
 const links = [
   { label: 'About', href: '#about' },
@@ -18,6 +19,55 @@ const links = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const lenis = useLenis();
+  const navRef = useRef<HTMLElement>(null);
+
+  // GSAP: hide navbar on scroll down, reveal on scroll up
+  useGSAPContext(
+    () => {
+      let lastScrollY = window.scrollY;
+
+      ScrollTrigger.create({
+        start: 'top -80px',
+        end: 'max',
+        onUpdate: (self) => {
+          const currentY = window.scrollY;
+          const isScrollingDown = currentY > lastScrollY && currentY > 100;
+          lastScrollY = currentY;
+
+          if (!navRef.current) return;
+
+          if (isScrollingDown) {
+            // Slide navbar out upward
+            gsap.to(navRef.current, {
+              yPercent: -110,
+              duration: 0.4,
+              ease: 'power2.inOut',
+              overwrite: true,
+            });
+          } else {
+            // Slide navbar back in
+            gsap.to(navRef.current, {
+              yPercent: 0,
+              duration: 0.5,
+              ease: 'power3.out',
+              overwrite: true,
+            });
+          }
+        },
+      });
+
+      // Initial entrance animation
+      gsap.from(navRef.current, {
+        y: -60,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+        delay: 0.2,
+      });
+    },
+    navRef,
+    [],
+  );
 
   const handleScroll = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -33,7 +83,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 py-6 bg-background/80 backdrop-blur-sm">
+    <nav
+      ref={navRef}
+      className="fixed top-0 left-0 right-0 z-50 py-6 bg-background/80 backdrop-blur-sm"
+    >
       <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between lg:justify-center relative">
         {/* Desktop Navbar (Hidden on Mobile) */}
         <div className="hidden lg:flex items-center justify-center gap-0">

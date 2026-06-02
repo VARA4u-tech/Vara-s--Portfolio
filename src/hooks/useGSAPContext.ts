@@ -11,7 +11,13 @@
  *     gsap.from('.my-el', { opacity: 0, y: 30 });
  *   }, containerRef);
  */
-import { useEffect, useLayoutEffect, useRef, DependencyList, RefObject } from 'react';
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  DependencyList,
+  RefObject,
+} from 'react';
 import { gsap } from '@/lib/gsap';
 
 const useIsomorphicLayoutEffect =
