@@ -16,31 +16,37 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
       const section = sectionRef.current;
       if (!section) return;
 
-      // Section title — slides in from left with an underline draw
+      // Detect mobile/tablet — reduce motion intensity for performance
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+      // Section title — slides in from left
       gsap.from(section.querySelector('.gsap-section-title'), {
         opacity: 0,
-        x: -40,
-        duration: 0.9,
+        x: isMobile ? -20 : -40, // gentler on mobile
+        duration: isMobile ? 0.6 : 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 88%',    // fire a bit earlier on all devices
+          end: 'top 55%',
+          toggleActions: 'play none none reverse',
+          // Prevents flicker when ScrollTrigger recalculates on orientation change
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // Children content — fade + rise
+      gsap.from(section.querySelector('.gsap-section-content'), {
+        opacity: 0,
+        y: isMobile ? 30 : 50, // lighter y offset on mobile
+        duration: isMobile ? 0.7 : 1,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: section,
           start: 'top 82%',
-          end: 'top 50%',
+          end: 'top 45%',
           toggleActions: 'play none none reverse',
-        },
-      });
-
-      // Children content — fade + parallax rise tied to scroll
-      gsap.from(section.querySelector('.gsap-section-content'), {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 75%',
-          end: 'top 40%',
-          toggleActions: 'play none none reverse',
+          invalidateOnRefresh: true,
         },
       });
     },

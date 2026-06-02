@@ -25,13 +25,16 @@ const Navbar = () => {
   useGSAPContext(
     () => {
       let lastScrollY = window.scrollY;
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      // Mobile scrolls in shorter bursts — lower threshold
+      const hideThreshold = isMobile ? 50 : 100;
 
       ScrollTrigger.create({
-        start: 'top -80px',
+        start: 'top -60px',
         end: 'max',
-        onUpdate: (self) => {
+        onUpdate: () => {
           const currentY = window.scrollY;
-          const isScrollingDown = currentY > lastScrollY && currentY > 100;
+          const isScrollingDown = currentY > lastScrollY && currentY > hideThreshold;
           lastScrollY = currentY;
 
           if (!navRef.current) return;
@@ -40,7 +43,7 @@ const Navbar = () => {
             // Slide navbar out upward
             gsap.to(navRef.current, {
               yPercent: -110,
-              duration: 0.4,
+              duration: isMobile ? 0.25 : 0.4,
               ease: 'power2.inOut',
               overwrite: true,
             });
@@ -48,7 +51,7 @@ const Navbar = () => {
             // Slide navbar back in
             gsap.to(navRef.current, {
               yPercent: 0,
-              duration: 0.5,
+              duration: isMobile ? 0.3 : 0.5,
               ease: 'power3.out',
               overwrite: true,
             });
