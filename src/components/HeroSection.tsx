@@ -67,16 +67,16 @@ const HeroSection = () => {
         '-=0.4',
       );
 
-      // Tech tags stagger
+      // Tech tags stagger — use opacity+y only (no scale on flex span children)
       tl.from(
         '.gsap-tag',
         {
           opacity: 0,
-          scale: 0.7,
-          y: 10,
+          y: 18,
           stagger: 0.07,
-          duration: 0.5,
-          ease: 'back.out(1.7)',
+          duration: 0.55,
+          ease: 'power3.out',
+          clearProps: 'opacity,transform',
         },
         '-=0.3',
       );
@@ -320,7 +320,7 @@ const HeroSection = () => {
             (tech) => (
               <span
                 key={tech}
-                className="gsap-tag px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-all duration-300 cursor-default rounded-none"
+                className="gsap-tag inline-block px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-colors duration-300 cursor-default rounded-none"
                 onMouseEnter={playHover}
               >
                 {tech}
