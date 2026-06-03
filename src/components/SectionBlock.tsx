@@ -20,35 +20,42 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
       const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
       // Section title — slides in from left
-      gsap.from(section.querySelector('.gsap-section-title'), {
-        opacity: 0,
-        x: isMobile ? -20 : -40, // gentler on mobile
-        duration: isMobile ? 0.6 : 0.9,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 88%', // fire a bit earlier on all devices
-          end: 'top 55%',
-          toggleActions: 'play none none reverse',
-          // Prevents flicker when ScrollTrigger recalculates on orientation change
-          invalidateOnRefresh: true,
+      gsap.fromTo(
+        section.querySelector('.gsap-section-title'),
+        { opacity: 0, x: isMobile ? -20 : -40 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: isMobile ? 0.6 : 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 88%',
+            toggleActions: 'play none none none', // never reverse — content stays visible
+            invalidateOnRefresh: true,
+            once: true,
+          },
         },
-      });
+      );
 
       // Children content — fade + rise
-      gsap.from(section.querySelector('.gsap-section-content'), {
-        opacity: 0,
-        y: isMobile ? 30 : 50, // lighter y offset on mobile
-        duration: isMobile ? 0.7 : 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 82%',
-          end: 'top 45%',
-          toggleActions: 'play none none reverse',
-          invalidateOnRefresh: true,
+      gsap.fromTo(
+        section.querySelector('.gsap-section-content'),
+        { opacity: 0, y: isMobile ? 30 : 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: isMobile ? 0.7 : 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            toggleActions: 'play none none none', // never reverse — content stays visible
+            invalidateOnRefresh: true,
+            once: true,
+          },
         },
-      });
+      );
     },
     sectionRef,
     [id],

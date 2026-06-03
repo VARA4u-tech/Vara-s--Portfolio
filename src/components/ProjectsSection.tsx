@@ -4,8 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SectionBlock from './SectionBlock';
 import { Badge } from './ui/badge';
 import { playHover, playClick } from '@/hooks/useSoundEffects';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
-import { useGSAPContext } from '@/hooks/useGSAPContext';
+
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type FilterKey = 'all' | 'ai' | 'web' | 'mobile' | 'ecommerce';
@@ -243,31 +242,6 @@ const ProjectsSection = () => {
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
   const gridRef = useRef<HTMLDivElement>(null);
 
-  // Scroll-triggered entrance for the whole section (runs once)
-  useGSAPContext(
-    () => {
-      const cards = gridRef.current?.querySelectorAll('.gsap-project-card');
-      if (!cards || cards.length === 0) return;
-
-      gsap.from(cards, {
-        opacity: 0,
-        y: 60,
-        rotateX: 5,
-        transformPerspective: 900,
-        stagger: { each: 0.07, from: 'start' },
-        duration: 0.7,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: gridRef.current,
-          start: 'top 82%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-    },
-    gridRef,
-    [],
-  );
-
   const filtered =
     activeFilter === 'all'
       ? projects
@@ -336,7 +310,6 @@ const ProjectsSection = () => {
 
       {/* ── Project Grid ── */}
       <div
-        ref={gridRef}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-12"
       >
         <AnimatePresence mode="popLayout">
