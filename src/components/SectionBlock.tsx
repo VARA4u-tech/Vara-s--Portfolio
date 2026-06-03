@@ -27,7 +27,7 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
         ease: 'power3.out',
         scrollTrigger: {
           trigger: section,
-          start: 'top 88%',    // fire a bit earlier on all devices
+          start: 'top 88%', // fire a bit earlier on all devices
           end: 'top 55%',
           toggleActions: 'play none none reverse',
           // Prevents flicker when ScrollTrigger recalculates on orientation change

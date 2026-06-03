@@ -224,7 +224,11 @@ const ResumeModal = ({
             {/* ── Bottom Bar ── */}
             <div className="flex items-center justify-between px-5 py-2.5 border-t-2 border-black/10 bg-zinc-50 shrink-0">
               <p className="font-mono text-[10px] text-black/40 uppercase tracking-widest">
-                Press <kbd className="px-1.5 py-0.5 border border-black/20 bg-white font-mono text-[9px] rounded-none">ESC</kbd> to close
+                Press{' '}
+                <kbd className="px-1.5 py-0.5 border border-black/20 bg-white font-mono text-[9px] rounded-none">
+                  ESC
+                </kbd>{' '}
+                to close
               </p>
               <p className="font-mono text-[10px] text-black/40 uppercase tracking-widest hidden sm:block">
                 scroll to read · pinch to zoom

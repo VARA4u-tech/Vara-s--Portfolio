@@ -34,7 +34,8 @@ const Navbar = () => {
         end: 'max',
         onUpdate: () => {
           const currentY = window.scrollY;
-          const isScrollingDown = currentY > lastScrollY && currentY > hideThreshold;
+          const isScrollingDown =
+            currentY > lastScrollY && currentY > hideThreshold;
           lastScrollY = currentY;
 
           if (!navRef.current) return;

@@ -22,10 +22,10 @@ interface Project {
 
 // ─── Filter definitions ───────────────────────────────────────────────────────
 const FILTERS: { key: FilterKey; label: string }[] = [
-  { key: 'all',       label: 'All'        },
-  { key: 'ai',        label: 'AI'         },
-  { key: 'web',       label: 'Web'        },
-  { key: 'mobile',    label: 'Mobile'     },
+  { key: 'all', label: 'All' },
+  { key: 'ai', label: 'AI' },
+  { key: 'web', label: 'Web' },
+  { key: 'mobile', label: 'Mobile' },
   { key: 'ecommerce', label: 'E-Commerce' },
 ];
 
@@ -36,15 +36,37 @@ const projects: Project[] = [
     isNew: true,
     description:
       'An enterprise-grade AI assistant that automatically transcribes meeting audio, extracts high-value action items, and generates dynamic task boards for seamless workflow tracking.',
-    tags: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Gemini AI', 'Tailwind', 'Vite', 'Framer Motion'],
+    tags: [
+      'React',
+      'TypeScript',
+      'Node.js',
+      'Express',
+      'MongoDB',
+      'Gemini AI',
+      'Tailwind',
+      'Vite',
+      'Framer Motion',
+    ],
     categories: ['ai', 'web'],
-    githubUrl: 'https://github.com/VARA4u-tech/AI_Meeting_Summerizer_Task_Manager',
+    githubUrl:
+      'https://github.com/VARA4u-tech/AI_Meeting_Summerizer_Task_Manager',
   },
   {
     title: 'MAIL-MIND-AI',
     description:
       'A professional-grade, AI-powered email assistant that transforms your inbox into a dynamic command center by leveraging Gemma 2 27B and the Gmail API.',
-    tags: ['React', 'TypeScript', 'Node.js', 'Express', 'Mongoose', 'Gmail API', 'Gemma', 'Tailwind', 'Vite', 'Framer Motion'],
+    tags: [
+      'React',
+      'TypeScript',
+      'Node.js',
+      'Express',
+      'Mongoose',
+      'Gmail API',
+      'Gemma',
+      'Tailwind',
+      'Vite',
+      'Framer Motion',
+    ],
     categories: ['ai', 'web'],
     githubUrl: 'https://github.com/VARA4u-tech/MAIL-MIND-AI',
     liveUrl: 'https://mail-mind-ai-xi.vercel.app/',
@@ -53,7 +75,16 @@ const projects: Project[] = [
     title: 'Vidyalaya',
     description:
       'An AI-powered study platform that transforms any PDF into summaries, quizzes, and personalized study plans in seconds.',
-    tags: ['React', 'Vite', 'TypeScript', 'Tailwind', 'Framer Motion', 'Node.js', 'Vercel', 'AI'],
+    tags: [
+      'React',
+      'Vite',
+      'TypeScript',
+      'Tailwind',
+      'Framer Motion',
+      'Node.js',
+      'Vercel',
+      'AI',
+    ],
     categories: ['ai', 'web'],
     githubUrl: 'https://github.com/VARA4u-tech/Vidyalaya',
     liveUrl: 'https://vidyalaya-nine.vercel.app',
@@ -62,7 +93,17 @@ const projects: Project[] = [
     title: 'LOGICIA — Your AI Logic Brain',
     description:
       'An intelligent, all-in-one AI tutor designed specifically for competitive exams like UPSC, SSC, and Banking, featuring step-by-step logic, exam shortcuts, and bilingual support.',
-    tags: ['React', 'Vite', 'TypeScript', 'FastAPI', 'Python', 'SymPy', 'MongoDB', 'AI', 'Agile'],
+    tags: [
+      'React',
+      'Vite',
+      'TypeScript',
+      'FastAPI',
+      'Python',
+      'SymPy',
+      'MongoDB',
+      'AI',
+      'Agile',
+    ],
     categories: ['ai', 'web'],
     githubUrl: 'https://github.com/VARA4u-tech/-LOGICIA_Your_AI_Logic_Brain_',
     liveUrl: 'https://logicia-your-ai-logic-brain.vercel.app',
@@ -71,16 +112,37 @@ const projects: Project[] = [
     title: 'Lakshmi Fashion Designers',
     description:
       'A premium e-commerce portal for a modern tailoring and fancy store, featuring multi-language support (English & Telugu) and AI-powered product collections.',
-    tags: ['React', 'TypeScript', 'Tailwind', 'Node.js', 'Express', 'Supabase', 'Python', 'FastAPI', 'Framer Motion', 'i18n'],
+    tags: [
+      'React',
+      'TypeScript',
+      'Tailwind',
+      'Node.js',
+      'Express',
+      'Supabase',
+      'Python',
+      'FastAPI',
+      'Framer Motion',
+      'i18n',
+    ],
     categories: ['ecommerce', 'web', 'ai'],
-    githubUrl: 'https://github.com/VARA4u-tech/Lakshmi-Fashion-Designers-E-Commerce-Website',
+    githubUrl:
+      'https://github.com/VARA4u-tech/Lakshmi-Fashion-Designers-E-Commerce-Website',
     liveUrl: 'https://lakshmi-fashion-designers-e-commerc.vercel.app/',
   },
   {
     title: 'AI Voice-Controlled PDF Editor',
     description:
       'A mystical, AI-driven document editor where your voice commands reshape text and edit PDFs in real time. Upload a PDF, speak your intent, and watch the Gilded Scribe bring your words to life.',
-    tags: ['React', 'TypeScript', 'Tailwind', 'AI', 'Speech Recognition', 'Vite', 'PDF.js', 'LLM'],
+    tags: [
+      'React',
+      'TypeScript',
+      'Tailwind',
+      'AI',
+      'Speech Recognition',
+      'Vite',
+      'PDF.js',
+      'LLM',
+    ],
     categories: ['ai', 'web'],
     githubUrl: 'https://github.com/VARA4u-tech/AI-VoiceControlled-PDF-Editor',
     liveUrl: 'https://ai-voice-controlled-pdf-editor.vercel.app',
@@ -89,16 +151,31 @@ const projects: Project[] = [
     title: 'SafeTrip Pro',
     description:
       'AI-powered safety navigation featuring drowsiness detection and real-time emergency alerts.',
-    tags: ['React', 'TypeScript', 'Tailwind', 'Supabase', 'Framer Motion', 'Vite'],
+    tags: [
+      'React',
+      'TypeScript',
+      'Tailwind',
+      'Supabase',
+      'Framer Motion',
+      'Vite',
+    ],
     categories: ['web', 'ai'],
-    githubUrl: 'https://github.com/VARA4u-tech/safe-trip-smart-driving-safety-application',
+    githubUrl:
+      'https://github.com/VARA4u-tech/safe-trip-smart-driving-safety-application',
     liveUrl: 'https://safe-trip-smart-driving-safety-appl.vercel.app',
   },
   {
     title: 'Academy of Tech Masters (AOTMS)',
     description:
       'Tech education platform with AI assistance and interactive student management for real-world clients.',
-    tags: ['React', 'TypeScript', 'Tailwind', 'Vite', 'Zustand', 'Framer Motion'],
+    tags: [
+      'React',
+      'TypeScript',
+      'Tailwind',
+      'Vite',
+      'Zustand',
+      'Framer Motion',
+    ],
     categories: ['web'],
     githubUrl: 'https://github.com/VARA4u-tech/AOTMS',
     liveUrl: 'https://www.aotms.in/',
@@ -109,14 +186,22 @@ const projects: Project[] = [
       'Luxury Ayurvedic e-commerce platform featuring a custom WhatsApp-integrated checkout system.',
     tags: ['React', 'TypeScript', 'Tailwind', 'Vite', 'Shadcn UI', 'Vitest'],
     categories: ['ecommerce', 'web'],
-    githubUrl: 'https://github.com/VARA4u-tech/Elara-Cosmetics-E--Commerce-Website-',
+    githubUrl:
+      'https://github.com/VARA4u-tech/Elara-Cosmetics-E--Commerce-Website-',
     liveUrl: 'https://elara-cosmetics.vercel.app/',
   },
   {
     title: 'EduPredict',
     description:
       'AI predictive analytics for student success with a unique comic book-inspired interface.',
-    tags: ['React', 'TypeScript', 'Tailwind', 'Vite', 'Lucide React', 'Framer Motion'],
+    tags: [
+      'React',
+      'TypeScript',
+      'Tailwind',
+      'Vite',
+      'Lucide React',
+      'Framer Motion',
+    ],
     categories: ['ai', 'web'],
     githubUrl: 'https://github.com/VARA4u-tech/EduPredict',
     liveUrl: 'https://edu-pridect.vercel.app/',
@@ -267,10 +352,7 @@ const ProjectsSection = () => {
               className="gsap-project-card w-full h-full"
               onMouseEnter={playHover}
             >
-              <div
-                className="w-full h-full group relative border-2 border-black px-6 py-10 flex flex-col justify-between shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500 bg-white rounded-none min-h-[480px]"
-              >
-
+              <div className="w-full h-full group relative border-2 border-black px-6 py-10 flex flex-col justify-between shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500 bg-white rounded-none min-h-[480px]">
                 {/* "Latest Work" badge */}
                 {project.isNew && (
                   <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-10 rotate-3 group-hover:rotate-0 transition-transform">
