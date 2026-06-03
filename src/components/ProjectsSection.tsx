@@ -5,7 +5,6 @@ import SectionBlock from './SectionBlock';
 import { Badge } from './ui/badge';
 import { playHover, playClick } from '@/hooks/useSoundEffects';
 
-
 // ─── Types ────────────────────────────────────────────────────────────────────
 type FilterKey = 'all' | 'ai' | 'web' | 'mobile' | 'ecommerce';
 
@@ -309,9 +308,7 @@ const ProjectsSection = () => {
       </div>
 
       {/* ── Project Grid ── */}
-      <div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-12"
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-12">
         <AnimatePresence mode="popLayout">
           {filtered.map((project, i) => (
             <motion.div
