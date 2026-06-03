@@ -8,11 +8,14 @@ import {
   ChevronDown,
   InstagramIcon,
   BookOpen,
+  Eye,
+  Download,
 } from 'lucide-react';
 import Magnetic from './Magnetic';
 import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
 import { gsap } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
+import ResumeModal from './ResumeModal';
 
 const roles = [
   'Vibe Coder',
@@ -34,6 +37,7 @@ const HeroSection = () => {
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [cursorVisible, setCursorVisible] = useState(true);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const heroRef = useRef<HTMLElement>(null);
 
@@ -353,21 +357,46 @@ const HeroSection = () => {
           })}
         </div>
 
-        {/* Resume button */}
-        <div className="gsap-resume mt-10">
+        {/* Resume buttons — View (opens modal) + Download */}
+        <div className="gsap-resume mt-10 flex flex-wrap items-center justify-center gap-3">
+          {/* Primary: View Resume */}
+          <Magnetic strength={0.1}>
+            <button
+              onClick={() => {
+                playClick();
+                setIsResumeOpen(true);
+              }}
+              aria-label="View resume PDF preview"
+              className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none"
+            >
+              <Eye className="w-4 h-4" />
+              <span>View Resume</span>
+            </button>
+          </Magnetic>
+
+          {/* Secondary: Direct Download */}
           <Magnetic strength={0.1}>
             <a
               href="/resume.pdf"
               download="Durga_Vara_Prasad_Resume.pdf"
               onClick={playClick}
-              className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none"
+              aria-label="Download resume as PDF"
+              className="group relative inline-flex items-center gap-2 px-6 py-4 border-2 border-black bg-white text-black text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] rounded-none"
             >
-              <span>Download Resume</span>
-              <span className="w-2 h-2 border-r-2 border-b-2 border-current rotate-45 -translate-y-[1px] group-hover:translate-y-[1px] transition-transform duration-300"></span>
+              <Download className="w-4 h-4" />
+              <span className="hidden sm:inline">Download</span>
             </a>
           </Magnetic>
         </div>
       </div>
+
+      {/* Resume PDF Modal */}
+      <ResumeModal
+        isOpen={isResumeOpen}
+        onClose={() => setIsResumeOpen(false)}
+        resumeUrl="/resume.pdf"
+        downloadName="Durga_Vara_Prasad_Resume.pdf"
+      />
 
       {/* Bottom-left info */}
       <div className="gsap-corner absolute bottom-10 left-6 md:left-10 z-10">
