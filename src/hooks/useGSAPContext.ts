@@ -1,16 +1,4 @@
-/**
- * src/hooks/useGSAP.ts
- *
- * React-safe GSAP hook.
- * Wraps gsap.context() so all animations created inside are
- * automatically killed when the component unmounts — preventing memory leaks.
- *
- * Usage:
- *   const containerRef = useRef<HTMLElement>(null);
- *   useGSAPContext(() => {
- *     gsap.from('.my-el', { opacity: 0, y: 30 });
- *   }, containerRef);
- */
+
 import {
   useEffect,
   useLayoutEffect,
