@@ -33,7 +33,7 @@ const AnimatedAvatar = () => {
 
       {/* Status badge */}
       <div className="absolute -bottom-3 -right-3 bg-black text-white px-3 py-1 text-[10px] font-mono uppercase tracking-widest border border-black z-10">
-        <span className="inline-block w-1.5 h-1.5 bg-green-400 rounded-none mr-1.5 animate-pulse" />
+        <span className="inline-block w-1.5 h-1.5 bg-white rounded-none mr-1.5 animate-pulse" />
         Available
       </div>
     </div>
