@@ -42,7 +42,8 @@ const contactFormSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   message: z
     .string()
-    .min(10, { message: 'Message must be at least 10 characters.' }),
+    .min(10, { message: 'Message must be at least 10 characters.' })
+    .max(1000, { message: 'Message cannot exceed 1000 characters.' }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -76,6 +77,7 @@ const ContactSection = () => {
     formState: { errors, isSubmitting },
     reset,
     getValues,
+    watch,
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -84,6 +86,10 @@ const ContactSection = () => {
       message: '',
     },
   });
+
+  const messageValue = watch('message') || '';
+  const messageLength = messageValue.length;
+  const MAX_MESSAGE_LENGTH = 1000;
 
   const onSubmit = async (data: ContactFormValues) => {
     setSubmitError(null);
@@ -206,7 +212,7 @@ const ContactSection = () => {
                 aria-label={copied ? 'Email copied' : 'Copy email address'}
               >
                 {copied ? (
-                  <Check className="w-4 h-4 text-green-600" />
+                  <Check className="w-4 h-4 text-black" />
                 ) : (
                   <Copy className="w-4 h-4 text-foreground/40" />
                 )}
@@ -256,7 +262,7 @@ const ContactSection = () => {
         <div className="w-full">
           {isSubmitted ? (
             <div className="flex flex-col items-center justify-center p-8 border-2 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center space-y-6 animate-fade-in min-h-[400px] rounded-none">
-              <div className="p-4 bg-green-50 border-2 border-green-600 rounded-none text-green-600">
+              <div className="p-4 bg-black border-2 border-black rounded-none text-white animate-pulse">
                 <CheckCircle className="w-12 h-12" />
               </div>
               <h3 className="font-mono text-2xl font-black uppercase tracking-wider text-black">
@@ -394,6 +400,7 @@ const ContactSection = () => {
                   id="contact-message"
                   rows={5}
                   placeholder=" "
+                  maxLength={MAX_MESSAGE_LENGTH}
                   {...register('message')}
                   className={`peer w-full bg-transparent border-2 ${
                     errors.message
@@ -411,12 +418,25 @@ const ContactSection = () => {
                 >
                   Message
                 </label>
-                {errors.message && (
-                  <p className="mt-1.5 font-mono text-xs text-red-500 font-bold flex items-center gap-1 animate-shake">
-                    <AlertTriangle className="w-3.5 h-3.5" />
-                    {errors.message.message}
-                  </p>
-                )}
+                <div className="flex justify-between items-center mt-1.5 min-h-[20px]">
+                  <div className="flex-1">
+                    {errors.message && (
+                      <p className="font-mono text-xs text-red-500 font-bold flex items-center gap-1 animate-shake">
+                        <AlertTriangle className="w-3.5 h-3.5" />
+                        {errors.message.message}
+                      </p>
+                    )}
+                  </div>
+                  <div
+                    className={`font-mono text-xs ${
+                      messageLength >= MAX_MESSAGE_LENGTH
+                        ? 'text-red-500 font-bold'
+                        : 'text-foreground/40'
+                    }`}
+                  >
+                    {messageLength} / {MAX_MESSAGE_LENGTH}
+                  </div>
+                </div>
               </div>
 
               <div>
@@ -429,27 +449,27 @@ const ContactSection = () => {
                 >
                   {isSubmitting ? (
                     <>
-                      <span className="relative z-10 font-bold">
+                      <span className="relative z-10 font-bold group-hover:text-black transition-colors duration-300">
                         Sending...
                       </span>
-                      <Loader2 className="w-4 h-4 relative z-10 animate-spin" />
+                      <Loader2 className="w-4 h-4 relative z-10 animate-spin group-hover:text-black transition-colors duration-300" />
                     </>
                   ) : rateLimited ? (
                     <>
-                      <span className="relative z-10 font-bold">
+                      <span className="relative z-10 font-bold group-hover:text-black transition-colors duration-300">
                         Wait {cooldownSeconds}s
                       </span>
-                      <Loader2 className="w-4 h-4 relative z-10 animate-spin" />
+                      <Loader2 className="w-4 h-4 relative z-10 animate-spin group-hover:text-black transition-colors duration-300" />
                     </>
                   ) : (
                     <>
-                      <span className="relative z-10 font-bold">
+                      <span className="relative z-10 font-bold group-hover:text-black transition-colors duration-300">
                         Send Message
                       </span>
-                      <Send className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
+                      <Send className="w-4 h-4 relative z-10 group-hover:translate-x-1 group-hover:text-black transition-all duration-300" />
                     </>
                   )}
-                  <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                 </button>
               </div>
             </form>
