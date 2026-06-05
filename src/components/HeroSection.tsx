@@ -76,9 +76,12 @@ const HeroSection = () => {
     const FADE_DURATION = 220;
 
     interface Particle {
-      sx: number; sy: number; // start (scatter)
-      tx: number; ty: number; // target (centre)
-      x: number;  y: number;
+      sx: number;
+      sy: number; // start (scatter)
+      tx: number;
+      ty: number; // target (centre)
+      x: number;
+      y: number;
       size: number;
       shade: number;
       eased: number;
@@ -90,19 +93,31 @@ const HeroSection = () => {
     const particles: Particle[] = Array.from({ length: PARTICLE_COUNT }, () => {
       // scatter from screen edges
       const edge = Math.floor(Math.random() * 4);
-      let sx = 0, sy = 0;
-      if (edge === 0) { sx = Math.random() * canvas.width; sy = -20; }
-      else if (edge === 1) { sx = canvas.width + 20; sy = Math.random() * canvas.height; }
-      else if (edge === 2) { sx = Math.random() * canvas.width; sy = canvas.height + 20; }
-      else { sx = -20; sy = Math.random() * canvas.height; }
+      let sx = 0,
+        sy = 0;
+      if (edge === 0) {
+        sx = Math.random() * canvas.width;
+        sy = -20;
+      } else if (edge === 1) {
+        sx = canvas.width + 20;
+        sy = Math.random() * canvas.height;
+      } else if (edge === 2) {
+        sx = Math.random() * canvas.width;
+        sy = canvas.height + 20;
+      } else {
+        sx = -20;
+        sy = Math.random() * canvas.height;
+      }
 
       // target: cluster around name area
       const spread = 200;
       return {
-        sx, sy,
+        sx,
+        sy,
         tx: cx + (Math.random() - 0.5) * spread,
         ty: cy - 30 + (Math.random() - 0.5) * 80,
-        x: sx, y: sy,
+        x: sx,
+        y: sy,
         size: Math.random() * 5 + 2,
         shade: Math.floor(Math.random() * 60),
         eased: 0,
@@ -159,14 +174,16 @@ const HeroSection = () => {
     };
 
     // 300ms delay so page has loaded
-    const timeout = setTimeout(() => { animId = requestAnimationFrame(draw); }, 300);
+    const timeout = setTimeout(() => {
+      animId = requestAnimationFrame(draw);
+    }, 300);
 
     return () => {
       clearTimeout(timeout);
       cancelAnimationFrame(animId);
       if (nameEl) nameEl.style.opacity = '1';
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ── GSAP Hero Entrance Timeline ──
@@ -176,10 +193,12 @@ const HeroSection = () => {
       const tl = gsap.timeline({ delay: 1.65 });
 
       // Typewriter container
-      tl.from(
-        '.gsap-role',
-        { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out' },
-      );
+      tl.from('.gsap-role', {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        ease: 'power3.out',
+      });
 
       // Tech tags stagger — use opacity+y only (no scale on flex span children)
       tl.from(

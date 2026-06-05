@@ -4,7 +4,7 @@ const CHARS = '!<>-_\\/[]{}—=+*^?#░▒▓█▄▀■□▪▫';
 
 interface Options {
   duration?: number; // total scramble duration in ms (default 700)
-  fps?: number;      // max updates per second (default 24)
+  fps?: number; // max updates per second (default 24)
   onComplete?: () => void;
 }
 

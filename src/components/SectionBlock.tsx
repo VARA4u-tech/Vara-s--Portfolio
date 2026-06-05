@@ -76,10 +76,7 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
       id={id}
       className="max-w-6xl mx-auto px-6 py-16 md:py-32"
     >
-      <h2
-        ref={titleRef}
-        className="gsap-section-title section-title mb-12"
-      >
+      <h2 ref={titleRef} className="gsap-section-title section-title mb-12">
         {title}.
       </h2>
       <div className="gsap-section-content">{children}</div>

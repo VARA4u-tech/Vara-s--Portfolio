@@ -1,6 +1,14 @@
 import SectionBlock from './SectionBlock';
 import AnimatedAvatar from './AnimatedAvatar';
-import { BookOpen, MapPin, Github, Code, Terminal, Cpu, ShieldCheck } from 'lucide-react';
+import {
+  BookOpen,
+  MapPin,
+  Github,
+  Code,
+  Terminal,
+  Cpu,
+  ShieldCheck,
+} from 'lucide-react';
 
 const AboutSection = () => {
   return (
@@ -9,7 +17,7 @@ const AboutSection = () => {
         {/* Left Column - Avatar & Quick Specs */}
         <div className="w-full lg:w-auto flex flex-col items-center shrink-0">
           <AnimatedAvatar />
-          
+
           {/* Neobrutalist Info Card */}
           <div className="w-full max-w-[256px] mt-8 border-2 border-black bg-white p-4 font-mono text-xs space-y-2.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none">
             <div className="flex justify-between border-b border-black/10 pb-1.5">
@@ -53,14 +61,15 @@ const AboutSection = () => {
             </p>
             <p className="body-text max-w-3xl">
               With experience across mobile and web platforms, I bring a unique
-              perspective to every project — blending technical rigor with creative
-              sensibility.
+              perspective to every project — blending technical rigor with
+              creative sensibility.
             </p>
             <p className="body-text max-w-3xl">
-              I focus on writing well-structured, maintainable code that aligns with modern
-              industry standards. By leveraging contemporary development workflows and
-              robust toolings, I efficiently translate ideas into production-ready software
-              while maintaining clean, scalable, and modular architectures.
+              I focus on writing well-structured, maintainable code that aligns
+              with modern industry standards. By leveraging contemporary
+              development workflows and robust toolings, I efficiently translate
+              ideas into production-ready software while maintaining clean,
+              scalable, and modular architectures.
             </p>
           </div>
 
@@ -92,7 +101,7 @@ const AboutSection = () => {
               <Code className="w-4 h-4" />
               // CORE WORKFLOW PRINCIPLES
             </h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <div className="font-mono text-xs font-bold uppercase flex items-center gap-2">
@@ -100,7 +109,9 @@ const AboutSection = () => {
                   Clean Architecture
                 </div>
                 <p className="text-xs text-black/70 leading-relaxed font-light pl-5">
-                  Structuring applications to be modular, robust, and self-documenting for seamless scalability and team collaboration.
+                  Structuring applications to be modular, robust, and
+                  self-documenting for seamless scalability and team
+                  collaboration.
                 </p>
               </div>
 
@@ -110,7 +121,8 @@ const AboutSection = () => {
                   High Velocity
                 </div>
                 <p className="text-xs text-black/70 leading-relaxed font-light pl-5">
-                  Optimizing development workflows through contemporary automation tools and structured coding standards.
+                  Optimizing development workflows through contemporary
+                  automation tools and structured coding standards.
                 </p>
               </div>
 
@@ -120,7 +132,8 @@ const AboutSection = () => {
                   Type Safety
                 </div>
                 <p className="text-xs text-black/70 leading-relaxed font-light pl-5">
-                  Implementing strict TypeScript checking, comprehensive input validation, and predictable state management.
+                  Implementing strict TypeScript checking, comprehensive input
+                  validation, and predictable state management.
                 </p>
               </div>
 
@@ -130,7 +143,8 @@ const AboutSection = () => {
                   Responsive Design
                 </div>
                 <p className="text-xs text-black/70 leading-relaxed font-light pl-5">
-                  Developing fluid, pixel-perfect user interfaces that render consistently and gracefully across all screen sizes.
+                  Developing fluid, pixel-perfect user interfaces that render
+                  consistently and gracefully across all screen sizes.
                 </p>
               </div>
             </div>

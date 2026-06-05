@@ -350,7 +350,12 @@
       cursor: none;
     }
 
-    a, button, [role="button"], label, select, [tabindex] {
+    a,
+    button,
+    [role='button'],
+    label,
+    select,
+    [tabindex] {
       cursor: none;
     }
   }
@@ -363,14 +368,13 @@
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.25s ease;
-    background:
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 3px,
-        rgba(0, 0, 0, 0.03) 3px,
-        rgba(0, 0, 0, 0.03) 4px
-      );
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.03) 3px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
     background-size: 100% 4px;
     /* Pixel noise via radial-gradient pattern */
     mask-image: none;
@@ -383,7 +387,7 @@
     background: linear-gradient(
       to bottom,
       transparent 0%,
-      rgba(0,0,0,0.04) 50%,
+      rgba(0, 0, 0, 0.04) 50%,
       transparent 100%
     );
     background-size: 100% 8px;
@@ -411,8 +415,13 @@
 
   /* ─── Pixel grid dot pulse (used by PixelGrid.tsx via canvas) ─── */
   @keyframes pixel-pulse {
-    0%, 100% { opacity: 0.08; }
-    50%       { opacity: 0.22; }
+    0%,
+    100% {
+      opacity: 0.08;
+    }
+    50% {
+      opacity: 0.22;
+    }
   }
 
   /* ─── Pixel cursor canvas crosshair overlay ─── */

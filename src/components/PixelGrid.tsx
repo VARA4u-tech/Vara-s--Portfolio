@@ -108,15 +108,18 @@ const PixelGrid = () => {
         const dy = drawY - mouseY;
         const dist = Math.sqrt(dx * dx + dy * dy);
         const proximity =
-          dist < MOUSE_RADIUS
-            ? (1 - dist / MOUSE_RADIUS) * MOUSE_BOOST
-            : 0;
+          dist < MOUSE_RADIUS ? (1 - dist / MOUSE_RADIUS) * MOUSE_BOOST : 0;
 
         dot.alpha = Math.min(0.85, dot.baseAlpha + pulse + proximity);
 
         ctx.globalAlpha = dot.alpha;
         ctx.fillStyle = '#000000';
-        ctx.fillRect(dot.x - DOT_SIZE / 2, drawY - DOT_SIZE / 2, DOT_SIZE, DOT_SIZE);
+        ctx.fillRect(
+          dot.x - DOT_SIZE / 2,
+          drawY - DOT_SIZE / 2,
+          DOT_SIZE,
+          DOT_SIZE,
+        );
       }
 
       ctx.globalAlpha = 1;
