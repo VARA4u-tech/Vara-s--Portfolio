@@ -428,4 +428,27 @@
   .pixel-cursor-canvas {
     mix-blend-mode: multiply;
   }
+
+  /* ─── Mobile/Tablet: hide pixel canvas animations ─── */
+
+  /* Hide cursor trail canvas on touch/mobile (JS already skips it, this is belt-and-suspenders) */
+  @media (max-width: 768px), (hover: none) {
+    .pixel-cursor-canvas {
+      display: none !important;
+    }
+  }
+
+  /* Disable CRT scanline on touch — hover state never fires on mobile anyway */
+  @media (hover: none) {
+    .pixel-scanline-overlay {
+      display: none;
+    }
+  }
+
+  /* Remove overflow-hidden from project cards on mobile to prevent layout shift */
+  @media (max-width: 768px) {
+    .gsap-project-card > div {
+      overflow: visible;
+    }
+  }
 }

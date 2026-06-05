@@ -60,7 +60,27 @@ const HeroSection = () => {
     const canvas = assembleCanvasRef.current;
     const nameEl = nameRef.current;
     if (!canvas || !nameEl) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Skip animation — show name immediately
+      nameEl.style.opacity = '1';
+      canvas.style.display = 'none';
+      return;
+    }
+
+    // Skip heavy particle animation on mobile/tablet — just fade name in
+    const isMobileOrTablet = window.innerWidth <= 1024;
+    if (isMobileOrTablet) {
+      canvas.style.display = 'none';
+      nameEl.style.opacity = '0';
+      nameEl.style.transition = 'opacity 0.6s ease 0.3s';
+      // Trigger reflow then fade in
+      requestAnimationFrame(() => {
+        nameEl.style.opacity = '1';
+        setTimeout(scrambleLine1, 400);
+        setTimeout(scrambleLine2, 650);
+      });
+      return;
+    }
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -189,8 +209,10 @@ const HeroSection = () => {
   // ── GSAP Hero Entrance Timeline ──
   useGSAPContext(
     () => {
-      // Delay the rest of the hero entrance until after pixel assembly (~1.6s)
-      const tl = gsap.timeline({ delay: 1.65 });
+      // On mobile/tablet: skip the 1.65s wait (no particle assembly)
+      // On desktop: wait for particle assembly to finish (~1.6s)
+      const isMobileOrTablet = window.innerWidth <= 1024;
+      const tl = gsap.timeline({ delay: isMobileOrTablet ? 0.4 : 1.65 });
 
       // Typewriter container
       tl.from('.gsap-role', {
@@ -292,6 +314,12 @@ const HeroSection = () => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (motionQuery.matches) return;
 
+    // Disable on mobile for performance — canvas is hidden by CSS anyway
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) return;
+
+    const isTablet = window.innerWidth <= 1024;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -304,7 +332,9 @@ const HeroSection = () => {
 
     const chars = '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
     const fontSize = 14;
-    const columns = Math.floor(canvas.width / fontSize);
+    // On tablet: halve column count by doubling fontSize stride
+    const colStride = isTablet ? fontSize * 2 : fontSize;
+    const columns = Math.floor(canvas.width / colStride);
 
     const dropObjects = Array.from({ length: columns }, () => ({
       y: Math.random() * -100,
@@ -318,7 +348,8 @@ const HeroSection = () => {
     });
 
     let lastFrameTime = 0;
-    const frameInterval = 30;
+    // Tablet: ~20fps (50ms), Desktop: ~33fps (30ms)
+    const frameInterval = isTablet ? 50 : 30;
     let animationId: number;
 
     const draw = (timestamp: number) => {
@@ -337,12 +368,12 @@ const HeroSection = () => {
 
         ctx.font = `${currentFontSize}px monospace`;
         ctx.fillStyle = `rgba(0, 0, 0, ${opacity * 1.5})`;
-        ctx.fillText(char, i * fontSize, drop.y * fontSize);
+        ctx.fillText(char, i * colStride, drop.y * fontSize);
 
         if (drop.y > 1) {
           const trailChar = chars[Math.floor(Math.random() * chars.length)];
           ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
-          ctx.fillText(trailChar, i * fontSize, (drop.y - 1) * fontSize);
+          ctx.fillText(trailChar, i * colStride, (drop.y - 1) * fontSize);
         }
 
         drop.y += drop.speed;
