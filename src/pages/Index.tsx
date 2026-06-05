@@ -12,10 +12,16 @@ import ScrollToTop from '@/components/ScrollToTop';
 import Terminal from '@/components/Terminal';
 import Finale from '@/components/Finale';
 import EasterEgg from '@/components/EasterEgg';
+import PixelCursor from '@/components/PixelCursor';
+import PixelGrid from '@/components/PixelGrid';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* ── Pixel Animation Layer ── */}
+      <PixelGrid />
+      <PixelCursor />
+
       <EasterEgg />
       <Navbar />
       <ScrollToTop />

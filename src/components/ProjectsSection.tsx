@@ -322,7 +322,12 @@ const ProjectsSection = () => {
               className="gsap-project-card w-full h-full"
               onMouseEnter={playHover}
             >
-              <div className="w-full h-full group relative border-2 border-black px-6 py-10 flex flex-col justify-between shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500 bg-white rounded-none min-h-[480px]">
+              <div className="w-full h-full group relative border-2 border-black px-6 py-10 flex flex-col justify-between shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500 bg-white rounded-none min-h-[480px] overflow-hidden">
+                {/* CRT pixel scanline hover overlay */}
+                <div
+                  aria-hidden="true"
+                  className="pixel-scanline-overlay"
+                />
                 {/* "Latest Work" badge */}
                 {project.isNew && (
                   <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-10 rotate-3 group-hover:rotate-0 transition-transform">

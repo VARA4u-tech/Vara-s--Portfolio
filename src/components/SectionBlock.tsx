@@ -1,6 +1,7 @@
 import { useRef, type ReactNode } from 'react';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { gsap } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
+import { useScrambleText } from '@/hooks/useScrambleText';
 
 interface SectionBlockProps {
   id: string;
@@ -10,6 +11,10 @@ interface SectionBlockProps {
 
 const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
   const sectionRef = useRef<HTMLElement>(null);
+  const { ref: titleRef, scramble } = useScrambleText<HTMLHeadingElement>({
+    duration: 750,
+    fps: 28,
+  });
 
   useGSAPContext(
     () => {
@@ -19,7 +24,7 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
       // Detect mobile/tablet — reduce motion intensity for performance
       const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-      // Section title — slides in from left
+      // Section title — slides in from left + triggers scramble
       gsap.fromTo(
         section.querySelector('.gsap-section-title'),
         { opacity: 0, x: isMobile ? -20 : -40 },
@@ -31,9 +36,13 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
           scrollTrigger: {
             trigger: section,
             start: 'top 88%',
-            toggleActions: 'play none none none', // never reverse — content stays visible
+            toggleActions: 'play none none none',
             invalidateOnRefresh: true,
             once: true,
+            onEnter: () => {
+              // Fire scramble 200ms after slide starts — feels like decoding
+              setTimeout(scramble, 200);
+            },
           },
         },
       );
@@ -50,7 +59,7 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
           scrollTrigger: {
             trigger: section,
             start: 'top 82%',
-            toggleActions: 'play none none none', // never reverse — content stays visible
+            toggleActions: 'play none none none',
             invalidateOnRefresh: true,
             once: true,
           },
@@ -67,7 +76,12 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
       id={id}
       className="max-w-6xl mx-auto px-6 py-16 md:py-32"
     >
-      <h2 className="gsap-section-title section-title mb-12">{title}.</h2>
+      <h2
+        ref={titleRef}
+        className="gsap-section-title section-title mb-12"
+      >
+        {title}.
+      </h2>
       <div className="gsap-section-content">{children}</div>
     </section>
   );

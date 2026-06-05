@@ -343,4 +343,80 @@
   * {
     -webkit-tap-highlight-color: transparent;
   }
+
+  /* ─── Custom cursor dot (hides default on desktop) ─── */
+  @media (hover: hover) and (pointer: fine) {
+    body {
+      cursor: none;
+    }
+
+    a, button, [role="button"], label, select, [tabindex] {
+      cursor: none;
+    }
+  }
+
+  /* ─── CRT pixel scanline overlay on project cards ─── */
+  .pixel-scanline-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0, 0, 0, 0.03) 3px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
+    background-size: 100% 4px;
+    /* Pixel noise via radial-gradient pattern */
+    mask-image: none;
+  }
+
+  .pixel-scanline-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0,0,0,0.04) 50%,
+      transparent 100%
+    );
+    background-size: 100% 8px;
+    animation: none;
+  }
+
+  .group:hover .pixel-scanline-overlay {
+    opacity: 1;
+  }
+
+  .group:hover .pixel-scanline-overlay::after {
+    animation: crt-sweep 0.8s ease-out forwards;
+  }
+
+  @keyframes crt-sweep {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateY(110%);
+      opacity: 0;
+    }
+  }
+
+  /* ─── Pixel grid dot pulse (used by PixelGrid.tsx via canvas) ─── */
+  @keyframes pixel-pulse {
+    0%, 100% { opacity: 0.08; }
+    50%       { opacity: 0.22; }
+  }
+
+  /* ─── Pixel cursor canvas crosshair overlay ─── */
+  .pixel-cursor-canvas {
+    mix-blend-mode: multiply;
+  }
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
+import { useScrambleText } from '@/hooks/useScrambleText';
 import {
   Github,
   Linkedin,
@@ -39,36 +40,145 @@ const HeroSection = () => {
   const [cursorVisible, setCursorVisible] = useState(true);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const assembleCanvasRef = useRef<HTMLCanvasElement>(null);
   const heroRef = useRef<HTMLElement>(null);
+  const nameRef = useRef<HTMLHeadingElement>(null);
+
+  // Scramble for hero name — fires after pixel assembly settles
+  const { ref: scrambleLine1Ref, scramble: scrambleLine1 } =
+    useScrambleText<HTMLDivElement>({ duration: 600, fps: 30 });
+  const { ref: scrambleLine2Ref, scramble: scrambleLine2 } =
+    useScrambleText<HTMLDivElement>({ duration: 500, fps: 30 });
 
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
+  // ── Pixel Particle Assembly — hero name flies in from screen edges ──
+  useEffect(() => {
+    const canvas = assembleCanvasRef.current;
+    const nameEl = nameRef.current;
+    if (!canvas || !nameEl) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Hide real name until assembly completes
+    nameEl.style.opacity = '0';
+
+    const PARTICLE_COUNT = 90;
+    const ASSEMBLE_DURATION = 1300; // ms
+    const FADE_DURATION = 220;
+
+    interface Particle {
+      sx: number; sy: number; // start (scatter)
+      tx: number; ty: number; // target (centre)
+      x: number;  y: number;
+      size: number;
+      shade: number;
+      eased: number;
+    }
+
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+
+    const particles: Particle[] = Array.from({ length: PARTICLE_COUNT }, () => {
+      // scatter from screen edges
+      const edge = Math.floor(Math.random() * 4);
+      let sx = 0, sy = 0;
+      if (edge === 0) { sx = Math.random() * canvas.width; sy = -20; }
+      else if (edge === 1) { sx = canvas.width + 20; sy = Math.random() * canvas.height; }
+      else if (edge === 2) { sx = Math.random() * canvas.width; sy = canvas.height + 20; }
+      else { sx = -20; sy = Math.random() * canvas.height; }
+
+      // target: cluster around name area
+      const spread = 200;
+      return {
+        sx, sy,
+        tx: cx + (Math.random() - 0.5) * spread,
+        ty: cy - 30 + (Math.random() - 0.5) * 80,
+        x: sx, y: sy,
+        size: Math.random() * 5 + 2,
+        shade: Math.floor(Math.random() * 60),
+        eased: 0,
+      };
+    });
+
+    const start = performance.now();
+    let animId: number;
+    let phase: 'assemble' | 'fade' = 'assemble';
+    let fadeStart = 0;
+
+    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+
+    const draw = (now: number) => {
+      animId = requestAnimationFrame(draw);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (phase === 'assemble') {
+        const t = Math.min((now - start) / ASSEMBLE_DURATION, 1);
+
+        for (const p of particles) {
+          p.eased = easeOutQuart(t);
+          p.x = p.sx + (p.tx - p.sx) * p.eased;
+          p.y = p.sy + (p.ty - p.sy) * p.eased;
+
+          ctx.globalAlpha = 0.7 + t * 0.3;
+          ctx.fillStyle = `rgb(${p.shade},${p.shade},${p.shade})`;
+          ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+        }
+
+        if (t >= 1) {
+          // Assembly done — reveal real name + scramble
+          nameEl.style.opacity = '1';
+          nameEl.style.transition = 'opacity 0.25s ease';
+          setTimeout(scrambleLine1, 50);
+          setTimeout(scrambleLine2, 280);
+          phase = 'fade';
+          fadeStart = now;
+        }
+      } else {
+        // Fade out canvas
+        const ft = Math.min((now - fadeStart) / FADE_DURATION, 1);
+        if (ft >= 1) {
+          cancelAnimationFrame(animId);
+          canvas.style.display = 'none';
+          return;
+        }
+        ctx.globalAlpha = 1 - ft;
+        for (const p of particles) {
+          ctx.fillStyle = `rgb(${p.shade},${p.shade},${p.shade})`;
+          ctx.fillRect(Math.round(p.tx), Math.round(p.ty), p.size, p.size);
+        }
+      }
+    };
+
+    // 300ms delay so page has loaded
+    const timeout = setTimeout(() => { animId = requestAnimationFrame(draw); }, 300);
+
+    return () => {
+      clearTimeout(timeout);
+      cancelAnimationFrame(animId);
+      if (nameEl) nameEl.style.opacity = '1';
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // ── GSAP Hero Entrance Timeline ──
   useGSAPContext(
     () => {
-      const tl = gsap.timeline({ delay: 0.1 });
-
-      // Split name letters into spans for stagger
-      const nameLines = heroRef.current?.querySelectorAll('.gsap-name-line');
-      if (nameLines && nameLines.length > 0) {
-        tl.from(nameLines, {
-          opacity: 0,
-          y: 80,
-          skewY: 4,
-          stagger: 0.12,
-          duration: 1,
-          ease: 'power4.out',
-        });
-      }
+      // Delay the rest of the hero entrance until after pixel assembly (~1.6s)
+      const tl = gsap.timeline({ delay: 1.65 });
 
       // Typewriter container
       tl.from(
         '.gsap-role',
         { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out' },
-        '-=0.4',
       );
 
       // Tech tags stagger — use opacity+y only (no scale on flex span children)
@@ -251,11 +361,24 @@ const HeroSection = () => {
       ref={heroRef}
       className="min-h-screen flex flex-col justify-center items-center relative px-6 overflow-hidden pb-12"
     >
+      {/* Matrix rain background */}
       <motion.canvas
         ref={canvasRef}
         style={{ y: y1 }}
         className="absolute inset-0 z-0 pointer-events-none opacity-60"
         aria-hidden="true"
+      />
+
+      {/* Pixel particle assembly canvas — full screen, above everything briefly */}
+      <canvas
+        ref={assembleCanvasRef}
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 50,
+          pointerEvents: 'none',
+        }}
       />
 
       {/* Top-left code comment */}
@@ -286,14 +409,23 @@ const HeroSection = () => {
       <div className="text-center relative z-10 pt-24 md:pt-20">
         {/* Name — GSAP animates each line */}
         <h1
+          ref={nameRef}
           className="heading-brutal leading-[0.85] overflow-hidden"
           style={{ fontSize: 'clamp(65px, 13vw, 140px)' }}
         >
-          <div className="gsap-name-line glitch-text" data-text="Durga Vara">
+          <div
+            ref={scrambleLine1Ref}
+            className="gsap-name-line glitch-text"
+            data-text="Durga Vara"
+          >
             Durga Vara
           </div>
           <br />
-          <div className="gsap-name-line glitch-text" data-text="Prasad.">
+          <div
+            ref={scrambleLine2Ref}
+            className="gsap-name-line glitch-text"
+            data-text="Prasad."
+          >
             <span className="text-foreground/20">Prasad.</span>
           </div>
         </h1>
