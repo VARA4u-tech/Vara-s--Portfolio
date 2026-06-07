@@ -165,15 +165,22 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
           </p>
 
           <div className="flex flex-wrap gap-1.5 mb-5 md:mb-6">
-            {project.tags.slice(0, typeof window !== 'undefined' && window.innerWidth < 640 ? 5 : 8).map((tag) => (
-              <Badge
-                key={tag}
-                variant="secondary"
-                className="font-mono text-[9px] font-bold border border-black/5 bg-black/5 px-2 py-0.5 rounded-none"
-              >
-                {tag}
-              </Badge>
-            ))}
+            {project.tags
+              .slice(
+                0,
+                typeof window !== 'undefined' && window.innerWidth < 640
+                  ? 5
+                  : 8,
+              )
+              .map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className="font-mono text-[9px] font-bold border border-black/5 bg-black/5 px-2 py-0.5 rounded-none"
+                >
+                  {tag}
+                </Badge>
+              ))}
             {project.tags.length > 8 && (
               <span className="text-[9px] font-bold opacity-30">
                 +{project.tags.length - 8}
