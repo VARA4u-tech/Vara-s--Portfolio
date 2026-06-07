@@ -456,7 +456,7 @@
   /* Promote the canvas to its own GPU layer to avoid repaints touching the DOM */
   .matrix-rain-canvas {
     will-change: transform; /* GPU compositing layer */
-    contain: strict; /* layout + paint isolation */
+    contain: paint; /* paint isolation only — strict adds overflow:hidden */
     transform: translateZ(0); /* force GPU promotion on WebKit */
   }
 

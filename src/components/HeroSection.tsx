@@ -55,6 +55,13 @@ const HeroSection = () => {
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
+  // On mobile/tablet, kill the canvas parallax — moving the canvas off-screen
+  // leaves a dark background gap. Desktop keeps the subtle depth effect.
+  const canvasY = useTransform(
+    y1,
+    (v) => (typeof window !== 'undefined' && window.innerWidth <= 1024 ? 0 : v),
+  );
+
   // ── Pixel Particle Assembly — hero name flies in from screen edges ──
   useEffect(() => {
     const canvas = assembleCanvasRef.current;
@@ -489,7 +496,7 @@ const HeroSection = () => {
       {/* Matrix rain background */}
       <motion.canvas
         ref={canvasRef}
-        style={{ y: y1 }}
+        style={{ y: canvasY }}
         className="matrix-rain-canvas absolute inset-0 z-0 pointer-events-none opacity-60"
         aria-hidden="true"
       />
