@@ -451,4 +451,122 @@
       overflow: visible;
     }
   }
+
+  /* ═══════════════════════════════════════════════════════════
+     PROJECT CARD — CURSOR-FOLLOWING BADGE HOVER SYSTEM
+  ═══════════════════════════════════════════════════════════ */
+
+  .project-card-wrapper {
+    position: relative;
+  }
+
+  /* Very faint half-tint — just a whisper, content stays visible */
+  .zone-half-tint {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+  }
+
+  /* Vertical mid-line hint when hovering */
+  .zone-split-line {
+    position: absolute;
+    top: 12%;
+    bottom: 12%;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(0, 0, 0, 0.08) 30%,
+      rgba(0, 0, 0, 0.08) 70%,
+      transparent
+    );
+    z-index: 7;
+    pointer-events: none;
+    animation: split-line-in 0.25s ease forwards;
+  }
+
+  @keyframes split-line-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── Cursor-following badge ── */
+  .cursor-zone-badge {
+    position: absolute;
+    z-index: 40;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 13px 7px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    transform: translate(-50%, calc(-100% - 14px));
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.22),
+      0 1px 4px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Source Code badge — dark ink */
+  .cursor-zone-badge.badge-source {
+    background: rgba(10, 10, 10, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Live Demo badge — deep indigo */
+  .cursor-zone-badge.badge-live {
+    background: rgba(14, 12, 40, 0.93);
+    border: 1px solid rgba(120, 100, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .badge-icon {
+    width: 13px;
+    height: 13px;
+    color: #fff;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+  }
+
+  .badge-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  /* ── Mobile: hide cursor badge, show standard buttons ── */
+  @media (hover: none), (max-width: 768px) {
+    .cursor-zone-badge,
+    .zone-half-tint,
+    .zone-split-line {
+      display: none !important;
+    }
+
+    .mobile-action-buttons {
+      display: flex !important;
+    }
+  }
+
+  /* ── Desktop: hide static buttons (badge is the CTA) ── */
+  @media (hover: hover) and (pointer: fine) {
+    .mobile-action-buttons {
+      display: none;
+    }
+
+    /* Keyboard focus: bring buttons back for accessibility */
+    .project-card-wrapper:focus-within .mobile-action-buttons {
+      display: flex;
+    }
+  }
 }
+
+
