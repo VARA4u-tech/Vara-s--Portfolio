@@ -334,7 +334,7 @@ const HeroSection = () => {
 
     // Minimal char set on mobile for faster Math.random index lookups
     const chars = isPhone
-      ? '01{}[]<>/*#=+-'
+      ? '01{}[]/*#=+-;:.abcdefghi'
       : isTablet
         ? '01{}[]/*#=+-;:.abcdefghi'
         : '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
