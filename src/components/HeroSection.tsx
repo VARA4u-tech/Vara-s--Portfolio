@@ -341,9 +341,9 @@ const HeroSection = () => {
 
     // Minimal char set on mobile for faster Math.random index lookups
     const chars = isPhone
-      ? '01アイウエオカキクケコ'
+      ? '01{}[]<>/*#=+-'
       : isTablet
-        ? '01{}[]アイウ/*#=+-'
+        ? '01{}[]<>/*#=+-;:.abc'
         : '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
 
     const fontSize = isPhone ? 12 : isTablet ? 13 : 14;
