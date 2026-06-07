@@ -10,12 +10,17 @@ const AnimatedAvatar = () => {
 
       {/* Main frame */}
       <div className="relative w-full h-full border-2 border-black bg-white overflow-hidden group-hover:-translate-x-2 group-hover:-translate-y-2 transition-transform duration-300">
-        <div className="w-full h-full animate-[float_6s_ease-in-out_infinite]">
+        <div className="w-full h-full animate-[float_6s_ease-in-out_infinite] bg-black/5">
           <img
-            src="https://i.ibb.co/20jtF9Lm/Chat-GPT-Image-Feb-14-2026-10-13-36-PM.png"
+            src={
+              imageError
+                ? 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600&auto=format&fit=crop'
+                : 'https://i.ibb.co/20jtF9Lm/Chat-GPT-Image-Feb-14-2026-10-13-36-PM.png'
+            }
             alt="Pappuri Durga Vara Prasad"
             className="w-full h-full object-cover object-top"
             loading="eager"
+            onError={() => setImageError(true)}
           />
         </div>
 

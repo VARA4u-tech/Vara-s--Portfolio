@@ -319,7 +319,7 @@ const HeroSection = () => {
     const isTablet = w > 480 && w <= 1024;
     const isDesktop = w > 1024;
 
-    const ctx = canvas.getContext('2d', { alpha: false });
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     // ── Performance tiers ──────────────────────────────────────────
@@ -334,9 +334,9 @@ const HeroSection = () => {
 
     // Minimal char set on mobile for faster Math.random index lookups
     const chars = isPhone
-      ? '01アイウエオカキクケコ'
+      ? '01{}[]<>/*#=+-'
       : isTablet
-        ? '01{}[]アイウ/*#=+-'
+        ? '01{}[]/*#=+-;:.abcdefghi'
         : '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
 
     const fontSize = isPhone ? 12 : isTablet ? 13 : 14;
