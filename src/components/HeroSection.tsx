@@ -55,12 +55,6 @@ const HeroSection = () => {
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
-  // On mobile/tablet, kill the canvas parallax — moving the canvas off-screen
-  // leaves a dark background gap. Desktop keeps the subtle depth effect.
-  const canvasY = useTransform(y1, (v) =>
-    typeof window !== 'undefined' && window.innerWidth <= 1024 ? 0 : v,
-  );
-
   // ── Pixel Particle Assembly — hero name flies in from screen edges ──
   useEffect(() => {
     const canvas = assembleCanvasRef.current;
@@ -340,9 +334,9 @@ const HeroSection = () => {
 
     // Minimal char set on mobile for faster Math.random index lookups
     const chars = isPhone
-      ? '01{}[]<>/*#=+-'
+      ? '01アイウエオカキクケコ'
       : isTablet
-        ? '01{}[]<>/*#=+-;:.abc'
+        ? '01{}[]アイウ/*#=+-'
         : '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
 
     const fontSize = isPhone ? 12 : isTablet ? 13 : 14;
@@ -404,20 +398,17 @@ const HeroSection = () => {
         const drop = drops[i];
         const char = chars[(Math.random() * charLen) | 0];
         const fSize = isPhone ? fontSize : fontSize * (0.5 + drop.depth * 0.7);
-        // Increased opacity — phone needs much bolder chars to be readable
         const opacity = isPhone
-          ? 0.55 + drop.depth * 0.35 // range: 0.55 – 0.90
-          : isTablet
-            ? 0.3 + drop.depth * 0.4 // range: 0.30 – 0.70
-            : 0.05 + drop.depth * 0.25; // range: 0.05 – 0.30 (desktop subtle)
+          ? 0.18 + drop.depth * 0.25
+          : 0.05 + drop.depth * 0.25;
 
         ctx.font = `${fSize}px monospace`;
-        ctx.fillStyle = `rgba(0,0,0,${Math.min(opacity * 1.4, 1)})`;
+        ctx.fillStyle = `rgba(0,0,0,${opacity * 1.5})`;
         ctx.fillText(char, i * colStride, drop.y * fontSize);
 
-        // Trail char — skip on phone only; show on tablet for richer depth
+        // Trail char — skip on phone to save one fillText per frame
         if (!isPhone && drop.y > 1) {
-          ctx.fillStyle = `rgba(0,0,0,${Math.min(opacity * 0.65, 0.85)})`;
+          ctx.fillStyle = `rgba(0,0,0,${opacity})`;
           ctx.fillText(
             chars[(Math.random() * charLen) | 0],
             i * colStride,
@@ -495,7 +486,7 @@ const HeroSection = () => {
       {/* Matrix rain background */}
       <motion.canvas
         ref={canvasRef}
-        style={{ y: canvasY }}
+        style={{ y: y1 }}
         className="matrix-rain-canvas absolute inset-0 z-0 pointer-events-none opacity-60"
         aria-hidden="true"
       />
