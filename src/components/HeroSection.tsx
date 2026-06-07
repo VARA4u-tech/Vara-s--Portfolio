@@ -400,9 +400,9 @@ const HeroSection = () => {
         const fSize = isPhone ? fontSize : fontSize * (0.5 + drop.depth * 0.7);
         // Increased opacity — phone needs much bolder chars to be readable
         const opacity = isPhone
-          ? 0.55 + drop.depth * 0.35   // range: 0.55 – 0.90
+          ? 0.55 + drop.depth * 0.35 // range: 0.55 – 0.90
           : isTablet
-            ? 0.30 + drop.depth * 0.40 // range: 0.30 – 0.70
+            ? 0.3 + drop.depth * 0.4 // range: 0.30 – 0.70
             : 0.05 + drop.depth * 0.25; // range: 0.05 – 0.30 (desktop subtle)
 
         ctx.font = `${fSize}px monospace`;

@@ -84,18 +84,18 @@ The project was developed using a disciplined **Agile (Scrum)** approach:
 
 ## ✨ Features Breakdown
 
-| Feature | Description | Implementation Detail |
-| :--- | :--- | :--- |
-| **Matrix Hero Engine** | Multi-tier canvas animation across all devices | Three-tier perf model (phone 15fps/12col, tablet 20fps/20col, desktop 33fps/auto). GPU-promoted via `will-change`, `contain: strict`, and `translateZ(0)`. Pauses on tab-hide & scroll-out via `visibilitychange` + `IntersectionObserver`. |
-| **Cursor-Following Badge** | Contextual action badge that tracks cursor position on project cards | Pure React state — no third-party library. Framer Motion `AnimatePresence` for enter/exit. Left half → GitHub icon + "Source Code". Right half → ArrowUpRight + "Live Demo". |
-| **Split-Zone Project Cards** | Cards are divided into two intelligent click zones | `mousemove` delta math determines zone in real time. Clicking navigates to the correct URL. A subtle half-tint gradient + vertical divider line reinforce the split without covering content. |
-| **Mobile Touch Actions** | WCAG 2.5.5-compliant touch-optimised fallback buttons | 48px min-height, `active:` press-down animation (`translate(2px,2px) scale(0.97)` + shadow collapse), `-webkit-tap-highlight-color: transparent`. |
-| **Interactive Terminal** | CLI-based profile navigation | A command parser supporting `help`, `about`, `projects`, and `clear`. |
-| **Project Showcase** | Dynamic filtering of 11 projects | Neo-Brutalist cards with 3D-shadow hover effects and category badges. Tags capped at 5 on phones, 8 on larger screens. |
-| **GitHub Integration** | Real-time activity visualization | Uses `react-github-calendar` to demonstrate consistency and commitment. |
-| **Sound System** | Haptic-like audio feedback | Custom `useSoundEffects` hook for premium click and hover interactions. |
-| **Pixel Particle Assembly** | Hero name assembled from scattered edge particles on desktop | 90-particle Canvas API animation with easeOutQuart interpolation. Skipped on mobile — replaced with smooth fade + scramble text. |
-| **CRT Scanline Overlay** | Retro pixel scanline on project card hover | CSS `repeating-linear-gradient` + keyframe sweep, disabled on touch devices. |
+| Feature                      | Description                                                          | Implementation Detail                                                                                                                                                                                                                       |
+| :--------------------------- | :------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Matrix Hero Engine**       | Multi-tier canvas animation across all devices                       | Three-tier perf model (phone 15fps/12col, tablet 20fps/20col, desktop 33fps/auto). GPU-promoted via `will-change`, `contain: strict`, and `translateZ(0)`. Pauses on tab-hide & scroll-out via `visibilitychange` + `IntersectionObserver`. |
+| **Cursor-Following Badge**   | Contextual action badge that tracks cursor position on project cards | Pure React state — no third-party library. Framer Motion `AnimatePresence` for enter/exit. Left half → GitHub icon + "Source Code". Right half → ArrowUpRight + "Live Demo".                                                                |
+| **Split-Zone Project Cards** | Cards are divided into two intelligent click zones                   | `mousemove` delta math determines zone in real time. Clicking navigates to the correct URL. A subtle half-tint gradient + vertical divider line reinforce the split without covering content.                                               |
+| **Mobile Touch Actions**     | WCAG 2.5.5-compliant touch-optimised fallback buttons                | 48px min-height, `active:` press-down animation (`translate(2px,2px) scale(0.97)` + shadow collapse), `-webkit-tap-highlight-color: transparent`.                                                                                           |
+| **Interactive Terminal**     | CLI-based profile navigation                                         | A command parser supporting `help`, `about`, `projects`, and `clear`.                                                                                                                                                                       |
+| **Project Showcase**         | Dynamic filtering of 11 projects                                     | Neo-Brutalist cards with 3D-shadow hover effects and category badges. Tags capped at 5 on phones, 8 on larger screens.                                                                                                                      |
+| **GitHub Integration**       | Real-time activity visualization                                     | Uses `react-github-calendar` to demonstrate consistency and commitment.                                                                                                                                                                     |
+| **Sound System**             | Haptic-like audio feedback                                           | Custom `useSoundEffects` hook for premium click and hover interactions.                                                                                                                                                                     |
+| **Pixel Particle Assembly**  | Hero name assembled from scattered edge particles on desktop         | 90-particle Canvas API animation with easeOutQuart interpolation. Skipped on mobile — replaced with smooth fade + scramble text.                                                                                                            |
+| **CRT Scanline Overlay**     | Retro pixel scanline on project card hover                           | CSS `repeating-linear-gradient` + keyframe sweep, disabled on touch devices.                                                                                                                                                                |
 
 ---
 
@@ -197,11 +197,11 @@ src/
 
 ### Device Tiers
 
-| Breakpoint | Matrix Rain | Card Hover | Touch Buttons |
-| :--- | :--- | :--- | :--- |
-| Phone `≤480px` | 12 cols · 15fps · Katakana+01 · 35% opacity | Hidden (touch) | 46px min-height |
-| Tablet `481–1024px` | 20 cols · 20fps · mixed chars · 45% opacity | Hidden (touch) | 50px min-height |
-| Desktop `>1024px` | Auto cols · 33fps · full ASCII · 60% opacity | Cursor badge active | Buttons hidden |
+| Breakpoint          | Matrix Rain                                  | Card Hover          | Touch Buttons   |
+| :------------------ | :------------------------------------------- | :------------------ | :-------------- |
+| Phone `≤480px`      | 12 cols · 15fps · Katakana+01 · 35% opacity  | Hidden (touch)      | 46px min-height |
+| Tablet `481–1024px` | 20 cols · 20fps · mixed chars · 45% opacity  | Hidden (touch)      | 50px min-height |
+| Desktop `>1024px`   | Auto cols · 33fps · full ASCII · 60% opacity | Cursor badge active | Buttons hidden  |
 
 ### Canvas Performance
 
