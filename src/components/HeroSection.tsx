@@ -306,7 +306,7 @@ const HeroSection = () => {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, roleIndex]);
 
-  // Matrix-style rain effect
+  // Matrix-style rain effect — runs on all screen sizes with perf tiering
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -314,82 +314,149 @@ const HeroSection = () => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (motionQuery.matches) return;
 
-    // Disable on mobile for performance — canvas is hidden by CSS anyway
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) return;
+    const w = window.innerWidth;
+    const isPhone = w <= 480;
+    const isTablet = w > 480 && w <= 1024;
+    const isDesktop = w > 1024;
 
-    const isTablet = window.innerWidth <= 1024;
-
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    // ── Performance tiers ──────────────────────────────────────────
+    // Phone:   12 columns, 15fps, tiny chars, DPR capped at 1
+    // Tablet:  20 columns, 20fps, medium chars, DPR capped at 1
+    // Desktop: full columns, 33fps, full char set, native DPR
+    const dpr = isDesktop ? Math.min(window.devicePixelRatio || 1, 2) : 1;
+
+    const COLS    = isPhone ? 12 : isTablet ? 20 : 0; // 0 = auto on desktop
+    const FPS     = isPhone ? 15 : isTablet ? 20 : 33;
+    const FRAME_MS = 1000 / FPS;
+
+    // Minimal char set on mobile for faster Math.random index lookups
+    const chars = isPhone
+      ? '01アイウエオカキクケコ'
+      : isTablet
+        ? '01{}[]アイウ/*#=+-'
+        : '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
+
+    const fontSize = isPhone ? 12 : isTablet ? 13 : 14;
+
+    const setSize = () => {
+      const cssW = window.innerWidth;
+      const cssH = window.innerHeight;
+      canvas.width  = cssW * dpr;
+      canvas.height = cssH * dpr;
+      canvas.style.width  = `${cssW}px`;
+      canvas.style.height = `${cssH}px`;
+      if (dpr !== 1) ctx.scale(dpr, dpr);
     };
-    resize();
-    window.addEventListener('resize', resize);
+    setSize();
 
-    const chars = '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
-    const fontSize = 14;
-    // On tablet: halve column count by doubling fontSize stride
-    const colStride = isTablet ? fontSize * 2 : fontSize;
-    const columns = Math.floor(canvas.width / colStride);
+    // Column stride — auto on desktop, fixed count on mobile/tablet
+    const colStride = COLS > 0
+      ? Math.floor(window.innerWidth / COLS)
+      : fontSize;
+    const columns = COLS > 0 ? COLS : Math.floor(window.innerWidth / colStride);
 
-    const dropObjects = Array.from({ length: columns }, () => ({
-      y: Math.random() * -100,
+    interface Drop { y: number; depth: number; speed: number }
+    const drops: Drop[] = Array.from({ length: columns }, () => ({
+      y: Math.random() * -50,
       depth: Math.random(),
-      speed: 0,
-      char: '',
+      speed: isPhone
+        ? 0.6 + Math.random() * 0.8          // very slow on phone
+        : isTablet
+          ? 0.9 + Math.random() * 1.4
+          : 1.5 + Math.random() * 3.5,
     }));
 
-    dropObjects.forEach((drop) => {
-      drop.speed = 1.5 + drop.depth * 3.5;
-    });
+    let lastTime = 0;
+    let rafId: number;
+    let paused = false;
 
-    let lastFrameTime = 0;
-    // Tablet: ~20fps (50ms), Desktop: ~33fps (30ms)
-    const frameInterval = isTablet ? 50 : 30;
-    let animationId: number;
+    const draw = (ts: number) => {
+      rafId = requestAnimationFrame(draw);
+      if (paused) return;
+      if (ts - lastTime < FRAME_MS) return;
+      lastTime = ts;
 
-    const draw = (timestamp: number) => {
-      animationId = requestAnimationFrame(draw);
+      const cw = canvas.width  / dpr;
+      const ch = canvas.height / dpr;
 
-      if (timestamp - lastFrameTime < frameInterval) return;
-      lastFrameTime = timestamp;
+      // Fade trail — less transparent on mobile = faster visual reset
+      ctx.fillStyle = isPhone
+        ? 'rgba(255,255,255,0.10)'
+        : isTablet
+          ? 'rgba(255,255,255,0.08)'
+          : 'rgba(255,255,255,0.06)';
+      ctx.fillRect(0, 0, cw, ch);
 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      const charLen = chars.length;
+      for (let i = 0; i < drops.length; i++) {
+        const drop = drops[i];
+        const char = chars[(Math.random() * charLen) | 0];
+        const fSize = isPhone
+          ? fontSize
+          : fontSize * (0.5 + drop.depth * 0.7);
+        const opacity = isPhone
+          ? 0.18 + drop.depth * 0.25
+          : 0.05 + drop.depth * 0.25;
 
-      dropObjects.forEach((drop, i) => {
-        const char = chars[Math.floor(Math.random() * chars.length)];
-        const currentFontSize = fontSize * (0.5 + drop.depth * 0.7);
-        const opacity = 0.05 + drop.depth * 0.25;
-
-        ctx.font = `${currentFontSize}px monospace`;
-        ctx.fillStyle = `rgba(0, 0, 0, ${opacity * 1.5})`;
+        ctx.font = `${fSize}px monospace`;
+        ctx.fillStyle = `rgba(0,0,0,${opacity * 1.5})`;
         ctx.fillText(char, i * colStride, drop.y * fontSize);
 
-        if (drop.y > 1) {
-          const trailChar = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
-          ctx.fillText(trailChar, i * colStride, (drop.y - 1) * fontSize);
+        // Trail char — skip on phone to save one fillText per frame
+        if (!isPhone && drop.y > 1) {
+          ctx.fillStyle = `rgba(0,0,0,${opacity})`;
+          ctx.fillText(
+            chars[(Math.random() * charLen) | 0],
+            i * colStride,
+            (drop.y - 1) * fontSize,
+          );
         }
 
         drop.y += drop.speed;
 
-        if (drop.y * fontSize > canvas.height && Math.random() > 0.97) {
-          drop.y = -5;
+        // Reset threshold — higher on mobile so columns reset sooner
+        const resetThreshold = isPhone ? 0.93 : isTablet ? 0.96 : 0.97;
+        if (drop.y * fontSize > ch && Math.random() > resetThreshold) {
+          drop.y = -(Math.random() * 10 + 2);
           drop.depth = Math.random();
-          drop.speed = 1 + drop.depth * 2;
+          drop.speed = isPhone
+            ? 0.6 + Math.random() * 0.8
+            : isTablet
+              ? 0.9 + Math.random() * 1.4
+              : 1 + drop.depth * 2;
         }
-      });
+      }
     };
 
-    animationId = requestAnimationFrame(draw);
+    rafId = requestAnimationFrame(draw);
+
+    // ── Pause when tab is hidden ──────────────────────────────────
+    const onVisibility = () => { paused = document.hidden; };
+    document.addEventListener('visibilitychange', onVisibility);
+
+    // ── Pause when hero is out of viewport (IntersectionObserver) ─
+    let io: IntersectionObserver | null = null;
+    const hero = canvas.parentElement;
+    if (hero && 'IntersectionObserver' in window) {
+      io = new IntersectionObserver(
+        ([entry]) => { paused = !entry.isIntersecting; },
+        { threshold: 0.01 },
+      );
+      io.observe(hero);
+    }
+
+    // ── Resize ────────────────────────────────────────────────────
+    const onResize = () => setSize();
+    window.addEventListener('resize', onResize, { passive: true });
+
     return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(rafId);
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('resize', onResize);
+      io?.disconnect();
     };
   }, []);
 
