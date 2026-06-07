@@ -313,7 +313,9 @@ const ProjectsSection = () => {
           {filtered.map((project, i) => {
             const categories = project.categories.map((cat) => {
               const match = FILTERS.find((f) => f.key === cat);
-              return match ? { key: cat, label: match.label } : { key: cat, label: cat };
+              return match
+                ? { key: cat, label: match.label }
+                : { key: cat, label: cat };
             });
             return (
               <motion.div

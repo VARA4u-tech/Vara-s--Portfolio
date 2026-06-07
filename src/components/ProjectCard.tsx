@@ -92,8 +92,8 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
               hoverZone === 'left'
                 ? 'linear-gradient(to right, rgba(0,0,0,0.04) 0%, transparent 100%)'
                 : hoverZone === 'right'
-                ? 'linear-gradient(to left, rgba(10,10,30,0.06) 0%, transparent 100%)'
-                : 'transparent',
+                  ? 'linear-gradient(to left, rgba(10,10,30,0.06) 0%, transparent 100%)'
+                  : 'transparent',
             transition: 'background 0.3s ease',
           }}
         />
@@ -130,9 +130,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
         </AnimatePresence>
 
         {/* ── Zone split indicator lines (very subtle) ── */}
-        {hoverZone && (
-          <div aria-hidden="true" className="zone-split-line" />
-        )}
+        {hoverZone && <div aria-hidden="true" className="zone-split-line" />}
 
         {/* ── "Latest Work" badge ── */}
         {project.isNew && (
@@ -157,7 +155,9 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
           </div>
 
           <div className="flex justify-between items-start mb-6">
-            <h3 className="font-black text-foreground leading-tight text-xl">{project.title}</h3>
+            <h3 className="font-black text-foreground leading-tight text-xl">
+              {project.title}
+            </h3>
           </div>
 
           <p className="body-text mb-8 font-normal leading-relaxed text-foreground/80 text-xs line-clamp-6">
@@ -175,7 +175,9 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
               </Badge>
             ))}
             {project.tags.length > 8 && (
-              <span className="text-[9px] font-bold opacity-30">+{project.tags.length - 8}</span>
+              <span className="text-[9px] font-bold opacity-30">
+                +{project.tags.length - 8}
+              </span>
             )}
           </div>
         </div>
@@ -186,7 +188,10 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => { e.stopPropagation(); playClick(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              playClick();
+            }}
             aria-label={`View ${project.title} source code on GitHub`}
             className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border-2 border-black bg-white text-[9px] font-black uppercase tracking-widest transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] hover:bg-black hover:text-white"
           >
@@ -198,7 +203,10 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => { e.stopPropagation(); playClick(); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                playClick();
+              }}
               aria-label={`View ${project.title} live demo`}
               className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border-2 border-black bg-black text-white text-[9px] font-black uppercase tracking-widest transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] hover:bg-white hover:text-black"
             >

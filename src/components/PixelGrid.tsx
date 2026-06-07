@@ -42,7 +42,7 @@ const PixelGrid = () => {
     // ── Config (adapts to screen size) ──────────────────────
     const isTablet = window.innerWidth <= 1024;
     const DOT_SIZE = 1.5;
-    const GAP = isTablet ? 38 : 28;          // fewer dots on tablet
+    const GAP = isTablet ? 38 : 28; // fewer dots on tablet
     const MOUSE_RADIUS = isTablet ? 80 : 120;
     const MOUSE_BOOST = 0.45;
     const MAX_PULSE_SPEED = isTablet ? 0.003 : 0.005;
