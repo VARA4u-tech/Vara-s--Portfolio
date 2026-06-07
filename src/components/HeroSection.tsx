@@ -398,17 +398,20 @@ const HeroSection = () => {
         const drop = drops[i];
         const char = chars[(Math.random() * charLen) | 0];
         const fSize = isPhone ? fontSize : fontSize * (0.5 + drop.depth * 0.7);
+        // Increased opacity — phone needs much bolder chars to be readable
         const opacity = isPhone
-          ? 0.18 + drop.depth * 0.25
-          : 0.05 + drop.depth * 0.25;
+          ? 0.55 + drop.depth * 0.35   // range: 0.55 – 0.90
+          : isTablet
+            ? 0.30 + drop.depth * 0.40 // range: 0.30 – 0.70
+            : 0.05 + drop.depth * 0.25; // range: 0.05 – 0.30 (desktop subtle)
 
         ctx.font = `${fSize}px monospace`;
-        ctx.fillStyle = `rgba(0,0,0,${opacity * 1.5})`;
+        ctx.fillStyle = `rgba(0,0,0,${Math.min(opacity * 1.4, 1)})`;
         ctx.fillText(char, i * colStride, drop.y * fontSize);
 
-        // Trail char — skip on phone to save one fillText per frame
+        // Trail char — skip on phone only; show on tablet for richer depth
         if (!isPhone && drop.y > 1) {
-          ctx.fillStyle = `rgba(0,0,0,${opacity})`;
+          ctx.fillStyle = `rgba(0,0,0,${Math.min(opacity * 0.65, 0.85)})`;
           ctx.fillText(
             chars[(Math.random() * charLen) | 0],
             i * colStride,

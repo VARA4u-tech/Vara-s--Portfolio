@@ -463,13 +463,13 @@
   /* Softer on mobile — the effect is smaller so reduce opacity further */
   @media (max-width: 480px) {
     .matrix-rain-canvas {
-      opacity: 0.35 !important;
+      opacity: 0.75 !important;
     }
   }
 
   @media (min-width: 481px) and (max-width: 1024px) {
     .matrix-rain-canvas {
-      opacity: 0.45 !important;
+      opacity: 0.85 !important;
     }
   }
 
