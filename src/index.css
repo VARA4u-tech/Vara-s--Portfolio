@@ -455,9 +455,9 @@
   /* ─── Matrix rain canvas — GPU compositing hints ─── */
   /* Promote the canvas to its own GPU layer to avoid repaints touching the DOM */
   .matrix-rain-canvas {
-    will-change: transform;          /* GPU compositing layer */
-    contain: strict;                 /* layout + paint isolation */
-    transform: translateZ(0);        /* force GPU promotion on WebKit */
+    will-change: transform; /* GPU compositing layer */
+    contain: strict; /* layout + paint isolation */
+    transform: translateZ(0); /* force GPU promotion on WebKit */
   }
 
   /* Softer on mobile — the effect is smaller so reduce opacity further */
