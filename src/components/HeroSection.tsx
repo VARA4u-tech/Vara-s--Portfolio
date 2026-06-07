@@ -57,9 +57,8 @@ const HeroSection = () => {
 
   // On mobile/tablet, kill the canvas parallax — moving the canvas off-screen
   // leaves a dark background gap. Desktop keeps the subtle depth effect.
-  const canvasY = useTransform(
-    y1,
-    (v) => (typeof window !== 'undefined' && window.innerWidth <= 1024 ? 0 : v),
+  const canvasY = useTransform(y1, (v) =>
+    typeof window !== 'undefined' && window.innerWidth <= 1024 ? 0 : v,
   );
 
   // ── Pixel Particle Assembly — hero name flies in from screen edges ──
