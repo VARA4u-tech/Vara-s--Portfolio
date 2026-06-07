@@ -452,6 +452,27 @@
     }
   }
 
+  /* ─── Matrix rain canvas — GPU compositing hints ─── */
+  /* Promote the canvas to its own GPU layer to avoid repaints touching the DOM */
+  .matrix-rain-canvas {
+    will-change: transform;          /* GPU compositing layer */
+    contain: strict;                 /* layout + paint isolation */
+    transform: translateZ(0);        /* force GPU promotion on WebKit */
+  }
+
+  /* Softer on mobile — the effect is smaller so reduce opacity further */
+  @media (max-width: 480px) {
+    .matrix-rain-canvas {
+      opacity: 0.35 !important;
+    }
+  }
+
+  @media (min-width: 481px) and (max-width: 1024px) {
+    .matrix-rain-canvas {
+      opacity: 0.45 !important;
+    }
+  }
+
   /* ═══════════════════════════════════════════════════════════
      PROJECT CARD — CURSOR-FOLLOWING BADGE HOVER SYSTEM
   ═══════════════════════════════════════════════════════════ */

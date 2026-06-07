@@ -328,8 +328,8 @@ const HeroSection = () => {
     // Desktop: full columns, 33fps, full char set, native DPR
     const dpr = isDesktop ? Math.min(window.devicePixelRatio || 1, 2) : 1;
 
-    const COLS    = isPhone ? 12 : isTablet ? 20 : 0; // 0 = auto on desktop
-    const FPS     = isPhone ? 15 : isTablet ? 20 : 33;
+    const COLS = isPhone ? 12 : isTablet ? 20 : 0; // 0 = auto on desktop
+    const FPS = isPhone ? 15 : isTablet ? 20 : 33;
     const FRAME_MS = 1000 / FPS;
 
     // Minimal char set on mobile for faster Math.random index lookups
@@ -344,26 +344,29 @@ const HeroSection = () => {
     const setSize = () => {
       const cssW = window.innerWidth;
       const cssH = window.innerHeight;
-      canvas.width  = cssW * dpr;
+      canvas.width = cssW * dpr;
       canvas.height = cssH * dpr;
-      canvas.style.width  = `${cssW}px`;
+      canvas.style.width = `${cssW}px`;
       canvas.style.height = `${cssH}px`;
       if (dpr !== 1) ctx.scale(dpr, dpr);
     };
     setSize();
 
     // Column stride — auto on desktop, fixed count on mobile/tablet
-    const colStride = COLS > 0
-      ? Math.floor(window.innerWidth / COLS)
-      : fontSize;
+    const colStride =
+      COLS > 0 ? Math.floor(window.innerWidth / COLS) : fontSize;
     const columns = COLS > 0 ? COLS : Math.floor(window.innerWidth / colStride);
 
-    interface Drop { y: number; depth: number; speed: number }
+    interface Drop {
+      y: number;
+      depth: number;
+      speed: number;
+    }
     const drops: Drop[] = Array.from({ length: columns }, () => ({
       y: Math.random() * -50,
       depth: Math.random(),
       speed: isPhone
-        ? 0.6 + Math.random() * 0.8          // very slow on phone
+        ? 0.6 + Math.random() * 0.8 // very slow on phone
         : isTablet
           ? 0.9 + Math.random() * 1.4
           : 1.5 + Math.random() * 3.5,
@@ -379,7 +382,7 @@ const HeroSection = () => {
       if (ts - lastTime < FRAME_MS) return;
       lastTime = ts;
 
-      const cw = canvas.width  / dpr;
+      const cw = canvas.width / dpr;
       const ch = canvas.height / dpr;
 
       // Fade trail — less transparent on mobile = faster visual reset
@@ -394,9 +397,7 @@ const HeroSection = () => {
       for (let i = 0; i < drops.length; i++) {
         const drop = drops[i];
         const char = chars[(Math.random() * charLen) | 0];
-        const fSize = isPhone
-          ? fontSize
-          : fontSize * (0.5 + drop.depth * 0.7);
+        const fSize = isPhone ? fontSize : fontSize * (0.5 + drop.depth * 0.7);
         const opacity = isPhone
           ? 0.18 + drop.depth * 0.25
           : 0.05 + drop.depth * 0.25;
@@ -434,7 +435,9 @@ const HeroSection = () => {
     rafId = requestAnimationFrame(draw);
 
     // ── Pause when tab is hidden ──────────────────────────────────
-    const onVisibility = () => { paused = document.hidden; };
+    const onVisibility = () => {
+      paused = document.hidden;
+    };
     document.addEventListener('visibilitychange', onVisibility);
 
     // ── Pause when hero is out of viewport (IntersectionObserver) ─
@@ -442,7 +445,9 @@ const HeroSection = () => {
     const hero = canvas.parentElement;
     if (hero && 'IntersectionObserver' in window) {
       io = new IntersectionObserver(
-        ([entry]) => { paused = !entry.isIntersecting; },
+        ([entry]) => {
+          paused = !entry.isIntersecting;
+        },
         { threshold: 0.01 },
       );
       io.observe(hero);
@@ -482,7 +487,7 @@ const HeroSection = () => {
       <motion.canvas
         ref={canvasRef}
         style={{ y: y1 }}
-        className="absolute inset-0 z-0 pointer-events-none opacity-60"
+        className="matrix-rain-canvas absolute inset-0 z-0 pointer-events-none opacity-60"
         aria-hidden="true"
       />
 
