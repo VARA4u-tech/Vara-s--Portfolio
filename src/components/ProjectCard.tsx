@@ -74,9 +74,9 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
     >
       <div
         className={[
-          'w-full h-full relative border-2 border-black px-6 py-10 flex flex-col justify-between',
+          'w-full h-full relative border-2 border-black px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between',
           'shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500',
-          'bg-white rounded-none min-h-[480px] overflow-hidden',
+          'bg-white rounded-none min-h-[420px] md:min-h-[480px] overflow-hidden',
         ].join(' ')}
         onClick={() => handleZoneClick(hoverZone)}
       >
@@ -160,12 +160,12 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
             </h3>
           </div>
 
-          <p className="body-text mb-8 font-normal leading-relaxed text-foreground/80 text-xs line-clamp-6">
+          <p className="body-text mb-6 md:mb-8 font-normal leading-relaxed text-foreground/80 text-xs line-clamp-4 md:line-clamp-6">
             {project.description}
           </p>
 
-          <div className="flex flex-wrap gap-1.5 mb-6">
-            {project.tags.slice(0, 8).map((tag) => (
+          <div className="flex flex-wrap gap-1.5 mb-5 md:mb-6">
+            {project.tags.slice(0, typeof window !== 'undefined' && window.innerWidth < 640 ? 5 : 8).map((tag) => (
               <Badge
                 key={tag}
                 variant="secondary"
@@ -193,10 +193,10 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
               playClick();
             }}
             aria-label={`View ${project.title} source code on GitHub`}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border-2 border-black bg-white text-[9px] font-black uppercase tracking-widest transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] hover:bg-black hover:text-white"
+            className="mobile-card-btn border-black bg-white text-foreground hover:bg-black hover:text-white active:scale-95"
           >
-            <Github className="w-3.5 h-3.5" />
-            Source
+            <Github className="w-4 h-4 flex-shrink-0" />
+            <span>Source</span>
           </a>
           {project.liveUrl && (
             <a
@@ -208,10 +208,10 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
                 playClick();
               }}
               aria-label={`View ${project.title} live demo`}
-              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border-2 border-black bg-black text-white text-[9px] font-black uppercase tracking-widest transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] hover:bg-white hover:text-black"
+              className="mobile-card-btn border-black bg-black text-white hover:bg-white hover:text-black active:scale-95"
             >
-              <ExternalLink className="w-3.5 h-3.5" />
-              Live
+              <ExternalLink className="w-4 h-4 flex-shrink-0" />
+              <span>Live Demo</span>
             </a>
           )}
         </div>

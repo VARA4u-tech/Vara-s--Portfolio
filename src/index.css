@@ -571,4 +571,80 @@
       display: flex;
     }
   }
+
+  /* ═══════════════════════════════════════════════════════════
+     MOBILE CARD BUTTON — TOUCH-OPTIMISED ACTION BUTTON
+  ═══════════════════════════════════════════════════════════ */
+
+  .mobile-card-btn {
+    /* Layout */
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    /* Touch-friendly height (WCAG 2.5.5 — min 44px) */
+    min-height: 48px;
+    padding: 0 14px;
+
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    /* Border & shadow — neobrutalist press effect */
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 1);
+
+    /* Transitions */
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.15s ease,
+      transform 0.1s ease;
+
+    /* Prevent blue tap highlight on Android */
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  /* Press-down effect on active (touch tap) */
+  .mobile-card-btn:active {
+    box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 1);
+    transform: translate(2px, 2px) scale(0.97);
+  }
+
+  /* ── Mobile-specific card sizing ── */
+  @media (max-width: 639px) {
+    /* Tighter card on small phones */
+    .gsap-project-card .mobile-card-btn {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      min-height: 46px;
+    }
+
+    /* Ensure cards never feel too tall on phones */
+    .gsap-project-card > div {
+      min-height: 380px;
+      overflow: visible;
+    }
+  }
+
+  /* ── Tablet (640px–1023px) tweaks ── */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .mobile-card-btn {
+      min-height: 50px;
+      font-size: 0.72rem;
+    }
+
+    /* Two-column grid — cards slightly shorter */
+    .gsap-project-card > div {
+      min-height: 460px;
+    }
+  }
 }
