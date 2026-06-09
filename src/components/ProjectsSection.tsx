@@ -308,7 +308,7 @@ const ProjectsSection = () => {
       </div>
 
       {/* ── Project Grid ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-12">
+      <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 no-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-x-visible md:snap-none">
         <AnimatePresence mode="popLayout">
           {filtered.map((project, i) => {
             const categories = project.categories.map((cat) => {
@@ -326,7 +326,7 @@ const ProjectsSection = () => {
                 animate="visible"
                 exit="exit"
                 layout
-                className="gsap-project-card w-full h-full"
+                className="gsap-project-card w-[85vw] max-w-[350px] shrink-0 snap-center md:w-auto md:max-w-none h-full"
               >
                 <ProjectCard
                   project={{
