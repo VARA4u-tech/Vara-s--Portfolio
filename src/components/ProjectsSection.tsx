@@ -344,7 +344,7 @@ const ProjectsSection = () => {
       </div>
 
       {/* ── Project Grid ── */}
-      <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 pt-6 px-4 -mx-4 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-x-visible md:snap-none">
+      <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-6 pb-12 pt-6 px-4 -mx-4 scroll-pl-4 md:scroll-pl-0 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-x-visible md:snap-none">
         <AnimatePresence mode="popLayout">
           {filtered.map((project, i) => {
             const categories = project.categories.map((cat) => {
@@ -362,7 +362,7 @@ const ProjectsSection = () => {
                 animate="visible"
                 exit="exit"
                 layout
-                className="gsap-project-card w-[85vw] max-w-[350px] shrink-0 snap-center md:w-auto md:max-w-none h-full"
+                className="gsap-project-card w-[80vw] max-w-[320px] shrink-0 snap-start md:snap-none md:w-auto md:max-w-none h-full"
               >
                 <ProjectCard
                   project={{
