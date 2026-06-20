@@ -1,6 +1,13 @@
 import SectionBlock from './SectionBlock';
 
 const experiences = [
+   {
+    role: 'FRONTEND Developer (Freelance)',
+    company: 'AOTMS LMS PORTAL',
+    period: '[08FEB 2026 – 28APR 2026]',
+    description:
+      '🚀 Freelance Project – Successfully delivered an end-to-end, enterprise-grade Learning Management System. Built using React, TypeScript, Node.js, Express, and MongoDB. Key learnings: 🔹 Architecting scalable solutions 🔹 Advanced state management 🔹 Meeting complex client expectations.',
+  },
   {
     role: 'MERN Stack Developer (Freelance)',
     company: 'Academy of Tech Masters (AOTMS)',
