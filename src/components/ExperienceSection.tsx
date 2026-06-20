@@ -6,14 +6,14 @@ const experiences = [
     company: 'AOTMS LMS PORTAL',
     period: '[08FEB 2026 – 28APR 2026]',
     description:
-      '🚀 Freelance Project – Successfully delivered an end-to-end, enterprise-grade Learning Management System. Built using React, TypeScript, Node.js, Express, and MongoDB. Key learnings: 🔹 Architecting scalable solutions 🔹 Advanced state management 🔹 Meeting complex client expectations.',
+      '🚀 Freelance Project – Successfully delivered an end-to-end, enterprise-grade Learning Management System. Built using React, TypeScript, Node.js, Express, and MongoDB. Key learnings: ✦ Architecting scalable solutions ✦ Advanced state management ✦ Meeting complex client expectations.',
   },
   {
     role: 'MERN Stack Developer (Freelance)',
     company: 'Academy of Tech Masters (AOTMS)',
     period: '[23DEC 2025 – 23JAN 2026]',
     description:
-      '🚀Freelance Project – Successfully Delivered Completed a real-world client project with my team using [Tech Stack – e.g., React, Node.js, MongoDB]. Key learnings: 🔹 Building scalable features 🔹 Team collaboration & Git workflows 🔹 Meeting client expectations & deadlines.',
+      '🚀Freelance Project – Successfully Delivered Completed a real-world client project with my team using [Tech Stack – e.g., React, Node.js, MongoDB]. Key learnings: ✦ Building scalable features ✦ Team collaboration & Git workflows ✦ Meeting client expectations & deadlines.',
   },
   {
     role: 'Generative AI & Prompt Engineering Intern',
