@@ -53,7 +53,7 @@ const projects: Project[] = [
   },
   {
     title: 'AOTMS LMS PORTAL',
-    isNew: true,
+    isNew: false,
     tagline: 'Next-Gen Learning Platform',
     description:
       'An end-to-end, enterprise-grade Learning Management System designed for modern tech education. Features scalable architecture, interactive student management, and real-world value.',
