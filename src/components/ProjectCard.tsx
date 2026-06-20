@@ -76,7 +76,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
         className={[
           'w-full h-full relative border-2 border-black px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between',
           'shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500',
-          'bg-white rounded-none min-h-[420px] md:min-h-[480px] overflow-hidden',
+          'bg-white rounded-none min-h-[420px] md:min-h-[480px]',
         ].join(' ')}
         onClick={() => handleZoneClick(hoverZone)}
       >
