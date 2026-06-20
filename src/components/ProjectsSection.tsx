@@ -11,6 +11,7 @@ type FilterKey = 'all' | 'ai' | 'web' | 'mobile' | 'ecommerce';
 interface Project {
   title: string;
   isNew?: boolean;
+  badge?: string;
   tagline?: string;
   description: string;
   tags: string[];
@@ -54,6 +55,7 @@ const projects: Project[] = [
   {
     title: 'AOTMS LMS PORTAL',
     isNew: false,
+    badge: 'Freelance Project',
     tagline: 'Next-Gen Learning Platform',
     description:
       'An end-to-end, enterprise-grade Learning Management System designed for modern tech education. Features scalable architecture, interactive student management, and real-world value.',
@@ -133,6 +135,7 @@ const projects: Project[] = [
   },
   {
     title: 'Lakshmi Fashion Designers',
+    badge: 'Freelance Project',
     tagline: 'Premium Tailoring E-Commerce',
     description:
       'A premium e-commerce portal for a modern tailoring and fancy store, featuring multi-language support (English & Telugu) and AI-powered product collections.',
@@ -192,6 +195,7 @@ const projects: Project[] = [
   },
   {
     title: 'Academy of Tech Masters (AOTMS)',
+    badge: 'Freelance Project',
     tagline: 'Interactive Tech Education',
     description:
       'Tech education platform with AI assistance and interactive student management for real-world clients.',

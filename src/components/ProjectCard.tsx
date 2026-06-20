@@ -7,6 +7,7 @@ import { playClick, playHover } from '@/hooks/useSoundEffects';
 interface Project {
   title: string;
   isNew?: boolean;
+  badge?: string;
   tagline?: string;
   description: string;
   tags: string[];
@@ -133,10 +134,10 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
         {/* ── Zone split indicator lines (very subtle) ── */}
         {hoverZone && <div aria-hidden="true" className="zone-split-line" />}
 
-        {/* ── "Latest Work" badge ── */}
-        {project.isNew && (
+        {/* ── "Latest Work" or Custom badge ── */}
+        {(project.badge || project.isNew) && (
           <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-20 rotate-3 hover:rotate-0 transition-transform">
-            Work In Progress
+            {project.badge || 'Work In Progress'}
           </div>
         )}
 
