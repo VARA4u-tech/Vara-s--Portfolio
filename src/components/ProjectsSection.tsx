@@ -344,7 +344,7 @@ const ProjectsSection = () => {
       </div>
 
       {/* ── Project Grid ── */}
-      <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 no-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-x-visible md:snap-none">
+      <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 pt-6 px-4 -mx-4 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-x-visible md:snap-none">
         <AnimatePresence mode="popLayout">
           {filtered.map((project, i) => {
             const categories = project.categories.map((cat) => {

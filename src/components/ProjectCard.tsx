@@ -136,7 +136,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
 
         {/* ── "Latest Work" or Custom badge ── */}
         {(project.badge || project.isNew) && (
-          <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest border-2 border-black z-20 rotate-3 hover:rotate-0 transition-transform">
+          <div className="absolute -top-3 right-1 md:-right-3 bg-black text-white px-2 py-1 md:px-3 text-[8px] md:text-[9px] font-black uppercase tracking-wider md:tracking-widest border-2 border-black z-20 rotate-0 md:rotate-3 hover:rotate-0 transition-transform whitespace-nowrap origin-top-right">
             {project.badge || 'Work In Progress'}
           </div>
         )}
