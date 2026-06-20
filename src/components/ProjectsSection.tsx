@@ -213,6 +213,7 @@ const projects: Project[] = [
   },
   {
     title: 'Elara Cosmetics',
+    badge: 'Freelance Project',
     tagline: 'Luxury Ayurvedic Skincare',
     description:
       'Luxury Ayurvedic e-commerce platform featuring a custom WhatsApp-integrated checkout system.',
