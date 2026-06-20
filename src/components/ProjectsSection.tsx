@@ -11,6 +11,7 @@ type FilterKey = 'all' | 'ai' | 'web' | 'mobile' | 'ecommerce';
 interface Project {
   title: string;
   isNew?: boolean;
+  tagline?: string;
   description: string;
   tags: string[];
   categories: FilterKey[];
@@ -32,6 +33,7 @@ const projects: Project[] = [
   {
     title: 'AI Meeting Summarizer & Task Manager',
     isNew: true,
+    tagline: 'Automate your meetings',
     description:
       'An enterprise-grade AI assistant that automatically transcribes meeting audio, extracts high-value action items, and generates dynamic task boards for seamless workflow tracking.',
     tags: [
@@ -50,7 +52,28 @@ const projects: Project[] = [
       'https://github.com/VARA4u-tech/AI_Meeting_Summerizer_Task_Manager',
   },
   {
+    title: 'AOTMS LMS PORTAL',
+    isNew: true,
+    tagline: 'Next-Gen Learning Platform',
+    description:
+      'An end-to-end, enterprise-grade Learning Management System designed for modern tech education. Features scalable architecture, interactive student management, and real-world value.',
+    tags: [
+      'React',
+      'TypeScript',
+      'Node.js',
+      'Express',
+      'MongoDB',
+      'Tailwind',
+      'Vite',
+      'Framer Motion',
+    ],
+    categories: ['web'],
+    githubUrl: 'https://github.com/VARA4u-tech/AOTMS-LMS-PORTAL',
+    liveUrl: 'https://www.aotms.com',
+  },
+  {
     title: 'MAIL-MIND-AI',
+    tagline: 'AI-Powered Inbox Command Center',
     description:
       'A professional-grade, AI-powered email assistant that transforms your inbox into a dynamic command center by leveraging Gemma 2 27B and the Gmail API.',
     tags: [
@@ -71,6 +94,7 @@ const projects: Project[] = [
   },
   {
     title: 'Vidyalaya',
+    tagline: 'Turn PDFs into Smart Study Plans',
     description:
       'An AI-powered study platform that transforms any PDF into summaries, quizzes, and personalized study plans in seconds.',
     tags: [
@@ -89,6 +113,7 @@ const projects: Project[] = [
   },
   {
     title: 'LOGICIA — Your AI Logic Brain',
+    tagline: 'Intelligent Tutor for Competitive Exams',
     description:
       'An intelligent, all-in-one AI tutor designed specifically for competitive exams like UPSC, SSC, and Banking, featuring step-by-step logic, exam shortcuts, and bilingual support.',
     tags: [
@@ -108,6 +133,7 @@ const projects: Project[] = [
   },
   {
     title: 'Lakshmi Fashion Designers',
+    tagline: 'Premium Tailoring E-Commerce',
     description:
       'A premium e-commerce portal for a modern tailoring and fancy store, featuring multi-language support (English & Telugu) and AI-powered product collections.',
     tags: [
@@ -129,6 +155,7 @@ const projects: Project[] = [
   },
   {
     title: 'AI Voice-Controlled PDF Editor',
+    tagline: 'Edit PDFs with Your Voice',
     description:
       'A mystical, AI-driven document editor where your voice commands reshape text and edit PDFs in real time. Upload a PDF, speak your intent, and watch the Gilded Scribe bring your words to life.',
     tags: [
@@ -147,6 +174,7 @@ const projects: Project[] = [
   },
   {
     title: 'SafeTrip Pro',
+    tagline: 'Smart Driving & Safety Companion',
     description:
       'AI-powered safety navigation featuring drowsiness detection and real-time emergency alerts.',
     tags: [
@@ -164,6 +192,7 @@ const projects: Project[] = [
   },
   {
     title: 'Academy of Tech Masters (AOTMS)',
+    tagline: 'Interactive Tech Education',
     description:
       'Tech education platform with AI assistance and interactive student management for real-world clients.',
     tags: [
@@ -180,6 +209,7 @@ const projects: Project[] = [
   },
   {
     title: 'Elara Cosmetics',
+    tagline: 'Luxury Ayurvedic Skincare',
     description:
       'Luxury Ayurvedic e-commerce platform featuring a custom WhatsApp-integrated checkout system.',
     tags: ['React', 'TypeScript', 'Tailwind', 'Vite', 'Shadcn UI', 'Vitest'],
@@ -190,6 +220,7 @@ const projects: Project[] = [
   },
   {
     title: 'EduPredict',
+    tagline: 'AI Analytics for Student Success',
     description:
       'AI predictive analytics for student success with a unique comic book-inspired interface.',
     tags: [
@@ -206,6 +237,7 @@ const projects: Project[] = [
   },
   {
     title: 'SmartQuack',
+    tagline: 'Gamified Productivity Tracker',
     description:
       'Gamified task manager featuring a reactive duck mascot that tracks your productivity progress.',
     tags: ['Flutter', 'Riverpod', 'Firebase', 'Hive', 'Dart'],

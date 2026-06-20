@@ -7,6 +7,7 @@ import { playClick, playHover } from '@/hooks/useSoundEffects';
 interface Project {
   title: string;
   isNew?: boolean;
+  tagline?: string;
   description: string;
   tags: string[];
   categories: { key: string; label: string }[];
@@ -154,11 +155,17 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
             ))}
           </div>
 
-          <div className="flex justify-between items-start mb-6">
+          <div className={`flex justify-between items-start ${project.tagline ? 'mb-2' : 'mb-6'}`}>
             <h3 className="font-black text-foreground leading-tight text-xl">
               {project.title}
             </h3>
           </div>
+
+          {project.tagline && (
+            <p className="font-mono text-[10px] md:text-xs font-bold text-foreground/50 mb-4 uppercase tracking-widest">
+              {project.tagline}
+            </p>
+          )}
 
           <p className="body-text mb-6 md:mb-8 font-normal leading-relaxed text-foreground/80 text-xs line-clamp-4 md:line-clamp-6">
             {project.description}
