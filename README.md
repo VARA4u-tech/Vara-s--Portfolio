@@ -9,7 +9,7 @@
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
 [![ShadcnUI](https://img.shields.io/badge/Shadcn_UI-000000?style=for-the-badge&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
 
-[**Live Demo**](https://vara-s-portfolio.vercel.app/) • [**Source Code**](https://github.com/VARA4u-tech/Vara-s--Portfolio) • [**Request Collaboration**](mailto:pappuridurgavaraprasad4pl@gmail.com)
+[**Live Demo**](https://vara-s-portfolio.vercel.app/) • [**Source Code**](https://github.com/VARA4u-tech/Vara-s--Portfolio) • [**Request Collaboration**](mailto:durgavaraprasadpappuri13@gmail.com)
 
 ---
 
@@ -243,6 +243,6 @@ src/
 
 <div align="center">
   <h3><b>Let's Build Something Exceptional Together.</b></h3>
-  <p>pappuridurgavaraprasad4pl@gmail.com</p>
+  <p>durgavaraprasadpappuri13@gmail.com</p>
   <p>© 2026 Durga Vara Prasad. Built with 🤍 and Coffee.</p>
 </div>

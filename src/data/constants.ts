@@ -7,7 +7,7 @@ export const PROFILE = {
   shortName: 'Durga Vara Prasad',
   alias: 'Vara',
   title: 'Full Stack Developer',
-  email: 'pappuridurgavaraprasad4pl@gmail.com',
+  email: 'durgavaraprasadpappuri13@gmail.com',
   phone: '+919550533315',
   website: 'www.prasad.dev',
   blogHost: 'durgavaraprasad.hashnode.dev',
@@ -38,7 +38,7 @@ export const SOCIAL_LINKS = [
   {
     id: 'email',
     label: 'Email',
-    href: 'mailto:pappuridurgavaraprasad4pl@gmail.com',
+    href: 'mailto:durgavaraprasadpappuri13@gmail.com',
   },
 ] as const;
 
