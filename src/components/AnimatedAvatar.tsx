@@ -14,8 +14,8 @@ const AnimatedAvatar = () => {
           <img
             src={
               imageError
-                ? '/images/avatar.png'
-                : '/images/avatar.png'
+                ? '/images/avatar.jpeg'
+                : '/images/avatar.jpeg'
             }
             alt="Pappuri Durga Vara Prasad"
             className="w-full h-full object-cover object-center"
