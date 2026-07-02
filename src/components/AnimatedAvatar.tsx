@@ -14,8 +14,8 @@ const AnimatedAvatar = () => {
           <img
             src={
               imageError
-                ? 'https://i.ibb.co/20jtF9Lm/Chat-GPT-Image-Feb-14-2026-10-13-36-PM.png'
-                : 'https://i.ibb.co/20jtF9Lm/Chat-GPT-Image-Feb-14-2026-10-13-36-PM.png'
+                ? '/images/avatar.jpeg'
+                : '/images/avatar.jpeg'
             }
             alt="Pappuri Durga Vara Prasad"
             className="w-full h-full object-cover object-top"
