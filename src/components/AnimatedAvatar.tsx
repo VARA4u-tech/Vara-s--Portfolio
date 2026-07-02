@@ -18,7 +18,7 @@ const AnimatedAvatar = () => {
                 : '/images/avatar.jpeg'
             }
             alt="Pappuri Durga Vara Prasad"
-            className="w-full h-full object-cover object-top"
+            className="w-full h-full object-cover object-center"
             loading="eager"
             onError={() => setImageError(true)}
           />
