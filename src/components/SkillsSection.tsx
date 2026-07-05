@@ -88,7 +88,10 @@ const SkillsSection = () => {
     <SectionBlock id="skills" title="Technical Arsenal">
       <div className="flex flex-col gap-12">
         {/* Skill Modules */}
-        <ScrollReveal animation="stagger-fade-up" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ScrollReveal
+          animation="stagger-fade-up"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           {skillCategories.map((category, idx) => (
             <div key={category.title}>
               <div

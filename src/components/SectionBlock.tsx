@@ -56,7 +56,10 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
       className="max-w-6xl mx-auto px-6 py-16 md:py-32"
     >
       <div className="overflow-hidden mb-12">
-        <h2 ref={titleRef} className="gsap-section-title section-title pb-2 inline-block">
+        <h2
+          ref={titleRef}
+          className="gsap-section-title section-title pb-2 inline-block"
+        >
           {title}.
         </h2>
       </div>

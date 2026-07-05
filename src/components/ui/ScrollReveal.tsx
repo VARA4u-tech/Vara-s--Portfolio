@@ -4,7 +4,12 @@ import { gsap } from '@/lib/gsap';
 
 interface ScrollRevealProps {
   children: ReactNode;
-  animation?: 'fade-up' | 'fade-in' | 'scale-up' | 'mask-up' | 'stagger-fade-up';
+  animation?:
+    | 'fade-up'
+    | 'fade-in'
+    | 'scale-up'
+    | 'mask-up'
+    | 'stagger-fade-up';
   duration?: number;
   delay?: number;
   stagger?: number;
@@ -23,106 +28,110 @@ export const ScrollReveal = ({
 }: ScrollRevealProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useGSAPContext(() => {
-    const el = containerRef.current;
-    if (!el) return;
+  useGSAPContext(
+    () => {
+      const el = containerRef.current;
+      if (!el) return;
 
-    if (animation === 'fade-up') {
-      gsap.fromTo(
-        el,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration,
-          delay,
-          ease: 'power3.out',
-          force3D: true,
-          scrollTrigger: {
-            trigger: el,
-            start: triggerOffset,
-            once: true,
-          },
-        }
-      );
-    } else if (animation === 'fade-in') {
-      gsap.fromTo(
-        el,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration,
-          delay,
-          ease: 'power2.out',
-          force3D: true,
-          scrollTrigger: {
-            trigger: el,
-            start: triggerOffset,
-            once: true,
-          },
-        }
-      );
-    } else if (animation === 'scale-up') {
-      gsap.fromTo(
-        el,
-        { opacity: 0, scale: 0.9, y: 30 },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration,
-          delay,
-          ease: 'back.out(1.5)',
-          force3D: true,
-          scrollTrigger: {
-            trigger: el,
-            start: triggerOffset,
-            once: true,
-          },
-        }
-      );
-    } else if (animation === 'mask-up') {
-      const child = el.firstElementChild;
-      if (child) {
+      if (animation === 'fade-up') {
         gsap.fromTo(
-          child,
-          { y: '100%' },
+          el,
+          { opacity: 0, y: 50 },
           {
-            y: '0%',
-            duration: 1.2,
+            opacity: 1,
+            y: 0,
+            duration,
             delay,
-            ease: 'expo.out',
+            ease: 'power3.out',
             force3D: true,
             scrollTrigger: {
               trigger: el,
               start: triggerOffset,
               once: true,
             },
-          }
+          },
+        );
+      } else if (animation === 'fade-in') {
+        gsap.fromTo(
+          el,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration,
+            delay,
+            ease: 'power2.out',
+            force3D: true,
+            scrollTrigger: {
+              trigger: el,
+              start: triggerOffset,
+              once: true,
+            },
+          },
+        );
+      } else if (animation === 'scale-up') {
+        gsap.fromTo(
+          el,
+          { opacity: 0, scale: 0.9, y: 30 },
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration,
+            delay,
+            ease: 'back.out(1.5)',
+            force3D: true,
+            scrollTrigger: {
+              trigger: el,
+              start: triggerOffset,
+              once: true,
+            },
+          },
+        );
+      } else if (animation === 'mask-up') {
+        const child = el.firstElementChild;
+        if (child) {
+          gsap.fromTo(
+            child,
+            { y: '100%' },
+            {
+              y: '0%',
+              duration: 1.2,
+              delay,
+              ease: 'expo.out',
+              force3D: true,
+              scrollTrigger: {
+                trigger: el,
+                start: triggerOffset,
+                once: true,
+              },
+            },
+          );
+        }
+      } else if (animation === 'stagger-fade-up') {
+        const childrenElements = el.children;
+        gsap.fromTo(
+          childrenElements,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration,
+            delay,
+            stagger,
+            ease: 'power3.out',
+            force3D: true,
+            scrollTrigger: {
+              trigger: el,
+              start: triggerOffset,
+              once: true,
+            },
+          },
         );
       }
-    } else if (animation === 'stagger-fade-up') {
-      const childrenElements = el.children;
-      gsap.fromTo(
-        childrenElements,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration,
-          delay,
-          stagger,
-          ease: 'power3.out',
-          force3D: true,
-          scrollTrigger: {
-            trigger: el,
-            start: triggerOffset,
-            once: true,
-          },
-        }
-      );
-    }
-  }, containerRef, [animation]);
+    },
+    containerRef,
+    [animation],
+  );
 
   if (animation === 'mask-up') {
     return (

@@ -35,21 +35,25 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
   const [cursorPos, setCursorPos] = useState<CursorPos>({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
 
-  useGSAPContext(() => {
-    if (!cardRef.current) return;
-    
-    // Subtle parallax for the background number
-    gsap.to(cardRef.current.querySelector('.parallax-number'), {
-      y: -60,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: cardRef.current,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1, // Smooth scrub
-      }
-    });
-  }, cardRef, []);
+  useGSAPContext(
+    () => {
+      if (!cardRef.current) return;
+
+      // Subtle parallax for the background number
+      gsap.to(cardRef.current.querySelector('.parallax-number'), {
+        y: -60,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: cardRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1, // Smooth scrub
+        },
+      });
+    },
+    cardRef,
+    [],
+  );
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -155,7 +159,9 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
         </AnimatePresence>
 
         {/* ── Zone split indicator lines (very subtle) ── */}
-        {hoverZone && <div aria-hidden="true" className="zone-split-line z-0" />}
+        {hoverZone && (
+          <div aria-hidden="true" className="zone-split-line z-0" />
+        )}
 
         {/* ── "Latest Work" or Custom badge ── */}
         {(project.badge || project.isNew) && (
