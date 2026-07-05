@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
 import { gsap } from '@/lib/gsap';
 import {
@@ -17,9 +17,14 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
-  const [progress, setProgress] = useState(0);
-  const [logs, setLogs] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
+  const counterRef = useRef<HTMLSpanElement>(null);
+  const logsContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Calculate initial log count
+  const isSmall = typeof window !== 'undefined' ? window.innerWidth < 1024 : false;
+  const logCount = isSmall ? 4 : 8;
+  const initialLogs = Array.from({ length: logCount }).map(() => "WAITING_FOR_DATA_STREAM...");
 
   const generateLogs = () => {
     const processes = [
@@ -32,10 +37,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       'DATA_FETCH',
       'AUTH_CHECK',
     ];
-    // Only generate 4 logs on mobile/tablet so it doesn't clutter, 8 on desktop
-    const isSmall = window.innerWidth < 1024;
-    const count = isSmall ? 4 : 8;
-    return Array.from({ length: count }).map(
+    return Array.from({ length: logCount }).map(
       (_, i) =>
         `0x${Math.floor(Math.random() * 16777215)
           .toString(16)
@@ -65,11 +67,21 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           ease: 'power4.inOut',
           onUpdate: () => {
             const currentVal = Math.round(counter.val);
-            setProgress(currentVal);
+            
+            // Direct DOM manipulation to avoid React re-renders for better performance
+            if (counterRef.current) {
+              counterRef.current.innerText = currentVal.toString().padStart(3, '0');
+            }
 
             // Update the tech logs rapidly, but not every single frame
-            if (currentVal % 2 === 0) {
-              setLogs(generateLogs());
+            if (currentVal % 2 === 0 && logsContainerRef.current) {
+              const newLogs = generateLogs();
+              const logElements = logsContainerRef.current.children;
+              for (let i = 0; i < newLogs.length; i++) {
+                if (logElements[i]) {
+                  (logElements[i] as HTMLElement).innerText = newLogs[i];
+                }
+              }
             }
           },
         },
@@ -84,6 +96,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           duration: 1.2,
           stagger: 0.04,
           ease: 'expo.out',
+          force3D: true, // Force hardware acceleration
         },
         'start+=0.2',
       );
@@ -97,6 +110,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           duration: 1,
           stagger: 0.1,
           ease: 'power2.out',
+          force3D: true,
         },
         'start+=0.4',
       );
@@ -111,6 +125,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           duration: 1.5,
           stagger: 0.08,
           ease: 'bounce.out', // Physics bounce when they land
+          force3D: true,
         },
         'start+=0.6',
       );
@@ -124,6 +139,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           duration: 0.6,
           stagger: 0.04,
           ease: 'power2.out',
+          force3D: true,
         },
         'start+=0.5',
       );
@@ -136,6 +152,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           opacity: 0,
           duration: 0.8,
           ease: 'power3.inOut',
+          force3D: true,
         },
         'start+=2.6',
       ); // Waits for counter to finish
@@ -148,6 +165,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           duration: 1.2,
           stagger: 0.08,
           ease: 'expo.inOut',
+          force3D: true,
         },
         'start+=2.8',
       );
@@ -233,15 +251,15 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           {/* Right: Tech Details (Stacked on Mobile/Tablet, Row on Desktop) */}
           <div className="flex flex-col items-start lg:items-end justify-center w-full lg:w-1/3 lg:pr-8 space-y-6 lg:space-y-12">
             {/* Rapidly changing system logs */}
-            <div className="font-mono text-[9px] md:text-xs text-primary/60 tracking-[0.1em] md:tracking-[0.2em] leading-relaxed text-left lg:text-right opacity-80">
-              {logs.map((log, i) => (
+            <div 
+              ref={logsContainerRef}
+              className="font-mono text-[9px] md:text-xs text-primary/60 tracking-[0.1em] md:tracking-[0.2em] leading-relaxed text-left lg:text-right opacity-80"
+            >
+              {initialLogs.map((log, i) => (
                 <div key={i} className="log-line">
                   {log}
                 </div>
               ))}
-              {logs.length === 0 && (
-                <div className="log-line">WAITING_FOR_DATA_STREAM...</div>
-              )}
             </div>
 
             {/* Tech Icons Grid (8 columns on mobile/tablet, 4 on desktop) */}
@@ -268,7 +286,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
           {/* Massive Percentage Counter */}
           <div className="text-[20vw] lg:text-[12rem] leading-none font-bold tabular-nums tracking-tighter text-zinc-100 font-sans flex items-baseline">
-            {progress.toString().padStart(3, '0')}
+            <span ref={counterRef}>000</span>
             <span className="text-xl md:text-6xl text-zinc-600 ml-1 lg:ml-4 mb-2 lg:mb-8">
               %
             </span>
