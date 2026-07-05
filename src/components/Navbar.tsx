@@ -24,50 +24,54 @@ const Navbar = () => {
   // GSAP: hide navbar on scroll down, reveal on scroll up
   useGSAPContext(
     () => {
-      let lastScrollY = window.scrollY;
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
-      // Mobile scrolls in shorter bursts — lower threshold
-      const hideThreshold = isMobile ? 50 : 100;
+      // Delay all Navbar logic until AFTER the loading screen finishes (3 seconds)
+      const timer = setTimeout(() => {
+        let lastScrollY = window.scrollY;
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        // Mobile scrolls in shorter bursts — lower threshold
+        const hideThreshold = isMobile ? 50 : 100;
 
-      ScrollTrigger.create({
-        start: 'top -60px',
-        end: 'max',
-        onUpdate: () => {
-          const currentY = window.scrollY;
-          const isScrollingDown =
-            currentY > lastScrollY && currentY > hideThreshold;
-          lastScrollY = currentY;
+        ScrollTrigger.create({
+          start: 'top -60px',
+          end: 'max',
+          onUpdate: () => {
+            const currentY = window.scrollY;
+            const isScrollingDown =
+              currentY > lastScrollY && currentY > hideThreshold;
+            lastScrollY = currentY;
 
-          if (!navRef.current) return;
+            if (!navRef.current) return;
 
-          if (isScrollingDown) {
-            // Slide navbar out upward
-            gsap.to(navRef.current, {
-              yPercent: -110,
-              duration: isMobile ? 0.25 : 0.4,
-              ease: 'power2.inOut',
-              overwrite: true,
-            });
-          } else {
-            // Slide navbar back in
-            gsap.to(navRef.current, {
-              yPercent: 0,
-              duration: isMobile ? 0.3 : 0.5,
-              ease: 'power3.out',
-              overwrite: true,
-            });
-          }
-        },
-      });
+            if (isScrollingDown) {
+              // Slide navbar out upward
+              gsap.to(navRef.current, {
+                yPercent: -110,
+                duration: isMobile ? 0.25 : 0.4,
+                ease: 'power2.inOut',
+                overwrite: true,
+              });
+            } else {
+              // Slide navbar back in
+              gsap.to(navRef.current, {
+                yPercent: 0,
+                duration: isMobile ? 0.3 : 0.5,
+                ease: 'power3.out',
+                overwrite: true,
+              });
+            }
+          },
+        });
 
-      // Initial entrance animation
-      gsap.from(navRef.current, {
-        y: -60,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        delay: 0.2,
-      });
+        // Initial entrance animation - drops in smoothly right as loader finishes
+        gsap.from(navRef.current, {
+          y: -60,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+        });
+      }, 3000);
+
+      return () => clearTimeout(timer);
     },
     navRef,
     [],
