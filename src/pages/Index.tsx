@@ -21,7 +21,9 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <div className={`min-h-screen bg-background text-foreground ${isLoading ? 'h-screen overflow-hidden' : ''}`}>
+    <div
+      className={`min-h-screen bg-background text-foreground ${isLoading ? 'h-screen overflow-hidden' : ''}`}
+    >
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
 
       {/* ── Pixel Animation Layer ── */}

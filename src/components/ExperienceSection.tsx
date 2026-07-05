@@ -1,7 +1,7 @@
 import SectionBlock from './SectionBlock';
 
 const experiences = [
-   {
+  {
     role: 'FRONTEND Developer (Freelance)',
     company: 'AOTMS LMS PORTAL',
     period: '[08FEB 2026 – 28APR 2026]',

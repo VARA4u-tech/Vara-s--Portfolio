@@ -156,7 +156,9 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
             ))}
           </div>
 
-          <div className={`flex justify-between items-start ${project.tagline ? 'mb-2' : 'mb-6'}`}>
+          <div
+            className={`flex justify-between items-start ${project.tagline ? 'mb-2' : 'mb-6'}`}
+          >
             <h3 className="font-black text-foreground leading-tight text-xl">
               {project.title}
             </h3>
