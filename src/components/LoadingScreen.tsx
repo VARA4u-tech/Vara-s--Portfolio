@@ -237,13 +237,13 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
             <div className="overflow-hidden">
               <h1 className="text-[12vw] sm:text-[14vw] lg:text-[8rem] leading-none font-bold tracking-tighter uppercase font-sans">
-                {splitText('VARA_')}
+                {splitText('VARA^S_')}
               </h1>
             </div>
             <div className="overflow-hidden">
               <h1 className="text-[12vw] sm:text-[14vw] lg:text-[8rem] leading-none font-bold tracking-tighter uppercase font-sans text-zinc-500 flex items-center">
                 {splitText('PORTFOLIO')}
-                <span className="pixel-detail inline-block w-[0.2em] h-[0.7em] lg:w-[0.5em] lg:h-[0.8em] bg-primary align-middle ml-2 lg:ml-4 animate-pulse" />
+                <span className="pixel-detail inline-block w-[0.2em] h-[0.7em] lg:w-[0.5em] lg:h-[0.8em] bg-white align-middle ml-2 lg:ml-4 animate-pulse" />
               </h1>
             </div>
           </div>
