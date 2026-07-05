@@ -20,11 +20,14 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const logsContainerRef = useRef<HTMLDivElement>(null);
-  
+
   // Calculate initial log count
-  const isSmall = typeof window !== 'undefined' ? window.innerWidth < 1024 : false;
+  const isSmall =
+    typeof window !== 'undefined' ? window.innerWidth < 1024 : false;
   const logCount = isSmall ? 4 : 8;
-  const initialLogs = Array.from({ length: logCount }).map(() => "WAITING_FOR_DATA_STREAM...");
+  const initialLogs = Array.from({ length: logCount }).map(
+    () => 'WAITING_FOR_DATA_STREAM...',
+  );
 
   const generateLogs = () => {
     const processes = [
@@ -67,10 +70,12 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           ease: 'power4.inOut',
           onUpdate: () => {
             const currentVal = Math.round(counter.val);
-            
+
             // Direct DOM manipulation to avoid React re-renders for better performance
             if (counterRef.current) {
-              counterRef.current.innerText = currentVal.toString().padStart(3, '0');
+              counterRef.current.innerText = currentVal
+                .toString()
+                .padStart(3, '0');
             }
 
             // Update the tech logs rapidly, but not every single frame
@@ -251,7 +256,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           {/* Right: Tech Details (Stacked on Mobile/Tablet, Row on Desktop) */}
           <div className="flex flex-col items-start lg:items-end justify-center w-full lg:w-1/3 lg:pr-8 space-y-6 lg:space-y-12">
             {/* Rapidly changing system logs */}
-            <div 
+            <div
               ref={logsContainerRef}
               className="font-mono text-[9px] md:text-xs text-primary/60 tracking-[0.1em] md:tracking-[0.2em] leading-relaxed text-left lg:text-right opacity-80"
             >
