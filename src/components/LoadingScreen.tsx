@@ -242,7 +242,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             </div>
 
             {/* Tech Icons Grid (8 columns on mobile/tablet, 4 on desktop) */}
-            <div className="grid grid-cols-8 lg:grid-cols-4 gap-3 md:gap-6 text-zinc-700 w-full lg:w-auto">
+            <div className="grid grid-cols-8 lg:grid-cols-4 gap-3 md:gap-6 text-zinc-400 w-full lg:w-auto">
               <Cpu className="tech-icon w-5 h-5 md:w-7 md:h-7" />
               <Database className="tech-icon w-5 h-5 md:w-7 md:h-7" />
               <Globe className="tech-icon w-5 h-5 md:w-7 md:h-7" />
