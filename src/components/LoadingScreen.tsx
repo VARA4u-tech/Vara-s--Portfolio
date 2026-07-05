@@ -200,7 +200,9 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
               <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary animate-pulse" />
               SYS_ONLINE
             </span>
-            <span className="hidden sm:inline">LAT: 17.3850 N, LON: 78.4867 E</span>
+            <span className="hidden sm:inline">
+              LAT: 17.3850 N, LON: 78.4867 E
+            </span>
             <span className="sm:hidden">LAT: 17.3850 N</span>
           </div>
         </div>
