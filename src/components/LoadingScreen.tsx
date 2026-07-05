@@ -190,17 +190,18 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         />
 
         {/* TOP HUD: Fills the empty space at the top */}
-        <div className="relative z-10 w-full flex justify-between items-start font-mono text-[10px] sm:text-xs text-zinc-500 uppercase tracking-[0.2em] mb-4 lg:mb-0">
-          <div className="flex flex-col gap-2 pixel-detail">
+        <div className="relative z-10 w-full flex justify-between items-start font-mono text-[8px] sm:text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest sm:tracking-[0.2em] mb-4 lg:mb-0">
+          <div className="flex flex-col gap-1 md:gap-2 pixel-detail">
             <span>SYS_VER: 1.0.4</span>
-            <span>AUTH: VERIFIED</span>
+            <span className="hidden sm:inline">AUTH: VERIFIED</span>
           </div>
-          <div className="flex flex-col items-end gap-2 pixel-detail text-right">
-            <span className="flex items-center justify-end gap-2 text-primary">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              SYSTEM_ONLINE
+          <div className="flex flex-col items-end gap-1 md:gap-2 pixel-detail text-right">
+            <span className="flex items-center justify-end gap-1.5 sm:gap-2 text-primary">
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary animate-pulse" />
+              SYS_ONLINE
             </span>
-            <span>LAT: 17.3850 N, LON: 78.4867 E</span>
+            <span className="hidden sm:inline">LAT: 17.3850 N, LON: 78.4867 E</span>
+            <span className="sm:hidden">LAT: 17.3850 N</span>
           </div>
         </div>
 
@@ -215,12 +216,12 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             </div>
 
             <div className="overflow-hidden">
-              <h1 className="text-[14vw] lg:text-[8rem] leading-none font-bold tracking-tighter uppercase font-sans">
+              <h1 className="text-[12vw] sm:text-[14vw] lg:text-[8rem] leading-none font-bold tracking-tighter uppercase font-sans">
                 {splitText('VARA_')}
               </h1>
             </div>
             <div className="overflow-hidden">
-              <h1 className="text-[14vw] lg:text-[8rem] leading-none font-bold tracking-tighter uppercase font-sans text-zinc-500 flex items-center">
+              <h1 className="text-[12vw] sm:text-[14vw] lg:text-[8rem] leading-none font-bold tracking-tighter uppercase font-sans text-zinc-500 flex items-center">
                 {splitText('PORTFOLIO')}
                 <span className="pixel-detail inline-block w-[0.2em] h-[0.7em] lg:w-[0.5em] lg:h-[0.8em] bg-primary align-middle ml-2 lg:ml-4 animate-pulse" />
               </h1>
