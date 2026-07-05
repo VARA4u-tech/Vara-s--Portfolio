@@ -48,12 +48,13 @@ const App = () => (
       <ReactLenis
         root
         options={{
-          duration: 1.6,
+          duration: 1.8, // Increased duration for a longer, more noticeable slide
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           smoothWheel: true,
-          wheelMultiplier: 0.9,
-          // On touch devices Lenis uses native scroll (best for iOS Safari)
-          touchMultiplier: 1.5,
+          wheelMultiplier: 1.1, // Slightly faster wheel response
+          // Forcing lenis on touch devices can cause jank, but we can sync the touch for a smoother experience
+          syncTouch: true, 
+          touchMultiplier: 2,
         }}
       >
         {/* Bridge must be inside ReactLenis so useLenis() can access the instance */}
