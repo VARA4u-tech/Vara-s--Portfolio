@@ -26,7 +26,7 @@ const AboutSection = () => {
           <div className="w-full max-w-[256px] mt-8 border-2 border-black bg-white p-4 font-mono text-xs space-y-2.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none">
             <div className="flex justify-between border-b border-black/10 pb-1.5">
               <span className="text-black/50">NAME:</span>
-              <span className="font-bold">DV PRASAD</span>
+              <span className="font-bold">DURGA VARA PRASAD PAPPURI</span>
             </div>
             <div className="flex justify-between border-b border-black/10 pb-1.5">
               <span className="text-black/50">ROLE:</span>
@@ -36,7 +36,7 @@ const AboutSection = () => {
               <span className="text-black/50 flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5" /> LOC:
               </span>
-              <span className="font-bold">INDIA (IST)</span>
+              <span className="font-bold">INDIA[Vijayawada]-(IST)</span>
             </div>
             <div className="flex justify-between">
               <span className="text-black/50 flex items-center gap-1">
