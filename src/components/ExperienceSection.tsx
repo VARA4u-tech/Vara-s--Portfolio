@@ -1,4 +1,5 @@
 import SectionBlock from './SectionBlock';
+import { ScrollReveal } from './ui/ScrollReveal';
 
 const experiences = [
   {
@@ -26,7 +27,7 @@ const experiences = [
 
 const ExperienceSection = () => (
   <SectionBlock id="experience" title="Experience">
-    <div className="space-y-12">
+    <ScrollReveal animation="stagger-fade-up" className="space-y-12">
       {experiences.map((exp) => (
         <div
           key={exp.role}
@@ -53,7 +54,7 @@ const ExperienceSection = () => (
           </div>
         </div>
       ))}
-    </div>
+    </ScrollReveal>
   </SectionBlock>
 );
 

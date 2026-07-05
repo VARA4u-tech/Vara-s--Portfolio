@@ -360,7 +360,8 @@ const ProjectsSection = () => {
                 custom={i}
                 variants={cardVariants}
                 initial="hidden"
-                animate="visible"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
                 exit="exit"
                 layout
                 className="gsap-project-card w-[80vw] max-w-[320px] shrink-0 snap-start md:snap-none md:w-auto md:max-w-none h-full"

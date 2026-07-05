@@ -24,44 +24,23 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
       // Detect mobile/tablet — reduce motion intensity for performance
       const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-      // Section title — slides in from left + triggers scramble
+      // Section title — masked slide-up + triggers scramble
       gsap.fromTo(
         section.querySelector('.gsap-section-title'),
-        { opacity: 0, x: isMobile ? -20 : -40 },
+        { yPercent: 100 },
         {
-          opacity: 1,
-          x: 0,
-          duration: isMobile ? 0.6 : 0.9,
-          ease: 'power3.out',
+          yPercent: 0,
+          duration: 1.2,
+          ease: 'expo.out',
+          force3D: true,
           scrollTrigger: {
             trigger: section,
-            start: 'top 88%',
-            toggleActions: 'play none none none',
-            invalidateOnRefresh: true,
-            once: true,
+            start: 'top 85%',
+            once: true, // we trigger it only once as requested
             onEnter: () => {
-              // Fire scramble 200ms after slide starts — feels like decoding
+              // Fire scramble 200ms after slide starts
               setTimeout(scramble, 200);
             },
-          },
-        },
-      );
-
-      // Children content — fade + rise
-      gsap.fromTo(
-        section.querySelector('.gsap-section-content'),
-        { opacity: 0, y: isMobile ? 30 : 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: isMobile ? 0.7 : 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 82%',
-            toggleActions: 'play none none none',
-            invalidateOnRefresh: true,
-            once: true,
           },
         },
       );
@@ -76,10 +55,12 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
       id={id}
       className="max-w-6xl mx-auto px-6 py-16 md:py-32"
     >
-      <h2 ref={titleRef} className="gsap-section-title section-title mb-12">
-        {title}.
-      </h2>
-      <div className="gsap-section-content">{children}</div>
+      <div className="overflow-hidden mb-12">
+        <h2 ref={titleRef} className="gsap-section-title section-title pb-2 inline-block">
+          {title}.
+        </h2>
+      </div>
+      <div>{children}</div>
     </section>
   );
 };

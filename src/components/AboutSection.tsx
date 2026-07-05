@@ -1,5 +1,6 @@
 import SectionBlock from './SectionBlock';
 import AnimatedAvatar from './AnimatedAvatar';
+import { ScrollReveal } from './ui/ScrollReveal';
 import {
   BookOpen,
   MapPin,
@@ -15,7 +16,7 @@ const AboutSection = () => {
     <SectionBlock id="about" title="About me">
       <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12">
         {/* Left Column - Avatar & Quick Specs */}
-        <div className="w-full lg:w-auto flex flex-col items-center shrink-0">
+        <ScrollReveal animation="fade-in" className="w-full lg:w-auto flex flex-col items-center shrink-0">
           <AnimatedAvatar />
 
           {/* Neobrutalist Info Card */}
@@ -48,11 +49,11 @@ const AboutSection = () => {
               </a>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Right Column - Bio, Stats & Methodology */}
         <div className="flex-1 w-full">
-          <div className="space-y-6">
+          <ScrollReveal animation="stagger-fade-up" className="space-y-6">
             <p className="body-text max-w-3xl">
               I'm a passionate developer with a deep interest in building clean,
               performant, and user-centric digital experiences. I believe in the
@@ -71,10 +72,10 @@ const AboutSection = () => {
               ideas into production-ready software while maintaining clean,
               scalable, and modular architectures.
             </p>
-          </div>
+          </ScrollReveal>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10">
+          <ScrollReveal animation="stagger-fade-up" delay={0.2} className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10">
             <div className="border-2 border-black bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 rounded-none">
               <div className="font-mono text-3xl font-black">1+</div>
               <div className="font-mono text-[10px] uppercase tracking-wider text-black/50 mt-1">
@@ -93,10 +94,10 @@ const AboutSection = () => {
                 Code Quality Focus
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Core Principles Section */}
-          <div className="mt-8 border-2 border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rounded-none">
+          <ScrollReveal animation="fade-up" delay={0.1} className="mt-8 border-2 border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rounded-none">
             <h3 className="font-mono text-xs font-bold tracking-[0.2em] uppercase mb-6 pb-2 border-b-2 border-black flex items-center gap-2">
               <Code className="w-4 h-4" />
               // CORE WORKFLOW PRINCIPLES
@@ -148,10 +149,10 @@ const AboutSection = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Action CTA */}
-          <div className="mt-8 flex flex-wrap gap-4">
+          <ScrollReveal animation="scale-up" delay={0.2} className="mt-8 flex flex-wrap gap-4">
             <a
               href="https://durgavaraprasad.hashnode.dev/"
               target="_blank"
@@ -161,7 +162,7 @@ const AboutSection = () => {
               <BookOpen className="w-4 h-4" />
               <span>Read My Technical Blog</span>
             </a>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </SectionBlock>

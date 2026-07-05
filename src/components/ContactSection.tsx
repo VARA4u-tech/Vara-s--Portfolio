@@ -11,6 +11,7 @@ import {
   playError,
 } from '@/hooks/useSoundEffects';
 import SectionBlock from './SectionBlock';
+import { ScrollReveal } from './ui/ScrollReveal';
 import {
   Mail,
   Copy,
@@ -187,7 +188,7 @@ const ContactSection = () => {
     <SectionBlock id="contact" title="Get in touch">
       <div className="grid md:grid-cols-2 gap-8 md:gap-20">
         {/* Left Column: Contact Info */}
-        <div className="space-y-8 md:space-y-10">
+        <ScrollReveal animation="fade-in" className="space-y-8 md:space-y-10">
           <p className="text-foreground/80 leading-relaxed font-light text-lg">
             I'm always interested in hearing about new projects and
             opportunities. Whether you have a question or just want to say hi,
@@ -256,10 +257,10 @@ const ContactSection = () => {
               })}
             </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Right Column: Form or Success State */}
-        <div className="w-full">
+        <ScrollReveal animation="fade-up" delay={0.2} className="w-full">
           {isSubmitted ? (
             <div className="flex flex-col items-center justify-center p-8 border-2 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center space-y-6 animate-fade-in min-h-[400px] rounded-none">
               <div className="p-4 bg-black border-2 border-black rounded-none text-white animate-pulse">
@@ -474,7 +475,7 @@ const ContactSection = () => {
               </div>
             </form>
           )}
-        </div>
+        </ScrollReveal>
       </div>
     </SectionBlock>
   );

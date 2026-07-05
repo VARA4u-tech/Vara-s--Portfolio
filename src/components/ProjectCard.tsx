@@ -3,6 +3,8 @@ import { Github, ExternalLink, ArrowUpRight, Code2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from './ui/badge';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
+import { gsap } from '@/lib/gsap';
+import { useGSAPContext } from '@/hooks/useGSAPContext';
 
 interface Project {
   title: string;
@@ -28,10 +30,26 @@ interface CursorPos {
   y: number;
 }
 
-export const ProjectCard = ({ project }: ProjectCardProps) => {
+export const ProjectCard = ({ project, index }: ProjectCardProps) => {
   const [hoverZone, setHoverZone] = useState<HoverZone>(null);
   const [cursorPos, setCursorPos] = useState<CursorPos>({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
+
+  useGSAPContext(() => {
+    if (!cardRef.current) return;
+    
+    // Subtle parallax for the background number
+    gsap.to(cardRef.current.querySelector('.parallax-number'), {
+      y: -60,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: cardRef.current,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1, // Smooth scrub
+      }
+    });
+  }, cardRef, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -68,7 +86,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <div
       ref={cardRef}
-      className="project-card-wrapper w-full h-full"
+      className="project-card-wrapper w-full h-full relative overflow-hidden"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={playHover}
@@ -76,19 +94,24 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
     >
       <div
         className={[
-          'w-full h-full relative border-2 border-black px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between',
+          'w-full h-full relative border-2 border-black px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between overflow-hidden',
           'shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500',
           'bg-white rounded-none min-h-[420px] md:min-h-[480px]',
         ].join(' ')}
         onClick={() => handleZoneClick(hoverZone)}
       >
+        {/* Parallax Background Number */}
+        <div className="parallax-number absolute -right-4 -bottom-20 text-[14rem] font-black text-black/[0.03] leading-none select-none pointer-events-none z-0">
+          {(index + 1).toString().padStart(2, '0')}
+        </div>
+
         {/* CRT pixel scanline overlay */}
-        <div aria-hidden="true" className="pixel-scanline-overlay" />
+        <div aria-hidden="true" className="pixel-scanline-overlay z-0" />
 
         {/* ── Subtle half-zone tint (very faint, doesn't cover content) ── */}
         <div
           aria-hidden="true"
-          className="zone-half-tint"
+          className="zone-half-tint z-0"
           style={{
             background:
               hoverZone === 'left'
@@ -132,7 +155,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
         </AnimatePresence>
 
         {/* ── Zone split indicator lines (very subtle) ── */}
-        {hoverZone && <div aria-hidden="true" className="zone-split-line" />}
+        {hoverZone && <div aria-hidden="true" className="zone-split-line z-0" />}
 
         {/* ── "Latest Work" or Custom badge ── */}
         {(project.badge || project.isNew) && (
