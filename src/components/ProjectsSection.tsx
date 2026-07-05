@@ -154,7 +154,7 @@ const projects: Project[] = [
     categories: ['ecommerce', 'web', 'ai'],
     githubUrl:
       'https://github.com/VARA4u-tech/Lakshmi-Fashion-Designers-E-Commerce-Website',
-    liveUrl: 'https://lakshmi-fashion-designers-e-commerc.vercel.app/',
+    liveUrl: 'https://lakshmi-fashion-designers.vercel.app',
   },
   {
     title: 'AI Voice-Controlled PDF Editor',
