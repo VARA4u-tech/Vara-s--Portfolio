@@ -90,7 +90,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
   return (
     <div
       ref={cardRef}
-      className="project-card-wrapper w-full h-full relative overflow-hidden"
+      className="project-card-wrapper w-full h-full relative"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={playHover}
@@ -98,15 +98,17 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
     >
       <div
         className={[
-          'w-full h-full relative border-2 border-black px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between overflow-hidden',
+          'w-full h-full relative border-2 border-black px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between',
           'shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500',
           'bg-white rounded-none min-h-[420px] md:min-h-[480px]',
         ].join(' ')}
         onClick={() => handleZoneClick(hoverZone)}
       >
-        {/* Parallax Background Number */}
-        <div className="parallax-number absolute -right-4 -bottom-20 text-[14rem] font-black text-black/[0.03] leading-none select-none pointer-events-none z-0">
-          {(index + 1).toString().padStart(2, '0')}
+        {/* Parallax Background Number Container */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="parallax-number absolute -right-4 -bottom-20 text-[14rem] font-black text-black/[0.03] leading-none select-none">
+            {(index + 1).toString().padStart(2, '0')}
+          </div>
         </div>
 
         {/* CRT pixel scanline overlay */}
