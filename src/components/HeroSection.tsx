@@ -323,13 +323,13 @@ const HeroSection = () => {
     if (!ctx) return;
 
     // ── Performance tiers ──────────────────────────────────────────
-    // Phone:   12 columns, 15fps, tiny chars, DPR capped at 1
-    // Tablet:  20 columns, 20fps, medium chars, DPR capped at 1
+    // Phone:   24 columns, 24fps, tiny chars, DPR capped at 1
+    // Tablet:  32 columns, 24fps, medium chars, DPR capped at 1
     // Desktop: full columns, 33fps, full char set, native DPR
     const dpr = isDesktop ? Math.min(window.devicePixelRatio || 1, 2) : 1;
 
-    const COLS = isPhone ? 12 : isTablet ? 20 : 0; // 0 = auto on desktop
-    const FPS = isPhone ? 15 : isTablet ? 20 : 33;
+    const COLS = isPhone ? 24 : isTablet ? 32 : 0; // 0 = auto on desktop
+    const FPS = isPhone ? 24 : isTablet ? 24 : 33;
     const FRAME_MS = 1000 / FPS;
 
     // Minimal char set on mobile for faster Math.random index lookups
@@ -399,7 +399,7 @@ const HeroSection = () => {
         const char = chars[(Math.random() * charLen) | 0];
         const fSize = isPhone ? fontSize : fontSize * (0.5 + drop.depth * 0.7);
         const opacity = isPhone
-          ? 0.18 + drop.depth * 0.25
+          ? 0.35 + drop.depth * 0.40
           : 0.05 + drop.depth * 0.25;
 
         ctx.font = `${fSize}px monospace`;
