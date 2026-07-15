@@ -631,7 +631,7 @@ const HeroSection = () => {
           {/* Secondary: Direct Download */}
           <Magnetic strength={0.1}>
             <a
-              href="/resume.pdf"
+              href="/Durga_Vara_Prasad_Resume.pdf"
               download="Durga_Vara_Prasad_Resume.pdf"
               onClick={playClick}
               aria-label="Download resume as PDF"
@@ -648,7 +648,7 @@ const HeroSection = () => {
       <ResumeModal
         isOpen={isResumeOpen}
         onClose={() => setIsResumeOpen(false)}
-        resumeUrl="/resume.pdf"
+        resumeUrl="/Durga_Vara_Prasad_Resume.pdf"
         downloadName="Durga_Vara_Prasad_Resume.pdf"
       />
 

@@ -14,7 +14,7 @@ interface ResumeModalProps {
 const ResumeModal = ({
   isOpen,
   onClose,
-  resumeUrl = '/resume.pdf',
+  resumeUrl = '/Durga_Vara_Prasad_Resume.pdf',
   downloadName = 'Durga_Vara_Prasad_Resume.pdf',
 }: ResumeModalProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -107,7 +107,7 @@ const ResumeModal = ({
                   <span className="w-3 h-3 rounded-full bg-green-500 border border-green-700" />
                 </div>
                 <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/80 hidden sm:block">
-                  resume.pdf
+                  Durga_Vara_Prasad_Resume.pdf
                 </span>
                 <FileText className="w-4 h-4 text-white/60 sm:hidden" />
               </div>
