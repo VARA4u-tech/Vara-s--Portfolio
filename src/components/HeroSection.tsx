@@ -55,12 +55,7 @@ const HeroSection = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   // ── Pixel Particle Assembly — hero name flies in from screen edges ──
-  useParticleAssembly(
-    assembleCanvasRef,
-    nameRef,
-    scrambleLine1,
-    scrambleLine2,
-  );
+  useParticleAssembly(assembleCanvasRef, nameRef, scrambleLine1, scrambleLine2);
 
   // ── GSAP Hero Entrance Timeline ──
   useGSAPContext(
@@ -226,11 +221,15 @@ const HeroSection = () => {
 
         {/* Visually hidden text for screen readers */}
         <span className="sr-only">
-          Roles: Vibe Coder, React Engineer, Blockchain Builder, Full-Stack Creator
+          Roles: Vibe Coder, React Engineer, Blockchain Builder, Full-Stack
+          Creator
         </span>
 
         {/* Typewriter role - hidden from screen readers to prevent noise */}
-        <div className="gsap-role mt-6 h-8 flex items-center justify-center" aria-hidden="true">
+        <div
+          className="gsap-role mt-6 h-8 flex items-center justify-center"
+          aria-hidden="true"
+        >
           <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-foreground/50">
             {'< '}
           </span>
@@ -346,7 +345,10 @@ const HeroSection = () => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="gsap-chevron absolute bottom-4 left-1/2 -translate-x-1/2 z-10" aria-hidden="true">
+      <div
+        className="gsap-chevron absolute bottom-4 left-1/2 -translate-x-1/2 z-10"
+        aria-hidden="true"
+      >
         <ChevronDown className="w-5 h-5 text-foreground/60 animate-bounce" />
       </div>
     </section>

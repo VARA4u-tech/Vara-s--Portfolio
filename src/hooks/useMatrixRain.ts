@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { ANIMATION_CONFIG } from '@/data/animations';
 
-export const useMatrixRain = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
+export const useMatrixRain = (
+  canvasRef: React.RefObject<HTMLCanvasElement>,
+) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -19,7 +21,7 @@ export const useMatrixRain = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
 
     // ── Performance tiers ──────────────────────────────────────────
     const { mobile, tablet, desktop } = ANIMATION_CONFIG.matrixRain;
-    
+
     // Desktop: native DPR, mobile/tablet capped at 1
     const dpr = isDesktop ? Math.min(window.devicePixelRatio || 1, 2) : 1;
 
@@ -34,7 +36,11 @@ export const useMatrixRain = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
         ? '01{}[]/*#=+-;:.abcdefghi'
         : '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
 
-    const fontSize = isPhone ? mobile.fontSize : isTablet ? tablet.fontSize : desktop.fontSize;
+    const fontSize = isPhone
+      ? mobile.fontSize
+      : isTablet
+        ? tablet.fontSize
+        : desktop.fontSize;
 
     const setSize = () => {
       const cssW = window.innerWidth;
@@ -94,7 +100,7 @@ export const useMatrixRain = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
         const char = chars[(Math.random() * charLen) | 0];
         const fSize = isPhone ? fontSize : fontSize * (0.5 + drop.depth * 0.7);
         const opacity = isPhone
-          ? 0.35 + drop.depth * 0.40
+          ? 0.35 + drop.depth * 0.4
           : 0.05 + drop.depth * 0.25;
 
         ctx.font = `${fSize}px monospace`;

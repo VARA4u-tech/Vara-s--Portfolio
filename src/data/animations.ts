@@ -15,5 +15,5 @@ export const ANIMATION_CONFIG = {
     deletingSpeedMs: 40,
     pauseDurationMs: 2000,
     cursorBlinkRateMs: 530,
-  }
+  },
 };

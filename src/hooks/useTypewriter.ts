@@ -20,7 +20,8 @@ export const useTypewriter = (roles: string[]) => {
     if (!roles || roles.length === 0) return;
 
     const currentRole = roles[roleIndex];
-    const { typingSpeedMs, deletingSpeedMs, pauseDurationMs } = ANIMATION_CONFIG.typewriter;
+    const { typingSpeedMs, deletingSpeedMs, pauseDurationMs } =
+      ANIMATION_CONFIG.typewriter;
     const typeSpeed = isDeleting ? deletingSpeedMs : typingSpeedMs;
 
     const timeout = setTimeout(() => {

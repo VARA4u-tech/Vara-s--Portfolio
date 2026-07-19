@@ -42,7 +42,8 @@ export const useParticleAssembly = (
     // Hide real name until assembly completes
     nameEl.style.opacity = '0';
 
-    const { particleCount, assembleDurationMs, fadeDurationMs, spread } = ANIMATION_CONFIG.particleAssembly;
+    const { particleCount, assembleDurationMs, fadeDurationMs, spread } =
+      ANIMATION_CONFIG.particleAssembly;
 
     interface Particle {
       sx: number;
