@@ -8,11 +8,11 @@ interface StringAnimationProps {
 const StringAnimation = ({ className = '' }: StringAnimationProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
-  
+
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
     const { top, left, width } = containerRef.current.getBoundingClientRect();
-    
+
     const x = e.clientX - left;
     const y = e.clientY - top;
 
@@ -22,7 +22,7 @@ const StringAnimation = ({ className = '' }: StringAnimationProps) => {
   const handleMouseLeave = () => {
     if (!containerRef.current) return;
     const { width } = containerRef.current.getBoundingClientRect();
-    
+
     controls.start({
       d: `M 0 50 Q ${width / 2} 50 ${width} 50`,
       transition: {
@@ -30,14 +30,14 @@ const StringAnimation = ({ className = '' }: StringAnimationProps) => {
         stiffness: 500,
         damping: 10,
         mass: 1,
-      }
+      },
     });
   };
 
   // Set initial width and handle resize
   useEffect(() => {
     if (!containerRef.current) return;
-    
+
     const updatePath = () => {
       if (!containerRef.current) return;
       const { width } = containerRef.current.getBoundingClientRect();
@@ -45,21 +45,19 @@ const StringAnimation = ({ className = '' }: StringAnimationProps) => {
     };
 
     updatePath();
-    
+
     window.addEventListener('resize', updatePath);
     return () => window.removeEventListener('resize', updatePath);
   }, [controls]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`w-full h-[100px] flex items-center justify-center cursor-pointer relative z-10 ${className}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <svg 
-        className="w-full h-full pointer-events-none"
-      >
+      <svg className="w-full h-full pointer-events-none">
         <motion.path
           animate={controls}
           fill="transparent"
