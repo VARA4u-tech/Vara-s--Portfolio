@@ -1,5 +1,12 @@
 import { useEffect } from 'react';
 
+const CONFIG = {
+  PARTICLE_COUNT: 90,
+  ASSEMBLE_DURATION: 1300, // ms
+  FADE_DURATION: 220, // ms
+  PARTICLE_SPREAD: 200,
+};
+
 export const useParticleAssembly = (
   assembleCanvasRef: React.RefObject<HTMLCanvasElement>,
   nameRef: React.RefObject<HTMLHeadingElement>,
@@ -41,10 +48,6 @@ export const useParticleAssembly = (
     // Hide real name until assembly completes
     nameEl.style.opacity = '0';
 
-    const PARTICLE_COUNT = 90;
-    const ASSEMBLE_DURATION = 1300; // ms
-    const FADE_DURATION = 220;
-
     interface Particle {
       sx: number;
       sy: number; // start (scatter)
@@ -60,7 +63,7 @@ export const useParticleAssembly = (
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
 
-    const particles: Particle[] = Array.from({ length: PARTICLE_COUNT }, () => {
+    const particles: Particle[] = Array.from({ length: CONFIG.PARTICLE_COUNT }, () => {
       // scatter from screen edges
       const edge = Math.floor(Math.random() * 4);
       let sx = 0,
@@ -80,11 +83,10 @@ export const useParticleAssembly = (
       }
 
       // target: cluster around name area
-      const spread = 200;
       return {
         sx,
         sy,
-        tx: cx + (Math.random() - 0.5) * spread,
+        tx: cx + (Math.random() - 0.5) * CONFIG.PARTICLE_SPREAD,
         ty: cy - 30 + (Math.random() - 0.5) * 80,
         x: sx,
         y: sy,
@@ -106,7 +108,7 @@ export const useParticleAssembly = (
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       if (phase === 'assemble') {
-        const t = Math.min((now - start) / ASSEMBLE_DURATION, 1);
+        const t = Math.min((now - start) / CONFIG.ASSEMBLE_DURATION, 1);
 
         for (const p of particles) {
           p.eased = easeOutQuart(t);
@@ -129,7 +131,7 @@ export const useParticleAssembly = (
         }
       } else {
         // Fade out canvas
-        const ft = Math.min((now - fadeStart) / FADE_DURATION, 1);
+        const ft = Math.min((now - fadeStart) / CONFIG.FADE_DURATION, 1);
         if (ft >= 1) {
           cancelAnimationFrame(animId);
           canvas.style.display = 'none';

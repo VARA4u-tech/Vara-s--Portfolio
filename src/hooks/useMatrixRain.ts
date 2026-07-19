@@ -1,5 +1,20 @@
 import { useEffect } from 'react';
 
+const CONFIG = {
+  CHARS: {
+    MINIMAL: '01{}[]/*#=+-;:.abcdefghi',
+    FULL: '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz',
+  },
+  COLS: { PHONE: 24, TABLET: 32, DESKTOP: 0 },
+  FPS: { PHONE: 24, TABLET: 24, DESKTOP: 33 },
+  FONT_SIZE: { PHONE: 12, TABLET: 13, DESKTOP: 14 },
+  TRAIL_FADE: {
+    PHONE: 'rgba(255,255,255,0.10)',
+    TABLET: 'rgba(255,255,255,0.08)',
+    DESKTOP: 'rgba(255,255,255,0.06)',
+  },
+};
+
 export const useMatrixRain = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -22,18 +37,14 @@ export const useMatrixRain = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
     // Desktop: full columns, 33fps, full char set, native DPR
     const dpr = isDesktop ? Math.min(window.devicePixelRatio || 1, 2) : 1;
 
-    const COLS = isPhone ? 24 : isTablet ? 32 : 0; // 0 = auto on desktop
-    const FPS = isPhone ? 24 : isTablet ? 24 : 33;
+    const COLS = isPhone ? CONFIG.COLS.PHONE : isTablet ? CONFIG.COLS.TABLET : CONFIG.COLS.DESKTOP;
+    const FPS = isPhone ? CONFIG.FPS.PHONE : isTablet ? CONFIG.FPS.TABLET : CONFIG.FPS.DESKTOP;
     const FRAME_MS = 1000 / FPS;
 
     // Minimal char set on mobile for faster Math.random index lookups
-    const chars = isPhone
-      ? '01{}[]/*#=+-;:.abcdefghi'
-      : isTablet
-        ? '01{}[]/*#=+-;:.abcdefghi'
-        : '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
+    const chars = (isPhone || isTablet) ? CONFIG.CHARS.MINIMAL : CONFIG.CHARS.FULL;
 
-    const fontSize = isPhone ? 12 : isTablet ? 13 : 14;
+    const fontSize = isPhone ? CONFIG.FONT_SIZE.PHONE : isTablet ? CONFIG.FONT_SIZE.TABLET : CONFIG.FONT_SIZE.DESKTOP;
 
     const setSize = () => {
       const cssW = window.innerWidth;
@@ -81,10 +92,10 @@ export const useMatrixRain = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
 
       // Fade trail — less transparent on mobile = faster visual reset
       ctx.fillStyle = isPhone
-        ? 'rgba(255,255,255,0.10)'
+        ? CONFIG.TRAIL_FADE.PHONE
         : isTablet
-          ? 'rgba(255,255,255,0.08)'
-          : 'rgba(255,255,255,0.06)';
+          ? CONFIG.TRAIL_FADE.TABLET
+          : CONFIG.TRAIL_FADE.DESKTOP;
       ctx.fillRect(0, 0, cw, ch);
 
       const charLen = chars.length;

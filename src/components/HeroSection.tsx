@@ -225,7 +225,7 @@ const HeroSection = () => {
         </h1>
 
         {/* Typewriter role */}
-        <div className="gsap-role mt-6 h-8 flex items-center justify-center">
+        <div className="gsap-role mt-6 h-8 flex items-center justify-center" aria-hidden="true">
           <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-foreground/50">
             {'< '}
           </span>
@@ -243,6 +243,8 @@ const HeroSection = () => {
             {' />'}
           </span>
         </div>
+        {/* Screen reader text for roles */}
+        <span className="sr-only">Roles: {roles.join(', ')}</span>
 
         {/* Tech tags */}
         <div className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto">
@@ -341,7 +343,7 @@ const HeroSection = () => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="gsap-chevron absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
+      <div className="gsap-chevron absolute bottom-4 left-1/2 -translate-x-1/2 z-10" aria-hidden="true">
         <ChevronDown className="w-5 h-5 text-foreground/60 animate-bounce" />
       </div>
     </section>
