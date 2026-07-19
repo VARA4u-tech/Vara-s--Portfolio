@@ -6,9 +6,9 @@ export const ANIMATION_CONFIG = {
     spread: 200,
   },
   matrixRain: {
-    mobile: { cols: 24, fps: 24, fontSize: 12 },
-    tablet: { cols: 32, fps: 24, fontSize: 13 },
-    desktop: { cols: 0, fps: 33, fontSize: 14 }, // cols: 0 means auto
+    mobile: { cols: 36, fps: 24, fontSize: 12 },
+    tablet: { cols: 48, fps: 24, fontSize: 13 },
+    desktop: { cols: 0, fps: 33, fontSize: 10 }, // cols: 0 means auto (smaller fontSize = more columns)
   },
   typewriter: {
     typingSpeedMs: 80,
