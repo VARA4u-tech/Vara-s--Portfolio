@@ -224,7 +224,12 @@ const HeroSection = () => {
           </div>
         </h1>
 
-        {/* Typewriter role */}
+        {/* Visually hidden text for screen readers */}
+        <span className="sr-only">
+          Roles: Vibe Coder, React Engineer, Blockchain Builder, Full-Stack Creator
+        </span>
+
+        {/* Typewriter role - hidden from screen readers to prevent noise */}
         <div className="gsap-role mt-6 h-8 flex items-center justify-center" aria-hidden="true">
           <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-foreground/50">
             {'< '}
@@ -243,8 +248,6 @@ const HeroSection = () => {
             {' />'}
           </span>
         </div>
-        {/* Screen reader text for roles */}
-        <span className="sr-only">Roles: {roles.join(', ')}</span>
 
         {/* Tech tags */}
         <div className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto">

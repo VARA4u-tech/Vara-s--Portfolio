@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ANIMATION_CONFIG } from '@/data/animations';
 
 export const useTypewriter = (roles: string[]) => {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -10,7 +11,7 @@ export const useTypewriter = (roles: string[]) => {
   useEffect(() => {
     const cursorInterval = setInterval(() => {
       setCursorVisible((prev) => !prev);
-    }, 530);
+    }, ANIMATION_CONFIG.typewriter.cursorBlinkRateMs);
     return () => clearInterval(cursorInterval);
   }, []);
 
@@ -19,13 +20,14 @@ export const useTypewriter = (roles: string[]) => {
     if (!roles || roles.length === 0) return;
 
     const currentRole = roles[roleIndex];
-    const typeSpeed = isDeleting ? 40 : 80;
+    const { typingSpeedMs, deletingSpeedMs, pauseDurationMs } = ANIMATION_CONFIG.typewriter;
+    const typeSpeed = isDeleting ? deletingSpeedMs : typingSpeedMs;
 
     const timeout = setTimeout(() => {
       if (!isDeleting) {
         setDisplayText(currentRole.slice(0, displayText.length + 1));
         if (displayText.length === currentRole.length) {
-          setTimeout(() => setIsDeleting(true), 2000);
+          setTimeout(() => setIsDeleting(true), pauseDurationMs);
         }
       } else {
         setDisplayText(currentRole.slice(0, displayText.length - 1));

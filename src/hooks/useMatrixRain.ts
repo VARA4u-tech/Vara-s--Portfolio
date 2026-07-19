@@ -1,19 +1,5 @@
 import { useEffect } from 'react';
-
-const CONFIG = {
-  CHARS: {
-    MINIMAL: '01{}[]/*#=+-;:.abcdefghi',
-    FULL: '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz',
-  },
-  COLS: { PHONE: 24, TABLET: 32, DESKTOP: 0 },
-  FPS: { PHONE: 24, TABLET: 24, DESKTOP: 33 },
-  FONT_SIZE: { PHONE: 12, TABLET: 13, DESKTOP: 14 },
-  TRAIL_FADE: {
-    PHONE: 'rgba(255,255,255,0.10)',
-    TABLET: 'rgba(255,255,255,0.08)',
-    DESKTOP: 'rgba(255,255,255,0.06)',
-  },
-};
+import { ANIMATION_CONFIG } from '@/data/animations';
 
 export const useMatrixRain = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
   useEffect(() => {
@@ -32,19 +18,23 @@ export const useMatrixRain = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
     if (!ctx) return;
 
     // ── Performance tiers ──────────────────────────────────────────
-    // Phone:   24 columns, 24fps, tiny chars, DPR capped at 1
-    // Tablet:  32 columns, 24fps, medium chars, DPR capped at 1
-    // Desktop: full columns, 33fps, full char set, native DPR
+    const { mobile, tablet, desktop } = ANIMATION_CONFIG.matrixRain;
+    
+    // Desktop: native DPR, mobile/tablet capped at 1
     const dpr = isDesktop ? Math.min(window.devicePixelRatio || 1, 2) : 1;
 
-    const COLS = isPhone ? CONFIG.COLS.PHONE : isTablet ? CONFIG.COLS.TABLET : CONFIG.COLS.DESKTOP;
-    const FPS = isPhone ? CONFIG.FPS.PHONE : isTablet ? CONFIG.FPS.TABLET : CONFIG.FPS.DESKTOP;
+    const COLS = isPhone ? mobile.cols : isTablet ? tablet.cols : desktop.cols;
+    const FPS = isPhone ? mobile.fps : isTablet ? tablet.fps : desktop.fps;
     const FRAME_MS = 1000 / FPS;
 
     // Minimal char set on mobile for faster Math.random index lookups
-    const chars = (isPhone || isTablet) ? CONFIG.CHARS.MINIMAL : CONFIG.CHARS.FULL;
+    const chars = isPhone
+      ? '01{}[]/*#=+-;:.abcdefghi'
+      : isTablet
+        ? '01{}[]/*#=+-;:.abcdefghi'
+        : '01{}[]<>/*#=+-;:.abcdefghijklmnopqrstuvwxyz';
 
-    const fontSize = isPhone ? CONFIG.FONT_SIZE.PHONE : isTablet ? CONFIG.FONT_SIZE.TABLET : CONFIG.FONT_SIZE.DESKTOP;
+    const fontSize = isPhone ? mobile.fontSize : isTablet ? tablet.fontSize : desktop.fontSize;
 
     const setSize = () => {
       const cssW = window.innerWidth;
@@ -92,10 +82,10 @@ export const useMatrixRain = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
 
       // Fade trail — less transparent on mobile = faster visual reset
       ctx.fillStyle = isPhone
-        ? CONFIG.TRAIL_FADE.PHONE
+        ? 'rgba(255,255,255,0.10)'
         : isTablet
-          ? CONFIG.TRAIL_FADE.TABLET
-          : CONFIG.TRAIL_FADE.DESKTOP;
+          ? 'rgba(255,255,255,0.08)'
+          : 'rgba(255,255,255,0.06)';
       ctx.fillRect(0, 0, cw, ch);
 
       const charLen = chars.length;
