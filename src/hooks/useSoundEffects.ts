@@ -193,6 +193,31 @@ export const playHover = () => {
   playTone(1200, 0.04, 'sine', 0.22);
 };
 
+/** String Pluck — used for the string animation */
+export const playStringPluck = (intensity: number = 1) => {
+  const c = getCtx();
+  if (!c) return;
+  const gain = c.createGain();
+  // Adjust volume based on intensity (0 to 1)
+  gain.gain.setValueAtTime(masterVolume * Math.min(1, intensity) * 0.8, c.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 1.2);
+  gain.connect(c.destination);
+
+  const osc = c.createOscillator();
+  // String-like sound using triangle
+  osc.type = 'triangle';
+  // Randomize pitch slightly for a more organic feel, base around A2 (110 Hz)
+  const baseFreq = 110 + Math.random() * 40; 
+  osc.frequency.setValueAtTime(baseFreq, c.currentTime);
+  
+  // Optional: add a slight frequency bend for a realistic "twang"
+  osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.98, c.currentTime + 1.2);
+  
+  osc.connect(gain);
+  osc.start(c.currentTime);
+  osc.stop(c.currentTime + 1.2);
+};
+
 // ---------------------------------------------------------------------------
 // Hook — convenience wrapper for component use
 // ---------------------------------------------------------------------------
@@ -208,6 +233,7 @@ const useSoundEffects = () => ({
   playTerminalClose,
   playError,
   playHover,
+  playStringPluck,
   setMasterVolume,
   getMasterVolume,
 });

@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import useSoundEffects from '../hooks/useSoundEffects';
 
 interface StringAnimationProps {
   className?: string;
@@ -8,6 +9,7 @@ interface StringAnimationProps {
 const StringAnimation = ({ className = '' }: StringAnimationProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
+  const { playStringPluck } = useSoundEffects();
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -15,6 +17,8 @@ const StringAnimation = ({ className = '' }: StringAnimationProps) => {
 
     const x = e.clientX - left;
     const y = e.clientY - top;
+    
+    containerRef.current.dataset.bendY = y.toString();
 
     controls.set({ d: `M 0 50 Q ${x} ${y} ${width} 50` });
   };
@@ -22,6 +26,17 @@ const StringAnimation = ({ className = '' }: StringAnimationProps) => {
   const handleMouseLeave = () => {
     if (!containerRef.current) return;
     const { width } = containerRef.current.getBoundingClientRect();
+
+    const bendY = parseFloat(containerRef.current.dataset.bendY || '50');
+    const distance = Math.abs(bendY - 50);
+    const intensity = Math.min(distance / 30, 1); // Max volume reached when bent by 30px
+
+    if (intensity > 0.05) {
+      playStringPluck(intensity);
+    }
+    
+    // Reset bend Y
+    containerRef.current.dataset.bendY = '50';
 
     controls.start({
       d: `M 0 50 Q ${width / 2} 50 ${width} 50`,
