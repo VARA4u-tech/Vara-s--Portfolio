@@ -32,8 +32,28 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 // ─── Project data ────────────────────────────────────────────────────────────
 const projects: Project[] = [
   {
-    title: 'AI Meeting Summarizer & Task Manager',
+    title: 'Sarathi.ai',
     isNew: true,
+    tagline: 'Your AI Engineering Mentor',
+    description:
+      'An automated Senior Engineering Mentor that evaluates GitHub repositories using advanced LLMs to provide actionable roadmaps and enforce enterprise standards.',
+    tags: [
+      'TypeScript',
+      'React',
+      'Node.js',
+      'Python',
+      'MongoDB',
+      'Express',
+      'Vite',
+      'OpenRouter',
+    ],
+    categories: ['ai', 'web'],
+    githubUrl: 'https://github.com/VARA4u-tech/SarathiAI-Your-AI-Engineering-Mentor',
+    liveUrl: 'https://sarathi-ai-your-ai-engineering-ment.vercel.app',
+  },
+  {
+    title: 'AI Meeting Summarizer & Task Manager',
+    isNew: false,
     tagline: 'Automate your meetings',
     description:
       'An enterprise-grade AI assistant that automatically transcribes meeting audio, extracts high-value action items, and generates dynamic task boards for seamless workflow tracking.',
