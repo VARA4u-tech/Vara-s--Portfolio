@@ -196,7 +196,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       {/* 4 Background Columns for cinematic transition */}
       <div className="absolute inset-0 flex w-full h-full">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="bg-col flex-1 h-full bg-zinc-950" />
+          <div key={i} className="bg-col flex-1 h-full bg-zinc-950 -ml-[2px] first:ml-0" />
         ))}
       </div>
 
