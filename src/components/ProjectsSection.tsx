@@ -48,7 +48,8 @@ const projects: Project[] = [
       'OpenRouter',
     ],
     categories: ['ai', 'web'],
-    githubUrl: 'https://github.com/VARA4u-tech/SarathiAI-Your-AI-Engineering-Mentor',
+    githubUrl:
+      'https://github.com/VARA4u-tech/SarathiAI-Your-AI-Engineering-Mentor',
     liveUrl: 'https://sarathi-ai-your-ai-engineering-ment.vercel.app',
   },
   {
