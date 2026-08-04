@@ -1,8 +1,4 @@
-import { useState } from 'react';
-
 const AnimatedAvatar = () => {
-  const [imageError, setImageError] = useState(false);
-
   return (
     <div className="relative w-48 h-72 md:w-64 md:h-96 mx-auto md:mx-0 shrink-0 group">
       {/* Brutalist offset shadow (Solid Black) */}
@@ -12,11 +8,10 @@ const AnimatedAvatar = () => {
       <div className="relative w-full h-full border-2 border-black bg-white overflow-hidden group-hover:-translate-x-2 group-hover:-translate-y-2 transition-transform duration-300">
         <div className="w-full h-full animate-[float_6s_ease-in-out_infinite] bg-black/5">
           <img
-            src={imageError ? '/images/avatar.jpeg' : '/images/avatar.jpeg'}
+            src="/images/avatar.jpeg"
             alt="Pappuri Durga Vara Prasad"
             className="w-full h-full object-cover object-center"
             loading="eager"
-            onError={() => setImageError(true)}
           />
         </div>
 

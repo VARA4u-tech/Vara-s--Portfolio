@@ -42,26 +42,29 @@ const playTone = (
   type: OscillatorType = 'sine',
   volume = 1,
   fadeOut = true,
+  delay: number = 0,
 ) => {
   const c = getCtx();
   if (!c) return;
 
+  const t = c.currentTime + delay;
+
   const gainNode = c.createGain();
-  gainNode.gain.setValueAtTime(masterVolume * volume, c.currentTime);
+  gainNode.gain.setValueAtTime(masterVolume * volume, t);
   if (fadeOut) {
     gainNode.gain.exponentialRampToValueAtTime(
       0.0001,
-      c.currentTime + duration,
+      t + duration,
     );
   }
   gainNode.connect(c.destination);
 
   const osc = c.createOscillator();
   osc.type = type;
-  osc.frequency.setValueAtTime(frequency, c.currentTime);
+  osc.frequency.setValueAtTime(frequency, t);
   osc.connect(gainNode);
-  osc.start(c.currentTime);
-  osc.stop(c.currentTime + duration);
+  osc.start(t);
+  osc.stop(t + duration);
 };
 
 const playChord = (
@@ -101,7 +104,7 @@ export const playSuccess = () => {
   const times = [0, 0.12];
   const freqs = [523, 784]; // C5, G5
   times.forEach((t, i) =>
-    setTimeout(() => playTone(freqs[i], 0.18, 'sine', 0.85), t * 1000),
+    playTone(freqs[i], 0.18, 'sine', 0.85, true, t),
   );
 };
 
@@ -162,7 +165,7 @@ export const playTerminalOpen = () => {
   osc.stop(c.currentTime + 0.45);
 
   // Overlay a short blip
-  setTimeout(() => playTone(440, 0.08, 'square', 0.2), 120);
+  playTone(440, 0.08, 'square', 0.2, true, 0.12);
 };
 
 /** Terminal close — mirrored whoosh down */
