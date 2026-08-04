@@ -98,15 +98,16 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
     >
       <div
         className={[
-          'w-full h-full relative border-2 border-black px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between',
-          'shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-500',
+          'group w-full h-full relative border-2 border-black px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between',
+          'shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-200 ease-out',
+          'hover:-translate-x-2 hover:-translate-y-2 active:translate-x-1 active:translate-y-1 active:!shadow-none',
           'bg-white rounded-none min-h-[420px] md:min-h-[480px]',
         ].join(' ')}
         onClick={() => handleZoneClick(hoverZone)}
       >
         {/* Parallax Background Number Container */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="parallax-number absolute -right-4 -bottom-20 text-[14rem] font-black text-black/[0.03] leading-none select-none">
+          <div className="parallax-number absolute -right-4 -bottom-20 text-[14rem] font-black text-black/[0.03] group-hover:text-black/[0.06] group-hover:scale-105 transition-all duration-500 leading-none select-none">
             {(index + 1).toString().padStart(2, '0')}
           </div>
         </div>
@@ -217,7 +218,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
                 <Badge
                   key={tag}
                   variant="secondary"
-                  className="font-mono text-[9px] font-bold border border-black/5 bg-black/5 px-2 py-0.5 rounded-none"
+                  className="font-mono text-[9px] font-bold border border-black/5 bg-black/5 px-2 py-0.5 rounded-none group-hover:bg-black group-hover:text-white transition-colors duration-300"
                 >
                   {tag}
                 </Badge>
