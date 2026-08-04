@@ -17,7 +17,7 @@ const StringAnimation = ({ className = '' }: StringAnimationProps) => {
 
     const x = e.clientX - left;
     const y = e.clientY - top;
-    
+
     containerRef.current.dataset.bendY = y.toString();
 
     controls.set({ d: `M 0 50 Q ${x} ${y} ${width} 50` });
@@ -34,7 +34,7 @@ const StringAnimation = ({ className = '' }: StringAnimationProps) => {
     if (intensity > 0.05) {
       playStringPluck(intensity);
     }
-    
+
     // Reset bend Y
     containerRef.current.dataset.bendY = '50';
 

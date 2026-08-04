@@ -7,7 +7,9 @@ const PixelPet = () => {
   const jumpControls = useAnimationControls();
   const { playBark } = useSoundEffects();
   const [direction, setDirection] = useState<'left' | 'right'>('right');
-  const [state, setState] = useState<'walking' | 'idle' | 'sleeping' | 'looking'>('idle');
+  const [state, setState] = useState<
+    'walking' | 'idle' | 'sleeping' | 'looking'
+  >('idle');
 
   useEffect(() => {
     let isActive = true;
@@ -15,7 +17,7 @@ const PixelPet = () => {
     const patrol = async () => {
       // Small initial delay
       await new Promise((r) => setTimeout(r, 1000));
-      
+
       while (isActive) {
         // Idle for a moment
         setState('idle');
@@ -68,7 +70,7 @@ const PixelPet = () => {
         playBark();
         jumpControls.start({
           y: [0, -35, 0],
-          transition: { duration: 0.35, ease: 'circOut' }
+          transition: { duration: 0.35, ease: 'circOut' },
         });
         if (state === 'sleeping') setState('idle');
       }}
@@ -123,7 +125,11 @@ const PixelPet = () => {
           </div>
         )}
 
-        <div style={{ transform: direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)' }}>
+        <div
+          style={{
+            transform: direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)',
+          }}
+        >
           <div
             className={`relative transition-transform duration-300 w-9 h-9 md:w-10 md:h-10 ${
               state === 'walking'
@@ -135,49 +141,52 @@ const PixelPet = () => {
                     : 'pixel-pet-idle'
             }`}
           >
-          {/* Zzz animation when sleeping */}
-          {state === 'sleeping' && (
-            <div className="absolute -top-4 -right-1 text-xs font-black font-mono pixel-z select-none">
-              Z
-            </div>
-          )}
+            {/* Zzz animation when sleeping */}
+            {state === 'sleeping' && (
+              <div className="absolute -top-4 -right-1 text-xs font-black font-mono pixel-z select-none">
+                Z
+              </div>
+            )}
 
-          <svg viewBox="0 0 16 16" className="w-full h-full text-black drop-shadow-sm">
-            {/* Ears */}
-            <rect x="10" y="3" width="2" height="2" fill="currentColor" />
-            <rect x="13" y="3" width="2" height="2" fill="currentColor" />
-            {/* Head */}
-            <rect x="9" y="5" width="6" height="5" fill="currentColor" />
-            
-            {/* Eyes - Open */}
-            <g className="pixel-eye-open">
-              <rect x="10" y="6" width="1" height="1" fill="white" />
-              <rect x="13" y="6" width="1" height="1" fill="white" />
-            </g>
-            {/* Eyes - Closed (Sleeping) */}
-            <g className="pixel-eye-closed">
-              <rect x="10" y="7" width="1" height="1" fill="white" />
-              <rect x="13" y="7" width="1" height="1" fill="white" />
-            </g>
+            <svg
+              viewBox="0 0 16 16"
+              className="w-full h-full text-black drop-shadow-sm"
+            >
+              {/* Ears */}
+              <rect x="10" y="3" width="2" height="2" fill="currentColor" />
+              <rect x="13" y="3" width="2" height="2" fill="currentColor" />
+              {/* Head */}
+              <rect x="9" y="5" width="6" height="5" fill="currentColor" />
 
-            {/* Body */}
-            <rect x="2" y="7" width="7" height="5" fill="currentColor" />
-            {/* Tail */}
-            <rect x="1" y="5" width="1" height="4" fill="currentColor" />
-            <rect x="0" y="4" width="1" height="1" fill="currentColor" />
+              {/* Eyes - Open */}
+              <g className="pixel-eye-open">
+                <rect x="10" y="6" width="1" height="1" fill="white" />
+                <rect x="13" y="6" width="1" height="1" fill="white" />
+              </g>
+              {/* Eyes - Closed (Sleeping) */}
+              <g className="pixel-eye-closed">
+                <rect x="10" y="7" width="1" height="1" fill="white" />
+                <rect x="13" y="7" width="1" height="1" fill="white" />
+              </g>
 
-            {/* Legs */}
-            <g className="pixel-legs-standing">
-              <rect x="3" y="12" width="2" height="2" fill="currentColor" />
-              <rect x="6" y="12" width="2" height="2" fill="currentColor" />
-            </g>
-            <g className="pixel-legs-walking">
-              <rect x="2" y="12" width="2" height="2" fill="currentColor" />
-              <rect x="7" y="12" width="2" height="2" fill="currentColor" />
-            </g>
-          </svg>
+              {/* Body */}
+              <rect x="2" y="7" width="7" height="5" fill="currentColor" />
+              {/* Tail */}
+              <rect x="1" y="5" width="1" height="4" fill="currentColor" />
+              <rect x="0" y="4" width="1" height="1" fill="currentColor" />
+
+              {/* Legs */}
+              <g className="pixel-legs-standing">
+                <rect x="3" y="12" width="2" height="2" fill="currentColor" />
+                <rect x="6" y="12" width="2" height="2" fill="currentColor" />
+              </g>
+              <g className="pixel-legs-walking">
+                <rect x="2" y="12" width="2" height="2" fill="currentColor" />
+                <rect x="7" y="12" width="2" height="2" fill="currentColor" />
+              </g>
+            </svg>
+          </div>
         </div>
-      </div>
       </motion.div>
     </motion.div>
   );

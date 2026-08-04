@@ -52,10 +52,7 @@ const playTone = (
   const gainNode = c.createGain();
   gainNode.gain.setValueAtTime(masterVolume * volume, t);
   if (fadeOut) {
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.0001,
-      t + duration,
-    );
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, t + duration);
   }
   gainNode.connect(c.destination);
 
@@ -103,9 +100,7 @@ export const playSuccess = () => {
   if (!c) return;
   const times = [0, 0.12];
   const freqs = [523, 784]; // C5, G5
-  times.forEach((t, i) =>
-    playTone(freqs[i], 0.18, 'sine', 0.85, true, t),
-  );
+  times.forEach((t, i) => playTone(freqs[i], 0.18, 'sine', 0.85, true, t));
 };
 
 /** Pop — short pluck (copy to clipboard) */
@@ -202,7 +197,10 @@ export const playStringPluck = (intensity: number = 1) => {
   if (!c) return;
   const gain = c.createGain();
   // Adjust volume based on intensity (0 to 1)
-  gain.gain.setValueAtTime(masterVolume * Math.min(1, intensity) * 0.8, c.currentTime);
+  gain.gain.setValueAtTime(
+    masterVolume * Math.min(1, intensity) * 0.8,
+    c.currentTime,
+  );
   gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 1.2);
   gain.connect(c.destination);
 
@@ -210,12 +208,15 @@ export const playStringPluck = (intensity: number = 1) => {
   // String-like sound using triangle
   osc.type = 'triangle';
   // Randomize pitch slightly for a more organic feel, base around A2 (110 Hz)
-  const baseFreq = 110 + Math.random() * 40; 
+  const baseFreq = 110 + Math.random() * 40;
   osc.frequency.setValueAtTime(baseFreq, c.currentTime);
-  
+
   // Optional: add a slight frequency bend for a realistic "twang"
-  osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.98, c.currentTime + 1.2);
-  
+  osc.frequency.exponentialRampToValueAtTime(
+    baseFreq * 0.98,
+    c.currentTime + 1.2,
+  );
+
   osc.connect(gain);
   osc.start(c.currentTime);
   osc.stop(c.currentTime + 1.2);
@@ -226,22 +227,22 @@ export const playBark = () => {
   if (masterVolume === 0) return;
   const c = getCtx();
   if (!c) return;
-  
+
   const now = c.currentTime;
   const gain = c.createGain();
-  
+
   // Slower decay so the sound is actually audible (previous 80ms exp decay was just a tick)
   gain.gain.setValueAtTime(masterVolume * 0.5, now);
   gain.gain.linearRampToValueAtTime(0, now + 0.3);
   gain.connect(c.destination);
 
   const osc = c.createOscillator();
-  osc.type = 'square'; 
+  osc.type = 'square';
   // 8-bit pitch slide up for a jump/chirp
   osc.frequency.setValueAtTime(300, now);
-  osc.frequency.exponentialRampToValueAtTime(600, now + 0.2); 
+  osc.frequency.exponentialRampToValueAtTime(600, now + 0.2);
   osc.connect(gain);
-  
+
   osc.start(now);
   osc.stop(now + 0.3);
 };
