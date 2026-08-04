@@ -221,26 +221,29 @@ export const playStringPluck = (intensity: number = 1) => {
   osc.stop(c.currentTime + 1.2);
 };
 
-/** Dog bark — short noisy pop */
+/** Pixel Pet interaction sound — an audible 8-bit jump/chirp */
 export const playBark = () => {
+  if (masterVolume === 0) return;
   const c = getCtx();
   if (!c) return;
-  const times = [0, 0.08];
-  times.forEach((t) => {
-    const gain = c.createGain();
-    gain.gain.setValueAtTime(0, c.currentTime + t);
-    gain.gain.linearRampToValueAtTime(masterVolume * 0.7, c.currentTime + t + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + t + 0.08);
-    gain.connect(c.destination);
+  
+  const now = c.currentTime;
+  const gain = c.createGain();
+  
+  // Slower decay so the sound is actually audible (previous 80ms exp decay was just a tick)
+  gain.gain.setValueAtTime(masterVolume * 0.5, now);
+  gain.gain.linearRampToValueAtTime(0, now + 0.3);
+  gain.connect(c.destination);
 
-    const osc = c.createOscillator();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(350, c.currentTime + t);
-    osc.frequency.exponentialRampToValueAtTime(150, c.currentTime + t + 0.08);
-    osc.connect(gain);
-    osc.start(c.currentTime + t);
-    osc.stop(c.currentTime + t + 0.08);
-  });
+  const osc = c.createOscillator();
+  osc.type = 'square'; 
+  // 8-bit pitch slide up for a jump/chirp
+  osc.frequency.setValueAtTime(300, now);
+  osc.frequency.exponentialRampToValueAtTime(600, now + 0.2); 
+  osc.connect(gain);
+  
+  osc.start(now);
+  osc.stop(now + 0.3);
 };
 
 // ---------------------------------------------------------------------------
