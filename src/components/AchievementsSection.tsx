@@ -193,8 +193,9 @@ const AchievementsSection = () => {
                 >
                   <img
                     src={item.image}
-                    alt=""
+                    alt={item.title}
                     className="w-full h-full object-cover object-top"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/50" />
                   <div
@@ -213,6 +214,7 @@ const AchievementsSection = () => {
                       src={item.image}
                       alt={item.title}
                       className="w-full h-full object-cover object-top"
+                      loading="lazy"
                     />
                   </div>
 
@@ -308,6 +310,7 @@ const AchievementsSection = () => {
                     src={item.image}
                     alt={item.title}
                     className="w-full h-auto max-h-[50vh] sm:max-h-[72vh] object-contain"
+                    loading="lazy"
                   />
                 </div>
 
