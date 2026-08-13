@@ -41,7 +41,7 @@ const Navbar = () => {
             lastScrollY = currentY;
 
             if (!navRef.current) return;
-            
+
             const currentlyMobile = window.innerWidth <= 768;
 
             if (isScrollingDown && !currentlyMobile) {
