@@ -52,7 +52,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   useGSAPContext(
     () => {
       // Attempt to play the custom audio (will only play if user has previously interacted)
-      const audio = new Audio('/loading%20screen%20sound.mpeg');
+      const audio = new Audio('/loading-sound.mpeg');
       audio.play().catch((e) => console.log('Audio autoplay blocked:', e));
 
       const tl = gsap.timeline({
