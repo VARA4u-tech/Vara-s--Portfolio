@@ -41,20 +41,22 @@ const Navbar = () => {
             lastScrollY = currentY;
 
             if (!navRef.current) return;
+            
+            const currentlyMobile = window.innerWidth <= 768;
 
-            if (isScrollingDown) {
+            if (isScrollingDown && !currentlyMobile) {
               // Slide navbar out upward
               gsap.to(navRef.current, {
                 yPercent: -110,
-                duration: isMobile ? 0.25 : 0.4,
+                duration: 0.4,
                 ease: 'power2.inOut',
                 overwrite: true,
               });
             } else {
-              // Slide navbar back in
+              // Slide navbar back in (or keep it visible on mobile)
               gsap.to(navRef.current, {
                 yPercent: 0,
-                duration: isMobile ? 0.3 : 0.5,
+                duration: currentlyMobile ? 0.3 : 0.5,
                 ease: 'power3.out',
                 overwrite: true,
               });
