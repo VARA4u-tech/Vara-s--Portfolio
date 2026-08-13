@@ -251,6 +251,20 @@ export const playBark = () => {
 // Hook — convenience wrapper for component use
 // ---------------------------------------------------------------------------
 
+/** Data stream tick for loading screen */
+export const playDataStreamTick = () => {
+  playTone(800 + Math.random() * 400, 0.02, 'sine', 0.05);
+};
+
+/** System online success sound */
+export const playSystemOnline = () => {
+  const c = getCtx();
+  if (!c) return;
+  const times = [0, 0.1, 0.2];
+  const freqs = [440, 554, 659]; // A4, C#5, E5
+  times.forEach((t, i) => playTone(freqs[i], 0.3, 'sine', 0.5, true, t));
+};
+
 const useSoundEffects = () => ({
   playClick,
   playSoftClick,
@@ -264,6 +278,8 @@ const useSoundEffects = () => ({
   playHover,
   playStringPluck,
   playBark,
+  playDataStreamTick,
+  playSystemOnline,
   setMasterVolume,
   getMasterVolume,
 });
