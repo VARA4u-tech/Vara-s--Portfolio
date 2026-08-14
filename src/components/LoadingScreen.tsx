@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
 import { gsap } from '@/lib/gsap';
 import {
@@ -20,6 +20,8 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const logsContainerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [canEnter, setCanEnter] = useState(false);
 
   // Calculate initial log count
   const isSmall =
@@ -49,6 +51,49 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     );
   };
 
+  const playEnterSound = () => {
+    try {
+      const audio = new Audio(`${import.meta.env.BASE_URL}loading-sound.mpeg`);
+      audio.play().catch((e) => console.log('Audio playback blocked:', e));
+    } catch (e) {
+      console.log('Audio playback failed:', e);
+    }
+  };
+
+  const handleEnter = () => {
+    if (!canEnter) return;
+
+    // Play the sci-fi enter sound
+    playEnterSound();
+
+    // Hide the button immediately
+    if (buttonRef.current) {
+      gsap.to(buttonRef.current, { opacity: 0, scale: 0.9, duration: 0.3, ease: 'power2.in' });
+    }
+
+    // Exit sequence - push all text content up and fade out
+    gsap.to('.content-wrapper', {
+      yPercent: -15,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.inOut',
+      force3D: true,
+    });
+
+    // Stagger the 4 vertical background columns up
+    gsap.to('.bg-col', {
+      yPercent: -100,
+      duration: 1.2,
+      stagger: 0.08,
+      ease: 'expo.inOut',
+      force3D: true,
+      delay: 0.2,
+      onComplete: () => {
+        onComplete();
+      },
+    });
+  };
+
   useGSAPContext(
     () => {
       // Attempt to play the custom audio (will only play if user has previously interacted)
@@ -57,7 +102,15 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
       const tl = gsap.timeline({
         onComplete: () => {
-          onComplete();
+          // Animation done — show the enter button
+          setCanEnter(true);
+          if (buttonRef.current) {
+            gsap.fromTo(
+              buttonRef.current,
+              { opacity: 0, y: 20, scale: 0.95 },
+              { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out' },
+            );
+          }
         },
       });
 
@@ -105,7 +158,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           duration: 1.2,
           stagger: 0.04,
           ease: 'expo.out',
-          force3D: true, // Force hardware acceleration
+          force3D: true,
         },
         'start+=0.2',
       );
@@ -129,11 +182,11 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         '.tech-icon',
         {
           opacity: 0,
-          y: -150, // Drop from above
-          rotation: () => Math.random() * 60 - 30, // Slight random tumbling effect
+          y: -150,
+          rotation: () => Math.random() * 60 - 30,
           duration: 1.5,
           stagger: 0.08,
-          ease: 'bounce.out', // Physics bounce when they land
+          ease: 'bounce.out',
           force3D: true,
         },
         'start+=0.6',
@@ -152,32 +205,6 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         },
         'start+=0.5',
       );
-
-      // 7. Exit sequence - push all text content up and fade out
-      tl.to(
-        '.content-wrapper',
-        {
-          yPercent: -15,
-          opacity: 0,
-          duration: 0.8,
-          ease: 'power3.inOut',
-          force3D: true,
-        },
-        'start+=2.6',
-      ); // Waits for counter to finish
-
-      // 8. Stagger the 4 vertical background columns up
-      tl.to(
-        '.bg-col',
-        {
-          yPercent: -100,
-          duration: 1.2,
-          stagger: 0.08,
-          ease: 'expo.inOut',
-          force3D: true,
-        },
-        'start+=2.8',
-      );
     },
     containerRef,
     [],
@@ -195,7 +222,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] pointer-events-none"
+      className="fixed inset-0 z-[9999]"
     >
       {/* 4 Background Columns for cinematic transition */}
       <div className="absolute inset-0 flex w-full h-full">
@@ -289,17 +316,32 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         </div>
 
         {/* Bottom Footer Area */}
-        <div className="relative z-10 flex justify-between items-end w-full">
-          <div className="overflow-hidden mb-2 lg:mb-8">
-            <div className="pixel-detail text-[10px] md:text-sm tracking-[0.2em] md:tracking-[0.3em] uppercase text-zinc-400 font-mono">
-              CREATIVE_DEVELOPER.exe
+        <div className="relative z-10 flex justify-between items-end w-full gap-2">
+          <div className="flex flex-col items-start gap-2 md:gap-4 min-w-0 flex-shrink">
+            <div className="overflow-hidden">
+              <div className="pixel-detail text-[8px] sm:text-[10px] md:text-sm tracking-[0.15em] md:tracking-[0.2em] lg:tracking-[0.3em] uppercase text-zinc-400 font-mono whitespace-nowrap">
+                CREATIVE_DEVELOPER.exe
+              </div>
             </div>
+
+            {/* Enter Button — appears after loading completes */}
+            <button
+              ref={buttonRef}
+              onClick={handleEnter}
+              style={{ opacity: 0, pointerEvents: canEnter ? 'auto' : 'none' }}
+              className="group flex items-center gap-1.5 sm:gap-2 md:gap-3 px-3 py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-3 border border-zinc-100/40 text-zinc-100 font-mono text-[9px] sm:text-xs md:text-sm uppercase tracking-[0.1em] sm:tracking-[0.15em] md:tracking-[0.25em] hover:bg-zinc-100 hover:text-zinc-950 transition-colors duration-300 whitespace-nowrap"
+            >
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary animate-pulse group-hover:bg-zinc-950 flex-shrink-0" />
+              {/* Short label on mobile, full on sm+ */}
+              <span className="sm:hidden">[ ENTER ]</span>
+              <span className="hidden sm:inline">[ ENTER_PORTFOLIO ]</span>
+            </button>
           </div>
 
           {/* Massive Percentage Counter */}
-          <div className="text-[20vw] lg:text-[12rem] leading-none font-bold tabular-nums tracking-tighter text-zinc-100 font-sans flex items-baseline">
+          <div className="text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[12rem] leading-none font-bold tabular-nums tracking-tighter text-zinc-100 font-sans flex items-baseline flex-shrink-0">
             <span ref={counterRef}>000</span>
-            <span className="text-xl md:text-6xl text-zinc-600 ml-1 lg:ml-4 mb-2 lg:mb-8">
+            <span className="text-base sm:text-2xl md:text-4xl lg:text-6xl text-zinc-600 ml-1 lg:ml-4 mb-1 lg:mb-8">
               %
             </span>
           </div>
