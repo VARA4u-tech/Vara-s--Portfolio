@@ -334,6 +334,19 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                 <span className="pixel-detail inline-block w-[0.2em] h-[0.7em] lg:w-[0.5em] lg:h-[0.8em] bg-white align-middle ml-2 lg:ml-4 animate-pulse" />
               </h1>
             </div>
+
+            {/* Enter Button — Moved below the title for central visibility */}
+            <div className="mt-8 sm:mt-12 pointer-events-none">
+              <button
+                ref={buttonRef}
+                onClick={handleEnter}
+                style={{ opacity: 0, pointerEvents: canEnter ? 'auto' : 'none' }}
+                className="pointer-events-auto group flex items-center gap-2 sm:gap-3 px-6 py-3 sm:px-8 sm:py-4 bg-zinc-100 text-zinc-950 font-bold font-mono text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] hover:bg-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+              >
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                [ ENTER_PORTFOLIO ]
+              </button>
+            </div>
           </div>
 
           {/* Right: Tech Details (Stacked on Mobile/Tablet, Row on Desktop) */}
@@ -372,19 +385,6 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                 CREATIVE_DEVELOPER.exe
               </div>
             </div>
-
-            {/* Enter Button — appears after loading completes */}
-            <button
-              ref={buttonRef}
-              onClick={handleEnter}
-              style={{ opacity: 0, pointerEvents: canEnter ? 'auto' : 'none' }}
-              className="group flex items-center gap-1.5 sm:gap-2 md:gap-3 px-3 py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-3 border border-zinc-100/40 text-zinc-100 font-mono text-[9px] sm:text-xs md:text-sm uppercase tracking-[0.1em] sm:tracking-[0.15em] md:tracking-[0.25em] hover:bg-zinc-100 hover:text-zinc-950 transition-colors duration-300 whitespace-nowrap"
-            >
-              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary animate-pulse group-hover:bg-zinc-950 flex-shrink-0" />
-              {/* Short label on mobile, full on sm+ */}
-              <span className="sm:hidden">[ ENTER ]</span>
-              <span className="hidden sm:inline">[ ENTER_PORTFOLIO ]</span>
-            </button>
           </div>
 
           {/* Massive Percentage Counter */}
