@@ -340,7 +340,10 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
               <button
                 ref={buttonRef}
                 onClick={handleEnter}
-                style={{ opacity: 0, pointerEvents: canEnter ? 'auto' : 'none' }}
+                style={{
+                  opacity: 0,
+                  pointerEvents: canEnter ? 'auto' : 'none',
+                }}
                 className="pointer-events-auto group flex items-center gap-2 sm:gap-3 px-6 py-3 sm:px-8 sm:py-4 bg-zinc-100 text-zinc-950 font-bold font-mono text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] hover:bg-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
               >
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
