@@ -26,7 +26,8 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
   // Track mouse position for custom white cursor
   useEffect(() => {
-    const onMove = (e: MouseEvent) => setCursorPos({ x: e.clientX, y: e.clientY });
+    const onMove = (e: MouseEvent) =>
+      setCursorPos({ x: e.clientX, y: e.clientY });
     window.addEventListener('mousemove', onMove);
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
@@ -76,7 +77,12 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
     // Hide the button immediately
     if (buttonRef.current) {
-      gsap.to(buttonRef.current, { opacity: 0, scale: 0.9, duration: 0.3, ease: 'power2.in' });
+      gsap.to(buttonRef.current, {
+        opacity: 0,
+        scale: 0.9,
+        duration: 0.3,
+        ease: 'power2.in',
+      });
     }
 
     // Exit sequence - push all text content up and fade out
@@ -244,12 +250,26 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           }}
         >
           {/* Outer ring */}
-          <div className="absolute rounded-full border border-white/70"
-            style={{ width: 22, height: 22, top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+          <div
+            className="absolute rounded-full border border-white/70"
+            style={{
+              width: 22,
+              height: 22,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
           />
           {/* Inner dot */}
-          <div className="absolute rounded-full bg-white"
-            style={{ width: 5, height: 5, top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+          <div
+            className="absolute rounded-full bg-white"
+            style={{
+              width: 5,
+              height: 5,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
           />
         </div>
       )}
