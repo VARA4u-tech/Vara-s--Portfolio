@@ -29,7 +29,7 @@ const Index = () => {
 
       {/* ── Pixel Animation Layer ── */}
       <PixelGrid />
-      <PixelCursor />
+      <PixelCursor isWhite={isLoading} />
 
       <EasterEgg />
       <Navbar />

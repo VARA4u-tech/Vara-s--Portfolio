@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
 import { gsap } from '@/lib/gsap';
 import {
@@ -22,6 +22,14 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const logsContainerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [canEnter, setCanEnter] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: -999, y: -999 });
+
+  // Track mouse position for custom white cursor
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => setCursorPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
 
   // Calculate initial log count
   const isSmall =
@@ -223,7 +231,28 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     <div
       ref={containerRef}
       className="fixed inset-0 z-[9999]"
+      style={{ cursor: 'none' }}
     >
+      {/* Custom white cursor — visible on dark loading background */}
+      {cursorPos.x > 0 && (
+        <div
+          className="pointer-events-none fixed z-[10002]"
+          style={{
+            left: cursorPos.x,
+            top: cursorPos.y,
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          {/* Outer ring */}
+          <div className="absolute rounded-full border border-white/70"
+            style={{ width: 22, height: 22, top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+          />
+          {/* Inner dot */}
+          <div className="absolute rounded-full bg-white"
+            style={{ width: 5, height: 5, top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+          />
+        </div>
+      )}
       {/* 4 Background Columns for cinematic transition */}
       <div className="absolute inset-0 flex w-full h-full">
         {[1, 2, 3, 4].map((i) => (

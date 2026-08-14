@@ -18,8 +18,13 @@ interface Pixel {
  *
  * Disabled on touch devices and when prefers-reduced-motion is set.
  */
-const PixelCursor = () => {
+interface PixelCursorProps {
+  isWhite?: boolean;
+}
+
+const PixelCursor = ({ isWhite = false }: PixelCursorProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mousePos = useRef({ x: -999, y: -999 });
 
   useEffect(() => {
     // Skip on touch / reduced motion
@@ -59,7 +64,9 @@ const PixelCursor = () => {
           vy: Math.random() * -1.2 - 0.4, // initial upward kick
           alpha: 0.85 + Math.random() * 0.15,
           decay: 0.012 + Math.random() * 0.018,
-          shade: Math.floor(Math.random() * 80), // near-black shades
+          shade: isWhite
+            ? 255 - Math.floor(Math.random() * 50) // near-white shades
+            : Math.floor(Math.random() * 80), // near-black shades
         });
       }
     };
@@ -67,6 +74,7 @@ const PixelCursor = () => {
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+      mousePos.current = { x: mouseX, y: mouseY };
 
       const dx = mouseX - lastSpawnX;
       const dy = mouseY - lastSpawnY;
@@ -113,6 +121,25 @@ const PixelCursor = () => {
       }
 
       ctx.globalAlpha = 1;
+
+      // Draw custom white cursor dot when on loading screen
+      if (isWhite && mousePos.current.x > 0) {
+        const { x, y } = mousePos.current;
+        // Outer ring
+        ctx.globalAlpha = 0.6;
+        ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(x, y, 10, 0, Math.PI * 2);
+        ctx.stroke();
+        // Inner dot
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
     };
 
     draw();
@@ -122,7 +149,19 @@ const PixelCursor = () => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', setSize);
     };
-  }, []);
+  }, [isWhite]);
+
+  // Hide default cursor site-wide when on loading screen
+  useEffect(() => {
+    if (isWhite) {
+      document.body.style.cursor = 'none';
+    } else {
+      document.body.style.cursor = '';
+    }
+    return () => {
+      document.body.style.cursor = '';
+    };
+  }, [isWhite]);
 
   return (
     <canvas
@@ -132,7 +171,7 @@ const PixelCursor = () => {
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 9999,
+        zIndex: 10001,
         pointerEvents: 'none',
       }}
     />
