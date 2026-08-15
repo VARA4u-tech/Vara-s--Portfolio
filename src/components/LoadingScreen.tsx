@@ -62,7 +62,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
   const playEnterSound = () => {
     try {
-      const audio = new Audio(`${import.meta.env.BASE_URL}loading-sound.mpeg`);
+      const audio = new Audio(`${import.meta.env.BASE_URL}loading-sound.mp3`);
       audio.play().catch((e) => console.log('Audio playback blocked:', e));
     } catch (e) {
       console.log('Audio playback failed:', e);
@@ -111,7 +111,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   useGSAPContext(
     () => {
       // Attempt to play the custom audio (will only play if user has previously interacted)
-      const audio = new Audio(`${import.meta.env.BASE_URL}loading-sound.mpeg`);
+      const audio = new Audio(`${import.meta.env.BASE_URL}loading-sound.mp3`);
       audio.play().catch((e) => console.log('Audio autoplay blocked:', e));
 
       const tl = gsap.timeline({
