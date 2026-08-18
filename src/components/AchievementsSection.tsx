@@ -21,6 +21,16 @@ const achievements: {
   tag: string;
 }[] = [
   {
+    title: 'ChatGPT Codex India Hackathon 2026',
+    issuer: 'BlockseBlock',
+    date: 'AUG 2026',
+    description:
+      'Participated in the ChatGPT Codex India Hackathon 2026, building agentic applications utilizing OpenAI Codex for advanced AI workflows.',
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1787065010/Screenshot_2026-08-18_202615_fedqbc.png',
+    category: 'Hackathon',
+    tag: 'National Level',
+  },
+  {
     title: 'How Software Teams Actually Work',
     issuer: 'Frontlines EduTech (FLM)',
     date: 'MAY 2026',
@@ -63,15 +73,6 @@ const achievements: {
       'https://res.cloudinary.com/dqi1epget/image/upload/v1777567622/CODE25CEP133331087_blqiix.jpg',
     category: 'Workshop',
     tag: 'IIT Madras',
-  },
-  {
-    title: 'ChatGP CODEX INDIA HACKATHON 2026',
-    issuer: 'BLOCKSEBLOCK',
-    date: 'AUG 2026',
-    description: 'Participated in the "Step into Machine Learning – From Foundations to Deep Learning and LLMs" webinar organized by GUVI and HCL.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777567637/WhatsApp_Image_2026-04-30_at_10.08.49_PM_ambhw8.jpg',
-    category: 'Hackathon',
-    tag: 'AI / ML',
   },
   {
     title: 'Rise In & Build On Aptos Bootcamp',
