@@ -65,6 +65,15 @@ const achievements: {
     tag: 'IIT Madras',
   },
   {
+    title: 'ChatGP CODEX INDIA HACKATHON 2026',
+    issuer: 'BLOCKSEBLOCK',
+    date: 'AUG 2026',
+    description: 'Participated in the "Step into Machine Learning – From Foundations to Deep Learning and LLMs" webinar organized by GUVI and HCL.',
+    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1777567637/WhatsApp_Image_2026-04-30_at_10.08.49_PM_ambhw8.jpg',
+    category: 'Hackathon',
+    tag: 'AI / ML',
+  },
+  {
     title: 'Rise In & Build On Aptos Bootcamp',
     issuer: 'Rise in Aptos',
     date: 'AUG 2025',
