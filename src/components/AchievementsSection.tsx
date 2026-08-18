@@ -26,7 +26,8 @@ const achievements: {
     date: 'AUG 2026',
     description:
       'Participated in the ChatGPT Codex India Hackathon 2026, building agentic applications utilizing OpenAI Codex for advanced AI workflows.',
-    image: 'https://res.cloudinary.com/dqi1epget/image/upload/v1787065010/Screenshot_2026-08-18_202615_fedqbc.png',
+    image:
+      'https://res.cloudinary.com/dqi1epget/image/upload/v1787065010/Screenshot_2026-08-18_202615_fedqbc.png',
     category: 'Hackathon',
     tag: 'National Level',
   },
