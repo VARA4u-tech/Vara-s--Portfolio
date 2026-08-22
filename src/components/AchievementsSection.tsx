@@ -17,7 +17,7 @@ const achievements: {
   date: string;
   description: string;
   image: string;
-  category: Exclude<Category, 'All'>;
+  category: Exclude<Category, 'All'>
   tag: string;
 }[] = [
   {
