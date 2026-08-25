@@ -28,6 +28,9 @@ const roles = [
   'Full-Stack Creator',
 ];
 
+// Computed once at module load — never changes during the session
+const BUILD_DATE = new Date().toISOString().split('T')[0];
+
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   github: Github,
   linkedin: Linkedin,
@@ -179,7 +182,7 @@ const HeroSection = () => {
           <br />
           // status: production
           <br />
-          // last_build: {new Date().toISOString().split('T')[0]}
+          // last_build: {BUILD_DATE}
         </p>
       </div>
 
