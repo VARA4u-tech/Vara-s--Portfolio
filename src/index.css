@@ -231,21 +231,45 @@
   }
 
   @keyframes glitch-anim {
-    0%   { clip-path: inset(31px 0 calc(100% - 94px) 0); }
-    20%  { clip-path: inset(62px 0 calc(100% - 42px) 0); }
-    40%  { clip-path: inset(16px 0 calc(100% - 78px) 0); }
-    60%  { clip-path: inset(72px 0 calc(100% - 13px) 0); }
-    80%  { clip-path: inset(52px 0 calc(100% - 49px) 0); }
-    100% { clip-path: inset(22px 0 calc(100% - 62px) 0); }
+    0% {
+      clip-path: inset(31px 0 calc(100% - 94px) 0);
+    }
+    20% {
+      clip-path: inset(62px 0 calc(100% - 42px) 0);
+    }
+    40% {
+      clip-path: inset(16px 0 calc(100% - 78px) 0);
+    }
+    60% {
+      clip-path: inset(72px 0 calc(100% - 13px) 0);
+    }
+    80% {
+      clip-path: inset(52px 0 calc(100% - 49px) 0);
+    }
+    100% {
+      clip-path: inset(22px 0 calc(100% - 62px) 0);
+    }
   }
 
   @keyframes glitch-anim2 {
-    0%   { clip-path: inset(65px 0 calc(100% - 100px) 0); }
-    20%  { clip-path: inset(30px 0 calc(100% - 45px)  0); }
-    40%  { clip-path: inset(85px 0 calc(100% - 15px)  0); }
-    60%  { clip-path: inset(10px 0 calc(100% - 50px)  0); }
-    80%  { clip-path: inset(40px 0 calc(100% - 90px)  0); }
-    100% { clip-path: inset(15px 0 calc(100% - 35px)  0); }
+    0% {
+      clip-path: inset(65px 0 calc(100% - 100px) 0);
+    }
+    20% {
+      clip-path: inset(30px 0 calc(100% - 45px) 0);
+    }
+    40% {
+      clip-path: inset(85px 0 calc(100% - 15px) 0);
+    }
+    60% {
+      clip-path: inset(10px 0 calc(100% - 50px) 0);
+    }
+    80% {
+      clip-path: inset(40px 0 calc(100% - 90px) 0);
+    }
+    100% {
+      clip-path: inset(15px 0 calc(100% - 35px) 0);
+    }
   }
 
   @keyframes marquee {

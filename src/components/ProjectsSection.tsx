@@ -15,7 +15,6 @@ const FILTERS: { key: FilterKey; label: string }[] = [
   { key: 'ecommerce', label: 'E-Commerce' },
 ];
 
-
 // ─── Card enter/exit variants ─────────────────────────────────────────────────
 const cardVariants = {
   hidden: { opacity: 0, y: 32, scale: 0.97 },
