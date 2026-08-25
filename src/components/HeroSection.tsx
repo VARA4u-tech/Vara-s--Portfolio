@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import Magnetic from './Magnetic';
 import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
+import { PROJECT_COUNT } from '@/data/projects';
 import { gsap } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
 import { useMatrixRain } from '@/hooks/useMatrixRain';
@@ -342,7 +343,7 @@ const HeroSection = () => {
       <div className="gsap-corner absolute bottom-10 right-6 md:right-10 z-10 hidden md:block">
         <div className="font-mono text-xs text-foreground text-right leading-relaxed font-medium">
           <p>const experience = "1+ years";</p>
-          <p>const projects = 11;</p>
+          <p>const projects = {PROJECT_COUNT};</p>
           <p>const passion = Infinity;</p>
         </div>
       </div>

@@ -11,6 +11,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { PROFILE, getSocialLink } from '@/data/constants';
+import { PROJECT_COUNT } from '@/data/projects';
 
 const AboutSection = () => {
   return (
@@ -91,7 +92,7 @@ const AboutSection = () => {
               </div>
             </div>
             <div className="border-2 border-black bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 rounded-none">
-              <div className="font-mono text-3xl font-black">11+</div>
+              <div className="font-mono text-3xl font-black">{PROJECT_COUNT}+</div>
               <div className="font-mono text-[10px] uppercase tracking-wider text-black/50 mt-1">
                 Projects Completed
               </div>
