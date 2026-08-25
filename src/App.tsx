@@ -27,13 +27,6 @@ const LenisScrollTriggerBridge = () => {
     const onScroll = () => ScrollTrigger.update();
     lenis.on('scroll', onScroll);
 
-    // Also wire Lenis into GSAP's ticker so scrub animations stay in sync
-    // on every RAF frame
-    const rafId = { current: 0 };
-    const tick = (time: number) => {
-      lenis.raf(time * 1000); // lenis.raf expects milliseconds
-    };
-
     return () => {
       lenis.off('scroll', onScroll);
     };

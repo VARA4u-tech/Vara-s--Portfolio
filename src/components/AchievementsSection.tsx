@@ -118,19 +118,8 @@ const CATEGORIES: Category[] = [
   'Internship',
 ];
 
-const categoryAccent: Record<Exclude<Category, 'All'>, string> = {
-  Hackathon: 'bg-black text-white',
-  Bootcamp: 'bg-black text-white',
-  Workshop: 'bg-black text-white',
-  Internship: 'bg-black text-white',
-};
-
-const categoryBorder: Record<Exclude<Category, 'All'>, string> = {
-  Hackathon: 'border-black',
-  Bootcamp: 'border-black',
-  Workshop: 'border-black',
-  Internship: 'border-black',
-};
+const CATEGORY_ACCENT = 'bg-black text-white';
+const CATEGORY_BORDER = 'border-black';
 
 const AchievementsSection = () => {
   const [active, setActive] = useState<Category>('All');
@@ -210,7 +199,7 @@ const AchievementsSection = () => {
                   />
                   <div className="absolute inset-0 bg-black/50" />
                   <div
-                    className={`absolute left-0 top-0 h-full border-l-4 ${categoryBorder[item.category]}`}
+                    className={`absolute left-0 top-0 h-full border-l-4 ${CATEGORY_BORDER}`}
                   />
                 </div>
 
@@ -234,7 +223,7 @@ const AchievementsSection = () => {
                     {/* Category + date on same line */}
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       <span
-                        className={`text-[9px] font-mono font-black px-1.5 py-0.5 leading-none ${categoryAccent[item.category]}`}
+                        className={`text-[9px] font-mono font-black px-1.5 py-0.5 leading-none ${CATEGORY_ACCENT}`}
                       >
                         {item.category.toUpperCase()}
                       </span>
@@ -266,7 +255,7 @@ const AchievementsSection = () => {
 
                   {/* Category pill */}
                   <span
-                    className={`text-[10px] font-mono font-black px-2 py-1 shrink-0 leading-none ${categoryAccent[item.category]}`}
+                    className={`text-[10px] font-mono font-black px-2 py-1 shrink-0 leading-none ${CATEGORY_ACCENT}`}
                   >
                     {item.category.toUpperCase()}
                   </span>
@@ -330,7 +319,7 @@ const AchievementsSection = () => {
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <span
-                        className={`text-[10px] font-mono font-black px-2 py-1 ${categoryAccent[item.category]}`}
+                        className={`text-[10px] font-mono font-black px-2 py-1 ${CATEGORY_ACCENT}`}
                       >
                         {item.category.toUpperCase()}
                       </span>
