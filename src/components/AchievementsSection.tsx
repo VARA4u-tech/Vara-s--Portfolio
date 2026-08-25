@@ -324,7 +324,7 @@ const AchievementsSection = () => {
                         {item.category.toUpperCase()}
                       </span>
                       <span className="font-mono text-xs text-foreground/30 font-bold">
-                        {String(filtered.indexOf(item) + 1).padStart(2, '0')}
+                        {String(idx + 1).padStart(2, '0')}
                       </span>
                     </div>
 
