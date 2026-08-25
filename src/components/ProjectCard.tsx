@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { Github, ExternalLink, ArrowUpRight, Code2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from './ui/badge';
@@ -33,7 +33,18 @@ interface CursorPos {
 export const ProjectCard = ({ project, index }: ProjectCardProps) => {
   const [hoverZone, setHoverZone] = useState<HoverZone>(null);
   const [cursorPos, setCursorPos] = useState<CursorPos>({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 640 : false,
+  );
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Track breakpoint for tag count — avoids reading window during render
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 639px)');
+    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
 
   useGSAPContext(
     () => {
@@ -208,12 +219,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
           <div className="flex flex-wrap gap-1.5 mb-5 md:mb-6">
             {project.tags
-              .slice(
-                0,
-                typeof window !== 'undefined' && window.innerWidth < 640
-                  ? 5
-                  : 8,
-              )
+              .slice(0, isMobile ? 5 : 8)
               .map((tag) => (
                 <Badge
                   key={tag}
