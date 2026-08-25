@@ -10,6 +10,7 @@ import {
   Cpu,
   ShieldCheck,
 } from 'lucide-react';
+import { PROFILE, getSocialLink } from '@/data/constants';
 
 const AboutSection = () => {
   return (
@@ -26,7 +27,7 @@ const AboutSection = () => {
           <div className="w-full max-w-[256px] mt-8 border-2 border-black bg-white p-4 font-mono text-xs space-y-2.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none">
             <div className="flex justify-between border-b border-black/10 pb-1.5">
               <span className="text-black/50">NAME:</span>
-              <span className="font-bold">DURGA VARA PRASAD PAPPURI</span>
+              <span className="font-bold">{PROFILE.name.toUpperCase()}</span>
             </div>
             <div className="flex justify-between border-b border-black/10 pb-1.5">
               <span className="text-black/50">ROLE:</span>
@@ -43,12 +44,12 @@ const AboutSection = () => {
                 <Github className="w-3.5 h-3.5" /> GITHUB:
               </span>
               <a
-                href="https://github.com/VARA4u-tech"
+                href={getSocialLink('github').href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-bold underline hover:bg-black hover:text-white px-1 transition-colors duration-150"
               >
-                @VARA4u-tech
+                @{getSocialLink('github').href.split('/').pop()}
               </a>
             </div>
           </div>
