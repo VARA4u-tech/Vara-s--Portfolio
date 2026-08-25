@@ -30,10 +30,12 @@ const Finale = () => {
   return (
     <section className="relative w-full bg-white border-t-8 border-black pt-20 overflow-hidden">
       {/* ... marquee ... */}
+      {/* Marquee — 2 copies of the tag list is all that's needed for a
+          seamless -50% translate loop; more copies just waste DOM nodes */}
       <div className="absolute top-0 left-0 w-full py-4 bg-black overflow-hidden flex whitespace-nowrap">
         <div className="animate-marquee flex items-center shrink-0">
-          {[...Array(10)].map((_, i) => (
-            <div key={i} className="flex items-center">
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex items-center">
               {marqueeTags.map((tag) => (
                 <span
                   key={tag}
