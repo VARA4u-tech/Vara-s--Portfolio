@@ -191,47 +191,51 @@ const PixelPet = () => {
       }, delay);
     };
 
-    // ── Wander (Walk) scheduler ─────────────────────────────────────────
-    const scheduleWander = () => {
+    // ── Continuous Walk Loop ──────────────────────────────────────────────
+    // After each step the dog pauses briefly, then picks the next target and
+    // walks again — creating nonstop natural movement within the section.
+    // Calling startWalkLoop() or resumeWalkLoop() always re-enters safely.
+
+    const startWalkLoop = () => {
       if (wanderTimer) clearTimeout(wanderTimer);
-      wanderTimer = setTimeout(
-        () => {
-          if (!isAnimating && !isHovered && dogStateLocal !== 'sleeping') {
-            doWalk();
-          } else {
-            scheduleWander();
-          }
-        },
-        15_000 + Math.random() * 20_000,
-      ); // Walk every 15-35s
+      // Small initial delay so the dog doesn't immediately start walking
+      const initialDelay = 800 + Math.random() * 1_200;
+      wanderTimer = setTimeout(doWalk, initialDelay);
+    };
+
+    const resumeWalkLoop = () => {
+      if (isAnimating || isHovered || dogStateLocal === 'sleeping') return;
+      if (wanderTimer) clearTimeout(wanderTimer);
+      // Pause between walks: 1–3 s
+      const pauseMs = 1_000 + Math.random() * 2_000;
+      wanderTimer = setTimeout(doWalk, pauseMs);
     };
 
     const doWalk = () => {
-      if (isAnimating || isHovered) {
-        scheduleWander();
-        return;
-      }
+      // Interrupt guards
+      if (isHovered || dogStateLocal === 'sleeping') return;
+      if (jumpQueued) return; // section jump is pending
 
       const el = wrapperRef.current;
       if (!el) return;
 
-      const sectionEl = document.getElementById(currentSection);
-      if (!sectionEl) {
-        scheduleWander();
-        return;
-      }
-
-      // Pick a new horizontal position within the current section
+      // Pick target: bias toward the opposite edge so the dog actually
+      // traverses the full width rather than clustering in the middle.
       const safeL = isSmall() ? 16 : 24;
       const safeR = window.innerWidth - DOG_W - (isSmall() ? 16 : 24);
-      const targetLeft = safeL + Math.random() * Math.max(0, safeR - safeL);
+      const range  = Math.max(0, safeR - safeL);
 
-      const fromLeft = posLeft;
-      const dx = targetLeft - fromLeft;
+      // Alternate between left-biased and right-biased targets for natural
+      // back-and-forth feel; add jitter so it never looks mechanical.
+      const leftBias  = safeL  + Math.random() * range * 0.35;
+      const rightBias = safeR  - Math.random() * range * 0.35;
+      const targetLeft = posLeft < (safeL + safeR) / 2 ? rightBias : leftBias;
 
-      // If distance is too small (or screen is tiny), skip walking
-      if (Math.abs(dx) < (isSmall() ? 20 : 40)) {
-        scheduleWander();
+      const dx = targetLeft - posLeft;
+
+      // Skip if nearly the same spot (can happen on very narrow screens)
+      if (Math.abs(dx) < (isSmall() ? 15 : 30)) {
+        resumeWalkLoop();
         return;
       }
 
@@ -240,39 +244,51 @@ const PixelPet = () => {
       isAnimating = true;
       if (sleepTimer) clearTimeout(sleepTimer);
 
-      // Speed: ~45px/s desktop, ~35px/s mobile (touch users have more patience)
-      const dist = Math.abs(dx);
-      const walkSpeed = isSmall() ? 35 : 45;
-      const walkDuration = (dist / walkSpeed) * 1000;
+      // Natural walking speed with slight randomness each step
+      const dist      = Math.abs(dx);
+      const baseSpeed = isSmall() ? 38 : 50; // px/s
+      const speed     = baseSpeed * (0.85 + Math.random() * 0.3);
+      const walkDuration = (dist / speed) * 1_000;
       const start = performance.now();
 
       const frame = (now: number) => {
+        // Abort mid-walk if something more important happens
+        if (isHovered || dogStateLocal === 'sleeping') {
+          el.style.transform = 'none';
+          el.style.left = `${posLeft + dx * Math.min(1, (now - start) / walkDuration)}px`;
+          posLeft = parseFloat(el.style.left);
+          isAnimating = false;
+          return;
+        }
+
         const elapsed = now - start;
         if (elapsed < walkDuration) {
           const t = elapsed / walkDuration;
-          const currentX = dx * t;
-          el.style.transform = `translateX(${currentX}px)`;
+          el.style.transform = `translateX(${dx * t}px)`;
           rafId = requestAnimationFrame(frame);
         } else {
+          // Commit final position
           el.style.transform = 'none';
           el.style.left = `${targetLeft}px`;
           posLeft = targetLeft;
           isAnimating = false;
 
           if (jumpQueued) {
+            // A section jump was requested mid-walk — honour it now
             const q = jumpQueued;
             jumpQueued = null;
             doJump(q);
           } else {
             applyState('idle');
             armSleepTimer();
-            scheduleWander();
+            resumeWalkLoop(); // immediately queue the next step
           }
         }
       };
 
       rafId = requestAnimationFrame(frame);
     };
+
 
     // ── Jump animation ────────────────────────────────────────────────────
     const doJump = (targetId: SectionId) => {
@@ -372,7 +388,7 @@ const PixelPet = () => {
             applyState('idle');
             armSleepTimer();
             schedulePatrol();
-            scheduleWander();
+            startWalkLoop(); // resume continuous walking in the new section
           }
           return;
         }
@@ -411,6 +427,7 @@ const PixelPet = () => {
           if (!isHovered) {
             applyState('idle');
             armSleepTimer();
+            resumeWalkLoop(); // continue walking after bark
           }
         }, 1_000);
       }, 550);
@@ -505,7 +522,7 @@ const PixelPet = () => {
         applyState('idle');
         armSleepTimer();
         if (!patrolTimer) schedulePatrol();
-        if (!wanderTimer) scheduleWander();
+        resumeWalkLoop(); // restart continuous walking after hover
       }
     };
 
@@ -553,7 +570,7 @@ const PixelPet = () => {
       applyState('idle');
       armSleepTimer();
       schedulePatrol();
-      scheduleWander();
+      startWalkLoop(); // begin continuous walking immediately
     }, 600); // small delay lets layout settle after loading screen exits
 
     // ── Cleanup ───────────────────────────────────────────────────────────
