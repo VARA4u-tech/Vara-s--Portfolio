@@ -16,6 +16,7 @@ import Finale from '@/components/Finale';
 import EasterEgg from '@/components/EasterEgg';
 import PixelCursor from '@/components/PixelCursor';
 import PixelGrid from '@/components/PixelGrid';
+import PixelPet from '@/components/PixelPet';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +30,8 @@ const Index = () => {
       {/* ── Pixel Animation Layer ── */}
       <PixelGrid />
       <PixelCursor isWhite={isLoading} />
+      {/* Dog mascot — fixed overlay, travels between sections */}
+      {!isLoading && <PixelPet />}
 
       <EasterEgg />
       <Navbar />

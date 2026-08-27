@@ -7,7 +7,6 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
-import PixelPet from './PixelPet';
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   github: Github,
@@ -28,7 +27,7 @@ const Finale = () => {
   ];
 
   return (
-    <section className="relative w-full bg-white border-t-8 border-black pt-20 overflow-hidden">
+    <section id="finale" className="relative w-full bg-white border-t-8 border-black pt-20 overflow-hidden">
       {/* ... marquee ... */}
       {/* Marquee — 2 copies of the tag list is all that's needed for a
           seamless -50% translate loop; more copies just waste DOM nodes */}
@@ -101,7 +100,6 @@ const Finale = () => {
 
       {/* Extreme Bottom Bar */}
       <div className="w-full bg-white pt-10 pb-24 md:pb-10 px-6 mt-auto border-t border-black/10 relative">
-        <PixelPet />
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 opacity-70">
           <p className="text-[10px] md:text-[11px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.2em] text-center md:text-left">
             © {currentYear} {PROFILE.name}

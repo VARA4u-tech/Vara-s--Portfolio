@@ -151,6 +151,7 @@ const HeroSection = () => {
 
   return (
     <section
+      id="hero"
       ref={heroRef}
       className="min-h-screen flex flex-col justify-center items-center relative px-6 overflow-hidden pb-12"
     >
