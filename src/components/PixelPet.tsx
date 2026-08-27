@@ -388,25 +388,47 @@ const PixelPet = () => {
       const el = wrapperRef.current;
       if (!el) return;
 
-      const hopDuration = 350; // ms
-      const hopHeight = 35; // px
+      const T_RISE  = 200; // ms going up
+      const T_FALL  = 160; // ms coming down
+      const T_SQSH  = 80;  // ms squash on landing
+      const T_SPRNG = 120; // ms spring back
+      const T_TOTAL = T_RISE + T_FALL + T_SQSH + T_SPRNG;
+      const hopHeight = 55; // px
+
       const start = performance.now();
 
       const frame = (now: number) => {
-        // Abort if a section jump started
-        if (isAnimating) {
-          el.style.transform = 'none';
-          return;
-        }
-        const elapsed = now - start;
-        if (elapsed < hopDuration) {
-          const t = elapsed / hopDuration;
-          const y = -hopHeight * Math.sin(t * Math.PI);
-          el.style.transform = `translateY(${y}px)`;
-          rafId = requestAnimationFrame(frame);
+        if (isAnimating) { el.style.transform = 'none'; return; }
+        const e = now - start;
+
+        if (e < T_RISE) {
+          // Ease-out upward
+          const t = 1 - Math.pow(1 - e / T_RISE, 2);
+          el.style.transform = `translateY(${-hopHeight * t}px)`;
+        } else if (e < T_RISE + T_FALL) {
+          // Ease-in downward
+          const t = (e - T_RISE) / T_FALL;
+          const eased = t * t;
+          el.style.transform = `translateY(${-hopHeight * (1 - eased)}px)`;
+        } else if (e < T_RISE + T_FALL + T_SQSH) {
+          // Landing squash
+          const t = (e - T_RISE - T_FALL) / T_SQSH;
+          const squashY  = 1 - 0.3 * Math.sin(t * Math.PI);
+          const squashX  = 1 + 0.2 * Math.sin(t * Math.PI);
+          el.style.transform = `scaleY(${squashY}) scaleX(${squashX})`;
+        } else if (e < T_TOTAL) {
+          // Spring recovery
+          const t = (e - T_RISE - T_FALL - T_SQSH) / T_SPRNG;
+          const eased = 1 - Math.pow(1 - t, 3);
+          const scaleY = 0.7 + 0.3 * eased;
+          const scaleX = 1.2 - 0.2 * eased;
+          el.style.transform = `scaleY(${scaleY}) scaleX(${scaleX})`;
         } else {
           el.style.transform = 'none';
+          return; // done — no more rAF
         }
+
+        rafId = requestAnimationFrame(frame);
       };
       rafId = requestAnimationFrame(frame);
     };

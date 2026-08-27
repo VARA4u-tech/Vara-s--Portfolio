@@ -222,68 +222,33 @@ export const playStringPluck = (intensity: number = 1) => {
   osc.stop(c.currentTime + 1.2);
 };
 
-/** Realistic dog bark — band-pass filtered noise + pitch-dropping sub oscillator.
- *  Produces a natural short "woof" without any 8-bit chirp artefacts.
- *  Fires two bursts to mimic a quick "woof woof" bark.
+/** Real dog bark — plays the /public/Barking-Sound.mp3 file.
+ *  Pre-loads on first call; clones the Audio node for instant re-trigger.
+ *  Respects the global masterVolume setting.
  */
+let _barkAudio: HTMLAudioElement | null = null;
+const getBarkAudio = (): HTMLAudioElement => {
+  if (!_barkAudio) {
+    _barkAudio = new Audio('/Barking-Sound.mp3');
+    _barkAudio.preload = 'auto';
+    _barkAudio.load();
+  }
+  return _barkAudio;
+};
+
 export const playBark = () => {
   if (masterVolume === 0) return;
-  const c = getCtx();
-  if (!c) return;
-
-  const now = c.currentTime;
-
-  /** One "woof" burst starting at time t */
-  const burst = (t: number) => {
-    // ── Noise source (shapes the "hh" breath of the bark) ───────────────
-    const bufLen = Math.ceil(c.sampleRate * 0.22);
-    const buf = c.createBuffer(1, bufLen, c.sampleRate);
-    const data = buf.getChannelData(0);
-    for (let i = 0; i < bufLen; i++) data[i] = Math.random() * 2 - 1;
-
-    const noise = c.createBufferSource();
-    noise.buffer = buf;
-    noise.loop = false;
-
-    // Band-pass filter: sweeps from 700 Hz → 220 Hz, shaping the "woof" formant
-    const bp = c.createBiquadFilter();
-    bp.type = 'bandpass';
-    bp.frequency.setValueAtTime(700, t);
-    bp.frequency.exponentialRampToValueAtTime(220, t + 0.18);
-    bp.Q.setValueAtTime(3, t);
-
-    const noiseGain = c.createGain();
-    noiseGain.gain.setValueAtTime(masterVolume * 0.52, t);
-    noiseGain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
-
-    noise.connect(bp);
-    bp.connect(noiseGain);
-    noiseGain.connect(c.destination);
-
-    // ── Sub oscillator (the "oo" chest/body of the bark) ─────────────────
-    const osc = c.createOscillator();
-    osc.type = 'sawtooth';
-    // Pitch drops from ~200 Hz → ~100 Hz for natural bark decay
-    osc.frequency.setValueAtTime(200, t);
-    osc.frequency.exponentialRampToValueAtTime(100, t + 0.17);
-
-    const oscGain = c.createGain();
-    oscGain.gain.setValueAtTime(masterVolume * 0.3, t);
-    oscGain.gain.exponentialRampToValueAtTime(0.001, t + 0.17);
-
-    osc.connect(oscGain);
-    oscGain.connect(c.destination);
-
-    // ── Start / stop ──────────────────────────────────────────────────────
-    noise.start(t);
-    noise.stop(t + 0.22);
-    osc.start(t);
-    osc.stop(t + 0.19);
-  };
-
-  // Two barks: "woof … woof"
-  burst(now);
-  burst(now + 0.3);
+  try {
+    // Clone the node so repeated clicks don't wait for the previous play to end
+    const base = getBarkAudio();
+    const clone = base.cloneNode() as HTMLAudioElement;
+    clone.volume = Math.min(1, Math.max(0, masterVolume));
+    clone.play().catch(() => {
+      // Browser autoplay policy: silently ignore if not yet unlocked
+    });
+  } catch {
+    // Fallback: do nothing — the site keeps working without sound
+  }
 };
 
 // ---------------------------------------------------------------------------
