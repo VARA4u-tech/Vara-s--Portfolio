@@ -667,193 +667,142 @@
       min-height: 460px;
     }
   }
-  /* ─── PixelPet Mascot — Dog Companion ─────────────────────────────── */
+  /* ─── PixelPet Mascot — Dog Companion ──────────────────────────────────── */
 
-  /* ── Leg walking animation ── */
-  .pixel-pet-body .pixel-pet-legs-walking {
-    display: none;
-  }
-
-  .pixel-pet-walking .pixel-pet-legs-standing {
-    animation: pet-leg-step 0.22s steps(1) infinite;
-  }
-  .pixel-pet-walking .pixel-pet-legs-walking {
+  /* SVG base */
+  .pixel-pet-svg {
+    color: #111;
     display: block;
-    animation: pet-leg-step 0.22s steps(1) infinite 0.11s;
-    opacity: 0;
-  }
-  .pixel-pet-jumping .pixel-pet-legs-walking {
-    display: none;
-  }
-  .pixel-pet-jumping .pixel-pet-legs-standing {
-    display: none;
   }
 
-  @keyframes pet-leg-step {
-    0%,
-    49% {
-      opacity: 1;
-    }
-    50%,
-    100% {
-      opacity: 0;
-    }
+  /* ── Idle breathing bob ── */
+  .pixel-pet-idle .pixel-pet-body,
+  .pixel-pet-hoveredPause .pixel-pet-body {
+    animation: dog-idle-breathe 2.8s ease-in-out infinite;
+  }
+  @keyframes dog-idle-breathe {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-2px); }
   }
 
   /* ── Tail wag ── */
   .pixel-pet-tail {
-    transform-origin: 1px 9px;
-    animation: none;
+    transform-origin: 1px 5px;
   }
   .pixel-pet-idle .pixel-pet-tail,
-  .pixel-pet-walking .pixel-pet-tail,
   .pixel-pet-hoveredPause .pixel-pet-tail {
-    animation: dog-tail-wag 0.55s ease-in-out infinite alternate;
+    animation: dog-tail-wag 0.6s ease-in-out infinite alternate;
   }
   .pixel-pet-noticing .pixel-pet-tail,
   .pixel-pet-barking .pixel-pet-tail {
-    animation: dog-tail-wag-fast 0.25s ease-in-out infinite alternate;
+    animation: dog-tail-wag-fast 0.22s ease-in-out infinite alternate;
   }
-
   @keyframes dog-tail-wag {
-    from {
-      transform: rotate(-10deg);
-    }
-    to {
-      transform: rotate(18deg);
-    }
+    from { transform: rotate(-12deg); }
+    to   { transform: rotate(20deg); }
   }
   @keyframes dog-tail-wag-fast {
-    from {
-      transform: rotate(-18deg);
-    }
-    to {
-      transform: rotate(28deg);
-    }
+    from { transform: rotate(-22deg); }
+    to   { transform: rotate(32deg); }
   }
 
-  /* ── Ear twitch ── */
-  .pixel-pet-ears {
-    animation: none;
-  }
+  /* ── Ear twitch on alert ── */
   .pixel-pet-noticing .pixel-pet-ears,
   .pixel-pet-barking .pixel-pet-ears {
-    animation: dog-ear-twitch 0.18s steps(2) infinite;
+    animation: dog-ear-twitch 0.16s steps(2) infinite;
   }
-
   @keyframes dog-ear-twitch {
-    0% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-1px);
-    }
-    100% {
-      transform: translateY(0px);
-    }
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-1px); }
   }
 
   /* ── Bark body shake ── */
   .pixel-pet-barking .pixel-pet-body {
-    animation: dog-bark-shake 0.12s linear infinite;
+    animation: dog-bark-shake 0.1s linear infinite;
   }
-
   @keyframes dog-bark-shake {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    25% {
-      transform: translateX(-2px);
-    }
-    75% {
-      transform: translateX(2px);
-    }
+    0%, 100% { transform: translateX(0); }
+    33%       { transform: translateX(-2px); }
+    66%       { transform: translateX(2px); }
   }
 
-  /* ── Sleeping Zzz ── */
+  /* ── Sleeping Zzz float ── */
   .pixel-pet-zzz {
     position: absolute;
-    top: -18px;
-    right: -4px;
-    font-size: 10px;
+    top: -20px;
+    right: -5px;
+    font-size: 11px;
     font-family: 'Inter', monospace;
     font-weight: 900;
     color: currentColor;
-    animation: dog-zzz-float 2.2s ease-in-out infinite;
+    animation: dog-zzz-float 2.4s ease-in-out infinite;
     opacity: 0;
     pointer-events: none;
     user-select: none;
   }
-
   @keyframes dog-zzz-float {
-    0% {
-      transform: translateY(0) scale(0.6);
-      opacity: 0;
-    }
-    15% {
-      opacity: 1;
-    }
-    80% {
-      transform: translateY(-14px) scale(1.1);
-      opacity: 0;
-    }
-    100% {
-      opacity: 0;
-    }
+    0%  { transform: translateY(0) scale(0.5); opacity: 0; }
+    15% { opacity: 1; }
+    80% { transform: translateY(-15px) scale(1.1); opacity: 0; }
+    100%{ opacity: 0; }
   }
+
+  /* ── Sleeping: dim overall ── */
+  .pixel-pet-sleeping .pixel-pet-svg { opacity: 0.7; }
+
+  /* ── Leg pairs: walking set hidden by default ── */
+  .pixel-pet-legs-walking { display: none; }
 
   /* ── Speech bubble — bark ── */
   .pixel-pet-speech-bark {
     position: absolute;
-    bottom: calc(100% + 6px);
+    bottom: calc(100% + 7px);
     left: 50%;
     transform: translateX(-50%);
-    background: #000;
+    background: #111;
     color: #fff;
     font-family: 'Inter', monospace;
     font-size: 9px;
     font-weight: 900;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     text-transform: lowercase;
-    padding: 3px 7px;
+    padding: 3px 8px;
     white-space: nowrap;
     pointer-events: none;
     user-select: none;
-    animation: dog-speech-pop 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    z-index: 40;
+    animation: dog-speech-pop 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    z-index: 50;
   }
-  /* Triangle pointer */
   .pixel-pet-speech-bark::after {
     content: '';
     position: absolute;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    border: 4px solid transparent;
-    border-top-color: #000;
+    border: 5px solid transparent;
+    border-top-color: #111;
   }
 
   /* ── Speech bubble — notice ── */
   .pixel-pet-speech-notice {
     position: absolute;
-    bottom: calc(100% + 6px);
+    bottom: calc(100% + 7px);
     left: 50%;
     transform: translateX(-50%);
-    background: #000;
+    background: #111;
     color: #fff;
     font-family: 'Inter', monospace;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 900;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: none;
     user-select: none;
-    animation: dog-speech-pop 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    z-index: 40;
+    animation: dog-speech-pop 0.16s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    z-index: 50;
   }
   .pixel-pet-speech-notice::after {
     content: '';
@@ -861,46 +810,26 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    border: 4px solid transparent;
-    border-top-color: #000;
+    border: 5px solid transparent;
+    border-top-color: #111;
   }
 
   @keyframes dog-speech-pop {
-    from {
-      transform: translateX(-50%) scale(0.6);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(-50%) scale(1);
-      opacity: 1;
-    }
+    from { opacity: 0; transform: translateX(-50%) scale(0.5); }
+    to   { opacity: 1; transform: translateX(-50%) scale(1); }
   }
 
-  /* ── SVG color — inherits text-black from wrapper ── */
-  .pixel-pet-svg {
-    color: #111;
-    display: block;
-  }
-
-  /* ── Sleeping: dim eyes further ── */
-  .pixel-pet-sleeping .pixel-pet-svg {
-    opacity: 0.75;
-  }
-
-  /* ── Mobile: slow down leg animation ── */
-  @media (max-width: 768px) {
-    .pixel-pet-walking .pixel-pet-legs-standing,
-    .pixel-pet-walking .pixel-pet-legs-walking {
-      animation-duration: 0.3s;
-    }
-  }
-
-  /* ── prefers-reduced-motion: hide the whole overlay ── */
+  /* ── prefers-reduced-motion ── */
   @media (prefers-reduced-motion: reduce) {
-    .pixel-pet-speech-bark,
-    .pixel-pet-speech-notice,
+    .pixel-pet-idle .pixel-pet-body,
+    .pixel-pet-hoveredPause .pixel-pet-body,
+    .pixel-pet-tail,
+    .pixel-pet-ears,
+    .pixel-pet-barking .pixel-pet-body,
     .pixel-pet-zzz {
-      display: none !important;
+      animation: none !important;
     }
+    .pixel-pet-speech-bark,
+    .pixel-pet-speech-notice { display: none !important; }
   }
 }

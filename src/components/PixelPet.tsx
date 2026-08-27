@@ -1,20 +1,24 @@
 /**
- * PixelPet — Page-wide companion mascot.
+ * PixelPet — Living website mascot.
  *
  * Architecture:
- *  - Fixed overlay (pointer-events: auto on dog element only).
- *  - IntersectionObserver drives section-to-section jumps.
- *  - Single mousemove listener for proximity → notice/bark.
- *  - RAF loop drives all position & animation state — zero React re-renders
- *    during motion (only state changes trigger re-render for visual mode).
- *  - prefers-reduced-motion: fully static.
- *  - Mobile / touch: cursor events disabled; scroll-only transitions; lower fps.
+ *  - position: absolute within the page (scrolls with content, not fixed to viewport).
+ *  - Single useEffect owns the entire state machine — avoids hook dep-cycle issues.
+ *  - Patrols randomly between sections every 10-22 seconds.
+ *  - Jump: 4-phase RAF animation (anticipate → arc → land → recover).
+ *  - Idle: CSS breathing animation on the body div.
+ *  - Cursor proximity → notice ("!") → bark → cooldown (desktop).
+ *  - Tap → bark (mobile).
+ *  - Hover → pause all movement; resume on leave.
+ *  - Sleep after 14s idle; wake on click.
+ *  - prefers-reduced-motion: no motion at all.
+ *  - Mobile / touch: no cursor events; simplified arc animation.
  */
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { playBark } from '@/hooks/useSoundEffects';
 
-// ─── Section config ────────────────────────────────────────────────────
+// ─── Section config ─────────────────────────────────────────────────────────
 const SECTION_IDS = [
   'hero',
   'about',
@@ -27,418 +31,386 @@ const SECTION_IDS = [
   'finale',
 ] as const;
 
-// ─── Dog states ────────────────────────────────────────────────────────
+type SectionId = (typeof SECTION_IDS)[number];
+
+// ─── Dog visual states ───────────────────────────────────────────────────────
 type DogState =
   | 'idle'
-  | 'walking'
   | 'jumping'
   | 'noticing'
   | 'barking'
   | 'hoveredPause'
   | 'sleeping';
 
-// ─── Constants ─────────────────────────────────────────────────────────
-const DOG_W = 40; // px — bounding box width
-const DOG_H = 40; // px — bounding box height
-const BARK_COOLDOWN_MS = 15_000;
-const PROXIMITY_RADIUS = 180; // px
-const SLEEP_AFTER_MS = 14_000;
+// ─── Tuning constants ────────────────────────────────────────────────────────
+const DOG_W = 44;
+const DOG_H = 44;
+const BARK_COOLDOWN_MS = 12_000;
+const PROXIMITY_PX = 150;
+const STAY_MIN_MS = 10_000;   // minimum time in a section
+const STAY_JITTER_MS = 12_000; // random extra time
+const SLEEP_AFTER_MS = 15_000;
 
-interface PixelPetProps {
-  /** Section IDs passed from the page so the dog can observe them. */
-  sectionIds?: readonly string[];
-}
-
-const PixelPet = ({ sectionIds = SECTION_IDS }: PixelPetProps) => {
-  // ── Reduced motion guard ──────────────────────────────────────────────
-  const prefersReduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // ── Touch device detection ─────────────────────────────────────────────
-  const isTouch =
-    typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
-
-  // ── Dog visual state (triggers re-render) ──────────────────────────────
+// ─── Component ───────────────────────────────────────────────────────────────
+const PixelPet = () => {
+  // Only 5 pieces of React state — everything else lives in refs inside the
+  // single useEffect to avoid hook dependency cycles.
   const [dogState, setDogState] = useState<DogState>('idle');
   const [direction, setDirection] = useState<'left' | 'right'>('right');
   const [showBark, setShowBark] = useState(false);
   const [showNotice, setShowNotice] = useState(false);
+  const [visible, setVisible] = useState(false);
 
-  // ── Refs for zero-render animation loop ───────────────────────────────
+  // DOM refs
   const wrapperRef = useRef<HTMLDivElement>(null);
   const dogRef = useRef<HTMLDivElement>(null);
 
-  // Position state (mutated directly in RAF; no setState)
-  const posRef = useRef({ x: 60, y: 0 }); // x = px from left
+  // Handler bridge — lets the effect write handlers that the JSX can call
+  const onClickRef = useRef<() => void>(() => undefined);
+  const onEnterRef = useRef<() => void>(() => undefined);
+  const onLeaveRef = useRef<() => void>(() => undefined);
 
-  // Mutable state refs (not React state to avoid re-renders)
-  const currentSectionIdx = useRef(0);
-  const targetSectionIdx = useRef(0);
-  const isJumping = useRef(false);
-  const isHovered = useRef(false);
-  const lastBarkTime = useRef(0);
-  const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const sleepTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const stateRef = useRef<DogState>('idle');
-  const rafRef = useRef<number>(0);
-  const jumpFromX = useRef(0);
-  const jumpToX = useRef(0);
-  const jumpPhase = useRef<'anticipate' | 'arc' | 'land' | 'recover' | 'done'>(
-    'done',
-  );
-  const jumpPhaseStart = useRef(0);
-  const barkShowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const noticeShowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Stable setters (React guarantees these never change)
+  const setDogStateRef = useRef(setDogState);
+  const setDirectionRef = useRef(setDirection);
+  const setShowBarkRef = useRef(setShowBark);
+  const setShowNoticeRef = useRef(setShowNotice);
+  const setVisibleRef = useRef(setVisible);
 
-  // ── Helper: set state via both ref and React setState ─────────────────
-  const applyState = useCallback((s: DogState) => {
-    stateRef.current = s;
-    setDogState(s);
-  }, []);
+  // ── Main state-machine effect ───────────────────────────────────────────
+  useEffect(() => {
+    // ── Guards ──────────────────────────────────────────────────────────
+    const prefersReduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    if (prefersReduced) return;
 
-  // ── Compute X position for a given section index ──────────────────────
-  const xForSection = useCallback(
-    (idx: number): number => {
-      const vw = window.innerWidth;
-      const count = sectionIds.length;
-      // Spread across 10% – 80% of viewport width so dog stays visible
-      const spread = vw * 0.7;
-      const start = vw * 0.08;
-      return Math.round(start + (idx / Math.max(count - 1, 1)) * spread);
-    },
-    [sectionIds.length],
-  );
+    const isTouch = window.matchMedia('(hover: none)').matches;
 
-  // ── Start a section jump ───────────────────────────────────────────────
-  const startJump = useCallback(
-    (toIdx: number) => {
-      if (isJumping.current || isHovered.current) return;
-      const fromX = posRef.current.x;
-      const toX = xForSection(toIdx);
-      if (Math.abs(toX - fromX) < 20) return; // already close enough
+    // ── Local mutable state (lives inside the effect closure) ────────────
+    let currentSection: SectionId = 'hero';
+    let isAnimating = false;
+    let isHovered = false;
+    let lastBarkTime = 0;
+    let dogStateLocal: DogState = 'idle';
+    // Absolute page-coordinate resting position
+    let posTop = 0;
+    let posLeft = 0;
 
-      currentSectionIdx.current = toIdx;
-      jumpFromX.current = fromX;
-      jumpToX.current = toX;
-      isJumping.current = true;
-      jumpPhase.current = 'anticipate';
-      jumpPhaseStart.current = performance.now();
+    let patrolTimer: ReturnType<typeof setTimeout> | null = null;
+    let sleepTimer: ReturnType<typeof setTimeout> | null = null;
+    let barkTimer: ReturnType<typeof setTimeout> | null = null;
+    let noticeTimer: ReturnType<typeof setTimeout> | null = null;
+    let rafId = 0;
+    let jumpQueued: SectionId | null = null;
 
-      setDirection(toX > fromX ? 'right' : 'left');
-      applyState('jumping');
+    // ── Helpers ──────────────────────────────────────────────────────────
+    const applyState = (s: DogState) => {
+      dogStateLocal = s;
+      setDogStateRef.current(s);
+    };
 
-      // Clear sleep/idle
-      if (sleepTimer.current) clearTimeout(sleepTimer.current);
-      if (idleTimer.current) clearTimeout(idleTimer.current);
-    },
-    [xForSection, applyState],
-  );
+    const clearAllTimers = () => {
+      if (patrolTimer) clearTimeout(patrolTimer);
+      if (sleepTimer) clearTimeout(sleepTimer);
+      if (barkTimer) clearTimeout(barkTimer);
+      if (noticeTimer) clearTimeout(noticeTimer);
+      cancelAnimationFrame(rafId);
+    };
 
-  const armSleepTimer = useCallback(() => {
-    if (sleepTimer.current) clearTimeout(sleepTimer.current);
-    sleepTimer.current = setTimeout(() => {
-      if (!isJumping.current && !isHovered.current) {
-        applyState('sleeping');
+    const armSleepTimer = () => {
+      if (sleepTimer) clearTimeout(sleepTimer);
+      sleepTimer = setTimeout(() => {
+        if (!isAnimating && !isHovered) applyState('sleeping');
+      }, SLEEP_AFTER_MS);
+    };
+
+    // Compute where the dog rests in a given section (document coordinates)
+    const getSectionPos = (sectionId: string): { top: number; left: number } | null => {
+      const el = document.getElementById(sectionId);
+      if (!el) return null;
+      const rect = el.getBoundingClientRect();
+      const scrollY = window.scrollY;
+      // Dog sits 20px above the section's bottom edge
+      const top = rect.top + scrollY + rect.height - DOG_H - 20;
+      // Random horizontal position with safe margins
+      const safeL = 24;
+      const safeR = window.innerWidth - DOG_W - 24;
+      const left = safeL + Math.random() * Math.max(0, safeR - safeL);
+      return { top, left };
+    };
+
+    // ── Patrol scheduler ─────────────────────────────────────────────────
+    const schedulePatrol = () => {
+      if (patrolTimer) clearTimeout(patrolTimer);
+      const delay = STAY_MIN_MS + Math.random() * STAY_JITTER_MS;
+      patrolTimer = setTimeout(() => {
+        if (isHovered || isAnimating) {
+          schedulePatrol(); // retry
+          return;
+        }
+        const options = SECTION_IDS.filter((id) => id !== currentSection);
+        const next = options[Math.floor(Math.random() * options.length)];
+        doJump(next);
+      }, delay);
+    };
+
+    // ── Jump animation ────────────────────────────────────────────────────
+    const doJump = (targetId: SectionId) => {
+      if (isAnimating) {
+        jumpQueued = targetId;
+        return;
       }
-    }, SLEEP_AFTER_MS);
-  }, [applyState]);
 
-  // ── Jump animation tick (called from RAF) ─────────────────────────────
-  const tickJump = useCallback(
-    (now: number) => {
+      const targetPos = getSectionPos(targetId);
+      if (!targetPos) {
+        schedulePatrol();
+        return;
+      }
+
       const el = wrapperRef.current;
       if (!el) return;
 
-      const elapsed = now - jumpPhaseStart.current;
+      const fromLeft = posLeft;
+      const fromTop = posTop;
+      const toLeft = targetPos.left;
+      const toTop = targetPos.top;
 
-      if (jumpPhase.current === 'anticipate') {
-        // Crouch: 120ms
-        const t = Math.min(elapsed / 120, 1);
-        const scaleY = 1 - 0.18 * Math.sin(t * Math.PI);
-        const ty = 4 * Math.sin(t * Math.PI);
-        el.style.transform = `translateX(${posRef.current.x}px) translateY(${ty}px) scaleY(${scaleY})`;
-        if (elapsed >= 120) {
-          jumpPhase.current = 'arc';
-          jumpPhaseStart.current = now;
-        }
-      } else if (jumpPhase.current === 'arc') {
-        // Arc jump: 500ms
-        const t = Math.min(elapsed / 500, 1);
-        // ease out cubic for X
-        const eased = 1 - Math.pow(1 - t, 3);
-        const newX =
-          jumpFromX.current + (jumpToX.current - jumpFromX.current) * eased;
-        posRef.current.x = newX;
-        // Parabolic arc for Y: peaks at midpoint
-        const arc = Math.sin(t * Math.PI) * -65;
-        el.style.transform = `translateX(${newX}px) translateY(${arc}px) scaleY(${1 + Math.abs(arc) * 0.003})`;
-        if (elapsed >= 500) {
-          posRef.current.x = jumpToX.current;
-          jumpPhase.current = 'land';
-          jumpPhaseStart.current = now;
-        }
-      } else if (jumpPhase.current === 'land') {
-        // Squash: 80ms
-        const t = Math.min(elapsed / 80, 1);
-        const scaleY = 1 - 0.22 * Math.sin(t * Math.PI);
-        const scaleX = 1 + 0.12 * Math.sin(t * Math.PI);
-        el.style.transform = `translateX(${posRef.current.x}px) translateY(0px) scaleY(${scaleY}) scaleX(${scaleX})`;
-        if (elapsed >= 80) {
-          jumpPhase.current = 'recover';
-          jumpPhaseStart.current = now;
-        }
-      } else if (jumpPhase.current === 'recover') {
-        // Recover: 150ms back to normal
-        const t = Math.min(elapsed / 150, 1);
-        const eased = 1 - Math.pow(1 - t, 2);
-        const scaleY = 0.78 + 0.22 * eased;
-        const scaleX = 1.12 - 0.12 * eased;
-        el.style.transform = `translateX(${posRef.current.x}px) translateY(0px) scaleY(${scaleY}) scaleX(${scaleX})`;
-        if (elapsed >= 150) {
-          jumpPhase.current = 'done';
-          el.style.transform = `translateX(${posRef.current.x}px) translateY(0px)`;
-          isJumping.current = false;
-          applyState('idle');
-          armSleepTimer();
-        }
-      }
-    },
-    [applyState, armSleepTimer],
-  );
-
-  // ── RAF loop ──────────────────────────────────────────────────────────
-  useEffect(() => {
-    if (prefersReduced) return;
-
-    const loop = (now: number) => {
-      rafRef.current = requestAnimationFrame(loop);
-      if (isJumping.current) {
-        tickJump(now);
-        return;
-      }
-
-      // Subtle idle bob when not paused
-      if (!isHovered.current && stateRef.current === 'idle') {
-        const bob = Math.sin(now / 900) * 1.8;
-        const el = wrapperRef.current;
-        if (el) {
-          el.style.transform = `translateX(${posRef.current.x}px) translateY(${bob}px)`;
-        }
-      }
-    };
-
-    rafRef.current = requestAnimationFrame(loop);
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, [prefersReduced, tickJump]);
-
-  // ── IntersectionObserver — section tracking ───────────────────────────
-  useEffect(() => {
-    if (prefersReduced) return;
-
-    // Position dog at hero on mount
-    posRef.current.x = xForSection(0);
-    if (wrapperRef.current) {
-      wrapperRef.current.style.transform = `translateX(${posRef.current.x}px) translateY(0px)`;
-    }
-
-    const observers: IntersectionObserver[] = [];
-
-    sectionIds.forEach((id, idx) => {
-      const el = document.getElementById(id as string);
-      if (!el) return;
-
-      const obs = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
-              if (
-                idx !== currentSectionIdx.current &&
-                idx !== targetSectionIdx.current
-              ) {
-                targetSectionIdx.current = idx;
-                // Small delay so rapid scroll doesn't trigger a dozen jumps
-                setTimeout(() => {
-                  if (targetSectionIdx.current === idx) {
-                    startJump(idx);
-                  }
-                }, 350);
-              }
-            }
-          });
-        },
-        { threshold: 0.35 },
-      );
-
-      obs.observe(el);
-      observers.push(obs);
-    });
-
-    armSleepTimer();
-
-    return () => {
-      observers.forEach((o) => o.disconnect());
-      if (sleepTimer.current) clearTimeout(sleepTimer.current);
-      if (idleTimer.current) clearTimeout(idleTimer.current);
-    };
-  }, [prefersReduced, sectionIds, xForSection, startJump, armSleepTimer]);
-
-  // ── Cursor proximity detection ─────────────────────────────────────────
-  useEffect(() => {
-    if (prefersReduced || isTouch) return;
-
-    const onMouseMove = (e: MouseEvent) => {
-      if (isHovered.current) return;
-      const el = dogRef.current;
-      if (!el) return;
-
-      const rect = el.getBoundingClientRect();
-      const dogCX = rect.left + rect.width / 2;
-      const dogCY = rect.top + rect.height / 2;
-      const dx = e.clientX - dogCX;
-      const dy = e.clientY - dogCY;
+      const dx = toLeft - fromLeft;
+      const dy = toTop - fromTop;
       const dist = Math.sqrt(dx * dx + dy * dy);
+      // Arc height: taller for longer journeys
+      const arcH = Math.min(100 + dist * 0.28, 400);
 
-      const now = Date.now();
+      setDirectionRef.current(dx >= 0 ? 'right' : 'left');
+      applyState('jumping');
+      isAnimating = true;
+      if (sleepTimer) clearTimeout(sleepTimer);
+      if (patrolTimer) clearTimeout(patrolTimer);
+
+      // Reduced arc on mobile for performance
+      const T_ANT = 120;
+      const T_ARC = isTouch
+        ? Math.min(400 + dist * 0.08, 700)
+        : Math.min(500 + dist * 0.1, 900);
+      const T_LAND = 90;
+      const T_REC = 140;
+      const T_TOTAL = T_ANT + T_ARC + T_LAND + T_REC;
+
+      const start = performance.now();
+
+      const frame = (now: number) => {
+        const e = now - start;
+
+        if (e < T_ANT) {
+          // Anticipation crouch
+          const t = e / T_ANT;
+          const scaleY = 1 - 0.15 * Math.sin(t * Math.PI);
+          const sinkY = 4 * Math.sin(t * Math.PI);
+          el.style.transform = `translateX(0px) translateY(${sinkY}px) scaleY(${scaleY})`;
+        } else if (e < T_ANT + T_ARC) {
+          // Parabolic arc
+          const t = (e - T_ANT) / T_ARC;
+          // ease-in-out quad for horizontal travel
+          const eX = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+          const arcOffset = -arcH * Math.sin(t * Math.PI);
+          const curX = dx * eX;
+          const curY = dy * eX + arcOffset;
+          el.style.transform = `translateX(${curX}px) translateY(${curY}px)`;
+        } else if (e < T_ANT + T_ARC + T_LAND) {
+          // Landing squash
+          const t = (e - T_ANT - T_ARC) / T_LAND;
+          const scaleY = 1 - 0.24 * Math.sin(t * Math.PI);
+          const scaleX = 1 + 0.15 * Math.sin(t * Math.PI);
+          el.style.transform = `translateX(${dx}px) translateY(${dy}px) scaleY(${scaleY}) scaleX(${scaleX})`;
+        } else if (e < T_TOTAL) {
+          // Spring recover
+          const t = (e - T_ANT - T_ARC - T_LAND) / T_REC;
+          const eased = 1 - Math.pow(1 - t, 3);
+          const scaleY = 0.76 + 0.24 * eased;
+          const scaleX = 1.15 - 0.15 * eased;
+          el.style.transform = `translateX(${dx}px) translateY(${dy}px) scaleY(${scaleY}) scaleX(${scaleX})`;
+        } else {
+          // ── Commit new position ──────────────────────────────────────
+          el.style.transform = 'none';
+          el.style.top = `${toTop}px`;
+          el.style.left = `${toLeft}px`;
+          posTop = toTop;
+          posLeft = toLeft;
+          currentSection = targetId;
+          isAnimating = false;
+
+          const queued = jumpQueued;
+          jumpQueued = null;
+
+          if (queued && queued !== targetId) {
+            // A new section was requested mid-flight — honor it after a short rest
+            setTimeout(() => doJump(queued), 400);
+          } else {
+            applyState('idle');
+            armSleepTimer();
+            schedulePatrol();
+          }
+          return;
+        }
+
+        rafId = requestAnimationFrame(frame);
+      };
+
+      rafId = requestAnimationFrame(frame);
+    };
+
+    // ── Bark / notice sequence ────────────────────────────────────────────
+    const triggerNoticeAndBark = () => {
       if (
-        dist < PROXIMITY_RADIUS &&
-        stateRef.current !== 'barking' &&
-        stateRef.current !== 'noticing' &&
-        now - lastBarkTime.current > BARK_COOLDOWN_MS
-      ) {
-        // Notice → bark
-        applyState('noticing');
-        setShowNotice(true);
-        if (noticeShowTimer.current) clearTimeout(noticeShowTimer.current);
-        noticeShowTimer.current = setTimeout(() => {
-          setShowNotice(false);
-          applyState('barking');
-          setShowBark(true);
-          playBark();
-          lastBarkTime.current = Date.now();
-          if (barkShowTimer.current) clearTimeout(barkShowTimer.current);
-          barkShowTimer.current = setTimeout(() => {
-            setShowBark(false);
-            if (!isHovered.current) {
-              applyState('idle');
-              armSleepTimer();
-            }
-          }, 1200);
-        }, 500);
-      }
-    };
-
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      if (barkShowTimer.current) clearTimeout(barkShowTimer.current);
-      if (noticeShowTimer.current) clearTimeout(noticeShowTimer.current);
-    };
-  }, [prefersReduced, isTouch, applyState, armSleepTimer]);
-
-  // ── Click handler ──────────────────────────────────────────────────────
-  const handleClick = useCallback(() => {
-    playBark();
-    if (stateRef.current === 'sleeping') applyState('idle');
-    setShowBark(true);
-    if (barkShowTimer.current) clearTimeout(barkShowTimer.current);
-    barkShowTimer.current = setTimeout(() => {
-      setShowBark(false);
-    }, 800);
-    // Quick bounce
-    const el = wrapperRef.current;
-    if (!el || isJumping.current) return;
-    const startY = performance.now();
-    const bounce = (now: number) => {
-      const t = (now - startY) / 320;
-      if (t >= 1) {
-        el.style.transform = `translateX(${posRef.current.x}px) translateY(0px)`;
+        isHovered ||
+        dogStateLocal === 'barking' ||
+        dogStateLocal === 'noticing' ||
+        Date.now() - lastBarkTime < BARK_COOLDOWN_MS
+      )
         return;
-      }
-      const y = -28 * Math.sin(t * Math.PI);
-      el.style.transform = `translateX(${posRef.current.x}px) translateY(${y}px)`;
-      requestAnimationFrame(bounce);
+
+      applyState('noticing');
+      setShowNoticeRef.current(true);
+      if (sleepTimer) clearTimeout(sleepTimer);
+
+      if (noticeTimer) clearTimeout(noticeTimer);
+      noticeTimer = setTimeout(() => {
+        setShowNoticeRef.current(false);
+        applyState('barking');
+        setShowBarkRef.current(true);
+        playBark();
+        lastBarkTime = Date.now();
+
+        if (barkTimer) clearTimeout(barkTimer);
+        barkTimer = setTimeout(() => {
+          setShowBarkRef.current(false);
+          if (!isHovered) {
+            applyState('idle');
+            armSleepTimer();
+          }
+        }, 1_000);
+      }, 550);
     };
-    requestAnimationFrame(bounce);
-  }, [applyState]);
 
-  // ── Hover handlers ─────────────────────────────────────────────────────
-  const handleMouseEnter = useCallback(() => {
-    isHovered.current = true;
-    if (!isJumping.current) {
-      applyState('hoveredPause');
+    // ── Event handlers (exposed via refs so JSX can call them) ────────────
+    onClickRef.current = () => {
+      if (dogStateLocal === 'sleeping') {
+        applyState('idle');
+        armSleepTimer();
+      }
+      const now = Date.now();
+      if (now - lastBarkTime > 1_500) {
+        playBark();
+        lastBarkTime = now;
+        applyState('barking');
+        setShowBarkRef.current(true);
+        if (barkTimer) clearTimeout(barkTimer);
+        barkTimer = setTimeout(() => {
+          setShowBarkRef.current(false);
+          if (!isHovered) applyState('idle');
+        }, 900);
+      }
+    };
+
+    onEnterRef.current = () => {
+      isHovered = true;
+      if (!isAnimating) applyState('hoveredPause');
+      if (sleepTimer) clearTimeout(sleepTimer);
+      if (patrolTimer) clearTimeout(patrolTimer);
+    };
+
+    onLeaveRef.current = () => {
+      isHovered = false;
+      if (!isAnimating) {
+        applyState('idle');
+        armSleepTimer();
+        schedulePatrol();
+      }
+    };
+
+    // ── Cursor proximity (desktop only) ──────────────────────────────────
+    let onMouseMove: ((e: MouseEvent) => void) | null = null;
+    if (!isTouch) {
+      onMouseMove = (e: MouseEvent) => {
+        if (isHovered || isAnimating) return;
+        const el = dogRef.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dist = Math.sqrt((e.clientX - cx) ** 2 + (e.clientY - cy) ** 2);
+        if (dist < PROXIMITY_PX) triggerNoticeAndBark();
+      };
+      window.addEventListener('mousemove', onMouseMove, { passive: true });
     }
-    if (sleepTimer.current) clearTimeout(sleepTimer.current);
-  }, [applyState]);
 
-  const handleMouseLeave = useCallback(() => {
-    isHovered.current = false;
-    if (!isJumping.current) {
+    // ── Initialize ────────────────────────────────────────────────────────
+    const init = setTimeout(() => {
+      const startPos = getSectionPos('hero');
+      const el = wrapperRef.current;
+      if (!startPos || !el) return;
+
+      el.style.top = `${startPos.top}px`;
+      el.style.left = `${startPos.left}px`;
+      posTop = startPos.top;
+      posLeft = startPos.left;
+      currentSection = 'hero';
+
+      setVisibleRef.current(true);
       applyState('idle');
       armSleepTimer();
-    }
-  }, [applyState, armSleepTimer]);
+      schedulePatrol();
+    }, 600); // small delay lets layout settle after loading screen exits
 
-  // ── Reduced motion: render static dog ─────────────────────────────────
-  if (prefersReduced) {
-    return (
-      <div
-        style={{
-          position: 'fixed',
-          bottom: 12,
-          left: 60,
-          zIndex: 30,
-          pointerEvents: 'none',
-        }}
-        aria-hidden="true"
-      >
-        <StaticDog />
-      </div>
-    );
-  }
+    // ── Cleanup ───────────────────────────────────────────────────────────
+    return () => {
+      clearTimeout(init);
+      clearAllTimers();
+      if (onMouseMove)
+        window.removeEventListener('mousemove', onMouseMove);
+    };
+  }, []); // ← intentionally empty: the effect owns its entire lifecycle
 
-  // ─── CSS state class ────────────────────────────────────────────────
-  const stateClass = `pixel-pet-${dogState}`;
-
+  // ── JSX ────────────────────────────────────────────────────────────────
   return (
     <div
       ref={wrapperRef}
-      style={{
-        position: 'fixed',
-        bottom: 10,
-        left: 0,
-        zIndex: 30,
-        transformOrigin: 'bottom center',
-        willChange: 'transform',
-        pointerEvents: 'none', // wrapper is non-interactive
-      }}
       aria-hidden="true"
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 25,
+        transformOrigin: 'bottom center',
+        willChange: 'transform, top, left',
+        pointerEvents: 'none',
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.4s ease',
+      }}
     >
-      {/* Dog — interactive target */}
+      {/* Interactive inner shell — pointer-events re-enabled here only */}
       <div
         ref={dogRef}
-        style={{ pointerEvents: 'auto', cursor: 'pointer' }}
-        onClick={handleClick}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        style={{ pointerEvents: 'auto', cursor: 'pointer', position: 'relative' }}
+        onClick={() => onClickRef.current()}
+        onMouseEnter={() => onEnterRef.current()}
+        onMouseLeave={() => onLeaveRef.current()}
         title="Click me!"
       >
-        {/* Speech bubble — bark */}
+        {/* Speech bubbles */}
         {showBark && (
           <div className="pixel-pet-speech-bark">
             <span>woof!</span>
           </div>
         )}
-        {/* Speech bubble — notice */}
         {showNotice && (
           <div className="pixel-pet-speech-notice">
             <span>!</span>
           </div>
         )}
 
-        {/* Direction wrapper */}
+        {/* Flip wrapper for direction */}
         <div
           style={{
             transform: direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)',
@@ -446,16 +418,15 @@ const PixelPet = ({ sectionIds = SECTION_IDS }: PixelPetProps) => {
           }}
         >
           <div
-            className={`pixel-pet-body ${stateClass}`}
+            className={`pixel-pet-body pixel-pet-${dogState}`}
             style={{ width: DOG_W, height: DOG_H, position: 'relative' }}
           >
-            {/* Sleeping Zzz */}
+            {/* Zzz float */}
             {dogState === 'sleeping' && (
               <div className="pixel-pet-zzz" aria-hidden="true">
                 Z
               </div>
             )}
-
             <DogSvg state={dogState} />
           </div>
         </div>
@@ -464,10 +435,11 @@ const PixelPet = ({ sectionIds = SECTION_IDS }: PixelPetProps) => {
   );
 };
 
-// ─── Dog SVG ───────────────────────────────────────────────────────────
+// ─── Dog SVG ─────────────────────────────────────────────────────────────────
 const DogSvg = ({ state }: { state: DogState }) => {
   const isSleeping = state === 'sleeping';
   const isAlert = state === 'noticing' || state === 'barking';
+  const isJumping = state === 'jumping';
 
   return (
     <svg
@@ -487,35 +459,34 @@ const DogSvg = ({ state }: { state: DogState }) => {
       {/* Head */}
       <rect x="9" y="5" width="6" height="5" fill="currentColor" />
 
-      {/* Ears — left + right */}
+      {/* Ears */}
       <g className="pixel-pet-ears">
         <rect x="10" y="3" width="2" height="2" fill="currentColor" />
         <rect x="13" y="3" width="2" height="2" fill="currentColor" />
       </g>
 
-      {/* Eyes — open */}
+      {/* Eyes open */}
       {!isSleeping && (
         <g>
-          {/* Normal eye */}
           <rect x="10" y="6" width="1" height={isAlert ? 2 : 1} fill="white" />
           <rect x="13" y="6" width="1" height={isAlert ? 2 : 1} fill="white" />
         </g>
       )}
 
-      {/* Eyes — closed/sleeping */}
-      {isSleeping && (
+      {/* Eyes closed (sleeping / mid-jump squint) */}
+      {(isSleeping || isJumping) && (
         <g>
-          <rect x="10" y="7" width="1" height="1" fill="white" />
-          <rect x="13" y="7" width="1" height="1" fill="white" />
+          <rect x="10" y="7" width="1" height="1" fill="white" opacity={isJumping ? 0.5 : 1} />
+          <rect x="13" y="7" width="1" height="1" fill="white" opacity={isJumping ? 0.5 : 1} />
         </g>
       )}
 
-      {/* Nose */}
+      {/* Nose highlight when alert */}
       {isAlert && (
         <rect x="14" y="9" width="1" height="1" fill="white" opacity="0.7" />
       )}
 
-      {/* Legs — walking */}
+      {/* Legs */}
       <g className="pixel-pet-legs-standing">
         <rect x="3" y="12" width="2" height="2" fill="currentColor" />
         <rect x="6" y="12" width="2" height="2" fill="currentColor" />
@@ -527,21 +498,5 @@ const DogSvg = ({ state }: { state: DogState }) => {
     </svg>
   );
 };
-
-// Minimal static dog for reduced-motion
-const StaticDog = () => (
-  <svg viewBox="0 0 16 16" style={{ width: 36, height: 36 }} aria-hidden="true">
-    <rect x="1" y="5" width="1" height="4" fill="currentColor" />
-    <rect x="0" y="4" width="1" height="1" fill="currentColor" />
-    <rect x="2" y="7" width="7" height="5" fill="currentColor" />
-    <rect x="9" y="5" width="6" height="5" fill="currentColor" />
-    <rect x="10" y="3" width="2" height="2" fill="currentColor" />
-    <rect x="13" y="3" width="2" height="2" fill="currentColor" />
-    <rect x="10" y="6" width="1" height="1" fill="white" />
-    <rect x="13" y="6" width="1" height="1" fill="white" />
-    <rect x="3" y="12" width="2" height="2" fill="currentColor" />
-    <rect x="6" y="12" width="2" height="2" fill="currentColor" />
-  </svg>
-);
 
 export default PixelPet;

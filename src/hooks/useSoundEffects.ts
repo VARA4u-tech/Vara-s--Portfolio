@@ -222,29 +222,68 @@ export const playStringPluck = (intensity: number = 1) => {
   osc.stop(c.currentTime + 1.2);
 };
 
-/** Pixel Pet interaction sound — an audible 8-bit jump/chirp */
+/** Realistic dog bark — band-pass filtered noise + pitch-dropping sub oscillator.
+ *  Produces a natural short "woof" without any 8-bit chirp artefacts.
+ *  Fires two bursts to mimic a quick "woof woof" bark.
+ */
 export const playBark = () => {
   if (masterVolume === 0) return;
   const c = getCtx();
   if (!c) return;
 
   const now = c.currentTime;
-  const gain = c.createGain();
 
-  // Slower decay so the sound is actually audible (previous 80ms exp decay was just a tick)
-  gain.gain.setValueAtTime(masterVolume * 0.5, now);
-  gain.gain.linearRampToValueAtTime(0, now + 0.3);
-  gain.connect(c.destination);
+  /** One "woof" burst starting at time t */
+  const burst = (t: number) => {
+    // ── Noise source (shapes the "hh" breath of the bark) ───────────────
+    const bufLen = Math.ceil(c.sampleRate * 0.22);
+    const buf = c.createBuffer(1, bufLen, c.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < bufLen; i++) data[i] = Math.random() * 2 - 1;
 
-  const osc = c.createOscillator();
-  osc.type = 'square';
-  // 8-bit pitch slide up for a jump/chirp
-  osc.frequency.setValueAtTime(300, now);
-  osc.frequency.exponentialRampToValueAtTime(600, now + 0.2);
-  osc.connect(gain);
+    const noise = c.createBufferSource();
+    noise.buffer = buf;
+    noise.loop = false;
 
-  osc.start(now);
-  osc.stop(now + 0.3);
+    // Band-pass filter: sweeps from 700 Hz → 220 Hz, shaping the "woof" formant
+    const bp = c.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.setValueAtTime(700, t);
+    bp.frequency.exponentialRampToValueAtTime(220, t + 0.18);
+    bp.Q.setValueAtTime(3, t);
+
+    const noiseGain = c.createGain();
+    noiseGain.gain.setValueAtTime(masterVolume * 0.52, t);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+
+    noise.connect(bp);
+    bp.connect(noiseGain);
+    noiseGain.connect(c.destination);
+
+    // ── Sub oscillator (the "oo" chest/body of the bark) ─────────────────
+    const osc = c.createOscillator();
+    osc.type = 'sawtooth';
+    // Pitch drops from ~200 Hz → ~100 Hz for natural bark decay
+    osc.frequency.setValueAtTime(200, t);
+    osc.frequency.exponentialRampToValueAtTime(100, t + 0.17);
+
+    const oscGain = c.createGain();
+    oscGain.gain.setValueAtTime(masterVolume * 0.3, t);
+    oscGain.gain.exponentialRampToValueAtTime(0.001, t + 0.17);
+
+    osc.connect(oscGain);
+    oscGain.connect(c.destination);
+
+    // ── Start / stop ──────────────────────────────────────────────────────
+    noise.start(t);
+    noise.stop(t + 0.22);
+    osc.start(t);
+    osc.stop(t + 0.19);
+  };
+
+  // Two barks: "woof … woof"
+  burst(now);
+  burst(now + 0.3);
 };
 
 // ---------------------------------------------------------------------------

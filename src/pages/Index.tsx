@@ -23,14 +23,15 @@ const Index = () => {
 
   return (
     <div
-      className={`min-h-screen bg-background text-foreground ${isLoading ? 'h-screen overflow-hidden' : ''}`}
+      className={`relative min-h-screen bg-background text-foreground ${isLoading ? 'h-screen overflow-hidden' : ''}`}
     >
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
 
-      {/* ── Pixel Animation Layer ── */}
+      {/* ── Fixed / overlay layer ── */}
       <PixelGrid />
       <PixelCursor isWhite={isLoading} />
-      {/* Dog mascot — fixed overlay, travels between sections */}
+
+      {/* Dog mascot — position:absolute, scrolls with page, patrols sections */}
       {!isLoading && <PixelPet />}
 
       <EasterEgg />
