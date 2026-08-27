@@ -11,12 +11,7 @@
  *  - Mobile / touch: cursor events disabled; scroll-only transitions; lower fps.
  */
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-} from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { playBark } from '@/hooks/useSoundEffects';
 
 // ─── Section config ────────────────────────────────────────────────────
@@ -31,7 +26,6 @@ const SECTION_IDS = [
   'contact',
   'finale',
 ] as const;
-
 
 // ─── Dog states ────────────────────────────────────────────────────────
 type DogState =
@@ -63,8 +57,7 @@ const PixelPet = ({ sectionIds = SECTION_IDS }: PixelPetProps) => {
 
   // ── Touch device detection ─────────────────────────────────────────────
   const isTouch =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(hover: none)').matches;
+    typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
 
   // ── Dog visual state (triggers re-render) ──────────────────────────────
   const [dogState, setDogState] = useState<DogState>('idle');
@@ -91,7 +84,9 @@ const PixelPet = ({ sectionIds = SECTION_IDS }: PixelPetProps) => {
   const rafRef = useRef<number>(0);
   const jumpFromX = useRef(0);
   const jumpToX = useRef(0);
-  const jumpPhase = useRef<'anticipate' | 'arc' | 'land' | 'recover' | 'done'>('done');
+  const jumpPhase = useRef<'anticipate' | 'arc' | 'land' | 'recover' | 'done'>(
+    'done',
+  );
   const jumpPhaseStart = useRef(0);
   const barkShowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const noticeShowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -103,36 +98,42 @@ const PixelPet = ({ sectionIds = SECTION_IDS }: PixelPetProps) => {
   }, []);
 
   // ── Compute X position for a given section index ──────────────────────
-  const xForSection = useCallback((idx: number): number => {
-    const vw = window.innerWidth;
-    const count = sectionIds.length;
-    // Spread across 10% – 80% of viewport width so dog stays visible
-    const spread = vw * 0.7;
-    const start = vw * 0.08;
-    return Math.round(start + (idx / Math.max(count - 1, 1)) * spread);
-  }, [sectionIds.length]);
+  const xForSection = useCallback(
+    (idx: number): number => {
+      const vw = window.innerWidth;
+      const count = sectionIds.length;
+      // Spread across 10% – 80% of viewport width so dog stays visible
+      const spread = vw * 0.7;
+      const start = vw * 0.08;
+      return Math.round(start + (idx / Math.max(count - 1, 1)) * spread);
+    },
+    [sectionIds.length],
+  );
 
   // ── Start a section jump ───────────────────────────────────────────────
-  const startJump = useCallback((toIdx: number) => {
-    if (isJumping.current || isHovered.current) return;
-    const fromX = posRef.current.x;
-    const toX = xForSection(toIdx);
-    if (Math.abs(toX - fromX) < 20) return; // already close enough
+  const startJump = useCallback(
+    (toIdx: number) => {
+      if (isJumping.current || isHovered.current) return;
+      const fromX = posRef.current.x;
+      const toX = xForSection(toIdx);
+      if (Math.abs(toX - fromX) < 20) return; // already close enough
 
-    currentSectionIdx.current = toIdx;
-    jumpFromX.current = fromX;
-    jumpToX.current = toX;
-    isJumping.current = true;
-    jumpPhase.current = 'anticipate';
-    jumpPhaseStart.current = performance.now();
+      currentSectionIdx.current = toIdx;
+      jumpFromX.current = fromX;
+      jumpToX.current = toX;
+      isJumping.current = true;
+      jumpPhase.current = 'anticipate';
+      jumpPhaseStart.current = performance.now();
 
-    setDirection(toX > fromX ? 'right' : 'left');
-    applyState('jumping');
+      setDirection(toX > fromX ? 'right' : 'left');
+      applyState('jumping');
 
-    // Clear sleep/idle
-    if (sleepTimer.current) clearTimeout(sleepTimer.current);
-    if (idleTimer.current) clearTimeout(idleTimer.current);
-  }, [xForSection, applyState]);
+      // Clear sleep/idle
+      if (sleepTimer.current) clearTimeout(sleepTimer.current);
+      if (idleTimer.current) clearTimeout(idleTimer.current);
+    },
+    [xForSection, applyState],
+  );
 
   const armSleepTimer = useCallback(() => {
     if (sleepTimer.current) clearTimeout(sleepTimer.current);
@@ -144,63 +145,67 @@ const PixelPet = ({ sectionIds = SECTION_IDS }: PixelPetProps) => {
   }, [applyState]);
 
   // ── Jump animation tick (called from RAF) ─────────────────────────────
-  const tickJump = useCallback((now: number) => {
-    const el = wrapperRef.current;
-    if (!el) return;
+  const tickJump = useCallback(
+    (now: number) => {
+      const el = wrapperRef.current;
+      if (!el) return;
 
-    const elapsed = now - jumpPhaseStart.current;
+      const elapsed = now - jumpPhaseStart.current;
 
-    if (jumpPhase.current === 'anticipate') {
-      // Crouch: 120ms
-      const t = Math.min(elapsed / 120, 1);
-      const scaleY = 1 - 0.18 * Math.sin(t * Math.PI);
-      const ty = 4 * Math.sin(t * Math.PI);
-      el.style.transform = `translateX(${posRef.current.x}px) translateY(${ty}px) scaleY(${scaleY})`;
-      if (elapsed >= 120) {
-        jumpPhase.current = 'arc';
-        jumpPhaseStart.current = now;
+      if (jumpPhase.current === 'anticipate') {
+        // Crouch: 120ms
+        const t = Math.min(elapsed / 120, 1);
+        const scaleY = 1 - 0.18 * Math.sin(t * Math.PI);
+        const ty = 4 * Math.sin(t * Math.PI);
+        el.style.transform = `translateX(${posRef.current.x}px) translateY(${ty}px) scaleY(${scaleY})`;
+        if (elapsed >= 120) {
+          jumpPhase.current = 'arc';
+          jumpPhaseStart.current = now;
+        }
+      } else if (jumpPhase.current === 'arc') {
+        // Arc jump: 500ms
+        const t = Math.min(elapsed / 500, 1);
+        // ease out cubic for X
+        const eased = 1 - Math.pow(1 - t, 3);
+        const newX =
+          jumpFromX.current + (jumpToX.current - jumpFromX.current) * eased;
+        posRef.current.x = newX;
+        // Parabolic arc for Y: peaks at midpoint
+        const arc = Math.sin(t * Math.PI) * -65;
+        el.style.transform = `translateX(${newX}px) translateY(${arc}px) scaleY(${1 + Math.abs(arc) * 0.003})`;
+        if (elapsed >= 500) {
+          posRef.current.x = jumpToX.current;
+          jumpPhase.current = 'land';
+          jumpPhaseStart.current = now;
+        }
+      } else if (jumpPhase.current === 'land') {
+        // Squash: 80ms
+        const t = Math.min(elapsed / 80, 1);
+        const scaleY = 1 - 0.22 * Math.sin(t * Math.PI);
+        const scaleX = 1 + 0.12 * Math.sin(t * Math.PI);
+        el.style.transform = `translateX(${posRef.current.x}px) translateY(0px) scaleY(${scaleY}) scaleX(${scaleX})`;
+        if (elapsed >= 80) {
+          jumpPhase.current = 'recover';
+          jumpPhaseStart.current = now;
+        }
+      } else if (jumpPhase.current === 'recover') {
+        // Recover: 150ms back to normal
+        const t = Math.min(elapsed / 150, 1);
+        const eased = 1 - Math.pow(1 - t, 2);
+        const scaleY = 0.78 + 0.22 * eased;
+        const scaleX = 1.12 - 0.12 * eased;
+        el.style.transform = `translateX(${posRef.current.x}px) translateY(0px) scaleY(${scaleY}) scaleX(${scaleX})`;
+        if (elapsed >= 150) {
+          jumpPhase.current = 'done';
+          el.style.transform = `translateX(${posRef.current.x}px) translateY(0px)`;
+          isJumping.current = false;
+          applyState('idle');
+          armSleepTimer();
+        }
       }
-    } else if (jumpPhase.current === 'arc') {
-      // Arc jump: 500ms
-      const t = Math.min(elapsed / 500, 1);
-      // ease out cubic for X
-      const eased = 1 - Math.pow(1 - t, 3);
-      const newX = jumpFromX.current + (jumpToX.current - jumpFromX.current) * eased;
-      posRef.current.x = newX;
-      // Parabolic arc for Y: peaks at midpoint
-      const arc = Math.sin(t * Math.PI) * -65;
-      el.style.transform = `translateX(${newX}px) translateY(${arc}px) scaleY(${1 + Math.abs(arc) * 0.003})`;
-      if (elapsed >= 500) {
-        posRef.current.x = jumpToX.current;
-        jumpPhase.current = 'land';
-        jumpPhaseStart.current = now;
-      }
-    } else if (jumpPhase.current === 'land') {
-      // Squash: 80ms
-      const t = Math.min(elapsed / 80, 1);
-      const scaleY = 1 - 0.22 * Math.sin(t * Math.PI);
-      const scaleX = 1 + 0.12 * Math.sin(t * Math.PI);
-      el.style.transform = `translateX(${posRef.current.x}px) translateY(0px) scaleY(${scaleY}) scaleX(${scaleX})`;
-      if (elapsed >= 80) {
-        jumpPhase.current = 'recover';
-        jumpPhaseStart.current = now;
-      }
-    } else if (jumpPhase.current === 'recover') {
-      // Recover: 150ms back to normal
-      const t = Math.min(elapsed / 150, 1);
-      const eased = 1 - Math.pow(1 - t, 2);
-      const scaleY = 0.78 + 0.22 * eased;
-      const scaleX = 1.12 - 0.12 * eased;
-      el.style.transform = `translateX(${posRef.current.x}px) translateY(0px) scaleY(${scaleY}) scaleX(${scaleX})`;
-      if (elapsed >= 150) {
-        jumpPhase.current = 'done';
-        el.style.transform = `translateX(${posRef.current.x}px) translateY(0px)`;
-        isJumping.current = false;
-        applyState('idle');
-        armSleepTimer();
-      }
-    }
-  }, [applyState, armSleepTimer]);
+    },
+    [applyState, armSleepTimer],
+  );
 
   // ── RAF loop ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -249,7 +254,10 @@ const PixelPet = ({ sectionIds = SECTION_IDS }: PixelPetProps) => {
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
-              if (idx !== currentSectionIdx.current && idx !== targetSectionIdx.current) {
+              if (
+                idx !== currentSectionIdx.current &&
+                idx !== targetSectionIdx.current
+              ) {
                 targetSectionIdx.current = idx;
                 // Small delay so rapid scroll doesn't trigger a dozen jumps
                 setTimeout(() => {

@@ -27,7 +27,10 @@ const Finale = () => {
   ];
 
   return (
-    <section id="finale" className="relative w-full bg-white border-t-8 border-black pt-20 overflow-hidden">
+    <section
+      id="finale"
+      className="relative w-full bg-white border-t-8 border-black pt-20 overflow-hidden"
+    >
       {/* ... marquee ... */}
       {/* Marquee — 2 copies of the tag list is all that's needed for a
           seamless -50% translate loop; more copies just waste DOM nodes */}
