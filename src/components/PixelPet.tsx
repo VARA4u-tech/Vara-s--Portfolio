@@ -44,8 +44,13 @@ type DogState =
   | 'sleeping';
 
 // ─── Tuning constants ────────────────────────────────────────────────────────
-const DOG_W = 44;
-const DOG_H = 44;
+// Dog size scales with viewport: larger on desktop, comfortably tappable on mobile
+const getDogSize = () => {
+  const vw = window.innerWidth;
+  if (vw < 480) return 52;   // phone — extra large for easy tap
+  if (vw < 768) return 48;   // tablet portrait
+  return 44;                  // desktop
+};
 const BARK_COOLDOWN_MS = 12_000;
 const PROXIMITY_PX = 150;
 const STAY_MIN_MS = 600_000; // 10 minutes minimum in each section
@@ -54,13 +59,14 @@ const SLEEP_AFTER_MS = 15_000;
 
 // ─── Component ───────────────────────────────────────────────────────────────
 const PixelPet = () => {
-  // Only 5 pieces of React state — everything else lives in refs inside the
+  // Only 6 pieces of React state — everything else lives in refs inside the
   // single useEffect to avoid hook dependency cycles.
   const [dogState, setDogState] = useState<DogState>('idle');
   const [direction, setDirection] = useState<'left' | 'right'>('right');
   const [showBark, setShowBark] = useState(false);
   const [showNotice, setShowNotice] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [dogSize, setDogSize] = useState(44); // responsive px size
 
   // DOM refs
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -77,6 +83,7 @@ const PixelPet = () => {
   const setShowBarkRef = useRef(setShowBark);
   const setShowNoticeRef = useRef(setShowNotice);
   const setVisibleRef = useRef(setVisible);
+  const setDogSizeRef = useRef(setDogSize);
 
   // ── Main state-machine effect ───────────────────────────────────────────
   useEffect(() => {
@@ -87,6 +94,12 @@ const PixelPet = () => {
     if (prefersReduced) return;
 
     const isTouch = window.matchMedia('(hover: none)').matches;
+    const isSmall = () => window.innerWidth < 768;   // phone / tablet portrait
+
+    // ── Reactive dog size (recalculates on resize) ────────────────────────
+    let DOG_W = getDogSize();
+    let DOG_H = DOG_W;
+    setDogSizeRef.current(DOG_W);
 
     // ── Local mutable state (lives inside the effect closure) ────────────
     let currentSection: SectionId = 'hero';
@@ -138,12 +151,30 @@ const PixelPet = () => {
       const scrollY = window.scrollY;
       // Dog sits 20px above the section's bottom edge
       const top = rect.top + scrollY + rect.height - DOG_H - 20;
-      // Random horizontal position with safe margins
-      const safeL = 24;
-      const safeR = window.innerWidth - DOG_W - 24;
+      // Safe margins: larger on mobile so the dog clears the edge padding
+      const safeL = isSmall() ? 16 : 24;
+      const safeR = window.innerWidth - DOG_W - (isSmall() ? 16 : 24);
       const left = safeL + Math.random() * Math.max(0, safeR - safeL);
       return { top, left };
     };
+
+    // Re-anchor the dog when the window is resized / orientation changes
+    const onResize = () => {
+      DOG_W = getDogSize();
+      DOG_H = DOG_W;
+      setDogSizeRef.current(DOG_W);
+
+      if (!isAnimating) {
+        // Clamp current left position to new viewport width
+        const maxLeft = window.innerWidth - DOG_W - (isSmall() ? 16 : 24);
+        if (posLeft > maxLeft) {
+          posLeft = maxLeft;
+          const el = wrapperRef.current;
+          if (el) el.style.left = `${posLeft}px`;
+        }
+      }
+    };
+    window.addEventListener('resize', onResize, { passive: true });
 
     // ── Patrol scheduler ─────────────────────────────────────────────────
     const schedulePatrol = () => {
@@ -191,15 +222,15 @@ const PixelPet = () => {
       }
 
       // Pick a new horizontal position within the current section
-      const safeL = 24;
-      const safeR = window.innerWidth - DOG_W - 24;
+      const safeL = isSmall() ? 16 : 24;
+      const safeR = window.innerWidth - DOG_W - (isSmall() ? 16 : 24);
       const targetLeft = safeL + Math.random() * Math.max(0, safeR - safeL);
 
       const fromLeft = posLeft;
       const dx = targetLeft - fromLeft;
 
-      // If distance is too small, skip walking
-      if (Math.abs(dx) < 40) {
+      // If distance is too small (or screen is tiny), skip walking
+      if (Math.abs(dx) < (isSmall() ? 20 : 40)) {
         scheduleWander();
         return;
       }
@@ -209,9 +240,10 @@ const PixelPet = () => {
       isAnimating = true;
       if (sleepTimer) clearTimeout(sleepTimer);
 
-      // Speed: ~45 pixels per second
+      // Speed: ~45px/s desktop, ~35px/s mobile (touch users have more patience)
       const dist = Math.abs(dx);
-      const walkDuration = (dist / 45) * 1000;
+      const walkSpeed = isSmall() ? 35 : 45;
+      const walkDuration = (dist / walkSpeed) * 1000;
       const start = performance.now();
 
       const frame = (now: number) => {
@@ -267,7 +299,10 @@ const PixelPet = () => {
       const dy = toTop - fromTop;
       const dist = Math.sqrt(dx * dx + dy * dy);
       // Arc height: taller for longer journeys
-      const arcH = Math.min(100 + dist * 0.28, 400);
+      // Arc height: taller for long trips; capped lower on mobile (performance)
+      const arcH = isSmall()
+        ? Math.min(60 + dist * 0.15, 200)
+        : Math.min(100 + dist * 0.28, 400);
 
       setDirectionRef.current(dx >= 0 ? 'right' : 'left');
       applyState('jumping');
@@ -474,6 +509,18 @@ const PixelPet = () => {
       }
     };
 
+    // ── Touch: tap-to-bark (fire via onClickRef, but also support touchend) ──
+    let onTouchEnd: ((e: TouchEvent) => void) | null = null;
+    if (isTouch) {
+      onTouchEnd = (e: TouchEvent) => {
+        e.preventDefault(); // avoid ghost click delay
+        onClickRef.current();
+      };
+      // Attach directly to the dogRef element
+      const dogEl = dogRef.current;
+      if (dogEl) dogEl.addEventListener('touchend', onTouchEnd, { passive: false });
+    }
+
     // ── Cursor proximity (desktop only) ──────────────────────────────────
     let onMouseMove: ((e: MouseEvent) => void) | null = null;
     if (!isTouch) {
@@ -514,6 +561,11 @@ const PixelPet = () => {
       clearTimeout(init);
       clearAllTimers();
       if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('resize', onResize);
+      if (onTouchEnd) {
+        const dogEl = dogRef.current;
+        if (dogEl) dogEl.removeEventListener('touchend', onTouchEnd);
+      }
     };
   }, []); // ← intentionally empty: the effect owns its entire lifecycle
 
@@ -568,7 +620,7 @@ const PixelPet = () => {
         >
           <div
             className={`pixel-pet-body pixel-pet-${dogState}`}
-            style={{ width: DOG_W, height: DOG_H, position: 'relative' }}
+            style={{ width: dogSize, height: dogSize, position: 'relative' }}
           >
             {/* Zzz float */}
             {dogState === 'sleeping' && (

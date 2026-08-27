@@ -905,4 +905,33 @@
       display: none !important;
     }
   }
+
+  /* ── Phone / tablet ── */
+  @media (max-width: 767px) {
+    /* Extend clickable area beyond the SVG for easier tapping */
+    .pixel-pet-body {
+      padding: 8px;
+      margin: -8px;
+      box-sizing: content-box;
+      /* Ensure at least 48×48 px touch target (WCAG 2.5.5) */
+      min-width: 48px;
+      min-height: 48px;
+    }
+
+    /* Larger speech bubble text on mobile so it's readable at arms length */
+    .pixel-pet-speech-bark {
+      font-size: 11px;
+      padding: 4px 10px;
+    }
+    .pixel-pet-speech-notice {
+      font-size: 15px;
+      width: 26px;
+      height: 26px;
+    }
+
+    /* Zzz slightly bigger */
+    .pixel-pet-zzz {
+      font-size: 13px;
+    }
+  }
 }
