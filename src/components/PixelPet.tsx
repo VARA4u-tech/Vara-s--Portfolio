@@ -47,7 +47,7 @@ const DOG_W = 44;
 const DOG_H = 44;
 const BARK_COOLDOWN_MS = 12_000;
 const PROXIMITY_PX = 150;
-const STAY_MIN_MS = 600_000;  // 10 minutes minimum in each section
+const STAY_MIN_MS = 600_000; // 10 minutes minimum in each section
 const STAY_JITTER_MS = 60_000; // ±60 s of natural randomness
 const SLEEP_AFTER_MS = 15_000;
 
@@ -126,7 +126,9 @@ const PixelPet = () => {
     };
 
     // Compute where the dog rests in a given section (document coordinates)
-    const getSectionPos = (sectionId: string): { top: number; left: number } | null => {
+    const getSectionPos = (
+      sectionId: string,
+    ): { top: number; left: number } | null => {
       const el = document.getElementById(sectionId);
       if (!el) return null;
       const rect = el.getBoundingClientRect();
@@ -367,8 +369,7 @@ const PixelPet = () => {
     return () => {
       clearTimeout(init);
       clearAllTimers();
-      if (onMouseMove)
-        window.removeEventListener('mousemove', onMouseMove);
+      if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
     };
   }, []); // ← intentionally empty: the effect owns its entire lifecycle
 
@@ -392,7 +393,11 @@ const PixelPet = () => {
       {/* Interactive inner shell — pointer-events re-enabled here only */}
       <div
         ref={dogRef}
-        style={{ pointerEvents: 'auto', cursor: 'pointer', position: 'relative' }}
+        style={{
+          pointerEvents: 'auto',
+          cursor: 'pointer',
+          position: 'relative',
+        }}
         onClick={() => onClickRef.current()}
         onMouseEnter={() => onEnterRef.current()}
         onMouseLeave={() => onLeaveRef.current()}
@@ -476,8 +481,22 @@ const DogSvg = ({ state }: { state: DogState }) => {
       {/* Eyes closed (sleeping / mid-jump squint) */}
       {(isSleeping || isJumping) && (
         <g>
-          <rect x="10" y="7" width="1" height="1" fill="white" opacity={isJumping ? 0.5 : 1} />
-          <rect x="13" y="7" width="1" height="1" fill="white" opacity={isJumping ? 0.5 : 1} />
+          <rect
+            x="10"
+            y="7"
+            width="1"
+            height="1"
+            fill="white"
+            opacity={isJumping ? 0.5 : 1}
+          />
+          <rect
+            x="13"
+            y="7"
+            width="1"
+            height="1"
+            fill="white"
+            opacity={isJumping ? 0.5 : 1}
+          />
         </g>
       )}
 

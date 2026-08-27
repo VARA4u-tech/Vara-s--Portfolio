@@ -681,8 +681,13 @@
     animation: dog-idle-breathe 2.8s ease-in-out infinite;
   }
   @keyframes dog-idle-breathe {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-2px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
   }
 
   /* ── Tail wag ── */
@@ -698,12 +703,20 @@
     animation: dog-tail-wag-fast 0.22s ease-in-out infinite alternate;
   }
   @keyframes dog-tail-wag {
-    from { transform: rotate(-12deg); }
-    to   { transform: rotate(20deg); }
+    from {
+      transform: rotate(-12deg);
+    }
+    to {
+      transform: rotate(20deg);
+    }
   }
   @keyframes dog-tail-wag-fast {
-    from { transform: rotate(-22deg); }
-    to   { transform: rotate(32deg); }
+    from {
+      transform: rotate(-22deg);
+    }
+    to {
+      transform: rotate(32deg);
+    }
   }
 
   /* ── Ear twitch on alert ── */
@@ -712,8 +725,13 @@
     animation: dog-ear-twitch 0.16s steps(2) infinite;
   }
   @keyframes dog-ear-twitch {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-1px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-1px);
+    }
   }
 
   /* ── Bark body shake ── */
@@ -721,9 +739,16 @@
     animation: dog-bark-shake 0.1s linear infinite;
   }
   @keyframes dog-bark-shake {
-    0%, 100% { transform: translateX(0); }
-    33%       { transform: translateX(-2px); }
-    66%       { transform: translateX(2px); }
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    33% {
+      transform: translateX(-2px);
+    }
+    66% {
+      transform: translateX(2px);
+    }
   }
 
   /* ── Sleeping Zzz float ── */
@@ -741,17 +766,31 @@
     user-select: none;
   }
   @keyframes dog-zzz-float {
-    0%  { transform: translateY(0) scale(0.5); opacity: 0; }
-    15% { opacity: 1; }
-    80% { transform: translateY(-15px) scale(1.1); opacity: 0; }
-    100%{ opacity: 0; }
+    0% {
+      transform: translateY(0) scale(0.5);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    80% {
+      transform: translateY(-15px) scale(1.1);
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 
   /* ── Sleeping: dim overall ── */
-  .pixel-pet-sleeping .pixel-pet-svg { opacity: 0.7; }
+  .pixel-pet-sleeping .pixel-pet-svg {
+    opacity: 0.7;
+  }
 
   /* ── Leg pairs: walking set hidden by default ── */
-  .pixel-pet-legs-walking { display: none; }
+  .pixel-pet-legs-walking {
+    display: none;
+  }
 
   /* ── Speech bubble — bark ── */
   .pixel-pet-speech-bark {
@@ -815,8 +854,14 @@
   }
 
   @keyframes dog-speech-pop {
-    from { opacity: 0; transform: translateX(-50%) scale(0.5); }
-    to   { opacity: 1; transform: translateX(-50%) scale(1); }
+    from {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
   }
 
   /* ── prefers-reduced-motion ── */
@@ -830,6 +875,8 @@
       animation: none !important;
     }
     .pixel-pet-speech-bark,
-    .pixel-pet-speech-notice { display: none !important; }
+    .pixel-pet-speech-notice {
+      display: none !important;
+    }
   }
 }
