@@ -388,9 +388,9 @@ const PixelPet = () => {
       const el = wrapperRef.current;
       if (!el) return;
 
-      const T_RISE  = 200; // ms going up
-      const T_FALL  = 160; // ms coming down
-      const T_SQSH  = 80;  // ms squash on landing
+      const T_RISE = 200; // ms going up
+      const T_FALL = 160; // ms coming down
+      const T_SQSH = 80; // ms squash on landing
       const T_SPRNG = 120; // ms spring back
       const T_TOTAL = T_RISE + T_FALL + T_SQSH + T_SPRNG;
       const hopHeight = 55; // px
@@ -398,7 +398,10 @@ const PixelPet = () => {
       const start = performance.now();
 
       const frame = (now: number) => {
-        if (isAnimating) { el.style.transform = 'none'; return; }
+        if (isAnimating) {
+          el.style.transform = 'none';
+          return;
+        }
         const e = now - start;
 
         if (e < T_RISE) {
@@ -413,8 +416,8 @@ const PixelPet = () => {
         } else if (e < T_RISE + T_FALL + T_SQSH) {
           // Landing squash
           const t = (e - T_RISE - T_FALL) / T_SQSH;
-          const squashY  = 1 - 0.3 * Math.sin(t * Math.PI);
-          const squashX  = 1 + 0.2 * Math.sin(t * Math.PI);
+          const squashY = 1 - 0.3 * Math.sin(t * Math.PI);
+          const squashX = 1 + 0.2 * Math.sin(t * Math.PI);
           el.style.transform = `scaleY(${squashY}) scaleX(${squashX})`;
         } else if (e < T_TOTAL) {
           // Spring recovery
