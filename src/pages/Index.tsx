@@ -14,7 +14,6 @@ import ScrollToTop from '@/components/ScrollToTop';
 import Terminal from '@/components/Terminal';
 import Finale from '@/components/Finale';
 import EasterEgg from '@/components/EasterEgg';
-import StringAnimation from '@/components/StringAnimation';
 import PixelCursor from '@/components/PixelCursor';
 import PixelGrid from '@/components/PixelGrid';
 
@@ -36,20 +35,13 @@ const Index = () => {
       <ScrollToTop />
       <Terminal />
       <HeroSection />
-      <StringAnimation />
       <AboutSection />
-      <StringAnimation />
       <EducationSection />
-      <StringAnimation />
       <ExperienceSection />
-      <StringAnimation />
       <AchievementsSection />
-      <StringAnimation />
       <ProjectsSection />
       {/* <BlogSection /> */}
-      <StringAnimation />
       <SkillsSection />
-      <StringAnimation />
       <ContactSection />
 
       <Finale />
