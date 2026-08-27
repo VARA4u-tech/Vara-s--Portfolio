@@ -692,7 +692,7 @@
 
   /* ── Tail wag ── */
   .pixel-pet-tail {
-    transform-origin: 1px 5px;
+    transform-origin: 1px 9px;
   }
   .pixel-pet-idle .pixel-pet-tail,
   .pixel-pet-hoveredPause .pixel-pet-tail {
@@ -790,6 +790,32 @@
   /* ── Leg pairs: walking set hidden by default ── */
   .pixel-pet-legs-walking {
     display: none;
+  }
+
+  .pixel-pet-walking .pixel-pet-legs-standing {
+    animation: pet-leg-step 0.22s steps(1) infinite;
+  }
+  .pixel-pet-walking .pixel-pet-legs-walking {
+    display: block;
+    animation: pet-leg-step 0.22s steps(1) infinite 0.11s;
+    opacity: 0;
+  }
+  .pixel-pet-jumping .pixel-pet-legs-walking {
+    display: none;
+  }
+  .pixel-pet-jumping .pixel-pet-legs-standing {
+    display: none;
+  }
+
+  @keyframes pet-leg-step {
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
   }
 
   /* ── Speech bubble — bark ── */

@@ -36,6 +36,7 @@ type SectionId = (typeof SECTION_IDS)[number];
 // ─── Dog visual states ───────────────────────────────────────────────────────
 type DogState =
   | 'idle'
+  | 'walking'
   | 'jumping'
   | 'noticing'
   | 'barking'
@@ -98,6 +99,7 @@ const PixelPet = () => {
     let posLeft = 0;
 
     let patrolTimer: ReturnType<typeof setTimeout> | null = null;
+    let wanderTimer: ReturnType<typeof setTimeout> | null = null;
     let sleepTimer: ReturnType<typeof setTimeout> | null = null;
     let barkTimer: ReturnType<typeof setTimeout> | null = null;
     let noticeTimer: ReturnType<typeof setTimeout> | null = null;
@@ -112,6 +114,7 @@ const PixelPet = () => {
 
     const clearAllTimers = () => {
       if (patrolTimer) clearTimeout(patrolTimer);
+      if (wanderTimer) clearTimeout(wanderTimer);
       if (sleepTimer) clearTimeout(sleepTimer);
       if (barkTimer) clearTimeout(barkTimer);
       if (noticeTimer) clearTimeout(noticeTimer);
@@ -155,6 +158,85 @@ const PixelPet = () => {
         const next = options[Math.floor(Math.random() * options.length)];
         doJump(next);
       }, delay);
+    };
+
+    // ── Wander (Walk) scheduler ─────────────────────────────────────────
+    const scheduleWander = () => {
+      if (wanderTimer) clearTimeout(wanderTimer);
+      wanderTimer = setTimeout(() => {
+        if (!isAnimating && !isHovered && dogStateLocal !== 'sleeping') {
+          doWalk();
+        } else {
+          scheduleWander();
+        }
+      }, 15_000 + Math.random() * 20_000); // Walk every 15-35s
+    };
+
+    const doWalk = () => {
+      if (isAnimating || isHovered) {
+        scheduleWander();
+        return;
+      }
+
+      const el = wrapperRef.current;
+      if (!el) return;
+
+      const sectionEl = document.getElementById(currentSection);
+      if (!sectionEl) {
+        scheduleWander();
+        return;
+      }
+
+      // Pick a new horizontal position within the current section
+      const safeL = 24;
+      const safeR = window.innerWidth - DOG_W - 24;
+      const targetLeft = safeL + Math.random() * Math.max(0, safeR - safeL);
+      
+      const fromLeft = posLeft;
+      const dx = targetLeft - fromLeft;
+      
+      // If distance is too small, skip walking
+      if (Math.abs(dx) < 40) {
+        scheduleWander();
+        return;
+      }
+      
+      setDirectionRef.current(dx >= 0 ? 'right' : 'left');
+      applyState('walking');
+      isAnimating = true;
+      if (sleepTimer) clearTimeout(sleepTimer);
+      
+      // Speed: ~45 pixels per second
+      const dist = Math.abs(dx);
+      const walkDuration = (dist / 45) * 1000;
+      const start = performance.now();
+      
+      const frame = (now: number) => {
+        const elapsed = now - start;
+        if (elapsed < walkDuration) {
+          const t = elapsed / walkDuration;
+          const currentX = dx * t;
+          el.style.transform = `translateX(${currentX}px)`;
+          rafId = requestAnimationFrame(frame);
+        } else {
+          el.style.transform = 'none';
+          el.style.left = `${targetLeft}px`;
+          posLeft = targetLeft;
+          isAnimating = false;
+          
+          if (jumpQueued) {
+            const q = jumpQueued;
+            jumpQueued = null;
+            doJump(q);
+          } else {
+            applyState('idle');
+            armSleepTimer();
+            scheduleWander();
+          }
+        }
+      };
+      
+      rafId = requestAnimationFrame(frame);
     };
 
     // ── Jump animation ────────────────────────────────────────────────────
@@ -252,6 +334,7 @@ const PixelPet = () => {
             applyState('idle');
             armSleepTimer();
             schedulePatrol();
+            scheduleWander();
           }
           return;
         }
@@ -327,7 +410,8 @@ const PixelPet = () => {
       if (!isAnimating) {
         applyState('idle');
         armSleepTimer();
-        schedulePatrol();
+        if (!patrolTimer) schedulePatrol();
+        if (!wanderTimer) scheduleWander();
       }
     };
 
@@ -363,6 +447,7 @@ const PixelPet = () => {
       applyState('idle');
       armSleepTimer();
       schedulePatrol();
+      scheduleWander();
     }, 600); // small delay lets layout settle after loading screen exits
 
     // ── Cleanup ───────────────────────────────────────────────────────────
