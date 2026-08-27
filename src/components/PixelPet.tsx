@@ -378,6 +378,36 @@ const PixelPet = () => {
       }, 550);
     };
 
+    // ── Quick Hop Animation ───────────────────────────────────────────────
+    const doHop = () => {
+      // Don't interrupt a big section jump or walk
+      if (isAnimating) return;
+      const el = wrapperRef.current;
+      if (!el) return;
+
+      const hopDuration = 350; // ms
+      const hopHeight = 35; // px
+      const start = performance.now();
+
+      const frame = (now: number) => {
+        // Abort if a section jump started
+        if (isAnimating) {
+          el.style.transform = 'none';
+          return;
+        }
+        const elapsed = now - start;
+        if (elapsed < hopDuration) {
+          const t = elapsed / hopDuration;
+          const y = -hopHeight * Math.sin(t * Math.PI);
+          el.style.transform = `translateY(${y}px)`;
+          rafId = requestAnimationFrame(frame);
+        } else {
+          el.style.transform = 'none';
+        }
+      };
+      rafId = requestAnimationFrame(frame);
+    };
+
     // ── Event handlers (exposed via refs so JSX can call them) ────────────
     onClickRef.current = () => {
       if (dogStateLocal === 'sleeping') {
@@ -390,6 +420,7 @@ const PixelPet = () => {
         lastBarkTime = now;
         applyState('barking');
         setShowBarkRef.current(true);
+        doHop();
         if (barkTimer) clearTimeout(barkTimer);
         barkTimer = setTimeout(() => {
           setShowBarkRef.current(false);
