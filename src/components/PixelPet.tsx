@@ -53,8 +53,8 @@ const getDogSize = () => {
 };
 const BARK_COOLDOWN_MS = 12_000;
 const PROXIMITY_PX = 150;
-const STAY_MIN_MS = 600_000; // 10 minutes minimum in each section
-const STAY_JITTER_MS = 60_000; // ±60 s of natural randomness
+const STAY_MIN_MS = 90_000;  // 90 seconds minimum in each section
+const STAY_JITTER_MS = 15_000; // ±15 s of natural randomness
 const SLEEP_AFTER_MS = 15_000;
 
 // ─── Component ───────────────────────────────────────────────────────────────
