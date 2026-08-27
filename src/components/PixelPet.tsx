@@ -47,13 +47,13 @@ type DogState =
 // Dog size scales with viewport: larger on desktop, comfortably tappable on mobile
 const getDogSize = () => {
   const vw = window.innerWidth;
-  if (vw < 480) return 52;   // phone — extra large for easy tap
-  if (vw < 768) return 48;   // tablet portrait
-  return 44;                  // desktop
+  if (vw < 480) return 52; // phone — extra large for easy tap
+  if (vw < 768) return 48; // tablet portrait
+  return 44; // desktop
 };
 const BARK_COOLDOWN_MS = 12_000;
 const PROXIMITY_PX = 150;
-const STAY_MIN_MS = 90_000;  // 90 seconds minimum in each section
+const STAY_MIN_MS = 90_000; // 90 seconds minimum in each section
 const STAY_JITTER_MS = 15_000; // ±15 s of natural randomness
 const SLEEP_AFTER_MS = 15_000;
 
@@ -94,7 +94,7 @@ const PixelPet = () => {
     if (prefersReduced) return;
 
     const isTouch = window.matchMedia('(hover: none)').matches;
-    const isSmall = () => window.innerWidth < 768;   // phone / tablet portrait
+    const isSmall = () => window.innerWidth < 768; // phone / tablet portrait
 
     // ── Reactive dog size (recalculates on resize) ────────────────────────
     let DOG_W = getDogSize();
@@ -223,12 +223,12 @@ const PixelPet = () => {
       // traverses the full width rather than clustering in the middle.
       const safeL = isSmall() ? 16 : 24;
       const safeR = window.innerWidth - DOG_W - (isSmall() ? 16 : 24);
-      const range  = Math.max(0, safeR - safeL);
+      const range = Math.max(0, safeR - safeL);
 
       // Alternate between left-biased and right-biased targets for natural
       // back-and-forth feel; add jitter so it never looks mechanical.
-      const leftBias  = safeL  + Math.random() * range * 0.35;
-      const rightBias = safeR  - Math.random() * range * 0.35;
+      const leftBias = safeL + Math.random() * range * 0.35;
+      const rightBias = safeR - Math.random() * range * 0.35;
       const targetLeft = posLeft < (safeL + safeR) / 2 ? rightBias : leftBias;
 
       const dx = targetLeft - posLeft;
@@ -245,9 +245,9 @@ const PixelPet = () => {
       if (sleepTimer) clearTimeout(sleepTimer);
 
       // Natural walking speed with slight randomness each step
-      const dist      = Math.abs(dx);
+      const dist = Math.abs(dx);
       const baseSpeed = isSmall() ? 38 : 50; // px/s
-      const speed     = baseSpeed * (0.85 + Math.random() * 0.3);
+      const speed = baseSpeed * (0.85 + Math.random() * 0.3);
       const walkDuration = (dist / speed) * 1_000;
       const start = performance.now();
 
@@ -288,7 +288,6 @@ const PixelPet = () => {
 
       rafId = requestAnimationFrame(frame);
     };
-
 
     // ── Jump animation ────────────────────────────────────────────────────
     const doJump = (targetId: SectionId) => {
@@ -535,7 +534,8 @@ const PixelPet = () => {
       };
       // Attach directly to the dogRef element
       const dogEl = dogRef.current;
-      if (dogEl) dogEl.addEventListener('touchend', onTouchEnd, { passive: false });
+      if (dogEl)
+        dogEl.addEventListener('touchend', onTouchEnd, { passive: false });
     }
 
     // ── Cursor proximity (desktop only) ──────────────────────────────────
