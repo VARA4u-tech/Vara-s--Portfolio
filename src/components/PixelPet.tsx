@@ -163,13 +163,16 @@ const PixelPet = () => {
     // ── Wander (Walk) scheduler ─────────────────────────────────────────
     const scheduleWander = () => {
       if (wanderTimer) clearTimeout(wanderTimer);
-      wanderTimer = setTimeout(() => {
-        if (!isAnimating && !isHovered && dogStateLocal !== 'sleeping') {
-          doWalk();
-        } else {
-          scheduleWander();
-        }
-      }, 15_000 + Math.random() * 20_000); // Walk every 15-35s
+      wanderTimer = setTimeout(
+        () => {
+          if (!isAnimating && !isHovered && dogStateLocal !== 'sleeping') {
+            doWalk();
+          } else {
+            scheduleWander();
+          }
+        },
+        15_000 + Math.random() * 20_000,
+      ); // Walk every 15-35s
     };
 
     const doWalk = () => {
@@ -191,26 +194,26 @@ const PixelPet = () => {
       const safeL = 24;
       const safeR = window.innerWidth - DOG_W - 24;
       const targetLeft = safeL + Math.random() * Math.max(0, safeR - safeL);
-      
+
       const fromLeft = posLeft;
       const dx = targetLeft - fromLeft;
-      
+
       // If distance is too small, skip walking
       if (Math.abs(dx) < 40) {
         scheduleWander();
         return;
       }
-      
+
       setDirectionRef.current(dx >= 0 ? 'right' : 'left');
       applyState('walking');
       isAnimating = true;
       if (sleepTimer) clearTimeout(sleepTimer);
-      
+
       // Speed: ~45 pixels per second
       const dist = Math.abs(dx);
       const walkDuration = (dist / 45) * 1000;
       const start = performance.now();
-      
+
       const frame = (now: number) => {
         const elapsed = now - start;
         if (elapsed < walkDuration) {
@@ -223,7 +226,7 @@ const PixelPet = () => {
           el.style.left = `${targetLeft}px`;
           posLeft = targetLeft;
           isAnimating = false;
-          
+
           if (jumpQueued) {
             const q = jumpQueued;
             jumpQueued = null;
@@ -235,7 +238,7 @@ const PixelPet = () => {
           }
         }
       };
-      
+
       rafId = requestAnimationFrame(frame);
     };
 
