@@ -102,9 +102,14 @@ const PixelPet = () => {
     setDogSizeRef.current(DOG_W);
 
     // ── Local mutable state (lives inside the effect closure) ────────────
-    let currentSection: SectionId = 'hero';
+    let currentSection: SectionId | 'custom' = 'hero';
     let isAnimating = false;
     let isHovered = false;
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragStartLeft = 0;
+    let dragStartTop = 0;
     let lastBarkTime = 0;
     let dogStateLocal: DogState = 'idle';
     // Absolute page-coordinate resting position
@@ -204,7 +209,7 @@ const PixelPet = () => {
     };
 
     const resumeWalkLoop = () => {
-      if (isAnimating || isHovered || dogStateLocal === 'sleeping') return;
+      if (isAnimating || isHovered || isDragging || dogStateLocal === 'sleeping') return;
       if (wanderTimer) clearTimeout(wanderTimer);
       // Pause between walks: 1–3 s
       const pauseMs = 1_000 + Math.random() * 2_000;
@@ -213,7 +218,7 @@ const PixelPet = () => {
 
     const doWalk = () => {
       // Interrupt guards
-      if (isHovered || dogStateLocal === 'sleeping') return;
+      if (isHovered || isDragging || dogStateLocal === 'sleeping') return;
       if (jumpQueued) return; // section jump is pending
 
       const el = wrapperRef.current;
@@ -253,7 +258,7 @@ const PixelPet = () => {
 
       const frame = (now: number) => {
         // Abort mid-walk if something more important happens
-        if (isHovered || dogStateLocal === 'sleeping') {
+        if (isHovered || isDragging || dogStateLocal === 'sleeping') {
           el.style.transform = 'none';
           el.style.left = `${posLeft + dx * Math.min(1, (now - start) / walkDuration)}px`;
           posLeft = parseFloat(el.style.left);
@@ -290,13 +295,23 @@ const PixelPet = () => {
     };
 
     // ── Jump animation ────────────────────────────────────────────────────
-    const doJump = (targetId: SectionId) => {
+    const doJump = (target: SectionId | { top: number; left: number }) => {
       if (isAnimating) {
-        jumpQueued = targetId;
+        // Only queue section jumps, discard custom click jumps if busy
+        if (typeof target === 'string') jumpQueued = target;
         return;
       }
 
-      const targetPos = getSectionPos(targetId);
+      let targetPos: { top: number; left: number } | null = null;
+      let targetId: SectionId | 'custom' = 'custom';
+
+      if (typeof target === 'string') {
+        targetPos = getSectionPos(target);
+        targetId = target;
+      } else {
+        targetPos = target;
+      }
+
       if (!targetPos) {
         schedulePatrol();
         return;
@@ -386,7 +401,12 @@ const PixelPet = () => {
           } else {
             applyState('idle');
             armSleepTimer();
-            schedulePatrol();
+            if (targetId !== 'custom') {
+              schedulePatrol();
+            } else {
+              // If it was a custom click jump, wait a bit before resuming patrol
+              setTimeout(() => schedulePatrol(), STAY_MIN_MS / 3);
+            }
             startWalkLoop(); // resume continuous walking in the new section
           }
           return;
@@ -489,6 +509,7 @@ const PixelPet = () => {
 
     // ── Event handlers (exposed via refs so JSX can call them) ────────────
     onClickRef.current = () => {
+      if (isDragging) return;
       if (dogStateLocal === 'sleeping') {
         applyState('idle');
         armSleepTimer();
@@ -554,6 +575,91 @@ const PixelPet = () => {
       window.addEventListener('mousemove', onMouseMove, { passive: true });
     }
 
+    // ── Drag & Drop ──────────────────────────────────────────────────────
+    const onPointerMoveDrag = (e: PointerEvent) => {
+      if (!isDragging) return;
+      const el = wrapperRef.current;
+      if (!el) return;
+      const dx = e.clientX - dragStartX;
+      const dy = e.clientY - dragStartY;
+      el.style.left = `${dragStartLeft + dx}px`;
+      el.style.top = `${dragStartTop + dy}px`;
+    };
+
+    const onPointerUpDrag = (e: PointerEvent) => {
+      if (!isDragging) return;
+      isDragging = false;
+      const el = wrapperRef.current;
+      if (el) {
+        el.style.transition = 'opacity 0.4s ease';
+        posLeft = parseFloat(el.style.left || '0');
+        posTop = parseFloat(el.style.top || '0');
+      }
+      window.removeEventListener('pointermove', onPointerMoveDrag);
+      window.removeEventListener('pointerup', onPointerUpDrag);
+      
+      applyState('idle');
+      armSleepTimer();
+      schedulePatrol();
+      resumeWalkLoop();
+    };
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.button !== 0 && e.pointerType === 'mouse') return; // Left click/touch only
+      const target = e.target as HTMLElement;
+      if (!target.closest('.pixel-pet-body')) return;
+
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      dragStartLeft = posLeft;
+      dragStartTop = posTop;
+      
+      clearAllTimers();
+      isAnimating = false;
+      applyState('hoveredPause');
+
+      const el = wrapperRef.current;
+      if (el) {
+        el.style.transition = 'none';
+      }
+
+      window.addEventListener('pointermove', onPointerMoveDrag);
+      window.addEventListener('pointerup', onPointerUpDrag);
+    };
+    
+    // Attach to window so we can catch drags even if cursor slips off
+    const dogEl = dogRef.current;
+    if (dogEl) {
+      dogEl.addEventListener('pointerdown', onPointerDown);
+      // Disable native drag behavior
+      dogEl.addEventListener('dragstart', (e) => e.preventDefault());
+    }
+
+    // ── Follow Click ──────────────────────────────────────────────────────
+    const onGlobalClick = (e: MouseEvent) => {
+      if (isDragging || isHovered) return;
+      const target = e.target as HTMLElement;
+      // Ignore clicks on links, buttons, interactive elements, or the dog itself
+      if (
+        target.closest('button, a, input, textarea, select, [role="button"]') ||
+        target.closest('.pixel-pet-body') ||
+        target.closest('.pixel-pet-speech-bark') ||
+        target.closest('.pixel-pet-speech-notice') ||
+        target.closest('#mobile-nav-menu')
+      ) {
+        return;
+      }
+
+      const toLeft = e.clientX + window.scrollX - DOG_W / 2;
+      const toTop = e.clientY + window.scrollY - DOG_H / 2;
+      
+      // Clear jump queue and initiate jump to custom pos
+      jumpQueued = null;
+      doJump({ top: toTop, left: toLeft });
+    };
+    window.addEventListener('click', onGlobalClick);
+
     // ── Initialize ────────────────────────────────────────────────────────
     const init = setTimeout(() => {
       const startPos = getSectionPos('hero');
@@ -579,9 +685,13 @@ const PixelPet = () => {
       clearAllTimers();
       if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', onResize);
-      if (onTouchEnd) {
-        const dogEl = dogRef.current;
-        if (dogEl) dogEl.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('click', onGlobalClick);
+      window.removeEventListener('pointermove', onPointerMoveDrag);
+      window.removeEventListener('pointerup', onPointerUpDrag);
+      
+      if (dogEl) {
+        if (onTouchEnd) dogEl.removeEventListener('touchend', onTouchEnd);
+        dogEl.removeEventListener('pointerdown', onPointerDown);
       }
     };
   }, []); // ← intentionally empty: the effect owns its entire lifecycle
@@ -673,21 +783,35 @@ const DogSvg = ({ state }: { state: DogState }) => {
 
       {/* Body */}
       <rect x="2" y="7" width="7" height="5" fill="currentColor" />
+      
+      {/* Belly Shading (semi-transparent black for depth) */}
+      <rect x="2" y="10" width="7" height="2" fill="black" opacity="0.15" className="dark:opacity-30" />
 
       {/* Head */}
       <rect x="9" y="5" width="6" height="5" fill="currentColor" />
+
+      {/* Snout Details */}
+      <rect x="13" y="8" width="2" height="2" fill="black" opacity="0.1" className="dark:opacity-20" />
+      <rect x="14" y="8" width="1" height="1" fill="black" opacity="0.5" className="dark:fill-white dark:opacity-80" />
 
       {/* Ears */}
       <g className="pixel-pet-ears">
         <rect x="10" y="3" width="2" height="2" fill="currentColor" />
         <rect x="13" y="3" width="2" height="2" fill="currentColor" />
+        {/* Inner Ear shading */}
+        <rect x="10" y="3" width="1" height="2" fill="black" opacity="0.2" className="dark:opacity-40" />
+        <rect x="13" y="3" width="1" height="2" fill="black" opacity="0.2" className="dark:opacity-40" />
       </g>
+
+      {/* Collar (Red) */}
+      <rect x="7" y="7" width="2" height="5" fill="#ef4444" />
+      <rect x="8" y="9" width="1" height="1" fill="#fbbf24" /> {/* Collar Tag */}
 
       {/* Eyes open */}
       {!isSleeping && (
         <g>
-          <rect x="10" y="6" width="1" height={isAlert ? 2 : 1} fill="white" />
-          <rect x="13" y="6" width="1" height={isAlert ? 2 : 1} fill="white" />
+          <rect x="10" y="6" width="1" height={isAlert ? 2 : 1} fill="white" className="dark:fill-black" />
+          <rect x="13" y="6" width="1" height={isAlert ? 2 : 1} fill="white" className="dark:fill-black" />
         </g>
       )}
 
@@ -700,6 +824,7 @@ const DogSvg = ({ state }: { state: DogState }) => {
             width="1"
             height="1"
             fill="white"
+            className="dark:fill-black"
             opacity={isJumping ? 0.5 : 1}
           />
           <rect
@@ -708,6 +833,7 @@ const DogSvg = ({ state }: { state: DogState }) => {
             width="1"
             height="1"
             fill="white"
+            className="dark:fill-black"
             opacity={isJumping ? 0.5 : 1}
           />
         </g>
@@ -715,17 +841,20 @@ const DogSvg = ({ state }: { state: DogState }) => {
 
       {/* Nose highlight when alert */}
       {isAlert && (
-        <rect x="14" y="9" width="1" height="1" fill="white" opacity="0.7" />
+        <rect x="14" y="9" width="1" height="1" fill="white" opacity="0.7" className="dark:fill-black" />
       )}
 
       {/* Legs */}
       <g className="pixel-pet-legs-standing">
         <rect x="3" y="12" width="2" height="2" fill="currentColor" />
         <rect x="6" y="12" width="2" height="2" fill="currentColor" />
+        {/* Shadow on back legs */}
+        <rect x="2" y="11" width="2" height="2" fill="black" opacity="0.2" className="dark:opacity-40" />
       </g>
       <g className="pixel-pet-legs-walking">
         <rect x="2" y="12" width="2" height="2" fill="currentColor" />
         <rect x="7" y="12" width="2" height="2" fill="currentColor" />
+        <rect x="1" y="11" width="2" height="2" fill="black" opacity="0.2" className="dark:opacity-40" />
       </g>
     </svg>
   );

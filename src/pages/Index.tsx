@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LoadingScreen from '@/components/LoadingScreen';
 import AboutSection from '@/components/AboutSection';
 import EducationSection from '@/components/EducationSection';
@@ -20,6 +20,18 @@ import PixelPet from '@/components/PixelPet';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isPetVisible, setIsPetVisible] = useState(() => {
+    return localStorage.getItem('site_pet_visible') !== 'false';
+  });
+
+  useEffect(() => {
+    const handlePetToggle = (e: Event) => {
+      const customEvent = e as CustomEvent<{ visible: boolean }>;
+      setIsPetVisible(customEvent.detail.visible);
+    };
+    window.addEventListener('pet-toggle', handlePetToggle);
+    return () => window.removeEventListener('pet-toggle', handlePetToggle);
+  }, []);
 
   return (
     <div
@@ -32,7 +44,7 @@ const Index = () => {
       <PixelCursor isWhite={isLoading} />
 
       {/* Dog mascot — position:absolute, scrolls with page, patrols sections */}
-      {!isLoading && <PixelPet />}
+      {!isLoading && isPetVisible && <PixelPet />}
 
       <EasterEgg />
       <Navbar />

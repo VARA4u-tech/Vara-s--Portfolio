@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
 import { useLenis } from 'lenis/react';
 import SoundToggle from './SoundToggle';
+import PetToggle from './PetToggle';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
 
@@ -128,9 +129,12 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Desktop Sound Toggle (Absolute Right) */}
+        {/* Desktop Toggles (Absolute Right) */}
         <div className="hidden lg:block absolute right-6">
-          <SoundToggle />
+          <div className="flex gap-3">
+            <PetToggle />
+            <SoundToggle />
+          </div>
         </div>
 
         {/* Mobile Header (Toggle Left, Sound Right) */}
@@ -148,7 +152,8 @@ const Navbar = () => {
           >
             {open ? '[ Close ]' : '[ Menu ]'}
           </button>
-          <div className="scale-75">
+          <div className="flex gap-2 scale-75 transform origin-right">
+            <PetToggle />
             <SoundToggle />
           </div>
         </div>
