@@ -53,8 +53,8 @@ const getDogSize = () => {
 };
 const BARK_COOLDOWN_MS = 12_000;
 const PROXIMITY_PX = 150;
-const STAY_MIN_MS = 90_000; // 90 seconds minimum in each section
-const STAY_JITTER_MS = 15_000; // ±15 s of natural randomness
+const STAY_MIN_MS = 10_000; // 10 seconds minimum in each section
+const STAY_JITTER_MS = 5_000; // ±5 s of natural randomness
 const SLEEP_AFTER_MS = 15_000;
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -209,7 +209,13 @@ const PixelPet = () => {
     };
 
     const resumeWalkLoop = () => {
-      if (isAnimating || isHovered || isDragging || dogStateLocal === 'sleeping') return;
+      if (
+        isAnimating ||
+        isHovered ||
+        isDragging ||
+        dogStateLocal === 'sleeping'
+      )
+        return;
       if (wanderTimer) clearTimeout(wanderTimer);
       // Pause between walks: 1–3 s
       const pauseMs = 1_000 + Math.random() * 2_000;
@@ -597,7 +603,7 @@ const PixelPet = () => {
       }
       window.removeEventListener('pointermove', onPointerMoveDrag);
       window.removeEventListener('pointerup', onPointerUpDrag);
-      
+
       applyState('idle');
       armSleepTimer();
       schedulePatrol();
@@ -614,7 +620,7 @@ const PixelPet = () => {
       dragStartY = e.clientY;
       dragStartLeft = posLeft;
       dragStartTop = posTop;
-      
+
       clearAllTimers();
       isAnimating = false;
       applyState('hoveredPause');
@@ -627,7 +633,7 @@ const PixelPet = () => {
       window.addEventListener('pointermove', onPointerMoveDrag);
       window.addEventListener('pointerup', onPointerUpDrag);
     };
-    
+
     // Attach to window so we can catch drags even if cursor slips off
     const dogEl = dogRef.current;
     if (dogEl) {
@@ -653,7 +659,7 @@ const PixelPet = () => {
 
       const toLeft = e.clientX + window.scrollX - DOG_W / 2;
       const toTop = e.clientY + window.scrollY - DOG_H / 2;
-      
+
       // Clear jump queue and initiate jump to custom pos
       jumpQueued = null;
       doJump({ top: toTop, left: toLeft });
@@ -688,7 +694,7 @@ const PixelPet = () => {
       window.removeEventListener('click', onGlobalClick);
       window.removeEventListener('pointermove', onPointerMoveDrag);
       window.removeEventListener('pointerup', onPointerUpDrag);
-      
+
       if (dogEl) {
         if (onTouchEnd) dogEl.removeEventListener('touchend', onTouchEnd);
         dogEl.removeEventListener('pointerdown', onPointerDown);
@@ -780,41 +786,88 @@ const DogSvg = ({ state }: { state: DogState }) => {
         <rect x="1" y="5" width="1" height="4" fill="currentColor" />
         <rect x="0" y="4" width="1" height="1" fill="currentColor" />
       </g>
-
       {/* Body */}
       <rect x="2" y="7" width="7" height="5" fill="currentColor" />
-      
       {/* Belly Shading (semi-transparent black for depth) */}
-      <rect x="2" y="10" width="7" height="2" fill="black" opacity="0.15" className="dark:opacity-30" />
-
+      <rect
+        x="2"
+        y="10"
+        width="7"
+        height="2"
+        fill="black"
+        opacity="0.15"
+        className="dark:opacity-30"
+      />
       {/* Head */}
       <rect x="9" y="5" width="6" height="5" fill="currentColor" />
-
       {/* Snout Details */}
-      <rect x="13" y="8" width="2" height="2" fill="black" opacity="0.1" className="dark:opacity-20" />
-      <rect x="14" y="8" width="1" height="1" fill="black" opacity="0.5" className="dark:fill-white dark:opacity-80" />
-
+      <rect
+        x="13"
+        y="8"
+        width="2"
+        height="2"
+        fill="black"
+        opacity="0.1"
+        className="dark:opacity-20"
+      />
+      <rect
+        x="14"
+        y="8"
+        width="1"
+        height="1"
+        fill="black"
+        opacity="0.5"
+        className="dark:fill-white dark:opacity-80"
+      />
       {/* Ears */}
       <g className="pixel-pet-ears">
         <rect x="10" y="3" width="2" height="2" fill="currentColor" />
         <rect x="13" y="3" width="2" height="2" fill="currentColor" />
         {/* Inner Ear shading */}
-        <rect x="10" y="3" width="1" height="2" fill="black" opacity="0.2" className="dark:opacity-40" />
-        <rect x="13" y="3" width="1" height="2" fill="black" opacity="0.2" className="dark:opacity-40" />
+        <rect
+          x="10"
+          y="3"
+          width="1"
+          height="2"
+          fill="black"
+          opacity="0.2"
+          className="dark:opacity-40"
+        />
+        <rect
+          x="13"
+          y="3"
+          width="1"
+          height="2"
+          fill="black"
+          opacity="0.2"
+          className="dark:opacity-40"
+        />
       </g>
-
       {/* Collar (Red) */}
       <rect x="7" y="7" width="2" height="5" fill="#ef4444" />
-      <rect x="8" y="9" width="1" height="1" fill="#fbbf24" /> {/* Collar Tag */}
-
+      <rect x="8" y="9" width="1" height="1" fill="#fbbf24" />{' '}
+      {/* Collar Tag */}
       {/* Eyes open */}
       {!isSleeping && (
         <g>
-          <rect x="10" y="6" width="1" height={isAlert ? 2 : 1} fill="white" className="dark:fill-black" />
-          <rect x="13" y="6" width="1" height={isAlert ? 2 : 1} fill="white" className="dark:fill-black" />
+          <rect
+            x="10"
+            y="6"
+            width="1"
+            height={isAlert ? 2 : 1}
+            fill="white"
+            className="dark:fill-black"
+          />
+          <rect
+            x="13"
+            y="6"
+            width="1"
+            height={isAlert ? 2 : 1}
+            fill="white"
+            className="dark:fill-black"
+          />
         </g>
       )}
-
       {/* Eyes closed (sleeping / mid-jump squint) */}
       {(isSleeping || isJumping) && (
         <g>
@@ -838,23 +891,45 @@ const DogSvg = ({ state }: { state: DogState }) => {
           />
         </g>
       )}
-
       {/* Nose highlight when alert */}
       {isAlert && (
-        <rect x="14" y="9" width="1" height="1" fill="white" opacity="0.7" className="dark:fill-black" />
+        <rect
+          x="14"
+          y="9"
+          width="1"
+          height="1"
+          fill="white"
+          opacity="0.7"
+          className="dark:fill-black"
+        />
       )}
-
       {/* Legs */}
       <g className="pixel-pet-legs-standing">
         <rect x="3" y="12" width="2" height="2" fill="currentColor" />
         <rect x="6" y="12" width="2" height="2" fill="currentColor" />
         {/* Shadow on back legs */}
-        <rect x="2" y="11" width="2" height="2" fill="black" opacity="0.2" className="dark:opacity-40" />
+        <rect
+          x="2"
+          y="11"
+          width="2"
+          height="2"
+          fill="black"
+          opacity="0.2"
+          className="dark:opacity-40"
+        />
       </g>
       <g className="pixel-pet-legs-walking">
         <rect x="2" y="12" width="2" height="2" fill="currentColor" />
         <rect x="7" y="12" width="2" height="2" fill="currentColor" />
-        <rect x="1" y="11" width="2" height="2" fill="black" opacity="0.2" className="dark:opacity-40" />
+        <rect
+          x="1"
+          y="11"
+          width="2"
+          height="2"
+          fill="black"
+          opacity="0.2"
+          className="dark:opacity-40"
+        />
       </g>
     </svg>
   );

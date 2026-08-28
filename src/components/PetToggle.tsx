@@ -16,7 +16,9 @@ const PetToggle = () => {
     const newState = !isPetVisible;
     setIsPetVisible(newState);
     localStorage.setItem('site_pet_visible', String(newState));
-    window.dispatchEvent(new CustomEvent('pet-toggle', { detail: { visible: newState } }));
+    window.dispatchEvent(
+      new CustomEvent('pet-toggle', { detail: { visible: newState } }),
+    );
     playClick();
   };
 
