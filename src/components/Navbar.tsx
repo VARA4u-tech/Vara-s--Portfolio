@@ -96,11 +96,11 @@ const Navbar = () => {
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 z-50 py-6 bg-background/80 backdrop-blur-sm"
+      className="fixed top-0 left-0 right-0 z-50 py-6 bg-background/80 backdrop-blur-sm cursor-pointer lg:cursor-pointer"
     >
       <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between lg:justify-center relative">
         {/* Desktop Navbar (Hidden on Mobile) */}
-        <div className="hidden lg:flex items-center justify-center gap-0">
+        <div className="hidden lg:flex items-center justify-center gap-0 cursor-pointer">
           {links.map((link, i) => (
             <span key={link.href} className="flex items-center">
               <a

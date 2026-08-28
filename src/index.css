@@ -345,18 +345,7 @@
 
   /* ─── Custom cursor dot (hides default on desktop) ─── */
   @media (hover: hover) and (pointer: fine) {
-    body {
-      cursor: none;
-    }
-
-    a,
-    button,
-    [role='button'],
-    label,
-    select,
-    [tabindex] {
-      cursor: none;
-    }
+    /* Cursor previously hidden here, now restored for better UX */
   }
 
   /* ─── CRT pixel scanline overlay on project cards ─── */
