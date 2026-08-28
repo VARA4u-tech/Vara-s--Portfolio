@@ -65,6 +65,7 @@ const PixelPet = () => {
   const [direction, setDirection] = useState<'left' | 'right'>('right');
   const [showBark, setShowBark] = useState(false);
   const [showNotice, setShowNotice] = useState(false);
+  const [showTip, setShowTip] = useState(false);
   const [visible, setVisible] = useState(false);
   const [dogSize, setDogSize] = useState(44); // responsive px size
 
@@ -82,6 +83,7 @@ const PixelPet = () => {
   const setDirectionRef = useRef(setDirection);
   const setShowBarkRef = useRef(setShowBark);
   const setShowNoticeRef = useRef(setShowNotice);
+  const setShowTipRef = useRef(setShowTip);
   const setVisibleRef = useRef(setVisible);
   const setDogSizeRef = useRef(setDogSize);
 
@@ -123,6 +125,8 @@ const PixelPet = () => {
     let noticeTimer: ReturnType<typeof setTimeout> | null = null;
     let rafId = 0;
     let jumpQueued: SectionId | null = null;
+
+    let hasGrabbedLocal = localStorage.getItem('site_pet_grabbed') === 'true';
 
     // ── Helpers ──────────────────────────────────────────────────────────
     const applyState = (s: DogState) => {
@@ -537,6 +541,9 @@ const PixelPet = () => {
 
     onEnterRef.current = () => {
       isHovered = true;
+      if (!isDragging && dogStateLocal !== 'jumping' && !hasGrabbedLocal) {
+        setShowTipRef.current(true);
+      }
       if (!isAnimating) applyState('hoveredPause');
       if (sleepTimer) clearTimeout(sleepTimer);
       if (patrolTimer) clearTimeout(patrolTimer);
@@ -544,6 +551,7 @@ const PixelPet = () => {
 
     onLeaveRef.current = () => {
       isHovered = false;
+      setShowTipRef.current(false);
       if (!isAnimating) {
         applyState('idle');
         armSleepTimer();
@@ -616,6 +624,12 @@ const PixelPet = () => {
       if (!target.closest('.pixel-pet-body')) return;
 
       isDragging = true;
+      setShowTipRef.current(false);
+      if (!hasGrabbedLocal) {
+        hasGrabbedLocal = true;
+        localStorage.setItem('site_pet_grabbed', 'true');
+      }
+
       dragStartX = e.clientX;
       dragStartY = e.clientY;
       dragStartLeft = posLeft;
@@ -733,6 +747,11 @@ const PixelPet = () => {
         title="Click me!"
       >
         {/* Speech bubbles */}
+        {showTip && !showBark && !showNotice && (
+          <div className="pixel-pet-speech-bark" style={{ padding: '4px 10px', fontSize: '10px' }}>
+            <span>Drag me!</span>
+          </div>
+        )}
         {showBark && (
           <div className="pixel-pet-speech-bark">
             <span>woof!</span>
