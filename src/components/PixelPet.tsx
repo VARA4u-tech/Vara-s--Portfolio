@@ -697,6 +697,12 @@ const PixelPet = () => {
       armSleepTimer();
       schedulePatrol();
       startWalkLoop(); // begin continuous walking immediately
+
+      // On touch devices, there's no "hover" to show the tooltip, so we show it briefly on first load
+      if (isTouch && !hasGrabbedLocal) {
+        setShowTipRef.current(true);
+        setTimeout(() => setShowTipRef.current(false), 4000);
+      }
     }, 600); // small delay lets layout settle after loading screen exits
 
     // ── Cleanup ───────────────────────────────────────────────────────────
@@ -740,6 +746,7 @@ const PixelPet = () => {
           pointerEvents: 'auto',
           cursor: 'pointer',
           position: 'relative',
+          touchAction: 'none',
         }}
         onClick={() => onClickRef.current()}
         onMouseEnter={() => onEnterRef.current()}
