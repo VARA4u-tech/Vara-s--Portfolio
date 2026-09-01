@@ -755,15 +755,14 @@ const PixelPet = () => {
         {/* Speech bubbles */}
         {showTip && !showBark && !showNotice && (
           <div
-            className="pixel-pet-speech-bark"
-            style={{ padding: '4px 10px', fontSize: '10px' }}
+            className="pixel-pet-speech-bark pixel-pet-speech-tip"
           >
-            <span>Drag me!</span>
+            <span>Take me for a walk!</span>
           </div>
         )}
         {showBark && (
           <div className="pixel-pet-speech-bark">
-            <span>woof!</span>
+            <span>WOOF!</span>
           </div>
         )}
         {showNotice && (
