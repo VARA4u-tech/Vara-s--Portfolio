@@ -40,6 +40,11 @@ export const SOCIAL_LINKS = [
     label: 'Email',
     href: 'mailto:durgavaraprasadpappuri13@gmail.com',
   },
+  {
+    id: 'x',
+    label: 'X',
+    href: 'https://x.com/PappuriVara',
+  },
 ] as const;
 
 export type SocialLinkId = (typeof SOCIAL_LINKS)[number]['id'];

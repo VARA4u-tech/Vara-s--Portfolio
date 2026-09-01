@@ -25,6 +25,7 @@ import {
   AlertTriangle,
   Loader2,
   CheckCircle,
+  Twitter,
 } from 'lucide-react';
 import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
 
@@ -33,6 +34,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   linkedin: Linkedin,
   instagram: InstagramIcon,
   blog: BookOpen,
+  x: Twitter,
 };
 
 const contactSocials = SOCIAL_LINKS.filter((l) => l.id !== 'email');

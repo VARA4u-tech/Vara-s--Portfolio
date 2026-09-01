@@ -5,6 +5,7 @@ import {
   Mail,
   Heart,
   BookOpen,
+  Twitter,
 } from 'lucide-react';
 import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
 
@@ -14,6 +15,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   email: Mail,
   instagram: InstagramIcon,
   blog: BookOpen,
+  x: Twitter,
 };
 
 const Finale = () => {
