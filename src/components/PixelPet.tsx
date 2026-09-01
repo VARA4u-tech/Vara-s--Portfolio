@@ -4,7 +4,7 @@
  * Architecture:
  *  - position: absolute within the page (scrolls with content, not fixed to viewport).
  *  - Single useEffect owns the entire state machine — avoids hook dep-cycle issues.
- *  - Patrols randomly between sections every 10-22 seconds.
+ *  - Patrols randomly between sections every 90 seconds.
  *  - Jump: 4-phase RAF animation (anticipate → arc → land → recover).
  *  - Idle: CSS breathing animation on the body div.
  *  - Cursor proximity → notice ("!") → bark → cooldown (desktop).
@@ -53,8 +53,7 @@ const getDogSize = () => {
 };
 const BARK_COOLDOWN_MS = 12_000;
 const PROXIMITY_PX = 150;
-const STAY_MIN_MS = 10_000; // 10 seconds minimum in each section
-const STAY_JITTER_MS = 5_000; // ±5 s of natural randomness
+const SECTION_CHANGE_INTERVAL_MS = 90_000; // 90 seconds in each section
 const SLEEP_AFTER_MS = 15_000;
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -188,7 +187,7 @@ const PixelPet = () => {
     // ── Patrol scheduler ─────────────────────────────────────────────────
     const schedulePatrol = () => {
       if (patrolTimer) clearTimeout(patrolTimer);
-      const delay = STAY_MIN_MS + Math.random() * STAY_JITTER_MS;
+      const delay = SECTION_CHANGE_INTERVAL_MS;
       patrolTimer = setTimeout(() => {
         if (isHovered || isAnimating) {
           schedulePatrol(); // retry
@@ -415,7 +414,7 @@ const PixelPet = () => {
               schedulePatrol();
             } else {
               // If it was a custom click jump, wait a bit before resuming patrol
-              setTimeout(() => schedulePatrol(), STAY_MIN_MS / 3);
+              setTimeout(() => schedulePatrol(), SECTION_CHANGE_INTERVAL_MS);
             }
             startWalkLoop(); // resume continuous walking in the new section
           }
