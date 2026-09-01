@@ -813,14 +813,16 @@
     bottom: calc(100% + 7px);
     left: 50%;
     transform: translateX(-50%);
-    background: #111;
-    color: #fff;
-    font-family: 'Inter', monospace;
-    font-size: 9px;
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    text-transform: lowercase;
-    padding: 3px 8px;
+    background: #fff;
+    border: 2px solid #111;
+    box-shadow: 3px 3px 0 #111;
+    color: #111;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1;
+    padding: 8px 10px;
     white-space: nowrap;
     pointer-events: none;
     user-select: none;
@@ -833,8 +835,21 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    border: 5px solid transparent;
+    border: 6px solid transparent;
     border-top-color: #111;
+  }
+  .pixel-pet-speech-bark::before {
+    content: '';
+    position: absolute;
+    top: calc(100% - 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #fff;
+    z-index: 1;
+  }
+  .pixel-pet-speech-tip {
+    background: #fef08a;
   }
 
   /* ── Speech bubble — notice ── */
@@ -843,11 +858,14 @@
     bottom: calc(100% + 7px);
     left: 50%;
     transform: translateX(-50%);
-    background: #111;
-    color: #fff;
-    font-family: 'Inter', monospace;
-    font-size: 13px;
+    background: #fb7185;
+    border: 2px solid #111;
+    box-shadow: 3px 3px 0 #111;
+    color: #111;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
     font-weight: 900;
+    line-height: 1;
     width: 22px;
     height: 22px;
     display: flex;
@@ -866,6 +884,16 @@
     transform: translateX(-50%);
     border: 5px solid transparent;
     border-top-color: #111;
+  }
+  .pixel-pet-speech-notice::before {
+    content: '';
+    position: absolute;
+    top: calc(100% - 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #fb7185;
+    z-index: 1;
   }
 
   @keyframes dog-speech-pop {
@@ -910,7 +938,7 @@
     /* Larger speech bubble text on mobile so it's readable at arms length */
     .pixel-pet-speech-bark {
       font-size: 11px;
-      padding: 4px 10px;
+      padding: 8px 10px;
     }
     .pixel-pet-speech-notice {
       font-size: 15px;
