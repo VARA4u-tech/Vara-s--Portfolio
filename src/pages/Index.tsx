@@ -5,7 +5,7 @@ import LoadingScreen from '@/components/LoadingScreen';
 import AboutSection from '@/components/AboutSection';
 import EducationSection from '@/components/EducationSection';
 import ExperienceSection from '@/components/ExperienceSection';
-import AchievementsSection from '@/components/AchievementsSection';
+// import AchievementsSection from '@/components/AchievementsSection';
 import SkillsSection from '@/components/SkillsSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import ContactSection from '@/components/ContactSection';
@@ -54,7 +54,7 @@ const Index = () => {
       <AboutSection />
       <EducationSection />
       <ExperienceSection />
-      <AchievementsSection />
+      {/* <AchievementsSection /> */}
       <ProjectsSection />
       {/* <BlogSection /> */}
       <SkillsSection />
