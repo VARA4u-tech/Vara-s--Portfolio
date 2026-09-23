@@ -157,12 +157,18 @@ const PixelPet = () => {
       if (!el) return null;
       const rect = el.getBoundingClientRect();
       const scrollY = window.scrollY;
-      // Dog sits 20px above the section's bottom edge
-      const top = rect.top + scrollY + rect.height - DOG_H - 20;
+      const divider = sectionId === 'finale'
+        ? document.getElementById('footer-divider')
+        : null;
+      const top = divider
+        ? divider.getBoundingClientRect().top + scrollY - DOG_H
+        : rect.top + scrollY + rect.height - DOG_H - 20;
       // Safe margins: larger on mobile so the dog clears the edge padding
       const safeL = isSmall() ? 16 : 24;
       const safeR = window.innerWidth - DOG_W - (isSmall() ? 16 : 24);
-      const left = safeL + Math.random() * Math.max(0, safeR - safeL);
+      const left = sectionId === 'finale'
+        ? safeL
+        : safeL + Math.random() * Math.max(0, safeR - safeL);
       return { top, left };
     };
 
@@ -179,6 +185,15 @@ const PixelPet = () => {
           posLeft = maxLeft;
           const el = wrapperRef.current;
           if (el) el.style.left = `${posLeft}px`;
+        }
+
+        if (currentSection === 'finale') {
+          const el = wrapperRef.current;
+          const footerPosition = getSectionPos('finale');
+          if (footerPosition && el) {
+            posTop = footerPosition.top;
+            el.style.top = `${posTop}px`;
+          }
         }
       }
     };
@@ -243,7 +258,9 @@ const PixelPet = () => {
       // back-and-forth feel; add jitter so it never looks mechanical.
       const leftBias = safeL + Math.random() * range * 0.35;
       const rightBias = safeR - Math.random() * range * 0.35;
-      const targetLeft = posLeft < (safeL + safeR) / 2 ? rightBias : leftBias;
+      const targetLeft = currentSection === 'finale'
+        ? (posLeft <= (safeL + safeR) / 2 ? safeR : safeL)
+        : posLeft < (safeL + safeR) / 2 ? rightBias : leftBias;
 
       const dx = targetLeft - posLeft;
 
@@ -681,7 +698,10 @@ const PixelPet = () => {
 
     // ── Initialize ────────────────────────────────────────────────────────
     const init = setTimeout(() => {
-      const startPos = getSectionPos('hero');
+      const startSection: SectionId = document.getElementById('finale')
+        ? 'finale'
+        : 'hero';
+      const startPos = getSectionPos(startSection);
       const el = wrapperRef.current;
       if (!startPos || !el) return;
 
@@ -689,7 +709,7 @@ const PixelPet = () => {
       el.style.left = `${startPos.left}px`;
       posTop = startPos.top;
       posLeft = startPos.left;
-      currentSection = 'hero';
+      currentSection = startSection;
 
       setVisibleRef.current(true);
       applyState('idle');
