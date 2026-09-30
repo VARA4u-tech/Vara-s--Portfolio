@@ -19,8 +19,29 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
-    title: 'Sarathi.ai',
+    title: 'Samriddhi',
     isNew: true,
+    tagline: 'Privacy-First Personal Finance',
+    description:
+      'A privacy-first personal finance platform to maintain transactions, managing budgets, and growing savings goals. All financial data stays in the browser, with no account or remote server required.',
+    tags: [
+      'React 19',
+      'TypeScript',
+      'Vite',
+      'Tailwind CSS',
+      'Local Storage',
+      'Recharts',
+      'Framer Motion',
+      'GSAP',
+    ],
+    categories: ['web'],
+    githubUrl:
+      'https://github.com/VARA4u-tech/Samriddhi-Personal-Financial-Management-Platform',
+    liveUrl: 'https://samriddhi-personal-financial-manage.vercel.app/',
+  },
+  {
+    title: 'Sarathi.ai',
+    isNew: false,
     tagline: 'Your AI Engineering Mentor',
     description:
       'An automated Senior Engineering Mentor that evaluates GitHub repositories using advanced LLMs to provide actionable roadmaps and enforce enterprise standards.',
