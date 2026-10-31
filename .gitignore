@@ -1,3 +1,22 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Production & Build Outputs
+dist
+dist-ssr
+.vite
+
+# Vercel Deployment & Build Cache
+.vercel
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+*.local
+
 # Logs
 logs
 *.log
@@ -7,23 +26,42 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-.env
-.env.local
-.env.*.local
+# TypeScript & Tooling Caches
+*.tsbuildinfo
+.eslintcache
+.prettiercache
+lint_results.json
 
+# Testing & Coverage
+coverage/
+.nyc_output/
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.sublime-workspace
+*.sublime-project
 docs/code-review-graph.md
+
+# Operating System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Temporary / Scratch files
+*.tmp
+*.temp
+*~
