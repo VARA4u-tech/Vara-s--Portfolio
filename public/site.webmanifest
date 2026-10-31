@@ -1,0 +1,24 @@
+{
+  "name": "Pappuri Durga Vara Prasad | Full Stack Developer & AI Engineer",
+  "short_name": "Vara Portfolio",
+  "description": "Professional portfolio of Pappuri Durga Vara Prasad - Full Stack Developer and AI Engineer specializing in React.js, TypeScript, Node.js, and Generative AI.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F5F5",
+  "theme_color": "#0B0B0B",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
