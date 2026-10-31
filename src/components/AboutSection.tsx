@@ -161,10 +161,10 @@ const AboutSection = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <div className="font-mono text-xs font-bold uppercase flex items-center gap-2">
+                <h4 className="font-mono text-xs font-bold uppercase flex items-center gap-2">
                   <Terminal className="w-3.5 h-3.5 shrink-0" />
                   Clean Architecture
-                </div>
+                </h4>
                 <p className="text-xs text-black/70 leading-relaxed font-light pl-5">
                   Structuring applications to be modular, robust, and
                   self-documenting for seamless scalability and team
@@ -173,10 +173,10 @@ const AboutSection = () => {
               </div>
 
               <div className="space-y-2">
-                <div className="font-mono text-xs font-bold uppercase flex items-center gap-2">
+                <h4 className="font-mono text-xs font-bold uppercase flex items-center gap-2">
                   <Cpu className="w-3.5 h-3.5 shrink-0" />
                   High Velocity
-                </div>
+                </h4>
                 <p className="text-xs text-black/70 leading-relaxed font-light pl-5">
                   Optimizing development workflows through contemporary
                   automation tools and structured coding standards.
@@ -184,10 +184,10 @@ const AboutSection = () => {
               </div>
 
               <div className="space-y-2">
-                <div className="font-mono text-xs font-bold uppercase flex items-center gap-2">
+                <h4 className="font-mono text-xs font-bold uppercase flex items-center gap-2">
                   <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
                   Type Safety
-                </div>
+                </h4>
                 <p className="text-xs text-black/70 leading-relaxed font-light pl-5">
                   Implementing strict TypeScript checking, comprehensive input
                   validation, and predictable state management.
@@ -195,10 +195,10 @@ const AboutSection = () => {
               </div>
 
               <div className="space-y-2">
-                <div className="font-mono text-xs font-bold uppercase flex items-center gap-2">
+                <h4 className="font-mono text-xs font-bold uppercase flex items-center gap-2">
                   <span className="inline-block w-3.5 h-3.5 border-2 border-black shrink-0" />
                   Responsive Design
-                </div>
+                </h4>
                 <p className="text-xs text-black/70 leading-relaxed font-light pl-5">
                   Developing fluid, pixel-perfect user interfaces that render
                   consistently and gracefully across all screen sizes.
