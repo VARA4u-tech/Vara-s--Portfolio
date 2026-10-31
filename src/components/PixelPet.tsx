@@ -67,6 +67,21 @@ const PixelPet = () => {
   const [showTip, setShowTip] = useState(false);
   const [visible, setVisible] = useState(false);
   const [dogSize, setDogSize] = useState(44); // responsive px size
+  const [isHalloween, setIsHalloween] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    return localStorage.getItem('site_halloween_enabled') !== 'false';
+  });
+
+  useEffect(() => {
+    const handleHw = (e: Event) => {
+      const ce = e as CustomEvent<{ enabled: boolean }>;
+      if (typeof ce.detail?.enabled === 'boolean') {
+        setIsHalloween(ce.detail.enabled);
+      }
+    };
+    window.addEventListener('halloween-toggle', handleHw);
+    return () => window.removeEventListener('halloween-toggle', handleHw);
+  }, []);
 
   // DOM refs
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -780,7 +795,7 @@ const PixelPet = () => {
         )}
         {showBark && (
           <div className="pixel-pet-speech-bark">
-            <span>WOOF!</span>
+            <span>{isHalloween ? 'BOO-RK! 🎃' : 'WOOF!'}</span>
           </div>
         )}
         {showNotice && (
@@ -806,7 +821,7 @@ const PixelPet = () => {
                 Z
               </div>
             )}
-            <DogSvg state={dogState} />
+            <DogSvg state={dogState} isHalloween={isHalloween} />
           </div>
         </div>
       </div>
@@ -815,7 +830,7 @@ const PixelPet = () => {
 };
 
 // ─── Dog SVG ─────────────────────────────────────────────────────────────────
-const DogSvg = ({ state }: { state: DogState }) => {
+const DogSvg = ({ state, isHalloween }: { state: DogState; isHalloween?: boolean }) => {
   const isSleeping = state === 'sleeping';
   const isAlert = state === 'noticing' || state === 'barking';
   const isJumping = state === 'jumping';
@@ -843,6 +858,15 @@ const DogSvg = ({ state }: { state: DogState }) => {
         opacity="0.15"
         className="dark:opacity-30"
       />
+      {/* Halloween Witch Hat */}
+      {isHalloween && (
+        <g className="pixel-pet-hat">
+          <rect x="8" y="4" width="7" height="1" fill="#301934" />
+          <rect x="9" y="3" width="5" height="1" fill="#FF7518" />
+          <rect x="10" y="1" width="3" height="2" fill="#301934" />
+          <rect x="11" y="0" width="1" height="1" fill="#FF7518" />
+        </g>
+      )}
       {/* Head */}
       <rect x="9" y="5" width="6" height="5" fill="currentColor" />
       {/* Snout Details */}
