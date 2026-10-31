@@ -5,6 +5,7 @@ import { Badge } from './ui/badge';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
 import { gsap } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
+import { useHalloween } from './halloween/HalloweenContext';
 
 interface Project {
   title: string;
@@ -31,6 +32,7 @@ interface CursorPos {
 }
 
 export const ProjectCard = ({ project, index }: ProjectCardProps) => {
+  const { isHalloween } = useHalloween();
   const [hoverZone, setHoverZone] = useState<HoverZone>(null);
   const [cursorPos, setCursorPos] = useState<CursorPos>({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(() =>
@@ -110,7 +112,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
       <div
         className={[
           'group w-full h-full relative border-2 border-black px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between',
-          'shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-200 ease-out',
+          `shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-200 ease-out ${isHalloween ? 'hover:border-[#FF7518] hover:shadow-[8px_8px_0px_0px_#FF7518]' : ''}`,
           'hover:-translate-x-2 hover:-translate-y-2 active:translate-x-1 active:translate-y-1 active:!shadow-none',
           'bg-white rounded-none min-h-[420px] md:min-h-[480px]',
         ].join(' ')}
@@ -180,7 +182,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
         {/* ── "Latest Work" or Custom badge ── */}
         {(project.badge || project.isNew) && (
           <div className="absolute -top-3 right-1 md:-right-3 bg-black text-white px-2 py-1 md:px-3 text-[8px] md:text-[9px] font-black uppercase tracking-wider md:tracking-widest border-2 border-black z-20 rotate-0 md:rotate-3 hover:rotate-0 transition-transform whitespace-nowrap origin-top-right">
-            {project.badge || 'Latest Work'}
+            {isHalloween ? '🎃 ' : ''}{project.badge || 'Latest Work'}
           </div>
         )}
 
