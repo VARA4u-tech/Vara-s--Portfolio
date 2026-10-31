@@ -28,6 +28,8 @@ import {
   Twitter,
 } from 'lucide-react';
 import { PROFILE, SOCIAL_LINKS } from '@/data/constants';
+import { useHalloween } from './halloween/HalloweenContext';
+import JackOLantern from './halloween/JackOLantern';
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   github: Github,
@@ -52,6 +54,7 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 const ContactSection = () => {
+  const { isHalloween } = useHalloween();
   const [copied, setCopied] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -164,7 +167,7 @@ const ContactSection = () => {
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#000000', '#2563eb', '#16a34a', '#d97706', '#db2777'],
+        colors: isHalloween ? ['#FF7518', '#0B0B0B', '#301934', '#FFA000', '#F5F5F5'] : ['#000000', '#2563eb', '#16a34a', '#d97706', '#db2777'],
       });
       setIsSubmitted(true);
       toast.success('Your message has been received!');
@@ -230,7 +233,10 @@ const ContactSection = () => {
                 <p className="text-xs uppercase tracking-widest text-foreground/50 mb-1">
                   Current Status
                 </p>
-                <p className="font-mono text-sm">AVAILABLE_FOR_PROJECTS</p>
+                <p className="font-mono text-sm flex items-center gap-1.5">
+                  AVAILABLE_FOR_PROJECTS
+                  {isHalloween && <span>🎃</span>}
+                </p>
               </div>
             </div>
           </div>
@@ -448,7 +454,7 @@ const ContactSection = () => {
                   type="submit"
                   disabled={isSubmitting || rateLimited}
                   onClick={playClick}
-                  className="w-full group relative flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-mono uppercase tracking-widest overflow-hidden transition-all duration-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:scale-95 active:shadow-none disabled:opacity-75 disabled:cursor-not-allowed disabled:transform-none rounded-none"
+                  className="w-full group relative flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-mono uppercase tracking-widest overflow-hidden transition-all duration-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.5)] ${isHalloween ? 'hover:shadow-[6px_6px_0px_0px_#FF7518]' : ''} hover:-translate-y-1 active:scale-95 active:shadow-none disabled:opacity-75 disabled:cursor-not-allowed disabled:transform-none rounded-none"
                 >
                   {isSubmitting ? (
                     <>
