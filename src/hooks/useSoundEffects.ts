@@ -261,6 +261,25 @@ export const playDataStreamTick = () => {
 };
 
 /** System online success sound */
+
+/** Spooky ghost chime — playful minor arpeggio */
+export const playSpookyBoo = () => {
+  const c = getCtx();
+  if (!c) return;
+  const times = [0, 0.08, 0.16, 0.26];
+  const freqs = [587.33, 523.25, 466.16, 698.46]; // D5, C5, Bb4, F5
+  times.forEach((t, i) => playTone(freqs[i], 0.22, 'sine', 0.45, true, t));
+};
+
+/** Pumpkin magical candle flame glow sound */
+export const playPumpkinGlow = () => {
+  const c = getCtx();
+  if (!c) return;
+  const times = [0, 0.06, 0.12];
+  const freqs = [440, 554.37, 659.25]; // A4, C#5, E5 harmonic
+  times.forEach((t, i) => playTone(freqs[i], 0.25, 'triangle', 0.35, true, t));
+};
+
 export const playSystemOnline = () => {
   const c = getCtx();
   if (!c) return;
@@ -284,6 +303,8 @@ const useSoundEffects = () => ({
   playBark,
   playDataStreamTick,
   playSystemOnline,
+  playSpookyBoo,
+  playPumpkinGlow,
   setMasterVolume,
   getMasterVolume,
 });
