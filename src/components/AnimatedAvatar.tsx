@@ -17,9 +17,12 @@ const AnimatedAvatar = () => {
         <div className="w-full h-full animate-[float_6s_ease-in-out_infinite] bg-black/5">
           <img
             src="/images/avatar.png"
-            alt="Pappuri Durga Vara Prasad"
+            alt="Pappuri Durga Vara Prasad - Full Stack Developer and AI Engineer"
+            width={256}
+            height={384}
             className="w-full h-full object-cover object-center"
             loading="eager"
+            decoding="async"
           />
         </div>
 
