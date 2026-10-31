@@ -22,6 +22,8 @@ import { useMatrixRain } from '@/hooks/useMatrixRain';
 import { useParticleAssembly } from '@/hooks/useParticleAssembly';
 import { useTypewriter } from '@/hooks/useTypewriter';
 import ResumeModal from './ResumeModal';
+import { useHalloween } from './halloween/HalloweenContext';
+import SpiderWeb from './halloween/SpiderWeb';
 
 const roles = [
   'Vibe Coder',
@@ -43,6 +45,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 const HeroSection = () => {
+  const { isHalloween } = useHalloween();
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const assembleCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -177,6 +180,13 @@ const HeroSection = () => {
         }}
       />
 
+      {isHalloween && (
+        <div className="pointer-events-none">
+          <SpiderWeb position="top-left" size={130} />
+          <SpiderWeb position="top-right" size={140} />
+        </div>
+      )}
+
       {/* Top-left code comment */}
       <div className="gsap-corner absolute top-28 left-6 md:left-10 z-10 hidden md:block">
         <p className="font-mono text-xs text-foreground/90 leading-relaxed font-medium">
@@ -187,6 +197,12 @@ const HeroSection = () => {
           // status: production
           <br />
           // last_build: {BUILD_DATE}
+          {isHalloween && (
+            <>
+              <br />
+              <span className="text-[#FF7518] font-bold">// edition: 🎃 halloween</span>
+            </>
+          )}
         </p>
       </div>
 
@@ -304,7 +320,7 @@ const HeroSection = () => {
                 setIsResumeOpen(true);
               }}
               aria-label="View resume PDF preview"
-              className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none"
+              className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_#FF7518] rounded-none"
             >
               <Eye className="w-4 h-4" />
               <span>View Resume</span>
