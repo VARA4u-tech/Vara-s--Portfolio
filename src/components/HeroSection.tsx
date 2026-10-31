@@ -26,10 +26,10 @@ import { useHalloween } from './halloween/HalloweenContext';
 import SpiderWeb from './halloween/SpiderWeb';
 
 const roles = [
-  'Vibe Coder',
-  'React Engineer',
-  'Blockchain Builder',
-  'Full-Stack Creator',
+  'Full Stack Developer',
+  'React.js Engineer',
+  'MERN Stack Builder',
+  'AI Systems Developer',
 ];
 
 // Computed once at module load — never changes during the session
@@ -244,11 +244,10 @@ const HeroSection = () => {
           </div>
         </h1>
 
-        {/* Visually hidden text for screen readers */}
-        <span className="sr-only">
-          Roles: Vibe Coder, React Engineer, Blockchain Builder, Full-Stack
-          Creator
-        </span>
+        {/* Semantic accessibility & search engine subtitle */}
+        <h2 className="sr-only">
+          Pappuri Durga Vara Prasad – Full Stack Developer, React.js Engineer, MERN Stack Developer, and AI Engineer in India.
+        </h2>
 
         {/* Typewriter role - hidden from screen readers to prevent noise */}
         <div
@@ -275,7 +274,7 @@ const HeroSection = () => {
 
         {/* Tech tags */}
         <div className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto">
-          {['Flutter', 'React', 'TypeScript', 'Firebase', 'AI', 'Node.js'].map(
+          {['React.js', 'TypeScript', 'Node.js', 'MERN Stack', 'Generative AI', 'Tailwind CSS'].map(
             (tech) => (
               <span
                 key={tech}
