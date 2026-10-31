@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 
 interface HalloweenContextType {
   isHalloween: boolean;
@@ -12,7 +18,9 @@ const HalloweenContext = createContext<HalloweenContextType>({
   prefersReducedMotion: false,
 });
 
-export const HalloweenProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const HalloweenProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [isHalloween, setIsHalloween] = useState<boolean>(() => {
     if (typeof window === 'undefined') return true;
     const saved = localStorage.getItem('site_halloween_enabled');
@@ -20,14 +28,17 @@ export const HalloweenProvider: React.FC<{ children: ReactNode }> = ({ children 
     return saved !== 'false';
   });
 
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  });
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(
+    () => {
+      if (typeof window === 'undefined') return false;
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    },
+  );
 
   useEffect(() => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const handleMotionChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    const handleMotionChange = (e: MediaQueryListEvent) =>
+      setPrefersReducedMotion(e.matches);
     motionQuery.addEventListener('change', handleMotionChange);
 
     const handleExternalToggle = (e: Event) => {
@@ -49,16 +60,17 @@ export const HalloweenProvider: React.FC<{ children: ReactNode }> = ({ children 
     setIsHalloween(nextState);
     localStorage.setItem('site_halloween_enabled', String(nextState));
     window.dispatchEvent(
-      new CustomEvent('halloween-toggle', { detail: { enabled: nextState } })
+      new CustomEvent('halloween-toggle', { detail: { enabled: nextState } }),
     );
   };
 
   return (
-    <HalloweenContext.Provider value={{ isHalloween, toggleHalloween, prefersReducedMotion }}>
+    <HalloweenContext.Provider
+      value={{ isHalloween, toggleHalloween, prefersReducedMotion }}
+    >
       {children}
     </HalloweenContext.Provider>
   );
 };
 
 export const useHalloween = () => useContext(HalloweenContext);
-

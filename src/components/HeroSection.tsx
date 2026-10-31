@@ -200,7 +200,9 @@ const HeroSection = () => {
           {isHalloween && (
             <>
               <br />
-              <span className="text-[#FF7518] font-bold">// edition: 🎃 halloween</span>
+              <span className="text-[#FF7518] font-bold">
+                // edition: 🎃 halloween
+              </span>
             </>
           )}
         </p>

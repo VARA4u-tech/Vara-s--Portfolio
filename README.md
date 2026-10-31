@@ -45,7 +45,7 @@ graph TD
     User((User)) -->|Interacts| NavToggle[Halloween Toggle in Navbar]
     NavToggle -->|Updates & Syncs| Context[HalloweenContext / LocalStorage]
     Context -->|Controls| GlobalLayer[HalloweenGlobalLayer]
-    
+
     GlobalLayer -->|Atmosphere| SpookyParticles[Ambient Floating Embers Canvas]
     GlobalLayer -->|Periodic Motion| FlyingBats[Flapping Bat Flight Path]
     GlobalLayer -->|Interactive Companion| FloatingGhost[Interactive Ghost Easter Egg]
@@ -60,15 +60,16 @@ graph TD
 ```
 
 ### **Halloween Features Highlights**
-* **Modular Seasonal Toggle ([`HalloweenToggle.tsx`](src/components/halloween/HalloweenToggle.tsx))**: Positioned in the navbar alongside `PetToggle` and `SoundToggle`. Users can toggle Halloween mode on/off anytime with instant state persistence in `localStorage`.
-* **Realistic Spiderwebs with Physics-Based Spiders ([`SpiderWeb.tsx`](src/components/halloween/SpiderWeb.tsx))**: Crafted SVG catenary arcs anchored to container corners. Includes an interactive spider that lowers down smoothly when hovered/tapped and retracts up on mouse leave.
-* **Interactive Floating Ghost ([`FloatingGhost.tsx`](src/components/halloween/FloatingGhost.tsx))**: Drifts with sinusoidal float physics. When hovered or clicked, the ghost gets playfully spooked, blushes, plays an inline Web Audio chime, and pops a celebratory speech bubble (*"BOO! 👻"*, *"TRICK OR TREAT! 🎃"*).
-* **Soaring Silhouette Bats ([`FlyingBats.tsx`](src/components/halloween/FlyingBats.tsx))**: Flapping bats soaring across the screen in organic Bézier paths every 24–30s (`pointer-events-none`).
-* **Carved Jack-o'-Lanterns ([`JackOLantern.tsx`](src/components/halloween/JackOLantern.tsx))**: Illustrated pumpkins with realistic flickering candlelight keyframes (`#FF7518` to `#FFD54F`). Glows brighter on hover and winks on click.
-* **Ambient Floating Embers ([`SpookyAtmosphere.tsx`](src/components/halloween/SpookyAtmosphere.tsx))**: Canvas-accelerated atmospheric ember motes drifting upward with wave motion, capped at 24 particles for 60fps performance.
-* **Mascot Costume Easter Egg ([`PixelPet.tsx`](src/components/PixelPet.tsx))**: The living dog mascot wears a custom 16-bit pixel witch hat and barks **"BOO-RK! 🎃"**.
-* **Synthesized Web Audio Effects ([`useSoundEffects.ts`](src/hooks/useSoundEffects.ts))**: Added `playSpookyBoo()` and `playPumpkinGlow()` using inline oscillator synthesis (zero external audio dependencies).
-* **Accessibility & Performance**: Fully honors `prefers-reduced-motion` and uses `pointer-events-none` on all overlays to ensure buttons, links, and forms remain unblocked.
+
+- **Modular Seasonal Toggle ([`HalloweenToggle.tsx`](src/components/halloween/HalloweenToggle.tsx))**: Positioned in the navbar alongside `PetToggle` and `SoundToggle`. Users can toggle Halloween mode on/off anytime with instant state persistence in `localStorage`.
+- **Realistic Spiderwebs with Physics-Based Spiders ([`SpiderWeb.tsx`](src/components/halloween/SpiderWeb.tsx))**: Crafted SVG catenary arcs anchored to container corners. Includes an interactive spider that lowers down smoothly when hovered/tapped and retracts up on mouse leave.
+- **Interactive Floating Ghost ([`FloatingGhost.tsx`](src/components/halloween/FloatingGhost.tsx))**: Drifts with sinusoidal float physics. When hovered or clicked, the ghost gets playfully spooked, blushes, plays an inline Web Audio chime, and pops a celebratory speech bubble (_"BOO! 👻"_, _"TRICK OR TREAT! 🎃"_).
+- **Soaring Silhouette Bats ([`FlyingBats.tsx`](src/components/halloween/FlyingBats.tsx))**: Flapping bats soaring across the screen in organic Bézier paths every 24–30s (`pointer-events-none`).
+- **Carved Jack-o'-Lanterns ([`JackOLantern.tsx`](src/components/halloween/JackOLantern.tsx))**: Illustrated pumpkins with realistic flickering candlelight keyframes (`#FF7518` to `#FFD54F`). Glows brighter on hover and winks on click.
+- **Ambient Floating Embers ([`SpookyAtmosphere.tsx`](src/components/halloween/SpookyAtmosphere.tsx))**: Canvas-accelerated atmospheric ember motes drifting upward with wave motion, capped at 24 particles for 60fps performance.
+- **Mascot Costume Easter Egg ([`PixelPet.tsx`](src/components/PixelPet.tsx))**: The living dog mascot wears a custom 16-bit pixel witch hat and barks **"BOO-RK! 🎃"**.
+- **Synthesized Web Audio Effects ([`useSoundEffects.ts`](src/hooks/useSoundEffects.ts))**: Added `playSpookyBoo()` and `playPumpkinGlow()` using inline oscillator synthesis (zero external audio dependencies).
+- **Accessibility & Performance**: Fully honors `prefers-reduced-motion` and uses `pointer-events-none` on all overlays to ensure buttons, links, and forms remain unblocked.
 
 ---
 
@@ -123,16 +124,16 @@ The project was developed using a disciplined **Agile (Scrum)** approach:
 
 | Feature                      | Description                                                          | Implementation Detail                                                                                                                                                                                                                       |
 | :--------------------------- | :------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Interactive Halloween**    | Modular seasonal experience with toggleable switch in navbar         | Encapsulated in `src/components/halloween/`. Uses `HalloweenContext`, `localStorage`, SVG vector graphics, Framer Motion floating physics, and Web Audio API synthesis. Completely modular for easy removal or activation.                      |
+| **Interactive Halloween**    | Modular seasonal experience with toggleable switch in navbar         | Encapsulated in `src/components/halloween/`. Uses `HalloweenContext`, `localStorage`, SVG vector graphics, Framer Motion floating physics, and Web Audio API synthesis. Completely modular for easy removal or activation.                  |
 | **Matrix Hero Engine**       | Multi-tier canvas animation across all devices                       | Three-tier perf model (phone 15fps/12col, tablet 20fps/20col, desktop 33fps/auto). GPU-promoted via `will-change`, `contain: strict`, and `translateZ(0)`. Pauses on tab-hide & scroll-out via `visibilitychange` + `IntersectionObserver`. |
-| **Living PixelPet Mascot**   | Interactive site companion patrolling sections                       | Absolute positioning, 4-phase jump physics, sleep cycle, proximity detection, and seasonal costume support (16-bit witch hat & *"BOO-RK!"* bark).                                                                                          |
+| **Living PixelPet Mascot**   | Interactive site companion patrolling sections                       | Absolute positioning, 4-phase jump physics, sleep cycle, proximity detection, and seasonal costume support (16-bit witch hat & _"BOO-RK!"_ bark).                                                                                           |
 | **Cursor-Following Badge**   | Contextual action badge that tracks cursor position on project cards | Pure React state — no third-party library. Framer Motion `AnimatePresence` for enter/exit. Left half → GitHub icon + "Source Code". Right half → ArrowUpRight + "Live Demo".                                                                |
 | **Split-Zone Project Cards** | Cards are divided into two intelligent click zones                   | `mousemove` delta math determines zone in real time. Clicking navigates to the correct URL. A subtle half-tint gradient + vertical divider line reinforce the split without covering content.                                               |
 | **Mobile Touch Actions**     | WCAG 2.5.5-compliant touch-optimised fallback buttons                | 48px min-height, `active:` press-down animation (`translate(2px,2px) scale(0.97)` + shadow collapse), `-webkit-tap-highlight-color: transparent`.                                                                                           |
 | **Interactive Terminal**     | CLI-based profile navigation                                         | A command parser supporting `help`, `about`, `projects`, and `clear`.                                                                                                                                                                       |
 | **Project Showcase**         | Dynamic filtering of production projects                             | Neo-Brutalist cards with 3D-shadow hover effects, seasonal badges, and category badges. Tags capped at 5 on phones, 8 on larger screens.                                                                                                    |
 | **GitHub Integration**       | Real-time activity visualization                                     | Uses `react-github-calendar` to demonstrate consistency and commitment.                                                                                                                                                                     |
-| **Sound System**             | Zero-dependency synthesized audio engine                             | Custom `useSoundEffects` hook leveraging Web Audio API oscillators for click, hover, terminal keypresses, bark, and seasonal spooky chimes.                                                                                                |
+| **Sound System**             | Zero-dependency synthesized audio engine                             | Custom `useSoundEffects` hook leveraging Web Audio API oscillators for click, hover, terminal keypresses, bark, and seasonal spooky chimes.                                                                                                 |
 | **Pixel Particle Assembly**  | Hero name assembled from scattered edge particles on desktop         | 90-particle Canvas API animation with easeOutQuart interpolation. Skipped on mobile — replaced with smooth fade + scramble text.                                                                                                            |
 | **CRT Scanline Overlay**     | Retro pixel scanline on project card hover                           | CSS `repeating-linear-gradient` + keyframe sweep, disabled on touch devices.                                                                                                                                                                |
 

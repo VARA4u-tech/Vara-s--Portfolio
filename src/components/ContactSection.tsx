@@ -167,7 +167,9 @@ const ContactSection = () => {
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
-        colors: isHalloween ? ['#FF7518', '#0B0B0B', '#301934', '#FFA000', '#F5F5F5'] : ['#000000', '#2563eb', '#16a34a', '#d97706', '#db2777'],
+        colors: isHalloween
+          ? ['#FF7518', '#0B0B0B', '#301934', '#FFA000', '#F5F5F5']
+          : ['#000000', '#2563eb', '#16a34a', '#d97706', '#db2777'],
       });
       setIsSubmitted(true);
       toast.success('Your message has been received!');

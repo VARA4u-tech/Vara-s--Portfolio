@@ -172,18 +172,20 @@ const PixelPet = () => {
       if (!el) return null;
       const rect = el.getBoundingClientRect();
       const scrollY = window.scrollY;
-      const divider = sectionId === 'finale'
-        ? document.getElementById('footer-divider')
-        : null;
+      const divider =
+        sectionId === 'finale'
+          ? document.getElementById('footer-divider')
+          : null;
       const top = divider
         ? divider.getBoundingClientRect().top + scrollY - DOG_H
         : rect.top + scrollY + rect.height - DOG_H - 20;
       // Safe margins: larger on mobile so the dog clears the edge padding
       const safeL = isSmall() ? 16 : 24;
       const safeR = window.innerWidth - DOG_W - (isSmall() ? 16 : 24);
-      const left = sectionId === 'finale'
-        ? safeL
-        : safeL + Math.random() * Math.max(0, safeR - safeL);
+      const left =
+        sectionId === 'finale'
+          ? safeL
+          : safeL + Math.random() * Math.max(0, safeR - safeL);
       return { top, left };
     };
 
@@ -273,9 +275,14 @@ const PixelPet = () => {
       // back-and-forth feel; add jitter so it never looks mechanical.
       const leftBias = safeL + Math.random() * range * 0.35;
       const rightBias = safeR - Math.random() * range * 0.35;
-      const targetLeft = currentSection === 'finale'
-        ? (posLeft <= (safeL + safeR) / 2 ? safeR : safeL)
-        : posLeft < (safeL + safeR) / 2 ? rightBias : leftBias;
+      const targetLeft =
+        currentSection === 'finale'
+          ? posLeft <= (safeL + safeR) / 2
+            ? safeR
+            : safeL
+          : posLeft < (safeL + safeR) / 2
+            ? rightBias
+            : leftBias;
 
       const dx = targetLeft - posLeft;
 
@@ -830,7 +837,13 @@ const PixelPet = () => {
 };
 
 // ─── Dog SVG ─────────────────────────────────────────────────────────────────
-const DogSvg = ({ state, isHalloween }: { state: DogState; isHalloween?: boolean }) => {
+const DogSvg = ({
+  state,
+  isHalloween,
+}: {
+  state: DogState;
+  isHalloween?: boolean;
+}) => {
   const isSleeping = state === 'sleeping';
   const isAlert = state === 'noticing' || state === 'barking';
   const isJumping = state === 'jumping';

@@ -34,4 +34,3 @@ export const HalloweenGlobalLayer: React.FC = () => {
 };
 
 export default HalloweenGlobalLayer;
-

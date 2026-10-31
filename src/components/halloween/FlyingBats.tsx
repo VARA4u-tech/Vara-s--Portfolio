@@ -77,7 +77,10 @@ export const FlyingBats: React.FC = () => {
   if (!isHalloween || prefersReducedMotion) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-30 overflow-hidden" aria-hidden="true">
+    <div
+      className="fixed inset-0 pointer-events-none z-30 overflow-hidden"
+      aria-hidden="true"
+    >
       <AnimatePresence>
         {activeFlights.map((bat) => {
           const facingRight = bat.endX > bat.startX;
@@ -139,7 +142,11 @@ export const FlyingBats: React.FC = () => {
                           'M 28 18 Q 18 10 4 14 Q 10 24 16 26 Q 22 28 28 24 Z',
                         ],
                       }}
-                      transition={{ duration: 0.4, repeat: Infinity, ease: 'linear' }}
+                      transition={{
+                        duration: 0.4,
+                        repeat: Infinity,
+                        ease: 'linear',
+                      }}
                     />
                     {/* Right Wing with flap motion */}
                     <motion.path
@@ -151,7 +158,11 @@ export const FlyingBats: React.FC = () => {
                           'M 36 18 Q 46 10 60 14 Q 54 24 48 26 Q 42 28 36 24 Z',
                         ],
                       }}
-                      transition={{ duration: 0.4, repeat: Infinity, ease: 'linear' }}
+                      transition={{
+                        duration: 0.4,
+                        repeat: Infinity,
+                        ease: 'linear',
+                      }}
                     />
                   </svg>
                 </motion.div>
@@ -165,4 +176,3 @@ export const FlyingBats: React.FC = () => {
 };
 
 export default FlyingBats;
-

@@ -36,12 +36,45 @@ const AnimatedAvatar = () => {
         {isHalloween && (
           <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none opacity-40 select-none">
             <svg viewBox="0 0 100 100" fill="none" className="text-foreground">
-              <line x1="100" y1="0" x2="0" y2="0" stroke="currentColor" strokeWidth="1.5" />
-              <line x1="100" y1="0" x2="100" y2="100" stroke="currentColor" strokeWidth="1.5" />
-              <line x1="100" y1="0" x2="20" y2="80" stroke="currentColor" strokeWidth="1" />
-              <path d="M 80 0 Q 80 20 100 20" stroke="currentColor" strokeWidth="1" />
-              <path d="M 60 0 Q 60 40 100 40" stroke="currentColor" strokeWidth="1" />
-              <path d="M 40 0 Q 40 60 100 60" stroke="currentColor" strokeWidth="1" />
+              <line
+                x1="100"
+                y1="0"
+                x2="0"
+                y2="0"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <line
+                x1="100"
+                y1="0"
+                x2="100"
+                y2="100"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <line
+                x1="100"
+                y1="0"
+                x2="20"
+                y2="80"
+                stroke="currentColor"
+                strokeWidth="1"
+              />
+              <path
+                d="M 80 0 Q 80 20 100 20"
+                stroke="currentColor"
+                strokeWidth="1"
+              />
+              <path
+                d="M 60 0 Q 60 40 100 40"
+                stroke="currentColor"
+                strokeWidth="1"
+              />
+              <path
+                d="M 40 0 Q 40 60 100 60"
+                stroke="currentColor"
+                strokeWidth="1"
+              />
             </svg>
           </div>
         )}

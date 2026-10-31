@@ -1,36 +1,42 @@
 /* Halloween theme styling & animations */
 
 :root {
-  --hw-orange: #FF7518;
+  --hw-orange: #ff7518;
   --hw-orange-glow: rgba(255, 117, 24, 0.45);
-  --hw-black: #0B0B0B;
+  --hw-black: #0b0b0b;
   --hw-purple: #301934;
   --hw-purple-glow: rgba(48, 25, 52, 0.45);
-  --hw-white: #F5F5F5;
-  --hw-blood: #8B0000;
+  --hw-white: #f5f5f5;
+  --hw-blood: #8b0000;
 }
 
 @keyframes candleFlicker {
-  0%, 100% {
-    filter: drop-shadow(0 0 6px #FF7518) drop-shadow(0 0 12px rgba(255, 117, 24, 0.6));
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px #ff7518)
+      drop-shadow(0 0 12px rgba(255, 117, 24, 0.6));
     opacity: 0.95;
   }
   25% {
-    filter: drop-shadow(0 0 4px #FF5400) drop-shadow(0 0 8px rgba(255, 84, 0, 0.4));
+    filter: drop-shadow(0 0 4px #ff5400)
+      drop-shadow(0 0 8px rgba(255, 84, 0, 0.4));
     opacity: 0.85;
   }
   50% {
-    filter: drop-shadow(0 0 8px #FFA000) drop-shadow(0 0 16px rgba(255, 160, 0, 0.8));
+    filter: drop-shadow(0 0 8px #ffa000)
+      drop-shadow(0 0 16px rgba(255, 160, 0, 0.8));
     opacity: 1;
   }
   75% {
-    filter: drop-shadow(0 0 5px #FF7518) drop-shadow(0 0 10px rgba(255, 117, 24, 0.5));
+    filter: drop-shadow(0 0 5px #ff7518)
+      drop-shadow(0 0 10px rgba(255, 117, 24, 0.5));
     opacity: 0.9;
   }
 }
 
 @keyframes ghostFloat {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
   25% {
@@ -45,16 +51,18 @@
 }
 
 @keyframes ghostTailWave {
-  0%, 100% {
-    d: path("M10 80 Q 25 72, 40 80 T 70 80 T 100 80");
+  0%,
+  100% {
+    d: path('M10 80 Q 25 72, 40 80 T 70 80 T 100 80');
   }
   50% {
-    d: path("M10 80 Q 25 88, 40 80 T 70 80 T 100 80");
+    d: path('M10 80 Q 25 88, 40 80 T 70 80 T 100 80');
   }
 }
 
 @keyframes batWingLeft {
-  0%, 100% {
+  0%,
+  100% {
     transform: rotate(0deg);
   }
   50% {
@@ -63,7 +71,8 @@
 }
 
 @keyframes batWingRight {
-  0%, 100% {
+  0%,
+  100% {
     transform: rotate(0deg);
   }
   50% {
@@ -72,7 +81,8 @@
 }
 
 @keyframes webSway {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1) rotate(0deg);
   }
   50% {
@@ -81,7 +91,8 @@
 }
 
 @keyframes spiderBob {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -121,4 +132,3 @@
     animation: none !important;
   }
 }
-

@@ -115,7 +115,9 @@ const SkillsSection = () => {
                 <div className="flex items-center gap-3 mb-6">
                   <div
                     className={`p-2 border-2 border-black bg-black text-white group-hover:bg-white group-hover:text-black transition-colors rounded-none ${
-                      isHalloween ? 'group-hover:border-[#FF7518] group-hover:text-[#FF7518]' : ''
+                      isHalloween
+                        ? 'group-hover:border-[#FF7518] group-hover:text-[#FF7518]'
+                        : ''
                     }`}
                   >
                     {category.icon}
@@ -135,7 +137,9 @@ const SkillsSection = () => {
                     <span
                       key={skill}
                       className={`px-2 py-1 border border-black/10 text-[11px] font-mono hover:border-black hover:bg-black/5 transition-all cursor-default rounded-none ${
-                        isHalloween ? 'hover:border-[#FF7518] hover:text-[#FF7518]' : ''
+                        isHalloween
+                          ? 'hover:border-[#FF7518] hover:text-[#FF7518]'
+                          : ''
                       }`}
                     >
                       {skill}
@@ -151,7 +155,9 @@ const SkillsSection = () => {
             <div
               onMouseEnter={playHover}
               className={`h-full border-2 border-black p-6 bg-black/5 flex flex-col items-center justify-center text-center opacity-60 hover:opacity-100 transition-all rounded-none ${
-                isHalloween ? 'hover:border-[#FF7518] hover:shadow-[6px_6px_0px_0px_#FF7518]' : ''
+                isHalloween
+                  ? 'hover:border-[#FF7518] hover:shadow-[6px_6px_0px_0px_#FF7518]'
+                  : ''
               }`}
             >
               {isHalloween ? (

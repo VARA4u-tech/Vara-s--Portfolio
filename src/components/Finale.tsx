@@ -54,7 +54,9 @@ const Finale = () => {
                 <span
                   key={tag}
                   className={`font-mono text-xs uppercase tracking-[0.3em] mx-10 ${
-                    tag.includes('🎃') ? 'text-[#FF7518] font-bold' : 'text-white'
+                    tag.includes('🎃')
+                      ? 'text-[#FF7518] font-bold'
+                      : 'text-white'
                   }`}
                 >
                   {tag}
@@ -145,7 +147,8 @@ const Finale = () => {
       >
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 opacity-70">
           <p className="text-[10px] md:text-[11px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.2em] text-center md:text-left">
-            © {currentYear} {PROFILE.name} {isHalloween && '• 🎃 Spooky Edition'}
+            © {currentYear} {PROFILE.name}{' '}
+            {isHalloween && '• 🎃 Spooky Edition'}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-mono text-black uppercase tracking-[0.1em] md:tracking-[0.2em] text-center md:text-right font-medium">
             <span className="whitespace-nowrap">Designed & Engineered</span>

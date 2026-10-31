@@ -77,7 +77,8 @@ export const FloatingGhost: React.FC<FloatingGhostProps> = ({
       }}
       style={{
         cursor: interactive ? 'pointer' : 'default',
-        filter: 'drop-shadow(0 6px 14px rgba(255, 117, 24, 0.25)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4))',
+        filter:
+          'drop-shadow(0 6px 14px rgba(255, 117, 24, 0.25)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4))',
       }}
       title={interactive ? 'Click to say hello to the ghost!' : undefined}
     >
@@ -202,4 +203,3 @@ export const FloatingGhost: React.FC<FloatingGhostProps> = ({
 };
 
 export default FloatingGhost;
-

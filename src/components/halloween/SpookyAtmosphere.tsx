@@ -39,10 +39,10 @@ export const SpookyAtmosphere: React.FC = () => {
 
     // Halloween particle color palette (glowing amber, orange, subtle violet, ghost dust)
     const colors = [
-      'rgba(255, 117, 24, ',   // Halloween Orange
-      'rgba(255, 160, 0, ',    // Warm Amber
-      'rgba(245, 245, 245, ',  // Ghost White
-      'rgba(147, 51, 234, ',   // Mystical Purple
+      'rgba(255, 117, 24, ', // Halloween Orange
+      'rgba(255, 160, 0, ', // Warm Amber
+      'rgba(245, 245, 245, ', // Ghost White
+      'rgba(147, 51, 234, ', // Mystical Purple
     ];
 
     // Cap at 25 particles for lightweight, clean performance
@@ -127,4 +127,3 @@ export const SpookyAtmosphere: React.FC = () => {
 };
 
 export default SpookyAtmosphere;
-

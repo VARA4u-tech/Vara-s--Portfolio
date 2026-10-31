@@ -50,7 +50,7 @@ export const JackOLantern: React.FC<JackOLanternProps> = ({
           ? 'drop-shadow(0 0 16px rgba(255, 117, 24, 0.75))'
           : 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25))',
       }}
-      title={interactive ? 'Spooky Jack-o\'-lantern (Click me!)' : undefined}
+      title={interactive ? "Spooky Jack-o'-lantern (Click me!)" : undefined}
     >
       <svg
         width={size}
@@ -69,15 +69,55 @@ export const JackOLantern: React.FC<JackOLanternProps> = ({
         />
 
         {/* Outer Pumpkin Lobes / Back shadow */}
-        <ellipse cx="23" cy="42" rx="14" ry="19" fill="#E65100" stroke="#0B0B0B" strokeWidth="2.5" />
-        <ellipse cx="49" cy="42" rx="14" ry="19" fill="#E65100" stroke="#0B0B0B" strokeWidth="2.5" />
+        <ellipse
+          cx="23"
+          cy="42"
+          rx="14"
+          ry="19"
+          fill="#E65100"
+          stroke="#0B0B0B"
+          strokeWidth="2.5"
+        />
+        <ellipse
+          cx="49"
+          cy="42"
+          rx="14"
+          ry="19"
+          fill="#E65100"
+          stroke="#0B0B0B"
+          strokeWidth="2.5"
+        />
 
         {/* Mid Lobes */}
-        <ellipse cx="28" cy="43" rx="13" ry="21" fill="#FF7518" stroke="#0B0B0B" strokeWidth="2.5" />
-        <ellipse cx="44" cy="43" rx="13" ry="21" fill="#FF7518" stroke="#0B0B0B" strokeWidth="2.5" />
+        <ellipse
+          cx="28"
+          cy="43"
+          rx="13"
+          ry="21"
+          fill="#FF7518"
+          stroke="#0B0B0B"
+          strokeWidth="2.5"
+        />
+        <ellipse
+          cx="44"
+          cy="43"
+          rx="13"
+          ry="21"
+          fill="#FF7518"
+          stroke="#0B0B0B"
+          strokeWidth="2.5"
+        />
 
         {/* Center Main Lobe */}
-        <ellipse cx="36" cy="44" rx="13" ry="22" fill="#FFA000" stroke="#0B0B0B" strokeWidth="2.5" />
+        <ellipse
+          cx="36"
+          cy="44"
+          rx="13"
+          ry="22"
+          fill="#FFA000"
+          stroke="#0B0B0B"
+          strokeWidth="2.5"
+        />
 
         {/* Carved Eyes - Glowing with Candle Fire */}
         <g
@@ -90,7 +130,12 @@ export const JackOLantern: React.FC<JackOLanternProps> = ({
           {/* Left Eye */}
           {isClicked ? (
             // Winking left eye
-            <path d="M 23 37 Q 27 34, 31 37" stroke="#0B0B0B" strokeWidth="2.5" fill="none" />
+            <path
+              d="M 23 37 Q 27 34, 31 37"
+              stroke="#0B0B0B"
+              strokeWidth="2.5"
+              fill="none"
+            />
           ) : (
             // Triangular carved eye
             <polygon points="23,39 27,31 31,38" />
@@ -111,4 +156,3 @@ export const JackOLantern: React.FC<JackOLanternProps> = ({
 };
 
 export default JackOLantern;
-

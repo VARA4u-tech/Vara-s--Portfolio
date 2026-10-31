@@ -62,12 +62,60 @@ export const SpiderWeb: React.FC<SpiderWebProps> = ({
         className="opacity-35 transition-opacity duration-500 hover:opacity-60 text-foreground"
       >
         {/* Radial anchor threads */}
-        <line x1="0" y1="0" x2="100" y2="0" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" />
-        <line x1="0" y1="0" x2="95" y2="28" stroke="currentColor" strokeWidth="0.7" strokeLinecap="round" />
-        <line x1="0" y1="0" x2="82" y2="55" stroke="currentColor" strokeWidth="0.7" strokeLinecap="round" />
-        <line x1="0" y1="0" x2="58" y2="80" stroke="currentColor" strokeWidth="0.7" strokeLinecap="round" />
-        <line x1="0" y1="0" x2="28" y2="95" stroke="currentColor" strokeWidth="0.7" strokeLinecap="round" />
-        <line x1="0" y1="0" x2="0" y2="100" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" />
+        <line
+          x1="0"
+          y1="0"
+          x2="100"
+          y2="0"
+          stroke="currentColor"
+          strokeWidth="0.8"
+          strokeLinecap="round"
+        />
+        <line
+          x1="0"
+          y1="0"
+          x2="95"
+          y2="28"
+          stroke="currentColor"
+          strokeWidth="0.7"
+          strokeLinecap="round"
+        />
+        <line
+          x1="0"
+          y1="0"
+          x2="82"
+          y2="55"
+          stroke="currentColor"
+          strokeWidth="0.7"
+          strokeLinecap="round"
+        />
+        <line
+          x1="0"
+          y1="0"
+          x2="58"
+          y2="80"
+          stroke="currentColor"
+          strokeWidth="0.7"
+          strokeLinecap="round"
+        />
+        <line
+          x1="0"
+          y1="0"
+          x2="28"
+          y2="95"
+          stroke="currentColor"
+          strokeWidth="0.7"
+          strokeLinecap="round"
+        />
+        <line
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="100"
+          stroke="currentColor"
+          strokeWidth="0.8"
+          strokeLinecap="round"
+        />
 
         {/* Concentric spiral / catenary arcs */}
         {/* Arc 1 (Inner) */}
@@ -168,4 +216,3 @@ export const SpiderWeb: React.FC<SpiderWebProps> = ({
 };
 
 export default SpiderWeb;
-
