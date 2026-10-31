@@ -8,7 +8,9 @@ const NotFound = () => {
     document.title = '404: Page Not Found | Pappuri Durga Vara Prasad';
 
     // Inject noindex meta tag for error route
-    let metaRobots = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    let metaRobots = document.querySelector(
+      'meta[name="robots"]',
+    ) as HTMLMetaElement | null;
     const originalRobots = metaRobots ? metaRobots.content : 'index, follow';
 
     if (metaRobots) {
@@ -26,7 +28,8 @@ const NotFound = () => {
     );
 
     return () => {
-      document.title = 'Pappuri Durga Vara Prasad | Full Stack Developer & AI Engineer';
+      document.title =
+        'Pappuri Durga Vara Prasad | Full Stack Developer & AI Engineer';
       if (metaRobots) {
         metaRobots.content = originalRobots;
       }
@@ -36,12 +39,16 @@ const NotFound = () => {
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-6">
       <div className="border-4 border-black bg-white p-8 md:p-12 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-md w-full">
-        <h1 className="mb-2 text-6xl md:text-7xl font-black text-foreground">404</h1>
+        <h1 className="mb-2 text-6xl md:text-7xl font-black text-foreground">
+          404
+        </h1>
         <h2 className="mb-4 text-xl font-mono uppercase tracking-widest text-foreground/80 font-bold">
           Page Not Found
         </h2>
         <p className="mb-8 font-mono text-xs text-foreground/60 leading-relaxed">
-          The requested URL <code className="bg-black/5 px-1 py-0.5">{location.pathname}</code> does not exist on this server.
+          The requested URL{' '}
+          <code className="bg-black/5 px-1 py-0.5">{location.pathname}</code>{' '}
+          does not exist on this server.
         </p>
         <Link
           to="/"

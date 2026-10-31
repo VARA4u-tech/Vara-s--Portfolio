@@ -246,7 +246,8 @@ const HeroSection = () => {
 
         {/* Semantic accessibility & search engine subtitle */}
         <h2 className="sr-only">
-          Pappuri Durga Vara Prasad – Full Stack Developer, React.js Engineer, MERN Stack Developer, and AI Engineer in India.
+          Pappuri Durga Vara Prasad – Full Stack Developer, React.js Engineer,
+          MERN Stack Developer, and AI Engineer in India.
         </h2>
 
         {/* Typewriter role - hidden from screen readers to prevent noise */}
@@ -274,17 +275,22 @@ const HeroSection = () => {
 
         {/* Tech tags */}
         <div className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto">
-          {['React.js', 'TypeScript', 'Node.js', 'MERN Stack', 'Generative AI', 'Tailwind CSS'].map(
-            (tech) => (
-              <span
-                key={tech}
-                className="gsap-tag inline-block px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-colors duration-300 cursor-default rounded-none"
-                onMouseEnter={playHover}
-              >
-                {tech}
-              </span>
-            ),
-          )}
+          {[
+            'React.js',
+            'TypeScript',
+            'Node.js',
+            'MERN Stack',
+            'Generative AI',
+            'Tailwind CSS',
+          ].map((tech) => (
+            <span
+              key={tech}
+              className="gsap-tag inline-block px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-colors duration-300 cursor-default rounded-none"
+              onMouseEnter={playHover}
+            >
+              {tech}
+            </span>
+          ))}
         </div>
 
         {/* Social links */}
