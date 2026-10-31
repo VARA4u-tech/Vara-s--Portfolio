@@ -18,6 +18,10 @@ import PixelCursor from '@/components/PixelCursor';
 import PixelGrid from '@/components/PixelGrid';
 import PixelPet from '@/components/PixelPet';
 
+// Halloween Seasonal Architecture
+import { HalloweenProvider } from '@/components/halloween/HalloweenContext';
+import HalloweenGlobalLayer from '@/components/halloween/HalloweenGlobalLayer';
+
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isPetVisible, setIsPetVisible] = useState(() => {
@@ -34,34 +38,39 @@ const Index = () => {
   }, []);
 
   return (
-    <div
-      className={`relative min-h-screen bg-background text-foreground ${isLoading ? 'h-screen overflow-hidden' : ''}`}
-    >
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+    <HalloweenProvider>
+      <div
+        className={`relative min-h-screen bg-background text-foreground ${isLoading ? 'h-screen overflow-hidden' : ''}`}
+      >
+        {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
 
-      {/* ── Fixed / overlay layer ── */}
-      <PixelGrid />
-      <PixelCursor isWhite={isLoading} />
+        {/* ── Fixed / overlay layer ── */}
+        <PixelGrid />
+        <PixelCursor isWhite={isLoading} />
 
-      {/* Dog mascot — position:absolute, scrolls with page, patrols sections */}
-      {!isLoading && isPetVisible && <PixelPet />}
+        {/* Halloween atmospheric effects, flying bats, corner webs & ghost easter egg */}
+        {!isLoading && <HalloweenGlobalLayer />}
 
-      <EasterEgg />
-      <Navbar />
-      <ScrollToTop />
-      <Terminal />
-      <HeroSection />
-      <AboutSection />
-      <EducationSection />
-      <ExperienceSection />
-      {/* <AchievementsSection /> */}
-      <ProjectsSection />
-      {/* <BlogSection /> */}
-      <SkillsSection />
-      <ContactSection />
+        {/* Dog mascot — position:absolute, scrolls with page, patrols sections */}
+        {!isLoading && isPetVisible && <PixelPet />}
 
-      <Finale />
-    </div>
+        <EasterEgg />
+        <Navbar />
+        <ScrollToTop />
+        <Terminal />
+        <HeroSection />
+        <AboutSection />
+        <EducationSection />
+        <ExperienceSection />
+        {/* <AchievementsSection /> */}
+        <ProjectsSection />
+        {/* <BlogSection /> */}
+        <SkillsSection />
+        <ContactSection />
+
+        <Finale />
+      </div>
+    </HalloweenProvider>
   );
 };
 
