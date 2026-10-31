@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 
+# Sitemap Index
 Sitemap: https://vara-s-portfolio.vercel.app/sitemap.xml
+Host: https://vara-s-portfolio.vercel.app
