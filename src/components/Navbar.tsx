@@ -3,6 +3,7 @@ import { playClick, playHover } from '@/hooks/useSoundEffects';
 import { useLenis } from 'lenis/react';
 import SoundToggle from './SoundToggle';
 import PetToggle from './PetToggle';
+import HalloweenToggle from './halloween/HalloweenToggle';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
 
@@ -129,15 +130,16 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Desktop Toggles (Absolute Right) */}
+        {/* Desktop Toggles (Absolute Right: Halloween, Pet, Sound) */}
         <div className="hidden lg:block absolute right-6">
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-center">
+            <HalloweenToggle />
             <PetToggle />
             <SoundToggle />
           </div>
         </div>
 
-        {/* Mobile Header (Toggle Left, Sound Right) */}
+        {/* Mobile Header (Toggle Left, Controls Right) */}
         <div className="lg:hidden flex justify-between w-full items-center">
           <button
             onClick={() => {
@@ -152,7 +154,8 @@ const Navbar = () => {
           >
             {open ? '[ Close ]' : '[ Menu ]'}
           </button>
-          <div className="flex gap-2 scale-75 transform origin-right">
+          <div className="flex gap-2 scale-75 transform origin-right items-center">
+            <HalloweenToggle />
             <PetToggle />
             <SoundToggle />
           </div>
