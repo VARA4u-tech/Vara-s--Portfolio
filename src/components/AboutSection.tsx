@@ -12,11 +12,25 @@ import {
 } from 'lucide-react';
 import { PROFILE, getSocialLink } from '@/data/constants';
 import { PROJECT_COUNT } from '@/data/projects';
+import { useHalloween } from './halloween/HalloweenContext';
+import SpiderWeb from './halloween/SpiderWeb';
 
 const AboutSection = () => {
+  const { isHalloween } = useHalloween();
+
   return (
     <SectionBlock id="about" title="About me">
-      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12">
+      <div className="relative flex flex-col lg:flex-row items-center lg:items-start gap-12">
+        {/* Corner Spiderweb in About Section */}
+        {isHalloween && (
+          <SpiderWeb
+            position="top-right"
+            size={120}
+            withSpider={true}
+            className="hidden md:block -top-8 -right-4"
+          />
+        )}
+
         {/* Left Column - Avatar & Quick Specs */}
         <ScrollReveal
           animation="fade-in"
@@ -25,14 +39,20 @@ const AboutSection = () => {
           <AnimatedAvatar />
 
           {/* Neobrutalist Info Card */}
-          <div className="w-full max-w-[256px] mt-8 border-2 border-black bg-white p-4 font-mono text-xs space-y-2.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none">
+          <div
+            className={`w-full max-w-[256px] mt-8 border-2 border-black bg-white p-4 font-mono text-xs space-y-2.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none transition-all duration-300 ${
+              isHalloween ? 'hover:shadow-[4px_4px_0px_0px_#FF7518]' : ''
+            }`}
+          >
             <div className="flex justify-between border-b border-black/10 pb-1.5">
               <span className="text-black/50">NAME:</span>
               <span className="font-bold">{PROFILE.name.toUpperCase()}</span>
             </div>
-            <div className="flex justify-between border-b border-black/10 pb-1.5">
+            <div className="flex justify-between border-b border-black/10 pb-1.5 items-center">
               <span className="text-black/50">ROLE:</span>
-              <span className="font-bold text-right">FULL STACK DEV</span>
+              <span className="font-bold text-right flex items-center gap-1">
+                FULL STACK DEV {isHalloween && <span>🎃</span>}
+              </span>
             </div>
             <div className="flex items-center justify-between border-b border-black/10 pb-1.5">
               <span className="text-black/50 flex items-center gap-1">
@@ -85,13 +105,21 @@ const AboutSection = () => {
             delay={0.2}
             className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10"
           >
-            <div className="border-2 border-black bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 rounded-none">
+            <div
+              className={`border-2 border-black bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 rounded-none ${
+                isHalloween ? 'hover:border-[#FF7518]' : ''
+              }`}
+            >
               <div className="font-mono text-3xl font-black">1+</div>
               <div className="font-mono text-[10px] uppercase tracking-wider text-black/50 mt-1">
                 Years of Experience
               </div>
             </div>
-            <div className="border-2 border-black bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 rounded-none">
+            <div
+              className={`border-2 border-black bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 rounded-none ${
+                isHalloween ? 'hover:border-[#FF7518]' : ''
+              }`}
+            >
               <div className="font-mono text-3xl font-black">
                 {PROJECT_COUNT}+
               </div>
@@ -99,7 +127,11 @@ const AboutSection = () => {
                 Projects Completed
               </div>
             </div>
-            <div className="border-2 border-black bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 rounded-none">
+            <div
+              className={`border-2 border-black bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 rounded-none ${
+                isHalloween ? 'hover:border-[#FF7518]' : ''
+              }`}
+            >
               <div className="font-mono text-3xl font-black">100%</div>
               <div className="font-mono text-[10px] uppercase tracking-wider text-black/50 mt-1">
                 Code Quality Focus
@@ -111,11 +143,20 @@ const AboutSection = () => {
           <ScrollReveal
             animation="fade-up"
             delay={0.1}
-            className="mt-8 border-2 border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rounded-none"
+            className={`mt-8 border-2 border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rounded-none transition-all duration-300 ${
+              isHalloween ? 'hover:shadow-[6px_6px_0px_0px_#FF7518]' : ''
+            }`}
           >
-            <h3 className="font-mono text-xs font-bold tracking-[0.2em] uppercase mb-6 pb-2 border-b-2 border-black flex items-center gap-2">
-              <Code className="w-4 h-4" />
-              // CORE WORKFLOW PRINCIPLES
+            <h3 className="font-mono text-xs font-bold tracking-[0.2em] uppercase mb-6 pb-2 border-b-2 border-black flex items-center justify-between">
+              <span className="flex items-center gap-2">
+                <Code className="w-4 h-4" />
+                // CORE WORKFLOW PRINCIPLES
+              </span>
+              {isHalloween && (
+                <span className="text-[10px] text-[#FF7518] font-bold tracking-widest uppercase">
+                  🦇 SPOOKY SEASON
+                </span>
+              )}
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -176,7 +217,9 @@ const AboutSection = () => {
               href="https://durgavaraprasad.hashnode.dev/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-3 px-6 py-3 border-2 border-black bg-white text-black text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-black hover:text-white rounded-none"
+              className={`group relative inline-flex items-center gap-3 px-6 py-3 border-2 border-black bg-white text-black text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-black hover:text-white rounded-none ${
+                isHalloween ? 'hover:border-[#FF7518]' : ''
+              }`}
             >
               <BookOpen className="w-4 h-4" />
               <span>Read My Technical Blog</span>
