@@ -18,9 +18,28 @@ export interface Project {
 }
 
 export const PROJECTS: Project[] = [
+   {
+    title: 'Spidy Calculator',
+    isNew: true,
+    tagline: 'With Great Math Comes Great Responsibility',
+    description:
+      'An interactive, Spider-Man themed web calculator featuring responsive comic-style UI, smooth animations, audio effects, arithmetic state management, keyboard navigation, and playful Easter eggs.',
+    tags: [
+      'JavaScript (ES6+)',
+      'HTML5',
+      'CSS3',
+      'OOP',
+      'Web Audio API',
+      'Responsive Design',
+      'Easter Eggs',
+    ],
+    categories: ['web'],
+    githubUrl: 'https://github.com/VARA4u-tech/spidy-calculator',
+    liveUrl: 'https://spidy-calculator.vercel.app/',
+  },
   {
     title: 'Samriddhi',
-    isNew: true,
+    isNew: false,
     tagline: 'Privacy-First Personal Finance',
     description:
       'A privacy-first personal finance platform to maintain transactions, managing budgets, and growing savings goals. All financial data stays in the browser, with no account or remote server required.',
@@ -39,6 +58,7 @@ export const PROJECTS: Project[] = [
       'https://github.com/VARA4u-tech/Samriddhi-Personal-Financial-Management-Platform',
     liveUrl: 'https://samriddhi-personal-financial-manage.vercel.app/',
   },
+ 
   {
     title: 'Sarathi.ai',
     isNew: false,
