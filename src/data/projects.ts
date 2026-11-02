@@ -18,7 +18,7 @@ export interface Project {
 }
 
 export const PROJECTS: Project[] = [
-   {
+  {
     title: 'Spidy Calculator',
     isNew: true,
     tagline: 'With Great Math Comes Great Responsibility',
@@ -58,7 +58,7 @@ export const PROJECTS: Project[] = [
       'https://github.com/VARA4u-tech/Samriddhi-Personal-Financial-Management-Platform',
     liveUrl: 'https://samriddhi-personal-financial-manage.vercel.app/',
   },
- 
+
   {
     title: 'Sarathi.ai',
     isNew: false,
