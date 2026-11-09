@@ -73,6 +73,48 @@ graph TD
 
 ---
 
+## 💥 Comic Book / 3D Pop-Art / Retro Aesthetic Architecture
+
+The portfolio features a **Comic Book / 3D Pop-Art / Retro Aesthetic** inspired by classic Marvel, DC, Amar Chitra Katha, and vintage Roy Lichtenstein pop-art illustrations.
+
+```mermaid
+graph TD
+    User((User)) -->|Toggles Theme| ThemeToggle[Comic / Halloween Toggle in Navbar]
+    ThemeToggle -->|Updates & Persists| ThemeContext[ThemeContext / LocalStorage]
+    ThemeContext -->|Selects Theme| ThemeEngine{Theme State: Default / Halloween / Comic}
+
+    ThemeEngine -->|Comic Active| ComicLayer[ComicGlobalLayer]
+    ComicLayer -->|Texture| HalftoneOverlay[Ben-Day Halftone Dot Pattern]
+    ComicLayer -->|Header Accents| ComicRegistration[Issue & Comic Code Authority Registration]
+    ComicLayer -->|Interactive Companion| ComicBurstEasterEgg[Interactive Sound Burst Easter Egg]
+
+    ThemeEngine -->|Thematic Accents| HeroSection[Comic Burst 'POW!' & Speech Bubbles]
+    ThemeEngine -->|Thematic Accents| AboutSection[Chapter 1 Origin Story & Pop-Art Cards]
+    ThemeEngine -->|Thematic Accents| SkillsSection[Superpowers & Tech Arsenal Badges]
+    ThemeEngine -->|Thematic Accents| ExperienceSection[Chronicle Chapters & Comic Milestones]
+    ThemeEngine -->|Thematic Accents| ProjectCards[Comic Book Covers & 3D Pop Shadows]
+    ThemeEngine -->|Thematic Accents| ContactSection[Hero Signal Dispatch & Beacon Buttons]
+    ThemeEngine -->|Thematic Accents| FinaleFooter[To Be Continued in Vol. 2 & Excelsior Stamp]
+    ThemeEngine -->|Thematic Accents| PixelPet[Superhero Cape, Hero Mask & POW! Bark]
+```
+
+### **Comic Book & Pop-Art Feature Highlights**
+
+- **Unified Theme Switching ([`ThemeContext.tsx`](src/context/ThemeContext.tsx))**: Seamlessly switches between **Default (Neo-Brutalist)**, **🎃 Halloween**, and **💥 Comic Pop-Art** themes without page reloads or UI inconsistencies. Fully backward-compatible with legacy Halloween hooks.
+- **Ben-Day Halftone Dots & Comic Textures ([`comic.css`](src/components/comic/comic.css))**: Pure CSS radial dot patterns creating vintage printed newsprint texture with zero image asset download overhead.
+- **Dimensional 3D Pop-Art Shadows**: Deep solid black ink offsets paired with high-voltage comic yellow (`#FFDE00`) and pop crimson (`#E52521`).
+- **Interactive Action Bursts ([`ComicBurst.tsx`](src/components/comic/ComicBurst.tsx))**: Hand-crafted 16-point SVG explosion bursts (`POW!`, `BOOM!`, `ZAP!`, `KAPOW!`, `LATEST ISSUE!`, `CODE!`) that react with smooth scaling and sound effects.
+- **Speech Bubbles with Directional Tails ([`ComicSpeechBubble.tsx`](src/components/comic/ComicSpeechBubble.tsx))**: Responsive dialog bubbles styled with authentic comic typography and solid drop shadows.
+- **Comic Storyline Chapters**: Styled with serial chapter banners (*"CHAPTER 1: ORIGIN STORY"*, *"CHAPTER 2: ACADEMIC FOUNDATIONS"*, *"CHAPTER 3: PROFESSIONAL CHRONICLES"*, *"CHAPTER 4: FEATURED ISSUES & MISSIONS"*).
+- **Superhero Mascot Makeover ([`PixelPet.tsx`](src/components/PixelPet.tsx))**: In Comic mode, the pixel dog companion dons a dynamic red superhero cape and blue eye mask, barking **"POW! 💥"**.
+- **Mobile & Low-End Optimization (Samsung Galaxy M11)**:
+  - Strict zero-horizontal overflow (`overflow-x: clip`).
+  - No expensive canvas particle loops or heavy `backdrop-filter` passes in the comic layer.
+  - Fully composite-only GPU transforms (`translate3d(0,0,0)`).
+  - Complete compliance with `prefers-reduced-motion`.
+
+---
+
 ## 🏗 System Architecture
 
 The portfolio follows a modular, component-based architecture designed for extreme performance and scalability.
