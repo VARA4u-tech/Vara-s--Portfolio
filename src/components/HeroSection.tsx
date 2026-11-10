@@ -22,8 +22,11 @@ import { useMatrixRain } from '@/hooks/useMatrixRain';
 import { useParticleAssembly } from '@/hooks/useParticleAssembly';
 import { useTypewriter } from '@/hooks/useTypewriter';
 import ResumeModal from './ResumeModal';
-import { useHalloween } from './halloween/HalloweenContext';
+import { useHalloween, useComic } from '@/context/ThemeContext';
 import SpiderWeb from './halloween/SpiderWeb';
+import ComicBurst from './comic/ComicBurst';
+import ComicSpeechBubble from './comic/ComicSpeechBubble';
+import ComicActionLines from './comic/ComicActionLines';
 
 const roles = [
   'Full Stack Developer',
@@ -46,6 +49,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
 
 const HeroSection = () => {
   const { isHalloween } = useHalloween();
+  const { isComic } = useComic();
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const assembleCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -205,6 +209,14 @@ const HeroSection = () => {
               </span>
             </>
           )}
+          {isComic && (
+            <>
+              <br />
+              <span className="text-[#D9B45B] font-bold">
+                // edition: 01 — retro comic press
+              </span>
+            </>
+          )}
         </p>
       </div>
 
@@ -219,8 +231,35 @@ const HeroSection = () => {
         </p>
       </div>
 
+      {/* Illustrated Comic Panels & Mustard Gold Action Lines with Subtle Scroll Parallax */}
+      {isComic && (
+        <motion.div
+          style={{ y: y2 }}
+          className="absolute inset-0 pointer-events-none z-0"
+          aria-hidden="true"
+        >
+          <ComicActionLines opacity={0.34} />
+        </motion.div>
+      )}
+
       {/* Main content */}
       <div className="text-center relative z-10 pt-24 md:pt-20">
+        {/* Minimalist Comic Editorial Lead */}
+        {isComic && (
+          <div className="mb-8 flex flex-wrap items-center justify-center gap-3">
+            <ComicSpeechBubble tail="bottom-left" color="white">
+              <span className="text-[#B58B32]">◆</span>
+              <span>CODE ARCHITECT // FULL STACK &amp; AI</span>
+            </ComicSpeechBubble>
+            <ComicBurst
+              text="VOL. 01"
+              size={48}
+              color="gold"
+              rotate={0}
+              interactive={false}
+            />
+          </div>
+        )}
         {/* Name — GSAP animates each line */}
         <h1
           ref={nameRef}
@@ -229,7 +268,9 @@ const HeroSection = () => {
         >
           <div
             ref={scrambleLine1Ref}
-            className="gsap-name-line glitch-text"
+            className={`gsap-name-line glitch-text ${
+              isComic ? 'text-[#FFFFFF] drop-shadow-[3px_3px_0px_#888888]' : ''
+            }`}
             data-text="Durga Vara"
           >
             Durga Vara
@@ -237,10 +278,14 @@ const HeroSection = () => {
           <br />
           <div
             ref={scrambleLine2Ref}
-            className="gsap-name-line glitch-text"
+            className={`gsap-name-line glitch-text ${
+              isComic ? 'text-[#D9B45B] drop-shadow-[3px_3px_0px_#B58B32]' : ''
+            }`}
             data-text="Prasad."
           >
-            <span className="text-foreground/20">Prasad.</span>
+            <span className={isComic ? 'text-[#D9B45B]' : 'text-foreground/20'}>
+              Prasad.
+            </span>
           </div>
         </h1>
 
@@ -255,26 +300,38 @@ const HeroSection = () => {
           className="gsap-role mt-6 h-8 flex items-center justify-center"
           aria-hidden="true"
         >
-          <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-foreground/50">
+          <span
+            className={`font-mono text-xs md:text-sm tracking-[0.2em] ${
+              isComic ? 'text-[#D9B45B]' : 'text-foreground/50'
+            }`}
+          >
             {'< '}
           </span>
-          <span className="font-mono text-xs md:text-sm tracking-[0.15em] text-foreground/70 font-medium">
+          <span
+            className={`font-mono text-xs md:text-sm tracking-[0.15em] font-medium ${
+              isComic ? 'text-[#FFFFFF]' : 'text-foreground/70'
+            }`}
+          >
             {displayText}
           </span>
           <span
-            className={`font-mono text-xs md:text-sm text-foreground/70 ${
-              cursorVisible ? 'opacity-100' : 'opacity-0'
-            }`}
+            className={`font-mono text-xs md:text-sm ${
+              isComic ? 'text-[#D9B45B]' : 'text-foreground/70'
+            } ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}
           >
             |
           </span>
-          <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-foreground/50">
+          <span
+            className={`font-mono text-xs md:text-sm tracking-[0.2em] ${
+              isComic ? 'text-[#D9B45B]' : 'text-foreground/50'
+            }`}
+          >
             {' />'}
           </span>
         </div>
 
         {/* Tech tags */}
-        <div className="flex flex-wrap gap-2 justify-center mt-8 max-w-md mx-auto">
+        <div className="flex flex-wrap gap-2.5 justify-center mt-8 max-w-lg mx-auto">
           {[
             'React.js',
             'TypeScript',
@@ -285,7 +342,11 @@ const HeroSection = () => {
           ].map((tech) => (
             <span
               key={tech}
-              className="gsap-tag inline-block px-3 py-1 font-mono text-xs border-2 border-foreground/40 text-foreground/80 font-medium tracking-wider hover:bg-foreground hover:text-background transition-colors duration-300 cursor-default rounded-none"
+              className={`gsap-tag inline-block px-3 py-1.5 font-mono text-xs border-2 tracking-wider transition-all duration-200 cursor-default rounded-none select-none ${
+                isComic
+                  ? 'border-[#FFFFFF] bg-[#D9D9D9] text-[#171717] font-bold shadow-[3px_3px_0px_#888888] hover:bg-[#D9B45B] hover:border-[#171717] hover:shadow-[4px_4px_0px_#B58B32] hover:-translate-y-0.5'
+                  : 'border-foreground/40 text-foreground/80 font-bold hover:bg-foreground hover:text-background'
+              }`}
               onMouseEnter={playHover}
             >
               {tech}
@@ -298,6 +359,7 @@ const HeroSection = () => {
           {SOCIAL_LINKS.map((link) => {
             const Icon = ICON_MAP[link.id];
             if (!Icon) return null;
+
             return (
               <div key={link.id} className="gsap-social">
                 <Magnetic strength={0.3}>
@@ -307,7 +369,11 @@ const HeroSection = () => {
                     rel="noopener noreferrer"
                     aria-label={link.label}
                     onClick={playClick}
-                    className="group relative inline-flex items-center justify-center p-3 border-2 border-black bg-white text-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-black hover:text-white rounded-none"
+                    className={`group relative inline-flex items-center justify-center p-3 border-2 transition-all duration-200 rounded-none ${
+                      isComic
+                        ? 'border-[#171717] bg-[#FFFFFF] text-[#171717] shadow-[4px_4px_0px_#B58B32] hover:bg-[#D9B45B] hover:shadow-[5px_5px_0px_#FFFFFF] hover:-translate-y-0.5'
+                        : 'border-black bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-black hover:text-white'
+                    }`}
                   >
                     <Icon className="w-5 h-5" />
                   </a>
@@ -327,7 +393,13 @@ const HeroSection = () => {
                 setIsResumeOpen(true);
               }}
               aria-label="View resume PDF preview"
-              className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-black bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_#FF7518] rounded-none"
+              className={`group relative inline-flex items-center gap-2 px-8 py-4 border-2 text-sm font-black tracking-[0.2em] uppercase transition-all duration-200 rounded-none ${
+                isComic
+                  ? 'border-[#FFFFFF] bg-[#D9B45B] text-[#171717] shadow-[5px_5px_0px_0px_#B58B32] hover:bg-[#B58B32] hover:shadow-[6px_6px_0px_0px_#FFFFFF] hover:-translate-y-0.5'
+                  : isHalloween
+                    ? 'border-black bg-black text-white shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-[8px_8px_0px_0px_#FF7518]'
+                    : 'border-black bg-black text-white shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:bg-white hover:text-black hover:shadow-none'
+              }`}
             >
               <Eye className="w-4 h-4" />
               <span>View Resume</span>
@@ -341,7 +413,11 @@ const HeroSection = () => {
               download="Durga_Vara_Prasad_Resume.pdf"
               onClick={playClick}
               aria-label="Download resume as PDF"
-              className="group relative inline-flex items-center gap-2 px-6 py-4 border-2 border-black bg-white text-black text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] rounded-none"
+              className={`group relative inline-flex items-center gap-2 px-6 py-4 border-2 text-sm font-black tracking-[0.2em] uppercase transition-all duration-200 rounded-none ${
+                isComic
+                  ? 'border-[#D9D9D9] bg-[#171717] text-[#FFFFFF] shadow-[5px_5px_0px_0px_#888888] hover:border-[#D9B45B] hover:text-[#D9B45B] hover:shadow-[6px_6px_0px_0px_#B58B32] hover:-translate-y-0.5'
+                  : 'border-black bg-white text-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)]'
+              }`}
             >
               <Download className="w-4 h-4" />
               <span className="hidden sm:inline">Download</span>
@@ -379,7 +455,13 @@ const HeroSection = () => {
         className="gsap-chevron absolute bottom-4 left-1/2 -translate-x-1/2 z-10"
         aria-hidden="true"
       >
-        <ChevronDown className="w-5 h-5 text-foreground/60 animate-bounce" />
+        <ChevronDown
+          className={`w-5 h-5 ${
+            isComic
+              ? 'text-[#D9B45B]'
+              : 'text-foreground/60 animate-bounce'
+          }`}
+        />
       </div>
     </section>
   );
