@@ -2,6 +2,7 @@ import { useRef, type ReactNode } from 'react';
 import { gsap } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
 import { useScrambleText } from '@/hooks/useScrambleText';
+import { useComic } from '@/context/ThemeContext';
 
 interface SectionBlockProps {
   id: string;
@@ -9,8 +10,19 @@ interface SectionBlockProps {
   children: ReactNode;
 }
 
+const COMIC_CHAPTER_KICKERS: Record<string, string> = {
+  about: '01 // ORIGIN & PHILOSOPHY',
+  education: '02 // ACADEMIC FOUNDATIONS',
+  experience: '03 // CAREER CHRONICLES',
+  achievements: '04 // CERTIFICATES & HONORS',
+  projects: '05 // SELECTED ARCHIVE',
+  skills: '06 // TECHNICAL ARSENAL',
+  contact: '07 // DIRECT SIGNAL',
+};
+
 const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
   const sectionRef = useRef<HTMLElement>(null);
+  const { isComic } = useComic();
   const { ref: titleRef, scramble } = useScrambleText<HTMLHeadingElement>({
     duration: 750,
     fps: 28,
@@ -20,9 +32,6 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
     () => {
       const section = sectionRef.current;
       if (!section) return;
-
-      // Detect mobile/tablet — reduce motion intensity for performance
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
       // Section title — masked slide-up + triggers scramble
       gsap.fromTo(
@@ -49,12 +58,23 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
     [id],
   );
 
+  const kicker = COMIC_CHAPTER_KICKERS[id];
+
   return (
     <section
       ref={sectionRef}
       id={id}
-      className="max-w-6xl mx-auto px-6 py-16 md:py-32"
+      className="relative max-w-6xl mx-auto px-6 py-16 md:py-32"
     >
+      {isComic && kicker && (
+        <div className="mb-4">
+          <span className="comic-editorial-kicker">
+            <span className="text-[#D9B45B]">◆</span>
+            <span>{kicker}</span>
+          </span>
+        </div>
+      )}
+
       <div className="overflow-hidden mb-12">
         <h2
           ref={titleRef}
