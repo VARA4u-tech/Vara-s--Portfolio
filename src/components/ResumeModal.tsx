@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, FileText, ExternalLink, Loader2 } from 'lucide-react';
 import { playClick, playPop } from '@/hooks/useSoundEffects';
+import { useComic } from '@/context/ThemeContext';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ const ResumeModal = ({
   resumeUrl = '/Durga_Vara_Prasad_Resume.pdf',
   downloadName = 'Durga_Vara_Prasad_Resume.pdf',
 }: ResumeModalProps) => {
+  const { isComic } = useComic();
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -91,20 +93,48 @@ const ResumeModal = ({
 
           {/* Modal Panel */}
           <motion.div
-            className="relative w-full max-w-4xl h-[90vh] flex flex-col bg-white border-4 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] rounded-none"
+            className={`relative w-full max-w-4xl h-[90vh] flex flex-col border-4 rounded-none ${
+              isComic
+                ? 'bg-[#FFFFFF] border-[#171717] shadow-[14px_14px_0px_0px_#D9B45B]'
+                : 'bg-white border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]'
+            }`}
             initial={{ opacity: 0, y: 60, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.97 }}
             transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
             {/* ── Top Bar ── */}
-            <div className="flex items-center justify-between px-5 py-3 border-b-4 border-black bg-black text-white shrink-0">
+            <div
+              className={`flex items-center justify-between px-5 py-3 border-b-4 text-white shrink-0 ${
+                isComic
+                  ? 'border-[#171717] bg-[#171717]'
+                  : 'border-black bg-black'
+              }`}
+            >
               {/* Left: title */}
               <div className="flex items-center gap-3">
                 <div className="flex gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-red-500 border border-red-700" />
-                  <span className="w-3 h-3 rounded-full bg-yellow-400 border border-yellow-600" />
-                  <span className="w-3 h-3 rounded-full bg-green-500 border border-green-700" />
+                  <span
+                    className={`w-3 h-3 rounded-full border ${
+                      isComic
+                        ? 'bg-[#FFFFFF] border-[#888888]'
+                        : 'bg-red-500 border-red-700'
+                    }`}
+                  />
+                  <span
+                    className={`w-3 h-3 rounded-full border ${
+                      isComic
+                        ? 'bg-[#D9D9D9] border-[#888888]'
+                        : 'bg-yellow-400 border-yellow-600'
+                    }`}
+                  />
+                  <span
+                    className={`w-3 h-3 rounded-full border ${
+                      isComic
+                        ? 'bg-[#D9B45B] border-[#B58B32]'
+                        : 'bg-green-500 border-green-700'
+                    }`}
+                  />
                 </div>
                 <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/80 hidden sm:block">
                   Durga_Vara_Prasad_Resume.pdf
@@ -154,7 +184,11 @@ const ResumeModal = ({
                   }}
                   title="Close preview (Esc)"
                   aria-label="Close resume preview"
-                  className="p-2 border border-white/20 hover:bg-red-600 hover:border-red-600 transition-colors rounded-none"
+                  className={`p-2 border border-white/20 transition-colors rounded-none ${
+                    isComic
+                      ? 'hover:bg-[#D9B45B] hover:border-[#D9B45B] hover:text-[#171717]'
+                      : 'hover:bg-red-600 hover:border-red-600'
+                  }`}
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -193,7 +227,7 @@ const ResumeModal = ({
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={playClick}
-                      className="flex items-center gap-2 px-5 py-2.5 border-2 border-black bg-white font-mono text-xs font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] rounded-none"
+                      className="flex items-center gap-2 px-5 py-2.5 border-2 border-black bg-white text-black font-mono text-xs font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] rounded-none"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       Open PDF
@@ -225,7 +259,7 @@ const ResumeModal = ({
             <div className="flex items-center justify-between px-5 py-2.5 border-t-2 border-black/10 bg-zinc-50 shrink-0">
               <p className="font-mono text-[10px] text-black/40 uppercase tracking-widest">
                 Press{' '}
-                <kbd className="px-1.5 py-0.5 border border-black/20 bg-white font-mono text-[9px] rounded-none">
+                <kbd className="px-1.5 py-0.5 border border-black/20 bg-white text-black font-mono text-[9px] rounded-none">
                   ESC
                 </kbd>{' '}
                 to close
