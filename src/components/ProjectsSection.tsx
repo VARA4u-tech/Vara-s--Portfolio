@@ -5,6 +5,7 @@ import SectionBlock from './SectionBlock';
 import ProjectCard from './ProjectCard';
 import { playHover, playClick } from '@/hooks/useSoundEffects';
 import { PROJECTS, type FilterKey } from '@/data/projects';
+import { useComic } from '@/context/ThemeContext';
 
 // ─── Filter definitions ───────────────────────────────────────────────────────
 const FILTERS: { key: FilterKey; label: string }[] = [
@@ -17,28 +18,29 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 
 // ─── Card enter/exit variants ─────────────────────────────────────────────────
 const cardVariants = {
-  hidden: { opacity: 0, y: 32, scale: 0.97 },
+  hidden: { opacity: 0, y: 24, scale: 0.98 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.4,
-      delay: i * 0.06,
-      ease: [0.21, 0.47, 0.32, 0.98] as [number, number, number, number],
+      duration: 0.38,
+      delay: i * 0.05,
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
     },
   }),
   exit: {
     opacity: 0,
-    y: -16,
-    scale: 0.96,
-    transition: { duration: 0.22, ease: 'easeIn' as const },
+    y: -12,
+    scale: 0.97,
+    transition: { duration: 0.2, ease: 'easeIn' as const },
   },
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
 const ProjectsSection = () => {
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
+  const { isComic } = useComic();
   const gridRef = useRef<HTMLDivElement>(null);
 
   const filtered =
@@ -49,7 +51,7 @@ const ProjectsSection = () => {
   return (
     <SectionBlock id="projects" title="Projects">
       {/* ── Filter Tabs ── */}
-      <div className="flex flex-wrap gap-2 mb-10">
+      <div className="flex flex-wrap gap-2.5 mb-10">
         {FILTERS.map((f) => {
           const count =
             f.key === 'all'
@@ -74,8 +76,12 @@ const ProjectsSection = () => {
               className={[
                 'relative flex items-center gap-2 px-4 py-2 border-2 font-mono text-xs font-black uppercase tracking-widest transition-all duration-200 rounded-none select-none',
                 isActive
-                  ? 'bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]'
-                  : 'bg-white text-foreground border-black/40 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.08)] hover:border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-[1px] hover:-translate-y-[1px]',
+                  ? isComic
+                    ? 'bg-[#D9B45B] text-[#171717] border-[#FFFFFF] shadow-[4px_4px_0px_#B58B32]'
+                    : 'bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]'
+                  : isComic
+                    ? 'bg-[#171717] text-[#D9D9D9] border-[#888888] shadow-[3px_3px_0px_#888888] hover:border-[#D9B45B] hover:text-[#FFFFFF] hover:shadow-[4px_4px_0px_#B58B32] hover:-translate-x-[1px] hover:-translate-y-[1px]'
+                    : 'bg-white text-foreground border-black/40 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.08)] hover:border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-[1px] hover:-translate-y-[1px]',
               ].join(' ')}
             >
               <span>{f.label}</span>
@@ -84,8 +90,12 @@ const ProjectsSection = () => {
                 className={[
                   'inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[9px] font-black rounded-none border transition-colors duration-200',
                   isActive
-                    ? 'bg-white text-black border-white/40'
-                    : 'bg-black/8 text-black border-black/10',
+                    ? isComic
+                      ? 'bg-[#171717] text-[#FFFFFF] border-[#171717]'
+                      : 'bg-white text-black border-white/40'
+                    : isComic
+                      ? 'bg-[#D9D9D9] text-[#171717] border-[#D9D9D9]'
+                      : 'bg-black/8 text-black border-black/10',
                 ].join(' ')}
               >
                 {count}
@@ -95,7 +105,9 @@ const ProjectsSection = () => {
               {isActive && (
                 <motion.span
                   layoutId="filter-underline"
-                  className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/40"
+                  className={`absolute bottom-0 left-0 right-0 h-[3px] ${
+                    isComic ? 'bg-[#171717]' : 'bg-white/40'
+                  }`}
                   transition={{ type: 'spring', stiffness: 400, damping: 35 }}
                 />
               )}
@@ -104,13 +116,20 @@ const ProjectsSection = () => {
         })}
 
         {/* Total label */}
-        <span className="ml-auto self-center font-mono text-[10px] text-foreground/40 uppercase tracking-widest hidden sm:block">
+        <span
+          className={`ml-auto self-center font-mono text-[10px] uppercase tracking-widest hidden sm:block ${
+            isComic ? 'text-[#888888]' : 'text-foreground/40'
+          }`}
+        >
           {filtered.length} / {PROJECTS.length} shown
         </span>
       </div>
 
       {/* ── Project Grid ── */}
-      <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-6 pb-12 pt-6 px-4 -mx-4 scroll-pl-4 md:scroll-pl-0 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-x-visible md:snap-none">
+      <div
+        ref={gridRef}
+        className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-6 pb-12 pt-6 px-4 -mx-4 scroll-pl-4 md:scroll-pl-0 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-x-visible md:snap-none"
+      >
         <AnimatePresence mode="popLayout">
           {filtered.map((project, i) => {
             const categories = project.categories.map((cat) => {
@@ -152,7 +171,11 @@ const ProjectsSection = () => {
             exit={{ opacity: 0 }}
             className="col-span-full py-20 text-center"
           >
-            <p className="font-mono text-sm uppercase tracking-widest text-foreground/40">
+            <p
+              className={`font-mono text-sm uppercase tracking-widest ${
+                isComic ? 'text-[#888888]' : 'text-foreground/40'
+              }`}
+            >
               No projects in this category yet.
             </p>
           </motion.div>
@@ -166,7 +189,11 @@ const ProjectsSection = () => {
           target="_blank"
           rel="noopener noreferrer"
           onClick={playClick}
-          className="group flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] border-b-2 border-black pb-1 hover:gap-5 transition-all w-fit"
+          className={`group flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] border-b-2 pb-1 hover:gap-5 transition-all w-fit ${
+            isComic
+              ? 'text-[#FFFFFF] border-[#D9B45B] hover:text-[#D9B45B]'
+              : 'border-black'
+          }`}
         >
           <Github className="w-4 h-4" />
           Explore Original Repositories
