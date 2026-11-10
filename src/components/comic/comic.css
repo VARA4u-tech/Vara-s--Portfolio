@@ -1,0 +1,531 @@
+/* ==========================================================================
+   RETRO NOIR COMIC PRESS — EDITORIAL & INDUSTRIAL 3D POP-ART SYSTEM
+   Strict 6-Color Palette:
+     Deep Black      #171717  (Primary background, dark surfaces, headings)
+     Pure White      #FFFFFF  (Primary text, contrast surfaces, highlights)
+     Concrete Gray   #D9D9D9  (Secondary backgrounds, panels, borders)
+     Industrial Gray #888888  (Muted text, subtle details, dividers)
+     Mustard Gold    #D9B45B  (Primary accent, interactive highlights)
+     Dark Gold       #B58B32  (Secondary accent, hover states, depth)
+   ========================================================================== */
+
+:root {
+  --cm-black: #171717;
+  --cm-white: #ffffff;
+  --cm-concrete: #d9d9d9;
+  --cm-gray: #888888;
+  --cm-gold: #d9b45b;
+  --cm-dark-gold: #b58b32;
+}
+
+/* ── CSS Token Scope (Active Only in Comic Theme) ── */
+html[data-theme='comic'] {
+  --background: 0 0% 9%; /* #171717 Deep Black */
+  --foreground: 0 0% 100%; /* #FFFFFF Pure White */
+  --card: 0 0% 100%; /* #FFFFFF Contrast Card */
+  --card-foreground: 0 0% 9%; /* #171717 Ink */
+  --secondary: 0 0% 85%; /* #D9D9D9 Concrete Gray */
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 53%; /* #888888 Industrial Gray */
+  --muted-foreground: 0 0% 53%;
+  --border: 0 0% 85%; /* #D9D9D9 */
+  --ring: 42 62% 60%; /* #D9B45B Mustard Gold */
+}
+
+/* ── Primary Canvas & Halftone Print Texture ── */
+html[data-theme='comic'],
+html[data-theme='comic'] body,
+html[data-theme='comic'] .bg-background {
+  background-color: #171717 !important;
+  background-image: radial-gradient(
+    rgba(217, 217, 217, 0.085) 1px,
+    transparent 1px
+  ) !important;
+  background-size: 16px 16px !important;
+  background-position: 0 0 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme='comic'] .body-text {
+  color: #d9d9d9 !important;
+  font-weight: 400;
+}
+
+/* Smooth theme surface transition */
+html[data-theme='comic'] body,
+html[data-theme='comic'] nav,
+html[data-theme='comic'] section {
+  transition:
+    background-color 0.35s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Hide conflicting default-theme background canvases cleanly without unmounting */
+html[data-theme='comic'] .matrix-rain-canvas {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+html[data-theme='comic'] .pixel-grid-canvas {
+  display: none !important;
+}
+
+/* Override PixelCursor blend mode for #171717 canvas */
+html[data-theme='comic'] .pixel-cursor-canvas {
+  mix-blend-mode: normal !important;
+  opacity: 0.65;
+}
+
+/* Override GlitchText cyan/magenta shadows with official palette */
+html[data-theme='comic'] .glitch-text:hover::before {
+  text-shadow: -2px 0 #d9b45b !important;
+}
+
+html[data-theme='comic'] .glitch-text:hover::after {
+  text-shadow:
+    -2px 0 #888888,
+    2px 2px #b58b32 !important;
+}
+
+/* ── Editorial Navbar ── */
+html[data-theme='comic'] nav {
+  background-color: #171717 !important;
+  border-bottom: 2px solid #888888 !important;
+  box-shadow: 0 4px 0px #171717, 0 6px 0px #b58b32 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-theme='comic'] .nav-link {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease !important;
+}
+
+html[data-theme='comic'] .nav-link:hover {
+  color: #d9b45b !important;
+  text-shadow: 2px 2px 0px #171717 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Consistent trigger buttons inside Comic Navbar (leave dropdown option buttons clean) */
+html[data-theme='comic'] nav button[data-nav-trigger] {
+  border-color: #d9d9d9 !important;
+  box-shadow: 3px 3px 0px #888888 !important;
+}
+
+html[data-theme='comic'] nav button[data-nav-trigger]:hover {
+  border-color: #d9b45b !important;
+  box-shadow: 3px 3px 0px #b58b32 !important;
+}
+
+/* ── Section Dividers & Contrast Titles ── */
+html[data-theme='comic'] section {
+  position: relative;
+}
+
+/* Architectural comic panel hairline gutter between sections */
+html[data-theme='comic'] section:not(#hero):not(#finale)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92%, 1120px);
+  height: 1px;
+  background-color: #888888;
+  opacity: 0.45;
+}
+
+/* Section Heading Plate: Pure White Contrast Surface + Deep Black Ink + Gold Depth */
+html[data-theme='comic'] .section-title {
+  display: inline-block;
+  background-color: #ffffff !important;
+  color: #171717 !important;
+  padding: 0.45rem 1.25rem !important;
+  border: 2.5px solid #d9d9d9 !important;
+  box-shadow:
+    5px 5px 0px #b58b32,
+    8px 8px 0px #d9d9d9 !important;
+  letter-spacing: -0.03em;
+  font-weight: 900;
+  max-width: 100%;
+}
+
+/* Hero Headline Layering */
+html[data-theme='comic'] .heading-brutal {
+  text-shadow: 3px 3px 0px #171717 !important;
+}
+
+/* ── Halftone & Print Texture Utilities (Strict Palette Only) ── */
+.comic-halftone-screen {
+  background-image: radial-gradient(
+    rgba(217, 217, 217, 0.065) 1px,
+    transparent 1px
+  );
+  background-size: 12px 12px;
+  background-position: 0 0;
+}
+
+.comic-halftone-panel-dots {
+  background-image: radial-gradient(#888888 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+
+.comic-halftone-gold-dots {
+  background-image: radial-gradient(#d9b45b 1.2px, transparent 1.2px);
+  background-size: 10px 10px;
+}
+
+/* ── Layered 3D Comic Panels (Controlled, Refined Motion) ── */
+.comic-panel-white {
+  background-color: #ffffff !important;
+  color: #171717 !important;
+  border: 2px solid #d9d9d9 !important;
+  box-shadow: 5px 5px 0px #888888 !important;
+  transition:
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.24s ease;
+  will-change: transform;
+}
+
+.comic-panel-white:hover {
+  transform: translate(-3px, -3px);
+  border-color: #d9b45b !important;
+  box-shadow: 7px 7px 0px #d9b45b !important;
+}
+
+.comic-panel-white:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px #b58b32 !important;
+}
+
+.comic-panel-concrete {
+  background-color: #d9d9d9 !important;
+  color: #171717 !important;
+  border: 2px solid #171717 !important;
+  box-shadow: 5px 5px 0px #888888 !important;
+  transition:
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.24s ease;
+  will-change: transform;
+}
+
+.comic-panel-concrete:hover {
+  transform: translate(-3px, -3px);
+  border-color: #b58b32 !important;
+  box-shadow: 7px 7px 0px #b58b32 !important;
+}
+
+.comic-panel-dark {
+  background-color: #171717 !important;
+  color: #ffffff !important;
+  border: 2px solid #888888 !important;
+  box-shadow: 5px 5px 0px #b58b32 !important;
+  transition:
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.24s ease;
+  will-change: transform;
+}
+
+.comic-panel-dark:hover {
+  transform: translate(-3px, -3px);
+  border-color: #d9b45b !important;
+  box-shadow: 7px 7px 0px #d9b45b !important;
+}
+
+/* ── Editorial Badges & Chapter Tags ── */
+.comic-badge-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1.5px solid #171717;
+  background-color: #d9b45b;
+  color: #171717;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  box-shadow: 3px 3px 0px #b58b32;
+}
+
+.comic-badge-concrete {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1.5px solid #171717;
+  background-color: #d9d9d9;
+  color: #171717;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  box-shadow: 3px 3px 0px #888888;
+}
+
+.comic-badge-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1.5px solid #d9d9d9;
+  background-color: #171717;
+  color: #ffffff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  box-shadow: 3px 3px 0px #b58b32;
+}
+
+/* Subtle Chapter Tag Plate above/beside section headers */
+.comic-editorial-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.75rem;
+  border: 1.5px solid #888888;
+  background-color: #171717;
+  color: #d9d9d9;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  box-shadow: 3px 3px 0px #b58b32;
+}
+
+/* ── Minimalist Comic Speech Bubble ── */
+.comic-speech-bubble {
+  position: relative;
+  border: 2px solid #171717;
+  padding: 0.5rem 1rem;
+  font-weight: 800;
+  box-shadow: 4px 4px 0px #b58b32;
+  display: inline-block;
+  line-height: 1.3;
+}
+
+/* ── Cursor-Following Project Card Badges (Strict 6-Color Override) ── */
+html[data-theme='comic'] .cursor-zone-badge {
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 4px 4px 0px #171717 !important;
+}
+
+html[data-theme='comic'] .cursor-zone-badge.badge-source {
+  background: #171717 !important;
+  border: 2px solid #d9d9d9 !important;
+}
+
+html[data-theme='comic'] .cursor-zone-badge.badge-source .badge-icon {
+  color: #d9b45b !important;
+  filter: none !important;
+}
+
+html[data-theme='comic'] .cursor-zone-badge.badge-source .badge-label {
+  color: #ffffff !important;
+}
+
+html[data-theme='comic'] .cursor-zone-badge.badge-live {
+  background: #d9b45b !important;
+  border: 2px solid #171717 !important;
+}
+
+html[data-theme='comic'] .cursor-zone-badge.badge-live .badge-icon,
+html[data-theme='comic'] .cursor-zone-badge.badge-live .badge-label {
+  color: #171717 !important;
+  filter: none !important;
+}
+
+/* ── Back Cover Finale Overrides ── */
+html[data-theme='comic'] #finale {
+  background-color: #171717 !important;
+  background-image: radial-gradient(
+    rgba(217, 217, 217, 0.085) 1px,
+    transparent 1px
+  ) !important;
+  background-size: 16px 16px !important;
+  color: #ffffff !important;
+  border-top: 4px solid #d9b45b !important;
+}
+
+/* ── PixelPet / Hero Assistant Comic Overrides ── */
+html[data-theme='comic'] .pixel-pet-svg {
+  color: #ffffff !important;
+  filter: drop-shadow(2px 2px 0px #171717);
+}
+
+html[data-theme='comic'] .pixel-pet-zzz {
+  color: #d9b45b !important;
+}
+
+.pixel-pet-hero-cape {
+  transform-origin: 24px 28px;
+  animation: heroCapeSway 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes heroCapeSway {
+  from {
+    transform: rotate(-2.5deg);
+  }
+  to {
+    transform: rotate(3.5deg);
+  }
+}
+
+.comic-cape-flutter {
+  transform-origin: 54px 26px;
+  animation: comicCapeFlutter 0.36s ease-in-out infinite alternate;
+}
+
+@keyframes comicCapeFlutter {
+  from {
+    transform: skewY(-2deg) scaleY(0.96);
+  }
+  to {
+    transform: skewY(3deg) scaleY(1.04);
+  }
+}
+
+.comic-signal-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: comicSignalPulse 4.5s ease-in-out infinite;
+}
+
+@keyframes comicSignalPulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+html[data-theme='comic'] .pixel-pet-speech-bark {
+  background: #ffffff !important;
+  border-color: #171717 !important;
+  box-shadow: 3px 3px 0px #d9b45b !important;
+  color: #171717 !important;
+}
+
+html[data-theme='comic'] .pixel-pet-speech-bark::after {
+  border-top-color: #171717 !important;
+}
+
+html[data-theme='comic'] .pixel-pet-speech-bark::before {
+  border-top-color: #ffffff !important;
+}
+
+html[data-theme='comic'] .pixel-pet-speech-tip {
+  background: #d9b45b !important;
+  color: #171717 !important;
+}
+
+html[data-theme='comic'] .pixel-pet-speech-tip::before {
+  border-top-color: #d9b45b !important;
+}
+
+html[data-theme='comic'] .pixel-pet-speech-notice {
+  background: #d9b45b !important;
+  border-color: #171717 !important;
+  box-shadow: 3px 3px 0px #171717 !important;
+  color: #171717 !important;
+}
+
+html[data-theme='comic'] .pixel-pet-speech-notice::before {
+  border-top-color: #d9b45b !important;
+}
+
+/* ── Terminal Button & ScrollToTop Cohesion ── */
+html[data-theme='comic'] button[aria-label='Open Terminal'] {
+  background-color: #ffffff !important;
+  color: #171717 !important;
+  border: 2px solid #171717 !important;
+  box-shadow: 4px 4px 0px #d9b45b !important;
+}
+
+html[data-theme='comic'] button[aria-label='Open Terminal']:hover {
+  background-color: #d9b45b !important;
+  color: #171717 !important;
+  box-shadow: 4px 4px 0px #b58b32 !important;
+}
+
+html[data-theme='comic'] button[aria-label='Scroll to top'] > div {
+  background-color: #171717 !important;
+  border: 1.5px solid #888888;
+  box-shadow: 3px 3px 0px #b58b32 !important;
+  backdrop-filter: none !important;
+}
+
+/* ── Reduced Motion Preferences ── */
+@media (prefers-reduced-motion: reduce) {
+  .comic-panel-white,
+  .comic-panel-concrete,
+  .comic-panel-dark,
+  .pixel-pet-hero-cape,
+  .comic-cape-flutter,
+  .comic-signal-pulse,
+  html[data-theme='comic'] body,
+  html[data-theme='comic'] nav,
+  html[data-theme='comic'] section {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .comic-panel-white:hover,
+  .comic-panel-concrete:hover,
+  .comic-panel-dark:hover {
+    transform: none !important;
+  }
+}
+
+/* ── Mobile & Low-End Android Optimization (Samsung Galaxy M11: <= 640px) ── */
+@media (max-width: 640px) {
+  html[data-theme='comic'],
+  html[data-theme='comic'] body,
+  html[data-theme='comic'] .bg-background {
+    background-size: 20px 20px !important;
+  }
+
+  html[data-theme='comic'] .section-title {
+    padding: 0.35rem 0.9rem !important;
+    box-shadow: 4px 4px 0px #b58b32 !important;
+  }
+
+  .comic-panel-white,
+  .comic-panel-concrete,
+  .comic-panel-dark {
+    box-shadow: 3px 3px 0px #888888 !important;
+  }
+
+  .comic-panel-white:hover,
+  .comic-panel-concrete:hover,
+  .comic-panel-dark:hover {
+    transform: translate(-1.5px, -1.5px);
+    box-shadow: 4px 4px 0px #d9b45b !important;
+  }
+
+  .comic-speech-bubble {
+    font-size: 0.72rem;
+    padding: 0.4rem 0.75rem;
+    box-shadow: 3px 3px 0px #b58b32;
+  }
+
+  .comic-editorial-kicker {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.55rem;
+    letter-spacing: 0.1em;
+  }
+}
