@@ -173,6 +173,7 @@ const PixelGrid = () => {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
+      className="pixel-grid-canvas"
       style={{
         position: 'fixed',
         inset: 0,
