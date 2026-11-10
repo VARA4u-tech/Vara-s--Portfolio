@@ -73,45 +73,50 @@ graph TD
 
 ---
 
-## 💥 Comic Book / 3D Pop-Art / Retro Aesthetic Architecture
+## 💥 Comic Book / Noir Press / 3D Pop-Art Theme Architecture
 
-The portfolio features a **Comic Book / 3D Pop-Art / Retro Aesthetic** inspired by classic Marvel, DC, Amar Chitra Katha, and vintage Roy Lichtenstein pop-art illustrations.
+The portfolio features a refined **Retro Comic Press & Editorial Pop-Art** theme built around a disciplined 6-color visual system inspired by vintage monochrome comic print, industrial brutalism, and graphic novel typography:
+
+- **Deep Black (`#171717`)** — Primary canvas, dark surfaces, high-contrast panel headings
+- **Pure White (`#FFFFFF`)** — Primary typography and contrast panels
+- **Concrete Gray (`#D9D9D9`)** — Secondary panels, structural surfaces, architectural borders
+- **Industrial Gray (`#888888`)** — Muted metadata, captions, section hairline gutters
+- **Mustard Gold (`#D9B45B`)** — Single primary accent and interactive highlights
+- **Dark Gold (`#B58B32`)** — Secondary gold support, hover states, and 3D offset shadow depth
 
 ```mermaid
 graph TD
-    User((User)) -->|Toggles Theme| ThemeToggle[Comic / Halloween Toggle in Navbar]
+    User((User)) -->|Selects Theme| ThemeToggle[ThemeSelector & PreferencesPopover in Navbar]
     ThemeToggle -->|Updates & Persists| ThemeContext[ThemeContext / LocalStorage]
     ThemeContext -->|Selects Theme| ThemeEngine{Theme State: Default / Halloween / Comic}
 
     ThemeEngine -->|Comic Active| ComicLayer[ComicGlobalLayer]
-    ComicLayer -->|Texture| HalftoneOverlay[Ben-Day Halftone Dot Pattern]
-    ComicLayer -->|Header Accents| ComicRegistration[Issue & Comic Code Authority Registration]
-    ComicLayer -->|Interactive Companion| ComicBurstEasterEgg[Interactive Sound Burst Easter Egg]
+    ComicLayer -->|Skyline Flyby| HeroPatrol[ComicSkylinePatrol: Sentinel, Grappler & Sky-Wing]
+    ComicLayer -->|Atmosphere| ComicMotes[ComicAtmosphere: Star Glints & Ink Flecks]
+    ComicLayer -->|Framing| ComicCorners[ComicCornerFrames & Halftone Overlay]
+    ComicLayer -->|Micro-FX| ComicBursts[ComicImpactBursts: POW! / ZAP! / THWIP!]
 
-    ThemeEngine -->|Thematic Accents| HeroSection[Comic Burst 'POW!' & Speech Bubbles]
-    ThemeEngine -->|Thematic Accents| AboutSection[Chapter 1 Origin Story & Pop-Art Cards]
-    ThemeEngine -->|Thematic Accents| SkillsSection[Superpowers & Tech Arsenal Badges]
-    ThemeEngine -->|Thematic Accents| ExperienceSection[Chronicle Chapters & Comic Milestones]
-    ThemeEngine -->|Thematic Accents| ProjectCards[Comic Book Covers & 3D Pop Shadows]
-    ThemeEngine -->|Thematic Accents| ContactSection[Hero Signal Dispatch & Beacon Buttons]
-    ThemeEngine -->|Thematic Accents| FinaleFooter[To Be Continued in Vol. 2 & Excelsior Stamp]
-    ThemeEngine -->|Thematic Accents| PixelPet[Superhero Cape, Hero Mask & POW! Bark]
+    ThemeEngine -->|Thematic Accents| HeroSection[B&W Comic Panel Frames, Mustard-Gold Action Lines & Speech Bubble]
+    ThemeEngine -->|Thematic Accents| SectionHeaders[Unified Chapter Kickers & Contrast Heading Plates]
+    ThemeEngine -->|Thematic Accents| LayeredPanels[Layered White & Concrete Gray 3D Offset Panels]
+    ThemeEngine -->|Thematic Accents| ProjectCards[Archival Plates, Hover Depth & Custom Cursor Badges]
+    ThemeEngine -->|Thematic Accents| ContactSection[High-Contrast Signal Inputs & Mustard-Gold Submit]
+    ThemeEngine -->|Thematic Accents| FinaleFooter[Vol. 01 Dark Colophon Strip & Social Panels]
+    ThemeEngine -->|Thematic Accents| PixelPet[64x64 Vector Superhero Assistant with Gold Cape]
 ```
 
-### **Comic Book & Pop-Art Feature Highlights**
+### **Retro Comic Press Highlights**
 
-- **Unified Theme Switching ([`ThemeContext.tsx`](src/context/ThemeContext.tsx))**: Seamlessly switches between **Default (Neo-Brutalist)**, **🎃 Halloween**, and **💥 Comic Pop-Art** themes without page reloads or UI inconsistencies. Fully backward-compatible with legacy Halloween hooks.
-- **Ben-Day Halftone Dots & Comic Textures ([`comic.css`](src/components/comic/comic.css))**: Pure CSS radial dot patterns creating vintage printed newsprint texture with zero image asset download overhead.
-- **Dimensional 3D Pop-Art Shadows**: Deep solid black ink offsets paired with high-voltage comic yellow (`#FFDE00`) and pop crimson (`#E52521`).
-- **Interactive Action Bursts ([`ComicBurst.tsx`](src/components/comic/ComicBurst.tsx))**: Hand-crafted 16-point SVG explosion bursts (`POW!`, `BOOM!`, `ZAP!`, `KAPOW!`, `LATEST ISSUE!`, `CODE!`) that react with smooth scaling and sound effects.
-- **Speech Bubbles with Directional Tails ([`ComicSpeechBubble.tsx`](src/components/comic/ComicSpeechBubble.tsx))**: Responsive dialog bubbles styled with authentic comic typography and solid drop shadows.
-- **Comic Storyline Chapters**: Styled with serial chapter banners (*"CHAPTER 1: ORIGIN STORY"*, *"CHAPTER 2: ACADEMIC FOUNDATIONS"*, *"CHAPTER 3: PROFESSIONAL CHRONICLES"*, *"CHAPTER 4: FEATURED ISSUES & MISSIONS"*).
-- **Superhero Mascot Makeover ([`PixelPet.tsx`](src/components/PixelPet.tsx))**: In Comic mode, the pixel dog companion dons a dynamic red superhero cape and blue eye mask, barking **"POW! 💥"**.
+- **Unified Theme Switching ([`ThemeContext.tsx`](src/context/ThemeContext.tsx))**: Seamlessly switches between **Default (Neo-Brutalist)**, **🎃 Halloween**, and **Retro Comic Press** themes without page reloads or UI inconsistencies. Backward-compatible with legacy Halloween hooks.
+- **Retro Hero Assistant Companion ([`PixelPet.tsx`](src/components/PixelPet.tsx))**: In Comic mode, replaces the pixel dog with an interactive `64x64` vector Superhero Assistant wearing white armor, dark stealth cowl, domino mask, and a flowing Mustard Gold cape; clicking him dispatches a skyline patrol pass.
+- **Superhero Skyline Patrol ([`ComicSkylinePatrol.tsx`](src/components/comic/ComicSkylinePatrol.tsx))**: Periodic aerial flybys featuring three alternating Noir Gold & Ink SVG silhouettes — a soaring caped **Sentinel**, a grapple-swinging **Vigilante**, and a **Noir Sky-Wing** interceptor with trailing action captions (`WHOOSH!`, `THWIP!`, `ZOOM!`).
+- **Tactile Comic Impact Bursts ([`ComicImpactBursts.tsx`](src/components/comic/ComicImpactBursts.tsx))**: Throttled, viewport-clamped pop-art onomatopoeia starbursts (`POW!`, `ZAP!`, `BAM!`, `THWIP!`, `SNAP!`) on interactive clicks outside dialogs/inputs.
+- **Atmospheric Glints & Corner Framing ([`ComicAtmosphere.tsx`](src/components/comic/ComicAtmosphere.tsx), [`ComicCornerFrames.tsx`](src/components/comic/ComicCornerFrames.tsx))**: Unblurred 4-point comic glints, ink flecks, Ben-Day corner wedges, and a top-right Hero Signal crosshair beacon on `#171717` ink ground.
+- **B&W Illustrated Comic Panels & Action Lines ([`ComicActionLines.tsx`](src/components/comic/ComicActionLines.tsx))**: Static geometric SVG comic panels with crisp Mustard-Gold directional speed lines and subtle scroll parallax.
+- **Minimalist Speech Bubbles & Seals ([`ComicSpeechBubble.tsx`](src/components/comic/ComicSpeechBubble.tsx), [`ComicBurst.tsx`](src/components/comic/ComicBurst.tsx))**: Clean SVG-tailed bubbles and editorial `VOL. 01` geometric burst stamps strictly locked to the 6-color system.
 - **Mobile & Low-End Optimization (Samsung Galaxy M11)**:
-  - Strict zero-horizontal overflow (`overflow-x: clip`).
-  - No expensive canvas particle loops or heavy `backdrop-filter` passes in the comic layer.
-  - Fully composite-only GPU transforms (`translate3d(0,0,0)`).
-  - Complete compliance with `prefers-reduced-motion`.
+  - Zero horizontal overflow (`overflow-x: clip`), viewport-clamped click bursts, and constrained mobile offset shadows.
+  - GPU-friendly transforms (`transform`/`opacity`), zero canvas `shadowBlur`, visibility-paused loops, and full `prefers-reduced-motion` support.
 
 ---
 
