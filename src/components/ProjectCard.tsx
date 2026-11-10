@@ -1,11 +1,11 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Github, ExternalLink, ArrowUpRight, Code2 } from 'lucide-react';
+import { Github, ExternalLink, ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from './ui/badge';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
 import { gsap } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
-import { useHalloween } from './halloween/HalloweenContext';
+import { useHalloween, useComic } from '@/context/ThemeContext';
 
 interface Project {
   title: string;
@@ -33,6 +33,7 @@ interface CursorPos {
 
 export const ProjectCard = ({ project, index }: ProjectCardProps) => {
   const { isHalloween } = useHalloween();
+  const { isComic } = useComic();
   const [hoverZone, setHoverZone] = useState<HoverZone>(null);
   const [cursorPos, setCursorPos] = useState<CursorPos>({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(() =>
@@ -60,7 +61,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
           trigger: cardRef.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1, // Smooth scrub
+          scrub: 1,
         },
       });
     },
@@ -98,7 +99,6 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
   // Determine badge config based on zone
   const isSource = hoverZone === 'left' || (hoverZone === 'right' && !hasLive);
-  const isLive = hoverZone === 'right' && hasLive;
 
   return (
     <div
@@ -111,16 +111,24 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
     >
       <div
         className={[
-          'group w-full h-full relative border-2 border-black px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between',
-          `shadow-brutal-3d hover:shadow-brutal-3d-hover transition-all duration-200 ease-out ${isHalloween ? 'hover:border-[#FF7518] hover:shadow-[8px_8px_0px_0px_#FF7518]' : ''}`,
-          'hover:-translate-x-2 hover:-translate-y-2 active:translate-x-1 active:translate-y-1 active:!shadow-none',
-          'bg-white rounded-none min-h-[420px] md:min-h-[480px]',
+          'group w-full h-full relative border-2 px-5 py-8 md:px-6 md:py-10 flex flex-col justify-between transition-all duration-200 ease-out rounded-none min-h-[420px] md:min-h-[480px]',
+          isComic
+            ? 'comic-panel-white'
+            : isHalloween
+              ? 'border-black bg-white shadow-brutal-3d hover:border-[#FF7518] hover:shadow-[8px_8px_0px_0px_#FF7518] hover:-translate-x-2 hover:-translate-y-2 active:translate-x-1 active:translate-y-1 active:!shadow-none'
+              : 'border-black bg-white shadow-brutal-3d hover:shadow-brutal-3d-hover hover:-translate-x-2 hover:-translate-y-2 active:translate-x-1 active:translate-y-1 active:!shadow-none',
         ].join(' ')}
         onClick={() => handleZoneClick(hoverZone)}
       >
         {/* Parallax Background Number Container */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="parallax-number absolute -right-4 -bottom-20 text-[14rem] font-black text-black/[0.03] group-hover:text-black/[0.06] group-hover:scale-105 transition-all duration-500 leading-none select-none">
+          <div
+            className={`parallax-number absolute -right-4 -bottom-20 text-[14rem] font-black transition-all duration-500 leading-none select-none ${
+              isComic
+                ? 'text-[#171717]/[0.05] group-hover:text-[#B58B32]/[0.14] group-hover:scale-105'
+                : 'text-black/[0.03] group-hover:text-black/[0.06] group-hover:scale-105'
+            }`}
+          >
             {(index + 1).toString().padStart(2, '0')}
           </div>
         </div>
@@ -128,22 +136,24 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
         {/* CRT pixel scanline overlay */}
         <div aria-hidden="true" className="pixel-scanline-overlay z-0" />
 
-        {/* ── Subtle half-zone tint (very faint, doesn't cover content) ── */}
+        {/* Subtle half-zone tint */}
         <div
           aria-hidden="true"
           className="zone-half-tint z-0"
           style={{
             background:
               hoverZone === 'left'
-                ? 'linear-gradient(to right, rgba(0,0,0,0.04) 0%, transparent 100%)'
+                ? 'linear-gradient(to right, rgba(23,23,23,0.04) 0%, transparent 100%)'
                 : hoverZone === 'right'
-                  ? 'linear-gradient(to left, rgba(10,10,30,0.06) 0%, transparent 100%)'
+                  ? isComic
+                    ? 'linear-gradient(to left, rgba(217,180,91,0.12) 0%, transparent 100%)'
+                    : 'linear-gradient(to left, rgba(10,10,30,0.06) 0%, transparent 100%)'
                   : 'transparent',
             transition: 'background 0.3s ease',
           }}
         />
 
-        {/* ── Cursor-following badge ── */}
+        {/* Cursor-following badge */}
         <AnimatePresence>
           {hoverZone && (
             <motion.div
@@ -174,28 +184,51 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
           )}
         </AnimatePresence>
 
-        {/* ── Zone split indicator lines (very subtle) ── */}
+        {/* Zone split indicator lines */}
         {hoverZone && (
           <div aria-hidden="true" className="zone-split-line z-0" />
         )}
 
-        {/* ── "Latest Work" or Custom badge ── */}
+        {/* "Latest Work" / Featured Archive badge */}
         {(project.badge || project.isNew) && (
-          <div className="absolute -top-3 right-1 md:-right-3 bg-black text-white px-2 py-1 md:px-3 text-[8px] md:text-[9px] font-black uppercase tracking-wider md:tracking-widest border-2 border-black z-20 rotate-0 md:rotate-3 hover:rotate-0 transition-transform whitespace-nowrap origin-top-right">
+          <div
+            className={`absolute -top-3 right-2 md:-right-3 px-2.5 py-1 text-[8px] md:text-[9px] font-black uppercase tracking-widest border-2 z-20 transition-transform whitespace-nowrap ${
+              isComic
+                ? 'border-[#D9B45B] bg-[#171717] text-[#D9B45B] shadow-[3px_3px_0px_#B58B32]'
+                : 'border-black bg-black text-white rotate-0 md:rotate-3 hover:rotate-0 origin-top-right'
+            }`}
+          >
             {isHalloween ? '🎃 ' : ''}
-            {project.badge || 'Latest Work'}
+            {isComic && project.isNew
+              ? '◆ FEATURED ISSUE'
+              : project.badge || 'Latest Work'}
           </div>
         )}
 
         {/* ── Card Content ── */}
         <div className="relative z-10">
+          {/* Comic Archival Plate Header Strip */}
+          {isComic && (
+            <div className="w-full flex items-center justify-between px-2.5 py-1 mb-4 border border-[#171717] bg-[#D9D9D9] text-[#171717] font-mono text-[9px] font-bold uppercase tracking-widest">
+              <span className="flex items-center gap-1.5">
+                <span className="text-[#B58B32]">◆</span>
+                <span>ARCHIVE #{String(index + 1).padStart(2, '0')}</span>
+              </span>
+              <span className="text-[#171717]/70">EDITION 2026</span>
+            </div>
+          )}
+
           {/* Category dots */}
-          <div className="flex gap-1.5 mb-4">
+          <div className="flex flex-wrap gap-1.5 mb-4">
             {project.categories.map((cat) => (
               <span
                 key={cat.key}
                 title={cat.label}
-                className="font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 border border-black/10 bg-black/4 text-foreground/50"
+                className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 border ${
+                  isComic
+                    ? 'border-[#171717] bg-[#FFFFFF] text-[#171717] font-bold'
+                    : 'border-black/10 bg-black/4 text-foreground/50'
+                }`}
               >
                 {cat.label}
               </span>
@@ -205,18 +238,34 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
           <div
             className={`flex justify-between items-start ${project.tagline ? 'mb-2' : 'mb-6'}`}
           >
-            <h3 className="font-black text-foreground leading-tight text-xl">
+            <h3
+              className={`font-black leading-tight text-xl transition-colors duration-200 ${
+                isComic
+                  ? 'text-[#171717] group-hover:text-[#B58B32]'
+                  : 'text-foreground'
+              }`}
+            >
               {project.title}
             </h3>
           </div>
 
           {project.tagline && (
-            <p className="font-mono text-[10px] md:text-xs font-bold text-foreground/50 mb-4 uppercase tracking-widest">
+            <p
+              className={`font-mono text-[10px] md:text-xs font-bold mb-4 uppercase tracking-widest ${
+                isComic ? 'text-[#888888]' : 'text-foreground/50'
+              }`}
+            >
               {project.tagline}
             </p>
           )}
 
-          <p className="body-text mb-6 md:mb-8 font-normal leading-relaxed text-foreground/80 text-xs line-clamp-4 md:line-clamp-6">
+          <p
+            className={`mb-6 md:mb-8 leading-relaxed text-xs line-clamp-4 md:line-clamp-6 ${
+              isComic
+                ? 'text-[#171717]/85 font-normal'
+                : 'body-text font-normal text-foreground/80'
+            }`}
+          >
             {project.description}
           </p>
 
@@ -225,13 +274,21 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
               <Badge
                 key={tag}
                 variant="secondary"
-                className="font-mono text-[9px] font-bold border border-black/5 bg-black/5 px-2 py-0.5 rounded-none group-hover:bg-black group-hover:text-white transition-colors duration-300"
+                className={`font-mono text-[9px] font-bold px-2 py-0.5 rounded-none transition-colors duration-200 ${
+                  isComic
+                    ? 'border border-[#888888] bg-[#D9D9D9] text-[#171717] group-hover:border-[#171717] group-hover:bg-[#171717] group-hover:text-[#D9B45B]'
+                    : 'border border-black/5 bg-black/5 group-hover:bg-black group-hover:text-white'
+                }`}
               >
                 {tag}
               </Badge>
             ))}
             {project.tags.length > 8 && (
-              <span className="text-[9px] font-bold opacity-30">
+              <span
+                className={`text-[9px] font-bold ${
+                  isComic ? 'text-[#888888]' : 'opacity-30'
+                }`}
+              >
                 +{project.tags.length - 8}
               </span>
             )}
@@ -249,7 +306,11 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
               playClick();
             }}
             aria-label={`View ${project.title} source code on GitHub`}
-            className="mobile-card-btn border-black bg-white text-foreground hover:bg-black hover:text-white active:scale-95"
+            className={`mobile-card-btn transition-all duration-200 active:scale-95 ${
+              isComic
+                ? 'border-[#171717] bg-[#FFFFFF] text-[#171717] font-bold hover:bg-[#D9D9D9]'
+                : 'border-black bg-white text-foreground hover:bg-black hover:text-white'
+            }`}
           >
             <Github className="w-4 h-4 flex-shrink-0" />
             <span>Source</span>
@@ -264,7 +325,11 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
                 playClick();
               }}
               aria-label={`View ${project.title} live demo`}
-              className="mobile-card-btn border-black bg-black text-white hover:bg-white hover:text-black active:scale-95"
+              className={`mobile-card-btn transition-all duration-200 active:scale-95 ${
+                isComic
+                  ? 'border-[#171717] bg-[#D9B45B] text-[#171717] font-black shadow-[3px_3px_0px_#B58B32] hover:bg-[#B58B32]'
+                  : 'border-black bg-black text-white hover:bg-white hover:text-black'
+              }`}
             >
               <ExternalLink className="w-4 h-4 flex-shrink-0" />
               <span>Live Demo</span>
