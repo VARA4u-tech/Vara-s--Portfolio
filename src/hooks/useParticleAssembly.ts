@@ -107,13 +107,21 @@ export const useParticleAssembly = (
       if (phase === 'assemble') {
         const t = Math.min((now - start) / assembleDurationMs, 1);
 
-        for (const p of particles) {
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
           p.eased = easeOutQuart(t);
           p.x = p.sx + (p.tx - p.sx) * p.eased;
           p.y = p.sy + (p.ty - p.sy) * p.eased;
 
+          const isComic =
+            document.documentElement.getAttribute('data-theme') === 'comic';
           ctx.globalAlpha = 0.7 + t * 0.3;
-          ctx.fillStyle = `rgb(${p.shade},${p.shade},${p.shade})`;
+          if (isComic) {
+            const comicColors = ['#FFFFFF', '#D9D9D9', '#D9B45B'];
+            ctx.fillStyle = comicColors[i % comicColors.length];
+          } else {
+            ctx.fillStyle = `rgb(${p.shade},${p.shade},${p.shade})`;
+          }
           ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
         }
 
@@ -135,8 +143,14 @@ export const useParticleAssembly = (
           return;
         }
         ctx.globalAlpha = 1 - ft;
-        for (const p of particles) {
-          ctx.fillStyle = `rgb(${p.shade},${p.shade},${p.shade})`;
+        const isComic =
+          document.documentElement.getAttribute('data-theme') === 'comic';
+        const comicColors = ['#FFFFFF', '#D9D9D9', '#D9B45B'];
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          ctx.fillStyle = isComic
+            ? comicColors[i % comicColors.length]
+            : `rgb(${p.shade},${p.shade},${p.shade})`;
           ctx.fillRect(Math.round(p.tx), Math.round(p.ty), p.size, p.size);
         }
       }
