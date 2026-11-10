@@ -5,7 +5,7 @@ import LoadingScreen from '@/components/LoadingScreen';
 import AboutSection from '@/components/AboutSection';
 import EducationSection from '@/components/EducationSection';
 import ExperienceSection from '@/components/ExperienceSection';
-// import AchievementsSection from '@/components/AchievementsSection';
+import AchievementsSection from '@/components/AchievementsSection';
 import SkillsSection from '@/components/SkillsSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import ContactSection from '@/components/ContactSection';
@@ -18,9 +18,10 @@ import PixelCursor from '@/components/PixelCursor';
 import PixelGrid from '@/components/PixelGrid';
 import PixelPet from '@/components/PixelPet';
 
-// Halloween Seasonal Architecture
-import { HalloweenProvider } from '@/components/halloween/HalloweenContext';
+// Theme Architecture (Default, Halloween & Comic Book Pop-Art)
+import { ThemeProvider } from '@/context/ThemeContext';
 import HalloweenGlobalLayer from '@/components/halloween/HalloweenGlobalLayer';
+import ComicGlobalLayer from '@/components/comic/ComicGlobalLayer';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +39,7 @@ const Index = () => {
   }, []);
 
   return (
-    <HalloweenProvider>
+    <ThemeProvider>
       <div
         className={`relative min-h-screen bg-background text-foreground ${isLoading ? 'h-screen overflow-hidden' : ''}`}
       >
@@ -48,8 +49,9 @@ const Index = () => {
         <PixelGrid />
         <PixelCursor isWhite={isLoading} />
 
-        {/* Halloween atmospheric effects, flying bats, corner webs & ghost easter egg */}
+        {/* Thematic global layers */}
         {!isLoading && <HalloweenGlobalLayer />}
+        {!isLoading && <ComicGlobalLayer />}
 
         {/* Dog mascot — position:absolute, scrolls with page, patrols sections */}
         {!isLoading && isPetVisible && <PixelPet />}
@@ -62,7 +64,7 @@ const Index = () => {
         <AboutSection />
         <EducationSection />
         <ExperienceSection />
-        {/* <AchievementsSection /> */}
+        <AchievementsSection />
         <ProjectsSection />
         {/* <BlogSection /> */}
         <SkillsSection />
@@ -70,7 +72,7 @@ const Index = () => {
 
         <Finale />
       </div>
-    </HalloweenProvider>
+    </ThemeProvider>
   );
 };
 
