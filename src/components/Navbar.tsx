@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
 import { useLenis } from 'lenis/react';
-import SoundToggle from './SoundToggle';
-import PetToggle from './PetToggle';
-import HalloweenToggle from './halloween/HalloweenToggle';
+import ThemeSelector from './ThemeSelector';
+import PreferencesPopover from './PreferencesPopover';
+import { useComic } from '@/context/ThemeContext';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
 
@@ -11,7 +11,7 @@ const links = [
   { label: 'About', href: '#about' },
   { label: 'Education', href: '#education' },
   { label: 'Experience', href: '#experience' },
-  // { label: 'Achievements', href: '#achievements' },
+  { label: 'Achievements', href: '#achievements' },
   { label: 'Work', href: '#projects' },
   { label: 'Skills', href: '#skills' },
   // { label: 'Blog', href: '#blog' },
@@ -20,6 +20,7 @@ const links = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { isComic } = useComic();
   const lenis = useLenis();
   const navRef = useRef<HTMLElement>(null);
 
@@ -99,14 +100,24 @@ const Navbar = () => {
       ref={navRef}
       className="fixed top-0 left-0 right-0 z-50 py-6 bg-background/80 backdrop-blur-sm cursor-pointer lg:cursor-pointer"
     >
-      <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between lg:justify-center relative">
-        {/* Desktop Navbar (Hidden on Mobile) */}
-        <div className="hidden lg:flex items-center justify-center gap-0 cursor-pointer">
+      <div className="max-w-6xl mx-auto px-6 flex flex-col lg:grid lg:grid-cols-[auto_1fr_auto] items-center lg:gap-4 w-full relative">
+        {/* Comic Edition Brand Plate (Desktop Left, 2xl+ or aligned cleanly in grid) */}
+        <div className="hidden lg:flex items-center shrink-0">
+          {isComic && (
+            <span className="hidden xl:inline-flex comic-badge-dark text-[9px] px-2.5 py-1 tracking-widest select-none">
+              <span className="text-[#D9B45B]">◆</span>
+              <span>VARA PRESS</span>
+            </span>
+          )}
+        </div>
+
+        {/* Desktop Navbar (Hidden on Mobile, Flexbox Grid Center — Zero Overlap) */}
+        <div className="hidden lg:flex items-center justify-center gap-0 cursor-pointer min-w-0">
           {links.map((link, i) => (
-            <span key={link.href} className="flex items-center">
+            <span key={link.href} className="flex items-center shrink-0">
               <a
                 href={link.href}
-                className="nav-link px-4 py-1 active:opacity-50 transition-opacity"
+                className="nav-link px-2 xl:px-3 py-1 active:opacity-50 transition-opacity whitespace-nowrap"
                 onClick={(e) => {
                   playClick();
                   handleScroll(e, link.href);
@@ -122,7 +133,11 @@ const Navbar = () => {
                 {link.label}
               </a>
               {i < links.length - 1 && (
-                <span className="text-foreground/60 font-bold mx-1.5 text-xs select-none">
+                <span
+                  className={`font-bold mx-0.5 xl:mx-1 text-xs select-none ${
+                    isComic ? 'text-[#888888]' : 'text-foreground/60'
+                  }`}
+                >
                   |
                 </span>
               )}
@@ -130,16 +145,15 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Desktop Toggles (Absolute Right: Halloween, Pet, Sound) */}
-        <div className="hidden lg:block absolute right-6">
-          <div className="flex gap-3 items-center">
-            <HalloweenToggle />
-            <PetToggle />
-            <SoundToggle />
+        {/* Desktop Toggles (Compact 2-Control Cluster: Theme + Preferences) */}
+        <div className="hidden lg:flex items-center justify-end shrink-0">
+          <div className="flex gap-2 items-center">
+            <ThemeSelector />
+            <PreferencesPopover />
           </div>
         </div>
 
-        {/* Mobile Header (Toggle Left, Controls Right) */}
+        {/* Mobile Header (Menu Left, 2 Crisp Controls Right) */}
         <div className="lg:hidden flex justify-between w-full items-center">
           <button
             onClick={() => {
@@ -154,10 +168,9 @@ const Navbar = () => {
           >
             {open ? '[ Close ]' : '[ Menu ]'}
           </button>
-          <div className="flex gap-2 scale-75 transform origin-right items-center">
-            <HalloweenToggle />
-            <PetToggle />
-            <SoundToggle />
+          <div className="flex gap-2 items-center">
+            <ThemeSelector />
+            <PreferencesPopover />
           </div>
         </div>
 
