@@ -16,7 +16,17 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { playBark } from '@/hooks/useSoundEffects';
+import { playBark, playSystemOnline } from '@/hooks/useSoundEffects';
+import { useTheme } from '@/context/ThemeContext';
+
+const HERO_ASSISTANT_LINES = [
+  'ON PATROL.',
+  'SIGNAL LOCKED.',
+  'ALL SYSTEMS GO.',
+  'SKIES CLEAR.',
+  'READY TO BUILD.',
+  'TRY CTRL+K CLI.',
+] as const;
 
 // ─── Section config ─────────────────────────────────────────────────────────
 const SECTION_IDS = [
@@ -44,9 +54,14 @@ type DogState =
   | 'sleeping';
 
 // ─── Tuning constants ────────────────────────────────────────────────────────
-// Dog size scales with viewport: larger on desktop, comfortably tappable on mobile
-const getDogSize = () => {
+// Companion size adapts smoothly: slightly larger in Comic mode for crisp hero detail
+const getDogSize = (isComicMode?: boolean) => {
   const vw = window.innerWidth;
+  if (isComicMode) {
+    if (vw < 480) return 56;
+    if (vw < 768) return 58;
+    return 60;
+  }
   if (vw < 480) return 52; // phone — extra large for easy tap
   if (vw < 768) return 48; // tablet portrait
   return 44; // desktop
@@ -67,21 +82,10 @@ const PixelPet = () => {
   const [showTip, setShowTip] = useState(false);
   const [visible, setVisible] = useState(false);
   const [dogSize, setDogSize] = useState(44); // responsive px size
-  const [isHalloween, setIsHalloween] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    return localStorage.getItem('site_halloween_enabled') !== 'false';
-  });
-
-  useEffect(() => {
-    const handleHw = (e: Event) => {
-      const ce = e as CustomEvent<{ enabled: boolean }>;
-      if (typeof ce.detail?.enabled === 'boolean') {
-        setIsHalloween(ce.detail.enabled);
-      }
-    };
-    window.addEventListener('halloween-toggle', handleHw);
-    return () => window.removeEventListener('halloween-toggle', handleHw);
-  }, []);
+  const [assistantLineIdx, setAssistantLineIdx] = useState(0);
+  const { isHalloween, isComic } = useTheme();
+  const isComicRef = useRef(isComic);
+  isComicRef.current = isComic;
 
   // DOM refs
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -100,6 +104,7 @@ const PixelPet = () => {
   const setShowTipRef = useRef(setShowTip);
   const setVisibleRef = useRef(setVisible);
   const setDogSizeRef = useRef(setDogSize);
+  const setAssistantLineIdxRef = useRef(setAssistantLineIdx);
 
   // ── Main state-machine effect ───────────────────────────────────────────
   useEffect(() => {
@@ -112,8 +117,8 @@ const PixelPet = () => {
     const isTouch = window.matchMedia('(hover: none)').matches;
     const isSmall = () => window.innerWidth < 768; // phone / tablet portrait
 
-    // ── Reactive dog size (recalculates on resize) ────────────────────────
-    let DOG_W = getDogSize();
+    // ── Reactive size (recalculates on resize or theme switch) ─────────────
+    let DOG_W = getDogSize(isComicRef.current);
     let DOG_H = DOG_W;
     setDogSizeRef.current(DOG_W);
 
@@ -189,28 +194,31 @@ const PixelPet = () => {
       return { top, left };
     };
 
-    // Re-anchor the dog when the window is resized / orientation changes
+    // Re-anchor the companion when the window is resized or theme switches
     const onResize = () => {
-      DOG_W = getDogSize();
+      const prevH = DOG_H;
+      DOG_W = getDogSize(isComicRef.current);
       DOG_H = DOG_W;
       setDogSizeRef.current(DOG_W);
 
       if (!isAnimating) {
+        const el = wrapperRef.current;
         // Clamp current left position to new viewport width
         const maxLeft = window.innerWidth - DOG_W - (isSmall() ? 16 : 24);
         if (posLeft > maxLeft) {
           posLeft = maxLeft;
-          const el = wrapperRef.current;
           if (el) el.style.left = `${posLeft}px`;
         }
 
         if (currentSection === 'finale') {
-          const el = wrapperRef.current;
           const footerPosition = getSectionPos('finale');
           if (footerPosition && el) {
             posTop = footerPosition.top;
             el.style.top = `${posTop}px`;
           }
+        } else if (prevH !== DOG_H && el) {
+          posTop += prevH - DOG_H;
+          el.style.top = `${posTop}px`;
         }
       }
     };
@@ -485,7 +493,14 @@ const PixelPet = () => {
         setShowNoticeRef.current(false);
         applyState('barking');
         setShowBarkRef.current(true);
-        playBark();
+        if (isComicRef.current) {
+          playSystemOnline();
+          setAssistantLineIdxRef.current(
+            (prev) => (prev + 1) % HERO_ASSISTANT_LINES.length,
+          );
+        } else {
+          playBark();
+        }
         lastBarkTime = Date.now();
 
         if (barkTimer) clearTimeout(barkTimer);
@@ -564,7 +579,15 @@ const PixelPet = () => {
       }
       const now = Date.now();
       if (now - lastBarkTime > 1_500) {
-        playBark();
+        if (isComicRef.current) {
+          playSystemOnline();
+          setAssistantLineIdxRef.current(
+            (prev) => (prev + 1) % HERO_ASSISTANT_LINES.length,
+          );
+          window.dispatchEvent(new CustomEvent('comic-hero-patrol'));
+        } else {
+          playBark();
+        }
         lastBarkTime = now;
         applyState('barking');
         setShowBarkRef.current(true);
@@ -763,6 +786,10 @@ const PixelPet = () => {
     };
   }, []); // ← intentionally empty: the effect owns its entire lifecycle
 
+  useEffect(() => {
+    window.dispatchEvent(new Event('resize'));
+  }, [isComic]);
+
   // ── JSX ────────────────────────────────────────────────────────────────
   return (
     <div
@@ -792,17 +819,25 @@ const PixelPet = () => {
         onClick={() => onClickRef.current()}
         onMouseEnter={() => onEnterRef.current()}
         onMouseLeave={() => onLeaveRef.current()}
-        title="Click me!"
+        title={isComic ? 'Hero Assistant — Click or drag me!' : 'Click me!'}
       >
         {/* Speech bubbles */}
         {showTip && !showBark && !showNotice && (
           <div className="pixel-pet-speech-bark pixel-pet-speech-tip">
-            <span>Take me for a walk!</span>
+            <span>
+              {isComic ? 'Assistant ready — click anywhere!' : 'Take me for a walk!'}
+            </span>
           </div>
         )}
         {showBark && (
           <div className="pixel-pet-speech-bark">
-            <span>{isHalloween ? 'BOO-RK! 🎃' : 'WOOF!'}</span>
+            <span>
+              {isComic
+                ? HERO_ASSISTANT_LINES[assistantLineIdx]
+                : isHalloween
+                  ? 'BOO-RK! 🎃'
+                  : 'WOOF!'}
+            </span>
           </div>
         )}
         {showNotice && (
@@ -828,7 +863,11 @@ const PixelPet = () => {
                 Z
               </div>
             )}
-            <DogSvg state={dogState} isHalloween={isHalloween} />
+            {isComic ? (
+              <HeroAssistantSvg state={dogState} />
+            ) : (
+              <DogSvg state={dogState} isHalloween={isHalloween} />
+            )}
           </div>
         </div>
       </div>
@@ -836,7 +875,280 @@ const PixelPet = () => {
   );
 };
 
-// ─── Dog SVG ─────────────────────────────────────────────────────────────────
+// ─── Comic Superhero Assistant SVG (Sharp 64×64 Vector Editorial Sprite) ─────
+const HeroAssistantSvg = ({ state }: { state: DogState }) => {
+  const isSleeping = state === 'sleeping';
+  const isAlert = state === 'noticing' || state === 'barking';
+  const isJumping = state === 'jumping';
+
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      style={{ width: '100%', height: '100%' }}
+      className="pixel-pet-svg pixel-pet-comic-hero"
+    >
+      {/* Flowing Mustard Gold Cape behind hero */}
+      <g className="pixel-pet-hero-cape">
+        <path
+          d="M25 28 L9 46 L17 51 L26 42 Z"
+          fill="#D9B45B"
+          stroke="#171717"
+          strokeWidth="2.2"
+          strokeLinejoin="miter"
+        />
+        <path d="M13 46 L18 49 L25 40 L23 36 Z" fill="#B58B32" />
+      </g>
+
+      {/* Legs & Boots (standing / walking / airborne flight pose) */}
+      <g className="pixel-pet-legs-standing">
+        {/* Back leg */}
+        <rect
+          x="26"
+          y="45"
+          width="6"
+          height="10"
+          fill="#D9D9D9"
+          stroke="#171717"
+          strokeWidth="2"
+        />
+        <path
+          d="M25 53 H33 V62 H24 V58 Z"
+          fill="#B58B32"
+          stroke="#171717"
+          strokeWidth="2"
+          strokeLinejoin="miter"
+        />
+        {/* Front leg */}
+        <rect
+          x="35"
+          y="45"
+          width="6"
+          height="10"
+          fill="#FFFFFF"
+          stroke="#171717"
+          strokeWidth="2"
+        />
+        <path
+          d="M34 53 H43 L44 62 H34 Z"
+          fill="#D9B45B"
+          stroke="#171717"
+          strokeWidth="2"
+          strokeLinejoin="miter"
+        />
+      </g>
+
+      <g className="pixel-pet-legs-walking">
+        {/* Stride back leg */}
+        <g transform="rotate(18 29 46)">
+          <rect
+            x="25"
+            y="45"
+            width="6"
+            height="10"
+            fill="#D9D9D9"
+            stroke="#171717"
+            strokeWidth="2"
+          />
+          <path
+            d="M24 53 H32 V61 H23 Z"
+            fill="#B58B32"
+            stroke="#171717"
+            strokeWidth="2"
+          />
+        </g>
+        {/* Stride front leg */}
+        <g transform="rotate(-18 38 46)">
+          <rect
+            x="35"
+            y="45"
+            width="6"
+            height="10"
+            fill="#FFFFFF"
+            stroke="#171717"
+            strokeWidth="2"
+          />
+          <path
+            d="M34 53 H43 L44 61 H34 Z"
+            fill="#D9B45B"
+            stroke="#171717"
+            strokeWidth="2"
+          />
+        </g>
+      </g>
+
+      {isJumping && (
+        <g>
+          {/* Airborne flight-pose legs */}
+          <path
+            d="M25 46 L18 53 L23 56 L30 48 Z"
+            fill="#B58B32"
+            stroke="#171717"
+            strokeWidth="2"
+          />
+          <path
+            d="M36 46 L42 54 L48 53 L42 45 Z"
+            fill="#D9B45B"
+            stroke="#171717"
+            strokeWidth="2"
+          />
+        </g>
+      )}
+
+      {/* Armored Pure White Chest & Torso */}
+      <path
+        d="M24 29 H44 L42 46 H26 Z"
+        fill="#FFFFFF"
+        stroke="#171717"
+        strokeWidth="2.2"
+        strokeLinejoin="miter"
+      />
+      {/* Left concrete armor contour */}
+      <path d="M25 30 H30 L30 44 H27 Z" fill="#D9D9D9" />
+
+      {/* Mustard Gold Diamond Chest Emblem */}
+      <polygon
+        points="36,32 41,37 36,42 31,37"
+        fill="#D9B45B"
+        stroke="#171717"
+        strokeWidth="1.8"
+      />
+
+      {/* Utility Belt & Gold Buckle */}
+      <rect
+        x="25"
+        y="42"
+        width="18"
+        height="5"
+        fill="#171717"
+        stroke="#171717"
+        strokeWidth="1.5"
+      />
+      <rect
+        x="32"
+        y="42"
+        width="7"
+        height="5"
+        fill="#D9B45B"
+        stroke="#171717"
+        strokeWidth="1.4"
+      />
+
+      {/* Stylized Hero Head & White Helmet Cowl */}
+      {/* Mustard Gold Hero Crest */}
+      <polygon
+        points="31,10 38,3 41,10"
+        fill="#D9B45B"
+        stroke="#171717"
+        strokeWidth="2"
+        strokeLinejoin="miter"
+      />
+      {/* Main Helmet Dome (Pure White so it pops crisply on #171717) */}
+      <rect
+        x="23"
+        y="9"
+        width="23"
+        height="21"
+        rx="4"
+        fill="#FFFFFF"
+        stroke="#171717"
+        strokeWidth="2.4"
+      />
+      {/* Rear Helmet Shading */}
+      <path d="M24 11 H30 V28 H26 Q24 28 24 25 Z" fill="#D9D9D9" />
+
+      {/* Left Gold Ear-Wing Antenna Fin */}
+      <polygon
+        points="23,12 16,9 21,19 23,19"
+        fill="#D9B45B"
+        stroke="#171717"
+        strokeWidth="1.8"
+        strokeLinejoin="miter"
+      />
+
+      {/* Sleek Black Hero Domino Visor */}
+      <path
+        d="M27 15 H46 V22 H28 L26 19 Z"
+        fill="#171717"
+      />
+
+      {/* Expressive Hero Mask Eyes */}
+      {!isSleeping ? (
+        <g>
+          {/* Left eye (angled hero look) */}
+          <polygon
+            points="31,17 35,18 34,20 30,19"
+            fill={isAlert ? '#D9B45B' : '#FFFFFF'}
+          />
+          {/* Right eye */}
+          <polygon
+            points="39,18 44,17 44,19 39,20"
+            fill={isAlert ? '#D9B45B' : '#FFFFFF'}
+          />
+        </g>
+      ) : (
+        <g>
+          <rect x="30" y="18" width="4" height="1.5" fill="#888888" />
+          <rect x="39" y="18" width="4" height="1.5" fill="#888888" />
+        </g>
+      )}
+
+      {/* Confident Jaw / Chin Accent */}
+      <line
+        x1="34"
+        y1="25"
+        x2="41"
+        y2="25"
+        stroke="#171717"
+        strokeWidth="1.8"
+        strokeLinecap="square"
+      />
+
+      {/* Foreground Arm & Hero Gauntlet */}
+      {isJumping || isAlert ? (
+        /* Salute / Flying Fist Pose */
+        <g>
+          <path
+            d="M41 31 L51 22 L54 25 L43 35 Z"
+            fill="#FFFFFF"
+            stroke="#171717"
+            strokeWidth="2"
+          />
+          <rect
+            x="49"
+            y="18"
+            width="6"
+            height="6"
+            rx="1"
+            fill="#D9B45B"
+            stroke="#171717"
+            strokeWidth="2"
+          />
+        </g>
+      ) : (
+        /* Confident Hero Hip/Ready Arm */
+        <g>
+          <path
+            d="M24 30 H30 L29 40 H23 Z"
+            fill="#FFFFFF"
+            stroke="#171717"
+            strokeWidth="2"
+          />
+          <rect
+            x="23"
+            y="38"
+            width="6"
+            height="5"
+            fill="#D9B45B"
+            stroke="#171717"
+            strokeWidth="2"
+          />
+        </g>
+      )}
+    </svg>
+  );
+};
+
+// ─── Dog SVG (Default & Halloween Themes) ───────────────────────────────────
 const DogSvg = ({
   state,
   isHalloween,
