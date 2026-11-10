@@ -54,6 +54,8 @@ const PixelCursor = ({ isWhite = false }: PixelCursorProps) => {
     const SPAWN_COUNT = 3; // pixels per spawn burst
 
     const spawnPixels = (x: number, y: number) => {
+      const isComic =
+        document.documentElement.getAttribute('data-theme') === 'comic';
       for (let i = 0; i < SPAWN_COUNT; i++) {
         const size = Math.random() * 5 + 3; // 3–8px
         pixels.push({
@@ -66,7 +68,9 @@ const PixelCursor = ({ isWhite = false }: PixelCursorProps) => {
           decay: 0.012 + Math.random() * 0.018,
           shade: isWhite
             ? 255 - Math.floor(Math.random() * 50) // near-white shades
-            : Math.floor(Math.random() * 80), // near-black shades
+            : isComic
+              ? -1 - i // sentinel: resolved to strict comic palette in draw()
+              : Math.floor(Math.random() * 80), // near-black shades
         });
       }
     };
@@ -116,7 +120,12 @@ const PixelCursor = ({ isWhite = false }: PixelCursorProps) => {
         }
 
         ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = `rgb(${p.shade},${p.shade},${p.shade})`;
+        if (p.shade < 0) {
+          const comicPalette = ['#D9B45B', '#D9D9D9', '#888888'];
+          ctx.fillStyle = comicPalette[Math.abs(p.shade + 1) % comicPalette.length];
+        } else {
+          ctx.fillStyle = `rgb(${p.shade},${p.shade},${p.shade})`;
+        }
         ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
       }
 
