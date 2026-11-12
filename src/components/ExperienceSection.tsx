@@ -1,6 +1,6 @@
 import SectionBlock from './SectionBlock';
 import { ScrollReveal } from './ui/ScrollReveal';
-import { useComic } from '@/context/ThemeContext';
+import { useComic, useHalloween } from '@/context/ThemeContext';
 
 const experiences = [
   {
@@ -31,6 +31,7 @@ const experiences = [
 
 const ExperienceSection = () => {
   const { isComic } = useComic();
+  const { isHalloween } = useHalloween();
 
   return (
     <SectionBlock id="experience" title="Experience">
@@ -42,12 +43,20 @@ const ExperienceSection = () => {
             <article
               key={exp.role}
               className={`relative pl-8 md:pl-0 border-l md:border-l-0 md:grid md:grid-cols-[1fr_2fr] md:gap-8 pb-12 last:pb-0 ${
-                isComic ? 'border-[#888888]' : 'border-black/20'
+                isComic
+                  ? 'border-[#888888]'
+                  : isHalloween
+                    ? 'border-[#FF7518]/35'
+                    : 'border-black/20'
               }`}
             >
               <div
                 className={`md:text-right md:pr-8 md:border-r relative ${
-                  isComic ? 'md:border-[#888888]' : 'border-black/20'
+                  isComic
+                    ? 'md:border-[#888888]'
+                    : isHalloween
+                      ? 'md:border-[#FF7518]/35'
+                      : 'border-black/20'
                 }`}
               >
                 {/* Desktop Timeline Node */}
@@ -57,7 +66,11 @@ const ExperienceSection = () => {
                       ? `-right-[7px] w-[13px] h-[13px] border-2 border-[#171717] rotate-45 ${
                           isLatest ? 'bg-[#D9B45B]' : 'bg-[#FFFFFF]'
                         }`
-                      : '-right-[5px] w-[9px] h-[9px] bg-black'
+                      : isHalloween
+                        ? `-right-[6px] w-[11px] h-[11px] border border-black ${
+                            isLatest ? 'bg-[#FF7518]' : 'bg-black'
+                          }`
+                        : '-right-[5px] w-[9px] h-[9px] bg-black'
                   }`}
                 />
                 {/* Mobile Timeline Node */}
@@ -67,7 +80,11 @@ const ExperienceSection = () => {
                       ? `-left-[7px] w-[13px] h-[13px] border-2 border-[#171717] rotate-45 ${
                           isLatest ? 'bg-[#D9B45B]' : 'bg-[#FFFFFF]'
                         }`
-                      : '-left-[5px] w-[9px] h-[9px] bg-black'
+                      : isHalloween
+                        ? `-left-[6px] w-[11px] h-[11px] border border-black ${
+                            isLatest ? 'bg-[#FF7518]' : 'bg-black'
+                          }`
+                        : '-left-[5px] w-[9px] h-[9px] bg-black'
                   }`}
                 />
 
@@ -83,7 +100,11 @@ const ExperienceSection = () => {
                   )}
                   <time
                     className={`block font-mono text-xs tracking-widest uppercase ${
-                      isComic ? 'text-[#D9D9D9]' : 'text-foreground/60'
+                      isComic
+                        ? 'text-[#D9D9D9]'
+                        : isHalloween
+                          ? 'text-[#FF7518] font-bold'
+                          : 'text-foreground/60'
                     }`}
                   >
                     {exp.period}
