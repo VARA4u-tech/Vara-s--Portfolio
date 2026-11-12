@@ -5,7 +5,7 @@ import SectionBlock from './SectionBlock';
 import ProjectCard from './ProjectCard';
 import { playHover, playClick } from '@/hooks/useSoundEffects';
 import { PROJECTS, type FilterKey } from '@/data/projects';
-import { useComic } from '@/context/ThemeContext';
+import { useComic, useHalloween } from '@/context/ThemeContext';
 
 // ─── Filter definitions ───────────────────────────────────────────────────────
 const FILTERS: { key: FilterKey; label: string }[] = [
@@ -41,6 +41,7 @@ const cardVariants = {
 const ProjectsSection = () => {
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
   const { isComic } = useComic();
+  const { isHalloween } = useHalloween();
   const gridRef = useRef<HTMLDivElement>(null);
 
   const filtered =
@@ -78,10 +79,14 @@ const ProjectsSection = () => {
                 isActive
                   ? isComic
                     ? 'bg-[#D9B45B] text-[#171717] border-[#FFFFFF] shadow-[4px_4px_0px_#B58B32]'
-                    : 'bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]'
+                    : isHalloween
+                      ? 'bg-black text-[#FF7518] border-[#FF7518] shadow-[4px_4px_0px_0px_#FF7518]'
+                      : 'bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]'
                   : isComic
                     ? 'bg-[#171717] text-[#D9D9D9] border-[#888888] shadow-[3px_3px_0px_#888888] hover:border-[#D9B45B] hover:text-[#FFFFFF] hover:shadow-[4px_4px_0px_#B58B32] hover:-translate-x-[1px] hover:-translate-y-[1px]'
-                    : 'bg-white text-foreground border-black/40 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.08)] hover:border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-[1px] hover:-translate-y-[1px]',
+                    : isHalloween
+                      ? 'bg-white text-foreground border-black/40 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.08)] hover:border-[#FF7518] hover:text-[#FF7518] hover:shadow-[4px_4px_0px_0px_#FF7518] hover:-translate-x-[1px] hover:-translate-y-[1px]'
+                      : 'bg-white text-foreground border-black/40 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.08)] hover:border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-[1px] hover:-translate-y-[1px]',
               ].join(' ')}
             >
               <span>{f.label}</span>
@@ -92,7 +97,9 @@ const ProjectsSection = () => {
                   isActive
                     ? isComic
                       ? 'bg-[#171717] text-[#FFFFFF] border-[#171717]'
-                      : 'bg-white text-black border-white/40'
+                      : isHalloween
+                        ? 'bg-[#FF7518] text-black border-[#FF7518]'
+                        : 'bg-white text-black border-white/40'
                     : isComic
                       ? 'bg-[#D9D9D9] text-[#171717] border-[#D9D9D9]'
                       : 'bg-black/8 text-black border-black/10',
@@ -106,7 +113,11 @@ const ProjectsSection = () => {
                 <motion.span
                   layoutId="filter-underline"
                   className={`absolute bottom-0 left-0 right-0 h-[3px] ${
-                    isComic ? 'bg-[#171717]' : 'bg-white/40'
+                    isComic
+                      ? 'bg-[#171717]'
+                      : isHalloween
+                        ? 'bg-[#FF7518]'
+                        : 'bg-white/40'
                   }`}
                   transition={{ type: 'spring', stiffness: 400, damping: 35 }}
                 />
@@ -192,7 +203,9 @@ const ProjectsSection = () => {
           className={`group flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] border-b-2 pb-1 hover:gap-5 transition-all w-fit ${
             isComic
               ? 'text-[#FFFFFF] border-[#D9B45B] hover:text-[#D9B45B]'
-              : 'border-black'
+              : isHalloween
+                ? 'border-[#FF7518] hover:text-[#FF7518]'
+                : 'border-black'
           }`}
         >
           <Github className="w-4 h-4" />
