@@ -2,7 +2,7 @@ import { useRef, type ReactNode } from 'react';
 import { gsap } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
 import { useScrambleText } from '@/hooks/useScrambleText';
-import { useComic } from '@/context/ThemeContext';
+import { useComic, useHalloween } from '@/context/ThemeContext';
 
 interface SectionBlockProps {
   id: string;
@@ -23,6 +23,7 @@ const COMIC_CHAPTER_KICKERS: Record<string, string> = {
 const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
   const sectionRef = useRef<HTMLElement>(null);
   const { isComic } = useComic();
+  const { isHalloween } = useHalloween();
   const { ref: titleRef, scramble } = useScrambleText<HTMLHeadingElement>({
     duration: 750,
     fps: 28,
@@ -80,8 +81,18 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
           ref={titleRef}
           className="gsap-section-title section-title pb-2 inline-block"
         >
-          {title}.
+          {title}
+          <span className={isHalloween ? 'text-[#FF7518]' : ''}>.</span>
         </h2>
+        {isHalloween && (
+          <div
+            aria-hidden="true"
+            className="mt-2 flex items-center gap-1.5"
+          >
+            <span className="h-1 w-12 bg-[#FF7518]" />
+            <span className="h-1 w-2 bg-black" />
+          </div>
+        )}
       </div>
       <div>{children}</div>
     </section>
