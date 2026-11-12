@@ -3,7 +3,7 @@ import { playClick, playHover } from '@/hooks/useSoundEffects';
 import { useLenis } from 'lenis/react';
 import ThemeSelector from './ThemeSelector';
 import PreferencesPopover from './PreferencesPopover';
-import { useComic } from '@/context/ThemeContext';
+import { useComic, useHalloween } from '@/context/ThemeContext';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useGSAPContext } from '@/hooks/useGSAPContext';
 
@@ -21,6 +21,7 @@ const links = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { isComic } = useComic();
+  const { isHalloween } = useHalloween();
   const lenis = useLenis();
   const navRef = useRef<HTMLElement>(null);
 
@@ -98,7 +99,9 @@ const Navbar = () => {
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 z-50 py-6 bg-background/80 backdrop-blur-sm cursor-pointer lg:cursor-pointer"
+      className={`fixed top-0 left-0 right-0 z-50 py-6 bg-background/80 backdrop-blur-sm cursor-pointer lg:cursor-pointer ${
+        isHalloween ? 'border-b border-[#FF7518]/35' : ''
+      }`}
     >
       <div className="max-w-6xl mx-auto px-6 flex flex-col lg:grid lg:grid-cols-[auto_1fr_auto] items-center lg:gap-4 w-full relative">
         {/* Comic Edition Brand Plate (Desktop Left, 2xl+ or aligned cleanly in grid) */}
@@ -117,7 +120,9 @@ const Navbar = () => {
             <span key={link.href} className="flex items-center shrink-0">
               <a
                 href={link.href}
-                className="nav-link px-2 xl:px-3 py-1 active:opacity-50 transition-opacity whitespace-nowrap"
+                className={`nav-link px-2 xl:px-3 py-1 active:opacity-50 transition-all whitespace-nowrap ${
+                  isHalloween ? 'hover:text-[#FF7518]' : ''
+                }`}
                 onClick={(e) => {
                   playClick();
                   handleScroll(e, link.href);
@@ -135,7 +140,11 @@ const Navbar = () => {
               {i < links.length - 1 && (
                 <span
                   className={`font-bold mx-0.5 xl:mx-1 text-xs select-none ${
-                    isComic ? 'text-[#888888]' : 'text-foreground/60'
+                    isComic
+                      ? 'text-[#888888]'
+                      : isHalloween
+                        ? 'text-[#FF7518]/65'
+                        : 'text-foreground/60'
                   }`}
                 >
                   |
@@ -185,7 +194,9 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="nav-link text-sm tracking-[0.3em] active:scale-95 transition-transform"
+                className={`nav-link text-sm tracking-[0.3em] active:scale-95 transition-all ${
+                  isHalloween ? 'hover:text-[#FF7518]' : ''
+                }`}
                 onClick={(e) => {
                   playClick();
                   setOpen(false);
