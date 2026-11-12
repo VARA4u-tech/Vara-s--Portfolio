@@ -8,7 +8,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { ArrowUpRight, Award } from 'lucide-react';
-import { useComic } from '@/context/ThemeContext';
+import { useComic, useHalloween } from '@/context/ThemeContext';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
 
 type Category = 'All' | 'Hackathon' | 'Bootcamp' | 'Workshop' | 'Internship';
@@ -122,6 +122,7 @@ const CATEGORIES: Category[] = [
 
 const AchievementsSection = () => {
   const { isComic } = useComic();
+  const { isHalloween } = useHalloween();
   const [active, setActive] = useState<Category>('All');
 
   const filtered =
@@ -141,7 +142,7 @@ const AchievementsSection = () => {
         <div className="flex items-center gap-3">
           <Award
             className={`w-4 h-4 shrink-0 ${
-              isComic ? 'text-[#D9B45B]' : ''
+              isComic ? 'text-[#D9B45B]' : isHalloween ? 'text-[#FF7518]' : ''
             }`}
           />
           <span
@@ -174,10 +175,14 @@ const AchievementsSection = () => {
                 active === cat
                   ? isComic
                     ? 'bg-[#D9B45B] text-[#171717] font-black border-[#FFFFFF] shadow-[3px_3px_0px_#B58B32]'
-                    : 'bg-black text-white border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,0.25)]'
+                    : isHalloween
+                      ? 'bg-black text-[#FF7518] font-black border-[#FF7518] shadow-[3px_3px_0px_0px_#FF7518]'
+                      : 'bg-black text-white border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,0.25)]'
                   : isComic
                     ? 'bg-[#171717] text-[#D9D9D9] border-[#888888] hover:border-[#D9B45B] hover:text-[#FFFFFF] hover:shadow-[3px_3px_0px_#B58B32]'
-                    : 'bg-transparent text-foreground border-black/25 hover:border-black hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                    : isHalloween
+                      ? 'bg-transparent text-foreground border-black/30 hover:border-[#FF7518] hover:text-[#FF7518] hover:shadow-[3px_3px_0px_0px_#FF7518]'
+                      : 'bg-transparent text-foreground border-black/25 hover:border-black hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
               }`}
             >
               {cat}
@@ -205,7 +210,9 @@ const AchievementsSection = () => {
                 className={`group relative border-b-2 cursor-pointer overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   isComic
                     ? 'border-[#888888] focus-visible:ring-[#D9B45B]'
-                    : 'border-black focus-visible:ring-black'
+                    : isHalloween
+                      ? 'border-black hover:border-[#FF7518] focus-visible:ring-[#FF7518]'
+                      : 'border-black focus-visible:ring-black'
                 }`}
               >
                 {/* ── Hover slide fill (desktop only) */}
@@ -237,7 +244,11 @@ const AchievementsSection = () => {
                   />
                   <div
                     className={`absolute left-0 top-0 h-full border-l-4 ${
-                      isComic ? 'border-[#D9B45B]' : 'border-black'
+                      isComic
+                        ? 'border-[#D9B45B]'
+                        : isHalloween
+                          ? 'border-[#FF7518]'
+                          : 'border-black'
                     }`}
                   />
                 </div>
@@ -331,7 +342,9 @@ const AchievementsSection = () => {
                     className={`text-[10px] font-mono font-black px-2 py-1 shrink-0 leading-none transition-colors duration-300 ${
                       isComic
                         ? 'bg-[#D9D9D9] text-[#171717] group-hover:bg-[#D9B45B]'
-                        : 'bg-black text-white'
+                        : isHalloween
+                          ? 'bg-black text-white group-hover:bg-[#FF7518] group-hover:text-black'
+                          : 'bg-black text-white'
                     }`}
                   >
                     {item.category.toUpperCase()}
@@ -386,7 +399,9 @@ const AchievementsSection = () => {
                     className={`w-5 h-5 group-hover:rotate-12 transition-all duration-300 shrink-0 ${
                       isComic
                         ? 'text-[#D9B45B] group-hover:text-[#171717]'
-                        : 'text-foreground/25 group-hover:text-white'
+                        : isHalloween
+                          ? 'text-foreground/35 group-hover:text-[#FF7518]'
+                          : 'text-foreground/25 group-hover:text-white'
                     }`}
                   />
                 </div>
@@ -398,7 +413,9 @@ const AchievementsSection = () => {
               className={`w-[95vw] max-w-5xl p-0 rounded-none overflow-hidden max-h-[90vh] overflow-y-auto ${
                 isComic
                   ? 'border-2 sm:border-4 border-[#171717] bg-[#FFFFFF] text-[#171717] shadow-[8px_8px_0px_0px_#B58B32] sm:shadow-[16px_16px_0px_0px_#D9B45B]'
-                  : 'border-2 sm:border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,0.6)] sm:shadow-[20px_20px_0px_0px_rgba(0,0,0,0.85)]'
+                  : isHalloween
+                    ? 'border-2 sm:border-4 border-black bg-white shadow-[8px_8px_0px_0px_#FF7518] sm:shadow-[16px_16px_0px_0px_#FF7518]'
+                    : 'border-2 sm:border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,0.6)] sm:shadow-[20px_20px_0px_0px_rgba(0,0,0,0.85)]'
               }`}
             >
               <DialogTitle className="sr-only">{item.title}</DialogTitle>
@@ -434,7 +451,9 @@ const AchievementsSection = () => {
                         className={`text-[10px] font-mono font-black px-2 py-1 ${
                           isComic
                             ? 'bg-[#D9B45B] text-[#171717] border border-[#171717]'
-                            : 'bg-black text-white'
+                            : isHalloween
+                              ? 'bg-black text-[#FF7518] border border-[#FF7518]'
+                              : 'bg-black text-white'
                         }`}
                       >
                         {item.category.toUpperCase()}
@@ -460,7 +479,11 @@ const AchievementsSection = () => {
                     </p>
                     <p
                       className={`font-mono text-xs tracking-widest uppercase mb-4 sm:mb-6 ${
-                        isComic ? 'text-[#B58B32] font-bold' : 'text-foreground/35'
+                        isComic
+                          ? 'text-[#B58B32] font-bold'
+                          : isHalloween
+                            ? 'text-[#FF7518] font-bold'
+                            : 'text-foreground/35'
                       }`}
                     >
                       {item.date}
