@@ -66,6 +66,33 @@
     <link rel="apple-touch-icon" href="/favicon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
+    <!-- Synchronous Theme Initialization (prevents initial render flicker) -->
+    <script>
+      (function () {
+        try {
+          var valid = { default: true, halloween: true, comic: true };
+          var raw = window.localStorage.getItem('site_theme');
+          var theme = 'default';
+          if (raw !== null) {
+            var normalized = String(raw).trim().toLowerCase();
+            if (valid[normalized]) {
+              theme = normalized;
+            } else {
+              window.localStorage.removeItem('site_theme');
+              window.localStorage.removeItem('site_halloween_enabled');
+            }
+          } else if (
+            window.localStorage.getItem('site_halloween_enabled') === 'true'
+          ) {
+            theme = 'halloween';
+          }
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'default');
+        }
+      })();
+    </script>
+
     <!-- Performance & Font Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

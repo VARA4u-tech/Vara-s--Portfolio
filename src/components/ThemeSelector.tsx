@@ -13,18 +13,18 @@ interface ThemeOption {
 
 const THEME_OPTIONS: ThemeOption[] = [
   {
-    id: 'comic',
-    label: 'Retro Comic Press',
-    shortLabel: 'Comic',
-    description: 'Deep black, white & mustard gold',
-    swatch: ['#171717', '#D9B45B'],
-  },
-  {
     id: 'default',
     label: 'Neo-Brutalist',
     shortLabel: 'Classic',
     description: 'Clean monochrome & paper grain',
     swatch: ['#F5F5F5', '#171717'],
+  },
+  {
+    id: 'comic',
+    label: 'Retro Comic Press',
+    shortLabel: 'Comic',
+    description: 'Deep black, white & mustard gold',
+    swatch: ['#171717', '#D9B45B'],
   },
   {
     id: 'halloween',
