@@ -24,6 +24,7 @@ import { useTypewriter } from '@/hooks/useTypewriter';
 import ResumeModal from './ResumeModal';
 import { useHalloween, useComic } from '@/context/ThemeContext';
 import SpiderWeb from './halloween/SpiderWeb';
+import GraveyardTrees from './halloween/GraveyardTrees';
 import ComicBurst from './comic/ComicBurst';
 import ComicSpeechBubble from './comic/ComicSpeechBubble';
 import ComicActionLines from './comic/ComicActionLines';
@@ -283,7 +284,15 @@ const HeroSection = () => {
             }`}
             data-text="Prasad."
           >
-            <span className={isComic ? 'text-[#D9B45B]' : 'text-foreground/20'}>
+            <span
+              className={
+                isComic
+                  ? 'text-[#D9B45B]'
+                  : isHalloween
+                    ? 'text-[#FF7518]'
+                    : 'text-foreground/20'
+              }
+            >
               Prasad.
             </span>
           </div>
@@ -302,7 +311,11 @@ const HeroSection = () => {
         >
           <span
             className={`font-mono text-xs md:text-sm tracking-[0.2em] ${
-              isComic ? 'text-[#D9B45B]' : 'text-foreground/50'
+              isComic
+                ? 'text-[#D9B45B]'
+                : isHalloween
+                  ? 'text-[#FF7518] font-bold'
+                  : 'text-foreground/50'
             }`}
           >
             {'< '}
@@ -316,14 +329,22 @@ const HeroSection = () => {
           </span>
           <span
             className={`font-mono text-xs md:text-sm ${
-              isComic ? 'text-[#D9B45B]' : 'text-foreground/70'
+              isComic
+                ? 'text-[#D9B45B]'
+                : isHalloween
+                  ? 'text-[#FF7518]'
+                  : 'text-foreground/70'
             } ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}
           >
             |
           </span>
           <span
             className={`font-mono text-xs md:text-sm tracking-[0.2em] ${
-              isComic ? 'text-[#D9B45B]' : 'text-foreground/50'
+              isComic
+                ? 'text-[#D9B45B]'
+                : isHalloween
+                  ? 'text-[#FF7518] font-bold'
+                  : 'text-foreground/50'
             }`}
           >
             {' />'}
@@ -345,7 +366,9 @@ const HeroSection = () => {
               className={`gsap-tag inline-block px-3 py-1.5 font-mono text-xs border-2 tracking-wider transition-all duration-200 cursor-default rounded-none select-none ${
                 isComic
                   ? 'border-[#FFFFFF] bg-[#D9D9D9] text-[#171717] font-bold shadow-[3px_3px_0px_#888888] hover:bg-[#D9B45B] hover:border-[#171717] hover:shadow-[4px_4px_0px_#B58B32] hover:-translate-y-0.5'
-                  : 'border-foreground/40 text-foreground/80 font-bold hover:bg-foreground hover:text-background'
+                  : isHalloween
+                    ? 'border-black/60 bg-white/80 text-foreground/90 font-bold hover:bg-black hover:text-[#FF7518] hover:border-[#FF7518]'
+                    : 'border-foreground/40 text-foreground/80 font-bold hover:bg-foreground hover:text-background'
               }`}
               onMouseEnter={playHover}
             >
@@ -372,7 +395,9 @@ const HeroSection = () => {
                     className={`group relative inline-flex items-center justify-center p-3 border-2 transition-all duration-200 rounded-none ${
                       isComic
                         ? 'border-[#171717] bg-[#FFFFFF] text-[#171717] shadow-[4px_4px_0px_#B58B32] hover:bg-[#D9B45B] hover:shadow-[5px_5px_0px_#FFFFFF] hover:-translate-y-0.5'
-                        : 'border-black bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-black hover:text-white'
+                        : isHalloween
+                          ? 'border-black bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:border-[#FF7518] hover:bg-black hover:text-[#FF7518] hover:shadow-[4px_4px_0px_0px_#FF7518]'
+                          : 'border-black bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-black hover:text-white'
                     }`}
                   >
                     <Icon className="w-5 h-5" />
@@ -416,7 +441,9 @@ const HeroSection = () => {
               className={`group relative inline-flex items-center gap-2 px-6 py-4 border-2 text-sm font-black tracking-[0.2em] uppercase transition-all duration-200 rounded-none ${
                 isComic
                   ? 'border-[#D9D9D9] bg-[#171717] text-[#FFFFFF] shadow-[5px_5px_0px_0px_#888888] hover:border-[#D9B45B] hover:text-[#D9B45B] hover:shadow-[6px_6px_0px_0px_#B58B32] hover:-translate-y-0.5'
-                  : 'border-black bg-white text-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)]'
+                  : isHalloween
+                    ? 'border-black bg-white text-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-[#FF7518] hover:border-[#FF7518] hover:shadow-[8px_8px_0px_0px_#FF7518]'
+                    : 'border-black bg-white text-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)]'
               }`}
             >
               <Download className="w-4 h-4" />
@@ -450,6 +477,9 @@ const HeroSection = () => {
         </div>
       </div>
 
+      {/* Spooky Graveyard Trees at Hero Horizon (Halloween only) */}
+      <GraveyardTrees variant="hero" />
+
       {/* Scroll indicator */}
       <div
         className="gsap-chevron absolute bottom-4 left-1/2 -translate-x-1/2 z-10"
@@ -459,7 +489,9 @@ const HeroSection = () => {
           className={`w-5 h-5 ${
             isComic
               ? 'text-[#D9B45B]'
-              : 'text-foreground/60 animate-bounce'
+              : isHalloween
+                ? 'text-[#FF7518] animate-bounce'
+                : 'text-foreground/60 animate-bounce'
           }`}
         />
       </div>
