@@ -25,8 +25,8 @@ export const HalloweenGlobalLayer: React.FC = () => {
         <SpiderWeb position="top-right" size={150} withSpider={true} />
       </div>
 
-      {/* Floating Ghost Easter Egg Companion (Bottom right corner) */}
-      <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-40">
+      {/* Floating Ghost Easter Egg Companion (Bottom right corner, clear of Terminal button) */}
+      <div className="fixed bottom-6 right-20 sm:right-24 z-40">
         <FloatingGhost size={46} interactive={true} />
       </div>
     </>

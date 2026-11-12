@@ -27,7 +27,25 @@ const LenisScrollTriggerBridge = () => {
     const onScroll = () => ScrollTrigger.update();
     lenis.on('scroll', onScroll);
 
+    // Keep Lenis scroll limit & ScrollTrigger bounds synced when theme switches or filters resize the page
+    let lastHeight = document.documentElement.scrollHeight;
+    let rafId = 0;
+    const resizeObserver = new ResizeObserver(() => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const nextHeight = document.documentElement.scrollHeight;
+        if (nextHeight !== lastHeight) {
+          lastHeight = nextHeight;
+          lenis.resize();
+          ScrollTrigger.refresh();
+        }
+      });
+    });
+    resizeObserver.observe(document.body);
+
     return () => {
+      cancelAnimationFrame(rafId);
+      resizeObserver.disconnect();
       lenis.off('scroll', onScroll);
     };
   }, [lenis]);

@@ -125,6 +125,7 @@ const PixelPet = () => {
     // ── Local mutable state (lives inside the effect closure) ────────────
     let currentSection: SectionId | 'custom' = 'hero';
     let isAnimating = false;
+    let isJumping = false;
     let isHovered = false;
     let isDragging = false;
     let dragStartX = 0;
@@ -169,6 +170,34 @@ const PixelPet = () => {
       }, SLEEP_AFTER_MS);
     };
 
+    const getMaxPetTop = (): number => {
+      const divider = document.getElementById('footer-divider');
+      if (divider) {
+        return Math.max(
+          0,
+          divider.getBoundingClientRect().top + window.scrollY - DOG_H,
+        );
+      }
+      const finale = document.getElementById('finale');
+      if (finale) {
+        const rect = finale.getBoundingClientRect();
+        return Math.max(
+          0,
+          rect.top + window.scrollY + rect.height - DOG_H - 8,
+        );
+      }
+      return Math.max(0, document.documentElement.scrollHeight - DOG_H);
+    };
+
+    const clampTop = (rawTop: number) =>
+      Math.max(0, Math.min(getMaxPetTop(), rawTop));
+
+    const clampLeft = (rawLeft: number) => {
+      const safeL = isSmall() ? 16 : 24;
+      const maxLeft = Math.max(safeL, window.innerWidth - DOG_W - safeL);
+      return Math.max(safeL, Math.min(maxLeft, rawLeft));
+    };
+
     // Compute where the dog rests in a given section (document coordinates)
     const getSectionPos = (
       sectionId: string,
@@ -181,48 +210,72 @@ const PixelPet = () => {
         sectionId === 'finale'
           ? document.getElementById('footer-divider')
           : null;
-      const top = divider
+      const rawTop = divider
         ? divider.getBoundingClientRect().top + scrollY - DOG_H
         : rect.top + scrollY + rect.height - DOG_H - 20;
       // Safe margins: larger on mobile so the dog clears the edge padding
       const safeL = isSmall() ? 16 : 24;
-      const safeR = window.innerWidth - DOG_W - (isSmall() ? 16 : 24);
+      const safeR = Math.max(safeL, window.innerWidth - DOG_W - safeL);
       const left =
         sectionId === 'finale'
           ? safeL
           : safeL + Math.random() * Math.max(0, safeR - safeL);
-      return { top, left };
+      return { top: clampTop(rawTop), left };
     };
 
-    // Re-anchor the companion when the window is resized or theme switches
-    const onResize = () => {
-      const prevH = DOG_H;
+    // Re-anchor & clamp companion whenever viewport resizes, themes switch, or filters change height
+    const syncLayoutPosition = () => {
       DOG_W = getDogSize(isComicRef.current);
       DOG_H = DOG_W;
       setDogSizeRef.current(DOG_W);
 
-      if (!isAnimating) {
-        const el = wrapperRef.current;
-        // Clamp current left position to new viewport width
-        const maxLeft = window.innerWidth - DOG_W - (isSmall() ? 16 : 24);
-        if (posLeft > maxLeft) {
-          posLeft = maxLeft;
-          if (el) el.style.left = `${posLeft}px`;
-        }
+      const el = wrapperRef.current;
+      if (!el || isDragging || isJumping) return;
 
-        if (currentSection === 'finale') {
-          const footerPosition = getSectionPos('finale');
-          if (footerPosition && el) {
-            posTop = footerPosition.top;
+      // Always clamp horizontal position within viewport
+      const clampedLeft = clampLeft(posLeft);
+      if (clampedLeft !== posLeft && !isAnimating) {
+        posLeft = clampedLeft;
+        el.style.left = `${posLeft}px`;
+      }
+
+      // Re-anchor vertical position even while walking horizontally so page shrinks
+      // (e.g. Comic -> Halloween or Project filters) never strand the pet below #finale
+      if (currentSection !== 'custom') {
+        const elSection = document.getElementById(currentSection);
+        if (elSection) {
+          const divider =
+            currentSection === 'finale'
+              ? document.getElementById('footer-divider')
+              : null;
+          const rect = elSection.getBoundingClientRect();
+          const nextTop = clampTop(
+            divider
+              ? divider.getBoundingClientRect().top + window.scrollY - DOG_H
+              : rect.top + window.scrollY + rect.height - DOG_H - 20,
+          );
+          if (Math.abs(nextTop - posTop) > 1) {
+            posTop = nextTop;
             el.style.top = `${posTop}px`;
           }
-        } else if (prevH !== DOG_H && el) {
-          posTop += prevH - DOG_H;
-          el.style.top = `${posTop}px`;
+          return;
         }
       }
+
+      const clampedTop = clampTop(posTop);
+      if (clampedTop !== posTop) {
+        posTop = clampedTop;
+        el.style.top = `${posTop}px`;
+      }
     };
-    window.addEventListener('resize', onResize, { passive: true });
+
+    window.addEventListener('resize', syncLayoutPosition, { passive: true });
+    let layoutRaf = 0;
+    const bodyResizeObserver = new ResizeObserver(() => {
+      cancelAnimationFrame(layoutRaf);
+      layoutRaf = requestAnimationFrame(syncLayoutPosition);
+    });
+    bodyResizeObserver.observe(document.body);
 
     // ── Patrol scheduler ─────────────────────────────────────────────────
     const schedulePatrol = () => {
@@ -378,8 +431,8 @@ const PixelPet = () => {
 
       const fromLeft = posLeft;
       const fromTop = posTop;
-      const toLeft = targetPos.left;
-      const toTop = targetPos.top;
+      const toLeft = clampLeft(targetPos.left);
+      const toTop = clampTop(targetPos.top);
 
       const dx = toLeft - fromLeft;
       const dy = toTop - fromTop;
@@ -393,6 +446,7 @@ const PixelPet = () => {
       setDirectionRef.current(dx >= 0 ? 'right' : 'left');
       applyState('jumping');
       isAnimating = true;
+      isJumping = true;
       if (sleepTimer) clearTimeout(sleepTimer);
       if (patrolTimer) clearTimeout(patrolTimer);
 
@@ -439,14 +493,19 @@ const PixelPet = () => {
           const scaleX = 1.15 - 0.15 * eased;
           el.style.transform = `translateX(${dx}px) translateY(${dy}px) scaleY(${scaleY}) scaleX(${scaleX})`;
         } else {
-          // ── Commit new position ──────────────────────────────────────
+          // ── Commit new position (re-clamped to live DOM height) ──────
+          const liveTarget =
+            targetId !== 'custom' ? getSectionPos(targetId) : null;
+          const finalTop = clampTop(liveTarget ? liveTarget.top : toTop);
+          const finalLeft = clampLeft(toLeft);
           el.style.transform = 'none';
-          el.style.top = `${toTop}px`;
-          el.style.left = `${toLeft}px`;
-          posTop = toTop;
-          posLeft = toLeft;
+          el.style.top = `${finalTop}px`;
+          el.style.left = `${finalLeft}px`;
+          posTop = finalTop;
+          posLeft = finalLeft;
           currentSection = targetId;
           isAnimating = false;
+          isJumping = false;
 
           const queued = jumpQueued;
           jumpQueued = null;
@@ -657,18 +716,20 @@ const PixelPet = () => {
       if (!el) return;
       const dx = e.clientX - dragStartX;
       const dy = e.clientY - dragStartY;
-      el.style.left = `${dragStartLeft + dx}px`;
-      el.style.top = `${dragStartTop + dy}px`;
+      el.style.left = `${clampLeft(dragStartLeft + dx)}px`;
+      el.style.top = `${clampTop(dragStartTop + dy)}px`;
     };
 
-    const onPointerUpDrag = (e: PointerEvent) => {
+    const onPointerUpDrag = () => {
       if (!isDragging) return;
       isDragging = false;
       const el = wrapperRef.current;
       if (el) {
         el.style.transition = 'opacity 0.4s ease';
-        posLeft = parseFloat(el.style.left || '0');
-        posTop = parseFloat(el.style.top || '0');
+        posLeft = clampLeft(parseFloat(el.style.left || '0'));
+        posTop = clampTop(parseFloat(el.style.top || '0'));
+        el.style.left = `${posLeft}px`;
+        el.style.top = `${posTop}px`;
       }
       window.removeEventListener('pointermove', onPointerMoveDrag);
       window.removeEventListener('pointerup', onPointerUpDrag);
@@ -698,6 +759,7 @@ const PixelPet = () => {
 
       clearAllTimers();
       isAnimating = false;
+      isJumping = false;
       applyState('hoveredPause');
 
       const el = wrapperRef.current;
@@ -723,7 +785,9 @@ const PixelPet = () => {
       const target = e.target as HTMLElement;
       // Ignore clicks on links, buttons, interactive elements, or the dog itself
       if (
-        target.closest('button, a, input, textarea, select, [role="button"]') ||
+        target.closest(
+          'button, a, input, textarea, select, [role="button"], [role="dialog"], [role="menu"]',
+        ) ||
         target.closest('.pixel-pet-body') ||
         target.closest('.pixel-pet-speech-bark') ||
         target.closest('.pixel-pet-speech-notice') ||
@@ -732,8 +796,8 @@ const PixelPet = () => {
         return;
       }
 
-      const toLeft = e.clientX + window.scrollX - DOG_W / 2;
-      const toTop = e.clientY + window.scrollY - DOG_H / 2;
+      const toLeft = clampLeft(e.clientX + window.scrollX - DOG_W / 2);
+      const toTop = clampTop(e.clientY + window.scrollY - DOG_H / 2);
 
       // Clear jump queue and initiate jump to custom pos
       jumpQueued = null;
@@ -772,9 +836,11 @@ const PixelPet = () => {
     // ── Cleanup ───────────────────────────────────────────────────────────
     return () => {
       clearTimeout(init);
+      cancelAnimationFrame(layoutRaf);
+      bodyResizeObserver.disconnect();
       clearAllTimers();
       if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('resize', onResize);
+      window.removeEventListener('resize', syncLayoutPosition);
       window.removeEventListener('click', onGlobalClick);
       window.removeEventListener('pointermove', onPointerMoveDrag);
       window.removeEventListener('pointerup', onPointerUpDrag);
