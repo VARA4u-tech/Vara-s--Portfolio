@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { playWhoosh } from '@/hooks/useSoundEffects';
 import { useLenis } from 'lenis/react';
+import { useHalloween } from '@/context/ThemeContext';
 
 const ScrollToTop = () => {
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
+  const { isHalloween } = useHalloween();
 
   const lenis = useLenis(({ scroll, progress }) => {
     setProgress(progress * 100);
@@ -36,7 +38,11 @@ const ScrollToTop = () => {
       }`}
       aria-label="Scroll to top"
     >
-      <div className="relative flex items-center justify-center bg-background/80 backdrop-blur-md rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300">
+      <div
+        className={`relative flex items-center justify-center bg-background/80 backdrop-blur-md rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 ${
+          isHalloween ? 'hover:shadow-[0_0_12px_rgba(255,117,24,0.45)]' : ''
+        }`}
+      >
         <svg width={size} height={size} className="rotate-[-90deg]">
           {/* Background Ring */}
           <circle
@@ -59,13 +65,19 @@ const ScrollToTop = () => {
             strokeDasharray={circumference}
             strokeDashoffset={offset}
             strokeLinecap="round"
-            className="text-foreground transition-all duration-100"
+            className={`transition-all duration-100 ${
+              isHalloween ? 'text-[#FF7518]' : 'text-foreground'
+            }`}
           />
         </svg>
 
         {/* Icon */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <ArrowUp className="w-5 h-5 text-foreground/80 group-hover:-translate-y-0.5 transition-transform duration-300" />
+          <ArrowUp
+            className={`w-5 h-5 group-hover:-translate-y-0.5 transition-transform duration-300 ${
+              isHalloween ? 'text-black group-hover:text-[#FF7518]' : 'text-foreground/80'
+            }`}
+          />
         </div>
       </div>
     </button>
