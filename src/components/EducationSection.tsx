@@ -1,5 +1,5 @@
 import SectionBlock from './SectionBlock';
-import { useComic } from '@/context/ThemeContext';
+import { useComic, useHalloween } from '@/context/ThemeContext';
 
 interface EducationItem {
   degree: string;
@@ -37,6 +37,7 @@ const education: EducationItem[] = [
 
 const EducationSection = () => {
   const { isComic } = useComic();
+  const { isHalloween } = useHalloween();
 
   return (
     <SectionBlock id="education" title="Education">
@@ -53,7 +54,9 @@ const EducationSection = () => {
               className={`transition-all duration-300 ${
                 isComic
                   ? `${isMca ? 'comic-panel-white border-l-4 border-l-[#D9B45B]' : 'comic-panel-concrete border-l-4 border-l-[#171717]'} p-6`
-                  : 'border-l-2 border-black/10 pl-6 py-2 hover:border-black'
+                  : isHalloween
+                    ? 'border-l-2 border-[#FF7518]/50 pl-6 py-2 hover:border-[#FF7518]'
+                    : 'border-l-2 border-black/10 pl-6 py-2 hover:border-black'
               }`}
             >
               {isComic && (
@@ -95,7 +98,9 @@ const EducationSection = () => {
                   className={`font-mono text-xs ${
                     isComic
                       ? 'font-bold text-[#B58B32]'
-                      : 'text-foreground/60'
+                      : isHalloween
+                        ? 'font-bold text-[#FF7518]'
+                        : 'text-foreground/60'
                   }`}
                 >
                   {item.year}
@@ -104,7 +109,11 @@ const EducationSection = () => {
               {item.description && (
                 <ul
                   className={`mt-4 space-y-2 list-disc list-outside pl-4 text-sm ${
-                    isComic ? 'text-[#171717]/85' : 'text-foreground/80'
+                    isComic
+                      ? 'text-[#171717]/85'
+                      : isHalloween
+                        ? 'text-foreground/85 marker:text-[#FF7518]'
+                        : 'text-foreground/80'
                   }`}
                 >
                   {item.description.map((point, i) => (
