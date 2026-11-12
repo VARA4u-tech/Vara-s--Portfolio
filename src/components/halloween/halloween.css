@@ -100,6 +100,26 @@
   }
 }
 
+@keyframes graveyardTreeSway {
+  0%,
+  100% {
+    transform: rotate(-0.6deg);
+  }
+  50% {
+    transform: rotate(0.9deg);
+  }
+}
+
+.graveyard-tree-sway {
+  transform-origin: 55px 212px;
+  animation: graveyardTreeSway 7s ease-in-out infinite;
+}
+
+.graveyard-tree-sway-alt {
+  transform-origin: 205px 212px;
+  animation: graveyardTreeSway 8.5s ease-in-out infinite reverse;
+}
+
 .candle-glow {
   animation: candleFlicker 3s ease-in-out infinite;
 }
@@ -128,7 +148,9 @@
   .candle-glow,
   .ghost-floating,
   .web-sway,
-  .spider-bob {
+  .spider-bob,
+  .graveyard-tree-sway,
+  .graveyard-tree-sway-alt {
     animation: none !important;
   }
 }
