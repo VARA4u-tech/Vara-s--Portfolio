@@ -214,14 +214,18 @@ const ContactSection = () => {
               className={`group flex items-center gap-4 p-4 transition-all duration-300 rounded-none ${
                 isComic
                   ? 'comic-panel-white'
-                  : 'border border-foreground/10 bg-white/50 hover:border-black'
+                  : isHalloween
+                    ? 'border border-black/20 bg-white/80 hover:border-[#FF7518] hover:shadow-[4px_4px_0px_0px_#FF7518]'
+                    : 'border border-foreground/10 bg-white/50 hover:border-black'
               }`}
             >
               <div
                 className={`p-3 self-start rounded-none ${
                   isComic
                     ? 'bg-[#171717] text-[#D9B45B] border border-[#171717]'
-                    : 'bg-black text-white'
+                    : isHalloween
+                      ? 'bg-black text-[#FF7518]'
+                      : 'bg-black text-white'
                 }`}
               >
                 <Mail className="w-5 h-5" />
@@ -264,14 +268,18 @@ const ContactSection = () => {
               className={`flex items-center gap-4 p-4 transition-all duration-300 rounded-none ${
                 isComic
                   ? 'comic-panel-concrete'
-                  : 'border border-foreground/10 bg-white/50 hover:border-black'
+                  : isHalloween
+                    ? 'border border-black/20 bg-white/80 hover:border-[#FF7518] hover:shadow-[4px_4px_0px_0px_#FF7518]'
+                    : 'border border-foreground/10 bg-white/50 hover:border-black'
               }`}
             >
               <div
                 className={`p-3 self-start rounded-none ${
                   isComic
                     ? 'bg-[#171717] text-[#D9B45B] border border-[#171717]'
-                    : 'bg-black text-white'
+                    : isHalloween
+                      ? 'bg-black text-[#FF7518]'
+                      : 'bg-black text-white'
                 }`}
               >
                 <LucideGlobe2 className="w-5 h-5" />
@@ -322,7 +330,9 @@ const ContactSection = () => {
                     className={`p-3 border transition-all duration-200 hover:-translate-y-0.5 active:scale-95 touch-manipulation rounded-none ${
                       isComic
                         ? 'border-2 border-[#D9D9D9] bg-[#171717] text-[#FFFFFF] shadow-[3px_3px_0px_#888888] hover:bg-[#D9B45B] hover:text-[#171717] hover:border-[#171717] hover:shadow-[4px_4px_0px_#B58B32]'
-                        : 'border-foreground/20 hover:bg-black hover:text-white'
+                        : isHalloween
+                          ? 'border-black/25 bg-white text-black hover:bg-black hover:text-[#FF7518] hover:border-[#FF7518] hover:shadow-[3px_3px_0px_0px_#FF7518]'
+                          : 'border-foreground/20 hover:bg-black hover:text-white'
                     }`}
                   >
                     <Icon className="w-5 h-5" />
@@ -452,7 +462,9 @@ const ContactSection = () => {
                       : `bg-transparent text-foreground ${
                           errors.name
                             ? 'border-red-500 focus:border-red-500'
-                            : 'border-foreground/10 focus:border-black'
+                            : isHalloween
+                              ? 'border-foreground/15 focus:border-[#FF7518]'
+                              : 'border-foreground/10 focus:border-black'
                         }`
                   }`}
                 />
@@ -468,7 +480,9 @@ const ContactSection = () => {
                       : `peer-focus:bg-background peer-[:not(:placeholder-shown)]:bg-background ${
                           errors.name
                             ? 'text-red-500 peer-focus:text-red-500'
-                            : 'text-foreground/40 peer-focus:text-black'
+                            : isHalloween
+                              ? 'text-foreground/45 peer-focus:text-[#FF7518]'
+                              : 'text-foreground/40 peer-focus:text-black'
                         }`
                   }`}
                 >
@@ -503,7 +517,9 @@ const ContactSection = () => {
                       : `bg-transparent text-foreground ${
                           errors.email
                             ? 'border-red-500 focus:border-red-500'
-                            : 'border-foreground/10 focus:border-black'
+                            : isHalloween
+                              ? 'border-foreground/15 focus:border-[#FF7518]'
+                              : 'border-foreground/10 focus:border-black'
                         }`
                   }`}
                 />
@@ -519,7 +535,9 @@ const ContactSection = () => {
                       : `peer-focus:bg-background peer-[:not(:placeholder-shown)]:bg-background ${
                           errors.email
                             ? 'text-red-500 peer-focus:text-red-500'
-                            : 'text-foreground/40 peer-focus:text-black'
+                            : isHalloween
+                              ? 'text-foreground/45 peer-focus:text-[#FF7518]'
+                              : 'text-foreground/40 peer-focus:text-black'
                         }`
                   }`}
                 >
@@ -555,7 +573,9 @@ const ContactSection = () => {
                       : `bg-transparent text-foreground ${
                           errors.message
                             ? 'border-red-500 focus:border-red-500'
-                            : 'border-foreground/10 focus:border-black'
+                            : isHalloween
+                              ? 'border-foreground/15 focus:border-[#FF7518]'
+                              : 'border-foreground/10 focus:border-black'
                         }`
                   }`}
                 />
@@ -571,7 +591,9 @@ const ContactSection = () => {
                       : `peer-focus:bg-background peer-[:not(:placeholder-shown)]:bg-background ${
                           errors.message
                             ? 'text-red-500 peer-focus:text-red-500'
-                            : 'text-foreground/40 peer-focus:text-black'
+                            : isHalloween
+                              ? 'text-foreground/45 peer-focus:text-[#FF7518]'
+                              : 'text-foreground/40 peer-focus:text-black'
                         }`
                   }`}
                 >
