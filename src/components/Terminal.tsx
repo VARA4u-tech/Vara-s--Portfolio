@@ -15,6 +15,7 @@ import {
 } from '@/hooks/useSoundEffects';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { PROFILE, SOCIAL_LINKS, getSocialLink } from '@/data/constants';
+import { useHalloween } from '@/context/ThemeContext';
 
 interface CommandOutput {
   id: number;
@@ -23,6 +24,7 @@ interface CommandOutput {
 }
 
 const Terminal = () => {
+  const { isHalloween } = useHalloween();
   const [isOpen, setIsOpen] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [terminalTheme, setTerminalTheme] = useState('text-white/90');
@@ -487,7 +489,11 @@ const Terminal = () => {
             playTerminalOpen();
             setIsOpen(true);
           }}
-          className="p-3 bg-white border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white transition-all duration-300 active:scale-95 rounded-none"
+          className={`p-3 bg-white border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 active:scale-95 rounded-none ${
+            isHalloween
+              ? 'hover:bg-black hover:text-[#FF7518] hover:border-[#FF7518] hover:shadow-[4px_4px_0px_0px_#FF7518]'
+              : 'hover:bg-black hover:text-white'
+          }`}
           aria-label="Open Terminal"
         >
           <TerminalIcon className="w-5 h-5" />
