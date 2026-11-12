@@ -2,10 +2,11 @@ import React from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
 import TiltCard from './ui/TiltCard';
 import { playHover } from '@/hooks/useSoundEffects';
-import { useComic } from '@/context/ThemeContext';
+import { useComic, useHalloween } from '@/context/ThemeContext';
 
 const GithubGraph = () => {
   const { isComic } = useComic();
+  const { isHalloween } = useHalloween();
 
   return (
     <div className="w-full">
@@ -15,12 +16,12 @@ const GithubGraph = () => {
         perspective={1500}
         scale={1.02}
       >
-        <GraphContent isComic={isComic} />
+        <GraphContent isComic={isComic} isHalloween={isHalloween} />
       </TiltCard>
 
       {/* Static version for mobile/tablet without tilt for stability */}
       <div className="md:hidden w-full">
-        <GraphContent isMobile isComic={isComic} />
+        <GraphContent isMobile isComic={isComic} isHalloween={isHalloween} />
       </div>
     </div>
   );
@@ -29,16 +30,20 @@ const GithubGraph = () => {
 const GraphContent = ({
   isMobile,
   isComic,
+  isHalloween,
 }: {
   isMobile?: boolean;
   isComic?: boolean;
+  isHalloween?: boolean;
 }) => (
   <div
     onMouseEnter={!isMobile ? playHover : undefined}
     className={`border-4 p-4 md:p-8 transition-all duration-300 ${
       isComic
         ? 'border-[#D9D9D9] bg-[#FFFFFF] text-[#171717] shadow-[5px_5px_0px_#B58B32] md:shadow-[8px_8px_0px_#D9B45B]'
-        : 'border-black bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]'
+        : isHalloween
+          ? 'border-black bg-white text-black shadow-[4px_4px_0px_0px_#FF7518] md:shadow-[8px_8px_0px_0px_#FF7518]'
+          : 'border-black bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]'
     }`}
   >
     <div
@@ -56,7 +61,11 @@ const GraphContent = ({
       >
         <span
           className={`w-2 h-2 ${
-            isComic ? 'bg-[#D9B45B]' : 'bg-green-500 animate-pulse'
+            isComic
+              ? 'bg-[#D9B45B]'
+              : isHalloween
+                ? 'bg-[#FF7518] animate-pulse'
+                : 'bg-green-500 animate-pulse'
           }`}
         />
         Synced with GitHub Server
@@ -75,7 +84,9 @@ const GraphContent = ({
             theme={{
               light: isComic
                 ? ['#D9D9D9', '#888888', '#171717', '#B58B32', '#D9B45B']
-                : ['#e5e5e5', '#a3a3a3', '#737373', '#404040', '#171717'],
+                : isHalloween
+                  ? ['#f3f4f6', '#fed7aa', '#fdba74', '#fb923c', '#ff7518']
+                  : ['#e5e5e5', '#a3a3a3', '#737373', '#404040', '#171717'],
             }}
             blockSize={isMobile ? 10 : 12}
             blockMargin={isMobile ? 3 : 4}
