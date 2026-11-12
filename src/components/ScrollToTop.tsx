@@ -75,7 +75,9 @@ const ScrollToTop = () => {
         <div className="absolute inset-0 flex items-center justify-center">
           <ArrowUp
             className={`w-5 h-5 group-hover:-translate-y-0.5 transition-transform duration-300 ${
-              isHalloween ? 'text-black group-hover:text-[#FF7518]' : 'text-foreground/80'
+              isHalloween
+                ? 'text-black group-hover:text-[#FF7518]'
+                : 'text-foreground/80'
             }`}
           />
         </div>

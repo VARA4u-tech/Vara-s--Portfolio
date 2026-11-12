@@ -143,6 +143,33 @@
   box-shadow: 6px 6px 0px 0px var(--hw-orange) !important;
 }
 
+/* Halloween Spider Companion speech bubble contrast */
+html[data-theme='halloween'] .pixel-pet-speech-bark {
+  background: #0b0b0b !important;
+  border-color: #ff7518 !important;
+  box-shadow: 3px 3px 0px #ff7518 !important;
+  color: #ff7518 !important;
+}
+
+html[data-theme='halloween'] .pixel-pet-speech-bark::after {
+  border-top-color: #ff7518 !important;
+}
+
+html[data-theme='halloween'] .pixel-pet-speech-bark::before {
+  border-top-color: #0b0b0b !important;
+}
+
+html[data-theme='halloween'] .pixel-pet-speech-notice {
+  background: #ff7518 !important;
+  border-color: #0b0b0b !important;
+  box-shadow: 3px 3px 0px #0b0b0b !important;
+  color: #0b0b0b !important;
+}
+
+html[data-theme='halloween'] .pixel-pet-speech-notice::before {
+  border-top-color: #ff7518 !important;
+}
+
 /* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
   .candle-glow,

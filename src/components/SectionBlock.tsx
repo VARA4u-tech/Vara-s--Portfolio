@@ -85,10 +85,7 @@ const SectionBlock = ({ id, title, children }: SectionBlockProps) => {
           <span className={isHalloween ? 'text-[#FF7518]' : ''}>.</span>
         </h2>
         {isHalloween && (
-          <div
-            aria-hidden="true"
-            className="mt-2 flex items-center gap-1.5"
-          >
+          <div aria-hidden="true" className="mt-2 flex items-center gap-1.5">
             <span className="h-1 w-12 bg-[#FF7518]" />
             <span className="h-1 w-2 bg-black" />
           </div>

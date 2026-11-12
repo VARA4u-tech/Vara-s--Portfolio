@@ -122,7 +122,8 @@ const PixelCursor = ({ isWhite = false }: PixelCursorProps) => {
         ctx.globalAlpha = p.alpha;
         if (p.shade < 0) {
           const comicPalette = ['#D9B45B', '#D9D9D9', '#888888'];
-          ctx.fillStyle = comicPalette[Math.abs(p.shade + 1) % comicPalette.length];
+          ctx.fillStyle =
+            comicPalette[Math.abs(p.shade + 1) % comicPalette.length];
         } else {
           ctx.fillStyle = `rgb(${p.shade},${p.shade},${p.shade})`;
         }

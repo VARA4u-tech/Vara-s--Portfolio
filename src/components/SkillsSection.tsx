@@ -126,7 +126,9 @@ const SkillsSection = () => {
                       }`}
                     >
                       <span>{category.code}</span>
-                      <span className="text-[#B58B32] font-black">◆ VERIFIED</span>
+                      <span className="text-[#B58B32] font-black">
+                        ◆ VERIFIED
+                      </span>
                     </div>
                   )}
 

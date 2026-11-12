@@ -9,6 +9,24 @@ import {
 import useSoundEffects, { playClick, playHover } from '@/hooks/useSoundEffects';
 import { useTheme } from '@/context/ThemeContext';
 
+const SpiderNavIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="13" r="4" fill="currentColor" />
+    <circle cx="12" cy="8" r="2.2" fill="currentColor" />
+    <path d="M9 11 L4 7 M8 13 L3 13 M9 15 L5 19" />
+    <path d="M15 11 L20 7 M16 13 L21 13 M15 15 L19 19" />
+  </svg>
+);
+
 export const PreferencesPopover: React.FC = () => {
   const { isComic, isHalloween } = useTheme();
   const { setMasterVolume } = useSoundEffects();
@@ -80,8 +98,16 @@ export const PreferencesPopover: React.FC = () => {
     }
   };
 
-  const companionLabel = isComic ? 'Hero Assistant' : 'PixelPet Companion';
-  const CompanionIcon = isComic ? ShieldCheck : Dog;
+  const companionLabel = isComic
+    ? 'Hero Assistant'
+    : isHalloween
+      ? 'Spooky Spider'
+      : 'PixelPet Companion';
+  const CompanionIcon = isComic
+    ? ShieldCheck
+    : isHalloween
+      ? SpiderNavIcon
+      : Dog;
 
   return (
     <div ref={containerRef} className="relative">

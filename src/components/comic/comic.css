@@ -92,7 +92,9 @@ html[data-theme='comic'] .glitch-text:hover::after {
 html[data-theme='comic'] nav {
   background-color: #171717 !important;
   border-bottom: 2px solid #888888 !important;
-  box-shadow: 0 4px 0px #171717, 0 6px 0px #b58b32 !important;
+  box-shadow:
+    0 4px 0px #171717,
+    0 6px 0px #b58b32 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }

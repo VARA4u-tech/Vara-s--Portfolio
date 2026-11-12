@@ -38,19 +38,25 @@ export const ComicCornerFrames: React.FC = () => {
           {/* Corner triangle halftone plate */}
           <polygon points="0,0 74,0 0,74" fill="url(#comic-corner-dots-l)" />
           {/* Registration border L */}
-          <polyline
-            points="0,68 0,0 68,0"
-            stroke="#D9D9D9"
-            strokeWidth="1.5"
-          />
-          <polyline
-            points="6,46 6,6 46,6"
-            stroke="#D9B45B"
-            strokeWidth="1.5"
-          />
+          <polyline points="0,68 0,0 68,0" stroke="#D9D9D9" strokeWidth="1.5" />
+          <polyline points="6,46 6,6 46,6" stroke="#D9B45B" strokeWidth="1.5" />
           {/* Action chevron ticks */}
-          <line x1="12" y1="22" x2="22" y2="12" stroke="#D9B45B" strokeWidth="1.6" />
-          <line x1="12" y1="30" x2="30" y2="12" stroke="#888888" strokeWidth="1.2" />
+          <line
+            x1="12"
+            y1="22"
+            x2="22"
+            y2="12"
+            stroke="#D9B45B"
+            strokeWidth="1.6"
+          />
+          <line
+            x1="12"
+            y1="30"
+            x2="30"
+            y2="12"
+            stroke="#888888"
+            strokeWidth="1.2"
+          />
         </svg>
       </div>
 

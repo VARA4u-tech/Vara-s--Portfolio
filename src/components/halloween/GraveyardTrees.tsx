@@ -43,7 +43,10 @@ export const GraveyardTrees: React.FC<GraveyardTreesProps> = ({
           }`}
         >
           {/* Ground Mound */}
-          <path d="M0 220 L0 202 Q70 190 155 205 Q210 212 260 220 Z" fill="#0B0B0B" />
+          <path
+            d="M0 220 L0 202 Q70 190 155 205 Q210 212 260 220 Z"
+            fill="#0B0B0B"
+          />
 
           {/* Crooked Iron Fence Pickets (Desktop/Tablet visual edge) */}
           <g stroke="#0B0B0B" strokeWidth="2.5" strokeLinecap="round">
@@ -60,8 +63,22 @@ export const GraveyardTrees: React.FC<GraveyardTreesProps> = ({
               d="M116 206 L116 172 Q130 156 144 172 L144 206 Z"
               fill="#0B0B0B"
             />
-            <line x1="130" y1="170" x2="130" y2="186" stroke="#FF7518" strokeWidth="2" />
-            <line x1="124" y1="176" x2="136" y2="176" stroke="#FF7518" strokeWidth="2" />
+            <line
+              x1="130"
+              y1="170"
+              x2="130"
+              y2="186"
+              stroke="#FF7518"
+              strokeWidth="2"
+            />
+            <line
+              x1="124"
+              y1="176"
+              x2="136"
+              y2="176"
+              stroke="#FF7518"
+              strokeWidth="2"
+            />
           </g>
 
           {/* Main Gnarled Spooky Tree */}
@@ -72,14 +89,8 @@ export const GraveyardTrees: React.FC<GraveyardTreesProps> = ({
               fill="#0B0B0B"
             />
             {/* Twisted Left Branches */}
-            <path
-              d="M46 112 Q24 94 12 68 Q22 86 44 102 Z"
-              fill="#0B0B0B"
-            />
-            <path
-              d="M26 88 Q10 78 2 62 Q16 74 30 84 Z"
-              fill="#0B0B0B"
-            />
+            <path d="M46 112 Q24 94 12 68 Q22 86 44 102 Z" fill="#0B0B0B" />
+            <path d="M26 88 Q10 78 2 62 Q16 74 30 84 Z" fill="#0B0B0B" />
             {/* Twisted Upper Crown & Fingers */}
             <path
               d="M42 78 Q34 48 16 24 Q34 40 46 66 Q50 38 66 12 Q57 42 54 70 Q76 48 106 32 Q80 56 58 80 Z"
@@ -123,7 +134,10 @@ export const GraveyardTrees: React.FC<GraveyardTreesProps> = ({
           }`}
         >
           {/* Ground Mound */}
-          <path d="M0 220 Q60 212 115 204 Q195 190 260 202 L260 220 Z" fill="#0B0B0B" />
+          <path
+            d="M0 220 Q60 212 115 204 Q195 190 260 202 L260 220 Z"
+            fill="#0B0B0B"
+          />
 
           {/* Crooked Gravestone Cross */}
           <g transform="rotate(6 120 190)">
@@ -133,11 +147,29 @@ export const GraveyardTrees: React.FC<GraveyardTreesProps> = ({
 
           {/* Glowing Mini Jack-o'-Lantern at Tree Base */}
           <g transform="translate(148, 189)">
-            <path d="M9 1 Q10 -3 13 -2" stroke="#0B0B0B" strokeWidth="2" strokeLinecap="round" />
-            <ellipse cx="9" cy="10" rx="10" ry="8" fill="#FF7518" stroke="#0B0B0B" strokeWidth="1.5" />
+            <path
+              d="M9 1 Q10 -3 13 -2"
+              stroke="#0B0B0B"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <ellipse
+              cx="9"
+              cy="10"
+              rx="10"
+              ry="8"
+              fill="#FF7518"
+              stroke="#0B0B0B"
+              strokeWidth="1.5"
+            />
             <polygon points="5,8 7,6 8,9" fill="#0B0B0B" />
             <polygon points="10,9 11,6 13,8" fill="#0B0B0B" />
-            <path d="M5 13 Q9 16 13 13" stroke="#0B0B0B" strokeWidth="1.4" fill="none" />
+            <path
+              d="M5 13 Q9 16 13 13"
+              stroke="#0B0B0B"
+              strokeWidth="1.4"
+              fill="none"
+            />
           </g>
 
           {/* Main Leaning Haunted Tree */}
@@ -163,7 +195,14 @@ export const GraveyardTrees: React.FC<GraveyardTreesProps> = ({
               fill="#0B0B0B"
             />
             {/* Hanging Iron Lantern */}
-            <line x1="142" y1="80" x2="142" y2="96" stroke="#0B0B0B" strokeWidth="1.4" />
+            <line
+              x1="142"
+              y1="80"
+              x2="142"
+              y2="96"
+              stroke="#0B0B0B"
+              strokeWidth="1.4"
+            />
             <polygon points="138,96 146,96 144,106 140,106" fill="#0B0B0B" />
             <rect x="140.5" y="98.5" width="3" height="5" fill="#FF7518" />
           </g>

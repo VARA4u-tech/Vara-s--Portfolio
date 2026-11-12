@@ -130,11 +130,7 @@ export const ComicActionLines: React.FC<ComicActionLinesProps> = ({
               x2={ray.x2}
               y2={ray.y2}
               stroke={
-                ray.isGold
-                  ? '#D9B45B'
-                  : ray.isDarkGold
-                    ? '#B58B32'
-                    : '#888888'
+                ray.isGold ? '#D9B45B' : ray.isDarkGold ? '#B58B32' : '#888888'
               }
               strokeOpacity={ray.isGold ? 0.85 : ray.isDarkGold ? 0.65 : 0.35}
               strokeWidth={ray.isGold ? 2.2 : ray.isDarkGold ? 1.8 : 1}

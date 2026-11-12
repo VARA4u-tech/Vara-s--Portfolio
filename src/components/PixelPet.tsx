@@ -16,7 +16,11 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { playBark, playSystemOnline } from '@/hooks/useSoundEffects';
+import {
+  playBark,
+  playSystemOnline,
+  playSpookyBoo,
+} from '@/hooks/useSoundEffects';
 import { useTheme } from '@/context/ThemeContext';
 
 const HERO_ASSISTANT_LINES = [
@@ -26,6 +30,13 @@ const HERO_ASSISTANT_LINES = [
   'SKIES CLEAR.',
   'READY TO BUILD.',
   'TRY CTRL+K CLI.',
+] as const;
+
+const HALLOWEEN_SPIDER_LINES = [
+  'BOO! 🕷️',
+  'WEB READY! 🕸️',
+  'SCUTTLE! 🎃',
+  'NO BUGS HERE!',
 ] as const;
 
 // ─── Section config ─────────────────────────────────────────────────────────
@@ -55,12 +66,17 @@ type DogState =
 
 // ─── Tuning constants ────────────────────────────────────────────────────────
 // Companion size adapts smoothly: slightly larger in Comic mode for crisp hero detail
-const getDogSize = (isComicMode?: boolean) => {
+const getDogSize = (isComicMode?: boolean, isHalloweenMode?: boolean) => {
   const vw = window.innerWidth;
   if (isComicMode) {
     if (vw < 480) return 56;
     if (vw < 768) return 58;
     return 60;
+  }
+  if (isHalloweenMode) {
+    if (vw < 480) return 52;
+    if (vw < 768) return 50;
+    return 48;
   }
   if (vw < 480) return 52; // phone — extra large for easy tap
   if (vw < 768) return 48; // tablet portrait
@@ -83,9 +99,12 @@ const PixelPet = () => {
   const [visible, setVisible] = useState(false);
   const [dogSize, setDogSize] = useState(44); // responsive px size
   const [assistantLineIdx, setAssistantLineIdx] = useState(0);
+  const [spiderLineIdx, setSpiderLineIdx] = useState(0);
   const { isHalloween, isComic } = useTheme();
   const isComicRef = useRef(isComic);
   isComicRef.current = isComic;
+  const isHalloweenRef = useRef(isHalloween);
+  isHalloweenRef.current = isHalloween;
 
   // DOM refs
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -105,6 +124,7 @@ const PixelPet = () => {
   const setVisibleRef = useRef(setVisible);
   const setDogSizeRef = useRef(setDogSize);
   const setAssistantLineIdxRef = useRef(setAssistantLineIdx);
+  const setSpiderLineIdxRef = useRef(setSpiderLineIdx);
 
   // ── Main state-machine effect ───────────────────────────────────────────
   useEffect(() => {
@@ -118,7 +138,7 @@ const PixelPet = () => {
     const isSmall = () => window.innerWidth < 768; // phone / tablet portrait
 
     // ── Reactive size (recalculates on resize or theme switch) ─────────────
-    let DOG_W = getDogSize(isComicRef.current);
+    let DOG_W = getDogSize(isComicRef.current, isHalloweenRef.current);
     let DOG_H = DOG_W;
     setDogSizeRef.current(DOG_W);
 
@@ -181,10 +201,7 @@ const PixelPet = () => {
       const finale = document.getElementById('finale');
       if (finale) {
         const rect = finale.getBoundingClientRect();
-        return Math.max(
-          0,
-          rect.top + window.scrollY + rect.height - DOG_H - 8,
-        );
+        return Math.max(0, rect.top + window.scrollY + rect.height - DOG_H - 8);
       }
       return Math.max(0, document.documentElement.scrollHeight - DOG_H);
     };
@@ -225,7 +242,7 @@ const PixelPet = () => {
 
     // Re-anchor & clamp companion whenever viewport resizes, themes switch, or filters change height
     const syncLayoutPosition = () => {
-      DOG_W = getDogSize(isComicRef.current);
+      DOG_W = getDogSize(isComicRef.current, isHalloweenRef.current);
       DOG_H = DOG_W;
       setDogSizeRef.current(DOG_W);
 
@@ -557,6 +574,11 @@ const PixelPet = () => {
           setAssistantLineIdxRef.current(
             (prev) => (prev + 1) % HERO_ASSISTANT_LINES.length,
           );
+        } else if (isHalloweenRef.current) {
+          playSpookyBoo();
+          setSpiderLineIdxRef.current(
+            (prev) => (prev + 1) % HALLOWEEN_SPIDER_LINES.length,
+          );
         } else {
           playBark();
         }
@@ -644,6 +666,11 @@ const PixelPet = () => {
             (prev) => (prev + 1) % HERO_ASSISTANT_LINES.length,
           );
           window.dispatchEvent(new CustomEvent('comic-hero-patrol'));
+        } else if (isHalloweenRef.current) {
+          playSpookyBoo();
+          setSpiderLineIdxRef.current(
+            (prev) => (prev + 1) % HALLOWEEN_SPIDER_LINES.length,
+          );
         } else {
           playBark();
         }
@@ -854,7 +881,7 @@ const PixelPet = () => {
 
   useEffect(() => {
     window.dispatchEvent(new Event('resize'));
-  }, [isComic]);
+  }, [isComic, isHalloween]);
 
   // ── JSX ────────────────────────────────────────────────────────────────
   return (
@@ -885,13 +912,23 @@ const PixelPet = () => {
         onClick={() => onClickRef.current()}
         onMouseEnter={() => onEnterRef.current()}
         onMouseLeave={() => onLeaveRef.current()}
-        title={isComic ? 'Hero Assistant — Click or drag me!' : 'Click me!'}
+        title={
+          isComic
+            ? 'Hero Assistant — Click or drag me!'
+            : isHalloween
+              ? 'Spooky Spider — Click or drag me!'
+              : 'Click me!'
+        }
       >
         {/* Speech bubbles */}
         {showTip && !showBark && !showNotice && (
           <div className="pixel-pet-speech-bark pixel-pet-speech-tip">
             <span>
-              {isComic ? 'Assistant ready — click anywhere!' : 'Take me for a walk!'}
+              {isComic
+                ? 'Assistant ready — click anywhere!'
+                : isHalloween
+                  ? 'Web patrol ready — click anywhere!'
+                  : 'Take me for a walk!'}
             </span>
           </div>
         )}
@@ -901,7 +938,7 @@ const PixelPet = () => {
               {isComic
                 ? HERO_ASSISTANT_LINES[assistantLineIdx]
                 : isHalloween
-                  ? 'BOO-RK! 🎃'
+                  ? HALLOWEEN_SPIDER_LINES[spiderLineIdx]
                   : 'WOOF!'}
             </span>
           </div>
@@ -925,14 +962,21 @@ const PixelPet = () => {
           >
             {/* Zzz float */}
             {dogState === 'sleeping' && (
-              <div className="pixel-pet-zzz" aria-hidden="true">
+              <div
+                className={`pixel-pet-zzz ${
+                  isHalloween ? '!text-[#FF7518]' : ''
+                }`}
+                aria-hidden="true"
+              >
                 Z
               </div>
             )}
             {isComic ? (
               <HeroAssistantSvg state={dogState} />
+            ) : isHalloween ? (
+              <HalloweenSpiderSvg state={dogState} />
             ) : (
-              <DogSvg state={dogState} isHalloween={isHalloween} />
+              <DogSvg state={dogState} />
             )}
           </div>
         </div>
@@ -1132,10 +1176,7 @@ const HeroAssistantSvg = ({ state }: { state: DogState }) => {
       />
 
       {/* Sleek Black Hero Domino Visor */}
-      <path
-        d="M27 15 H46 V22 H28 L26 19 Z"
-        fill="#171717"
-      />
+      <path d="M27 15 H46 V22 H28 L26 19 Z" fill="#171717" />
 
       {/* Expressive Hero Mask Eyes */}
       {!isSleeping ? (
@@ -1214,14 +1255,154 @@ const HeroAssistantSvg = ({ state }: { state: DogState }) => {
   );
 };
 
-// ─── Dog SVG (Default & Halloween Themes) ───────────────────────────────────
-const DogSvg = ({
-  state,
-  isHalloween,
-}: {
-  state: DogState;
-  isHalloween?: boolean;
-}) => {
+// ─── Halloween Spooky Spider SVG (Sharp 64×64 Vector Companion) ───────────────
+const HalloweenSpiderSvg = ({ state }: { state: DogState }) => {
+  const isSleeping = state === 'sleeping';
+  const isAlert = state === 'noticing' || state === 'barking';
+  const isJumping = state === 'jumping';
+
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      style={{ width: '100%', height: '100%' }}
+      className="pixel-pet-svg overflow-visible"
+    >
+      {/* Silk web strand trailing upward during airborne jumps */}
+      {isJumping && (
+        <line
+          x1="32"
+          y1="-28"
+          x2="32"
+          y2="24"
+          stroke="#0B0B0B"
+          strokeOpacity="0.45"
+          strokeWidth="1.5"
+          strokeDasharray="3 2"
+        />
+      )}
+
+      {/* Standing 8 Articulated Spider Legs (Left 4 + Right 4) */}
+      <g
+        className="pixel-pet-legs-standing"
+        stroke="#0B0B0B"
+        strokeWidth="2.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      >
+        {/* Left side legs */}
+        <polyline points="23,34 11,22 6,35" />
+        <polyline points="22,38 8,32 4,48" />
+        <polyline points="22,42 10,43 7,58" />
+        <polyline points="24,46 16,52 15,61" />
+        {/* Right side legs */}
+        <polyline points="41,34 53,22 58,35" />
+        <polyline points="42,38 56,32 60,48" />
+        <polyline points="42,42 54,43 57,58" />
+        <polyline points="40,46 48,52 49,61" />
+      </g>
+
+      {/* Scuttling Alternate Leg Gait Frame */}
+      <g
+        className="pixel-pet-legs-walking"
+        stroke="#0B0B0B"
+        strokeWidth="2.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      >
+        {/* Left stride */}
+        <polyline points="23,34 13,18 9,31" />
+        <polyline points="22,38 6,37 3,52" />
+        <polyline points="22,42 12,38 9,54" />
+        <polyline points="24,46 18,55 18,62" />
+        {/* Right stride */}
+        <polyline points="41,34 51,26 56,39" />
+        <polyline points="42,38 58,28 61,44" />
+        <polyline points="42,42 52,47 55,61" />
+        <polyline points="40,46 46,49 47,57" />
+      </g>
+
+      {/* Tucked Airborne Jump Legs */}
+      {isJumping && (
+        <g
+          stroke="#0B0B0B"
+          strokeWidth="2.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
+        >
+          <polyline points="23,35 12,28 10,42" />
+          <polyline points="22,41 11,44 13,56" />
+          <polyline points="41,35 52,28 54,42" />
+          <polyline points="42,41 53,44 51,56" />
+        </g>
+      )}
+
+      {/* Plump Rear Abdomen */}
+      <ellipse
+        cx="26"
+        cy="36"
+        rx="14"
+        ry="12"
+        fill="#0B0B0B"
+        stroke="#0B0B0B"
+        strokeWidth="1.5"
+      />
+      {/* Glowing #FF7518 Hourglass / Spooky Stripe Marking */}
+      <polygon points="22,29 29,34 23,36 28,42 20,37 25,35" fill="#FF7518" />
+
+      {/* Front Head / Cephalothorax */}
+      <circle
+        cx="38"
+        cy="40"
+        r="10"
+        fill="#171717"
+        stroke="#0B0B0B"
+        strokeWidth="1.5"
+      />
+
+      {/* Cute Spooky Pedipalps / Fangs */}
+      <path
+        d="M36 48 Q35 53 38 54"
+        stroke="#FF7518"
+        strokeWidth="2"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M42 48 Q43 53 40 54"
+        stroke="#FF7518"
+        strokeWidth="2"
+        strokeLinecap="round"
+        fill="none"
+      />
+
+      {/* Glowing Halloween Spider Eyes (4-Eye Cluster) */}
+      {!isSleeping ? (
+        <g>
+          {/* Main glowing eyes */}
+          <circle cx="36" cy="39" r={isAlert ? 3 : 2.3} fill="#FF7518" />
+          <circle cx="43" cy="39" r={isAlert ? 3 : 2.3} fill="#FF7518" />
+          {/* Catchlight shine */}
+          <circle cx="35.3" cy="38.2" r="0.8" fill="#FFFFFF" />
+          <circle cx="42.3" cy="38.2" r="0.8" fill="#FFFFFF" />
+          {/* Secondary outer spider eyes */}
+          <circle cx="31.5" cy="37" r="1.2" fill="#FF7518" />
+          <circle cx="46.5" cy="37" r="1.2" fill="#FF7518" />
+        </g>
+      ) : (
+        <g stroke="#FF7518" strokeWidth="1.8" strokeLinecap="round">
+          <line x1="34" y1="39" x2="38" y2="39" />
+          <line x1="41" y1="39" x2="45" y2="39" />
+        </g>
+      )}
+    </svg>
+  );
+};
+
+// ─── Dog SVG (Classic Theme) ─────────────────────────────────────────────────
+const DogSvg = ({ state }: { state: DogState }) => {
   const isSleeping = state === 'sleeping';
   const isAlert = state === 'noticing' || state === 'barking';
   const isJumping = state === 'jumping';
@@ -1249,15 +1430,6 @@ const DogSvg = ({
         opacity="0.15"
         className="dark:opacity-30"
       />
-      {/* Halloween Witch Hat */}
-      {isHalloween && (
-        <g className="pixel-pet-hat">
-          <rect x="8" y="4" width="7" height="1" fill="#301934" />
-          <rect x="9" y="3" width="5" height="1" fill="#FF7518" />
-          <rect x="10" y="1" width="3" height="2" fill="#301934" />
-          <rect x="11" y="0" width="1" height="1" fill="#FF7518" />
-        </g>
-      )}
       {/* Head */}
       <rect x="9" y="5" width="6" height="5" fill="currentColor" />
       {/* Snout Details */}

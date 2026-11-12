@@ -91,10 +91,13 @@ export const ComicSkylinePatrol: React.FC = () => {
     if (cleanupTimerRef.current) {
       window.clearTimeout(cleanupTimerRef.current);
     }
-    cleanupTimerRef.current = window.setTimeout(() => {
-      activePatrolRef.current = false;
-      setActivePatrol(null);
-    }, (duration + 0.5) * 1000);
+    cleanupTimerRef.current = window.setTimeout(
+      () => {
+        activePatrolRef.current = false;
+        setActivePatrol(null);
+      },
+      (duration + 0.5) * 1000,
+    );
   }, []);
 
   useEffect(() => {
@@ -174,7 +177,9 @@ export const ComicSkylinePatrol: React.FC = () => {
               {/* Crisp editorial onomatopoeia micro-caption trailing behind */}
               <span
                 className={`absolute -top-5 font-mono text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 bg-[#D9B45B] text-[#171717] border border-[#171717] shadow-[2px_2px_0px_#FFFFFF] whitespace-nowrap ${
-                  activePatrol.facingRight ? '-left-8 -rotate-6' : '-right-8 rotate-6'
+                  activePatrol.facingRight
+                    ? '-left-8 -rotate-6'
+                    : '-right-8 rotate-6'
                 }`}
               >
                 {activePatrol.caption}
@@ -244,7 +249,12 @@ const SentinelFlyerSvg: React.FC = () => (
       stroke="#FFFFFF"
       strokeWidth="1.6"
     />
-    <path d="M31 28 L39 27 L39 33 L30 33 Z" fill="#D9B45B" stroke="#171717" strokeWidth="1.4" />
+    <path
+      d="M31 28 L39 27 L39 33 L30 33 Z"
+      fill="#D9B45B"
+      stroke="#171717"
+      strokeWidth="1.4"
+    />
 
     {/* Armored Torso */}
     <path
@@ -264,7 +274,15 @@ const SentinelFlyerSvg: React.FC = () => (
       stroke="#FFFFFF"
       strokeWidth="1.6"
     />
-    <rect x="83" y="18" width="6" height="5" fill="#D9B45B" stroke="#171717" strokeWidth="1.4" />
+    <rect
+      x="83"
+      y="18"
+      width="6"
+      height="5"
+      fill="#D9B45B"
+      stroke="#171717"
+      strokeWidth="1.4"
+    />
 
     {/* Hero Helmet & White Visor Slit */}
     <path
@@ -273,7 +291,12 @@ const SentinelFlyerSvg: React.FC = () => (
       stroke="#171717"
       strokeWidth="1.8"
     />
-    <polygon points="69,14 73,9 75,14" fill="#D9B45B" stroke="#171717" strokeWidth="1.3" />
+    <polygon
+      points="69,14 73,9 75,14"
+      fill="#D9B45B"
+      stroke="#171717"
+      strokeWidth="1.3"
+    />
     <rect x="74" y="16" width="5" height="2" fill="#171717" />
   </svg>
 );
