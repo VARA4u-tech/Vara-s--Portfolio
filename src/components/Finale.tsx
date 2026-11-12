@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useHalloween, useComic } from '@/context/ThemeContext';
 import JackOLantern from './halloween/JackOLantern';
+import GraveyardTrees from './halloween/GraveyardTrees';
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   github: Github,
@@ -59,7 +60,9 @@ const Finale = () => {
         className={`absolute top-0 left-0 w-full py-4 overflow-hidden flex whitespace-nowrap ${
           isComic
             ? 'bg-[#171717] border-b border-[#888888]/60'
-            : 'bg-black'
+            : isHalloween
+              ? 'bg-black border-b-2 border-[#FF7518]'
+              : 'bg-black'
         }`}
       >
         <div className="animate-marquee flex items-center shrink-0">
@@ -89,7 +92,9 @@ const Finale = () => {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-20 flex flex-col items-center">
+      <div className="relative w-full">
+        <GraveyardTrees variant="finale" />
+        <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 flex flex-col items-center">
         <div className="relative mb-20 text-center">
           <h2
             className={`text-[12vw] md:text-[8vw] font-black uppercase leading-none tracking-tighter absolute -top-1/2 left-1/2 -translate-x-1/2 select-none pointer-events-none whitespace-nowrap ${
@@ -214,6 +219,7 @@ const Finale = () => {
             Driving Digital Innovation &amp; Building Scalable Tech Products 🌍
           </p>
         </div>
+      </div>
       </div>
 
       {/* Extreme Bottom Bar */}
