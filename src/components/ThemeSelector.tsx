@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Check, Sparkles } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { ChevronDown, Check, Sparkles, X } from 'lucide-react';
 import { useTheme, type SiteTheme } from '@/context/ThemeContext';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
 
@@ -38,10 +38,51 @@ const THEME_OPTIONS: ThemeOption[] = [
 export const ThemeSelector: React.FC = () => {
   const { theme, setTheme, isComic, isHalloween } = useTheme();
   const [open, setOpen] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const currentTheme =
     THEME_OPTIONS.find((opt) => opt.id === theme) ?? THEME_OPTIONS[0];
+
+  const dismissHint = useCallback(() => {
+    setShowHint(false);
+    try {
+      localStorage.setItem('site_theme_hint_dismissed', 'true');
+      window.dispatchEvent(new Event('theme-hint-dismissed'));
+    } catch {
+      // safe fallback
+    }
+  }, []);
+
+  // Subtle first-time onboarding tip: appears after loading screen settles
+  useEffect(() => {
+    try {
+      if (localStorage.getItem('site_theme_hint_dismissed') === 'true') {
+        return;
+      }
+    } catch {
+      return;
+    }
+
+    // Delay until loading screen completes (~3.4s)
+    const timer = setTimeout(() => {
+      setShowHint(true);
+    }, 3400);
+
+    // Auto-dismiss after 11s so it never lingers
+    const autoDismiss = setTimeout(() => {
+      setShowHint(false);
+    }, 14400);
+
+    const onDismiss = () => setShowHint(false);
+    window.addEventListener('theme-hint-dismissed', onDismiss);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(autoDismiss);
+      window.removeEventListener('theme-hint-dismissed', onDismiss);
+    };
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -73,6 +114,7 @@ export const ThemeSelector: React.FC = () => {
 
   const handleSelect = (nextTheme: SiteTheme) => {
     playClick();
+    dismissHint();
     setTheme(nextTheme);
     setOpen(false);
   };
@@ -84,6 +126,7 @@ export const ThemeSelector: React.FC = () => {
         data-nav-trigger="true"
         onClick={() => {
           playClick();
+          dismissHint();
           setOpen((prev) => !prev);
         }}
         onMouseEnter={playHover}
@@ -107,6 +150,110 @@ export const ThemeSelector: React.FC = () => {
           }`}
         />
       </button>
+
+      {/* Responsive First-Time Onboarding Tooltip Callout */}
+      {showHint && !open && (
+        <div
+          role="status"
+          aria-live="polite"
+          className={`absolute right-0 top-full mt-2.5 w-60 sm:w-64 p-3 z-50 rounded-none border-2 animate-in fade-in slide-in-from-top-2 duration-300 ${
+            isComic
+              ? 'bg-[#171717] border-[#D9B45B] text-[#FFFFFF] shadow-[5px_5px_0px_#B58B32]'
+              : isHalloween
+                ? 'bg-[#0B0B0B] border-[#FF7518] text-[#F5F5F5] shadow-[5px_5px_0px_#FF7518]'
+                : 'bg-white border-black text-black shadow-[5px_5px_0px_rgba(0,0,0,1)]'
+          }`}
+        >
+          {/* Top Notch Arrow pointing to theme button */}
+          <div
+            aria-hidden="true"
+            className={`absolute -top-1.5 right-4 sm:right-8 w-3 h-3 rotate-45 border-t-2 border-l-2 ${
+              isComic
+                ? 'bg-[#171717] border-[#D9B45B]'
+                : isHalloween
+                  ? 'bg-[#0B0B0B] border-[#FF7518]'
+                  : 'bg-white border-black'
+            }`}
+          />
+
+          {/* Header Row */}
+          <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-current/15">
+            <div className="flex items-center gap-1.5 font-mono text-[10px] font-black uppercase tracking-wider">
+              <span className="relative flex h-2 w-2">
+                <span
+                  className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                    isComic
+                      ? 'bg-[#D9B45B]'
+                      : isHalloween
+                        ? 'bg-[#FF7518]'
+                        : 'bg-green-500'
+                  }`}
+                />
+                <span
+                  className={`relative inline-flex rounded-full h-2 w-2 ${
+                    isComic
+                      ? 'bg-[#D9B45B]'
+                      : isHalloween
+                        ? 'bg-[#FF7518]'
+                        : 'bg-green-600'
+                  }`}
+                />
+              </span>
+              <span
+                className={
+                  isComic
+                    ? 'text-[#D9B45B]'
+                    : isHalloween
+                      ? 'text-[#FF7518]'
+                      : ''
+                }
+              >
+                Switch Theme
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                dismissHint();
+              }}
+              aria-label="Dismiss theme notification"
+              className="p-0.5 hover:opacity-60 transition-opacity"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Content */}
+          <p className="mt-2 text-[11px] leading-snug font-medium opacity-90">
+            Click here to explore the{' '}
+            <strong className="font-black">Retro Comic Press</strong> &amp;{' '}
+            <strong className="font-black">Halloween Spirit</strong> editions!
+          </p>
+
+          {/* Action Trigger */}
+          <div className="mt-2.5 flex items-center justify-end">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                playClick();
+                dismissHint();
+                setOpen(true);
+              }}
+              className={`px-2.5 py-1 font-mono text-[9px] font-black uppercase tracking-wider border transition-all active:scale-95 ${
+                isComic
+                  ? 'bg-[#D9B45B] text-[#171717] border-[#D9B45B] hover:bg-[#B58B32]'
+                  : isHalloween
+                    ? 'bg-[#FF7518] text-black border-[#FF7518] hover:bg-white'
+                    : 'bg-black text-white border-black hover:bg-neutral-800'
+              }`}
+            >
+              Explore Themes →
+            </button>
+          </div>
+        </div>
+      )}
 
       {open && (
         <div
