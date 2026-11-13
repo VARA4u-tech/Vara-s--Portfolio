@@ -24,6 +24,8 @@ export const FlyingBats: React.FC = () => {
       return;
     }
 
+    let flightTimer: ReturnType<typeof setTimeout> | null = null;
+
     const triggerFlight = () => {
       if (typeof window === 'undefined') return;
       const vw = window.innerWidth;
@@ -57,7 +59,8 @@ export const FlyingBats: React.FC = () => {
       setActiveFlights(newBats);
 
       // Clean up after flight completes
-      setTimeout(() => {
+      if (flightTimer) clearTimeout(flightTimer);
+      flightTimer = setTimeout(() => {
         setActiveFlights([]);
       }, 14000);
     };
@@ -71,6 +74,7 @@ export const FlyingBats: React.FC = () => {
     return () => {
       clearTimeout(initialTimer);
       clearInterval(interval);
+      if (flightTimer) clearTimeout(flightTimer);
     };
   }, [isHalloween, prefersReducedMotion]);
 

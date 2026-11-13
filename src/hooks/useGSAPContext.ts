@@ -29,6 +29,5 @@ export function useGSAPContext(
     }, scope?.current ?? document.body);
 
     return () => ctx.revert();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }
