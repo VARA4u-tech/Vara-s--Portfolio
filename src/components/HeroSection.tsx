@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
 import { playClick, playHover } from '@/hooks/useSoundEffects';
 import { useScrambleText } from '@/hooks/useScrambleText';
@@ -21,7 +21,7 @@ import { useGSAPContext } from '@/hooks/useGSAPContext';
 import { useMatrixRain } from '@/hooks/useMatrixRain';
 import { useParticleAssembly } from '@/hooks/useParticleAssembly';
 import { useTypewriter } from '@/hooks/useTypewriter';
-import ResumeModal from './ResumeModal';
+const ResumeModal = lazy(() => import('./ResumeModal'));
 import { useHalloween, useComic } from '@/context/ThemeContext';
 import SpiderWeb from './halloween/SpiderWeb';
 import GraveyardTrees from './halloween/GraveyardTrees';
@@ -453,13 +453,17 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Resume PDF Modal */}
-      <ResumeModal
-        isOpen={isResumeOpen}
-        onClose={() => setIsResumeOpen(false)}
-        resumeUrl="/Durga_Vara_Prasad_Resume.pdf"
-        downloadName="Durga_Vara_Prasad_Resume.pdf"
-      />
+      {/* Resume PDF Modal — lazy loaded on demand */}
+      {isResumeOpen && (
+        <Suspense fallback={null}>
+          <ResumeModal
+            isOpen={isResumeOpen}
+            onClose={() => setIsResumeOpen(false)}
+            resumeUrl="/Durga_Vara_Prasad_Resume.pdf"
+            downloadName="Durga_Vara_Prasad_Resume.pdf"
+          />
+        </Suspense>
+      )}
 
       {/* Bottom-left info */}
       <div className="gsap-corner absolute bottom-10 left-6 md:left-10 z-10">
