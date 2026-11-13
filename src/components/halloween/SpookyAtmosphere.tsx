@@ -64,17 +64,10 @@ export const SpookyAtmosphere: React.FC = () => {
       });
     }
 
-    let isRunning = true;
-    const handleVisibility = () => {
-      isRunning = !document.hidden;
-    };
-    document.addEventListener('visibilitychange', handleVisibility);
+    let isRunning = !document.hidden;
 
     const render = () => {
-      if (!isRunning) {
-        animId = requestAnimationFrame(render);
-        return;
-      }
+      if (!isRunning) return;
 
       ctx.clearRect(0, 0, width, height);
 
@@ -106,7 +99,20 @@ export const SpookyAtmosphere: React.FC = () => {
       animId = requestAnimationFrame(render);
     };
 
-    render();
+    const handleVisibility = () => {
+      if (document.hidden) {
+        isRunning = false;
+        cancelAnimationFrame(animId);
+      } else if (!isRunning) {
+        isRunning = true;
+        animId = requestAnimationFrame(render);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    if (isRunning) {
+      animId = requestAnimationFrame(render);
+    }
 
     return () => {
       cancelAnimationFrame(animId);
