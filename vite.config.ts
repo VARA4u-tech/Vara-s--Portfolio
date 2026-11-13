@@ -22,7 +22,11 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (/[\\/]node_modules[\\/](react|react-dom|react-router-dom|scheduler)[\\/]/.test(id)) {
+            if (
+              /[\\/]node_modules[\\/](react|react-dom|react-router-dom|scheduler)[\\/]/.test(
+                id,
+              )
+            ) {
               return 'vendor-react';
             }
             if (/[\\/]node_modules[\\/]framer-motion[\\/]/.test(id)) {
@@ -40,7 +44,11 @@ export default defineConfig(({ mode }) => ({
             if (/[\\/]node_modules[\\/]@radix-ui[\\/]/.test(id)) {
               return 'vendor-radix';
             }
-            if (/[\\/]node_modules[\\/](@tanstack|react-hook-form|zod)[\\/]/.test(id)) {
+            if (
+              /[\\/]node_modules[\\/](@tanstack|react-hook-form|zod)[\\/]/.test(
+                id,
+              )
+            ) {
               return 'vendor-utils';
             }
           }
