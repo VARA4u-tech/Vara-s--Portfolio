@@ -20,20 +20,43 @@ export const JackOLantern: React.FC<JackOLanternProps> = ({
 
   if (!isHalloween) return null;
 
-  const handleClick = (e: React.MouseEvent) => {
+  const triggerGlow = (e?: React.SyntheticEvent) => {
     if (!interactive) return;
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setIsClicked(true);
     playPumpkinGlow();
     setTimeout(() => setIsClicked(false), 800);
   };
 
+  const handleClick = (e: React.MouseEvent) => {
+    triggerGlow(e);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      triggerGlow(e);
+    }
+  };
+
   return (
     <motion.div
-      className={`inline-block select-none relative ${className}`}
+      className={`inline-block select-none relative ${
+        interactive
+          ? 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF7518] rounded-full'
+          : ''
+      } ${className}`}
+      role={interactive ? 'button' : undefined}
+      tabIndex={interactive ? 0 : undefined}
+      aria-label={
+        interactive
+          ? "Spooky Jack-o'-lantern. Click or press Enter to light up."
+          : undefined
+      }
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
+      onKeyDown={interactive ? handleKeyDown : undefined}
       animate={
         prefersReducedMotion
           ? {}
