@@ -247,7 +247,7 @@ const HeroSection = () => {
       <div className="text-center relative z-10 pt-24 md:pt-20">
         {/* Minimalist Comic Editorial Lead */}
         {isComic && (
-          <div className="mb-8 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-4 md:mt-6 mb-2 md:mb-3 flex flex-wrap items-center justify-center gap-3">
             <ComicSpeechBubble tail="bottom-left" color="white">
               <span className="text-[#B58B32]">◆</span>
               <span>CODE ARCHITECT // FULL STACK &amp; AI</span>
