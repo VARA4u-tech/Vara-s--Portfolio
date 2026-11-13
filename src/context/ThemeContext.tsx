@@ -6,6 +6,7 @@ import React, {
   useCallback,
   ReactNode,
 } from 'react';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
 
 export type SiteTheme = 'default' | 'halloween' | 'comic';
 
@@ -131,6 +132,39 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
     } catch {
       // safe fallback when storage is unavailable
     }
+
+    // GSAP cinematic smooth shift
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReduced && typeof document !== 'undefined') {
+      const veil = document.getElementById('theme-transition-veil');
+      if (veil) {
+        const veilColor =
+          safeTheme === 'comic'
+            ? '#171717'
+            : safeTheme === 'halloween'
+              ? '#0B0B0B'
+              : '#F5F5F5';
+        veil.style.backgroundColor = veilColor;
+
+        gsap.fromTo(
+          veil,
+          { opacity: 0.8 },
+          {
+            opacity: 0,
+            duration: 0.42,
+            ease: 'power2.out',
+            overwrite: 'auto',
+            onComplete: () => {
+              ScrollTrigger.refresh();
+              window.dispatchEvent(new Event('theme-shift-complete'));
+            },
+          },
+        );
+      }
+    }
   }, []);
 
   const cycleTheme = useCallback(() => {
@@ -166,6 +200,13 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
         prefersReducedMotion,
       }}
     >
+      {/* GSAP Smooth Theme Transition Veil */}
+      <div
+        id="theme-transition-veil"
+        aria-hidden="true"
+        className="fixed inset-0 z-[100] pointer-events-none opacity-0 select-none backdrop-blur-sm"
+        style={{ willChange: 'opacity' }}
+      />
       {children}
     </ThemeContext.Provider>
   );

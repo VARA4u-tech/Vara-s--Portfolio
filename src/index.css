@@ -62,6 +62,26 @@
     background-attachment: fixed;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
+    transition:
+      background-color 0.35s ease,
+      color 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  body nav,
+  body section {
+    transition:
+      background-color 0.35s ease,
+      color 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body,
+    body nav,
+    body section {
+      transition: none !important;
+    }
   }
 
   body::-webkit-scrollbar {

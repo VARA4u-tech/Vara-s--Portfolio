@@ -43,10 +43,17 @@ const LenisScrollTriggerBridge = () => {
     });
     resizeObserver.observe(document.body);
 
+    const onThemeShift = () => {
+      lenis.resize();
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener('theme-shift-complete', onThemeShift);
+
     return () => {
       cancelAnimationFrame(rafId);
       resizeObserver.disconnect();
       lenis.off('scroll', onScroll);
+      window.removeEventListener('theme-shift-complete', onThemeShift);
     };
   }, [lenis]);
 
