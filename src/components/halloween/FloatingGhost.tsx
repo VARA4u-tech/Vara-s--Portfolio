@@ -24,8 +24,8 @@ export const FloatingGhost: React.FC<FloatingGhostProps> = ({
 
   if (!isHalloween) return null;
 
-  const handleGhostClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const triggerGhost = (e?: React.SyntheticEvent) => {
+    if (e) e.stopPropagation();
     setIsSpooked(true);
     setHasBooed(true);
     setClickCount((c) => c + 1);
@@ -33,6 +33,17 @@ export const FloatingGhost: React.FC<FloatingGhostProps> = ({
     setTimeout(() => {
       setIsSpooked(false);
     }, 2400);
+  };
+
+  const handleGhostClick = (e: React.MouseEvent) => {
+    triggerGhost(e);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      triggerGhost(e);
+    }
   };
 
   const getBooText = () => {
@@ -44,7 +55,18 @@ export const FloatingGhost: React.FC<FloatingGhostProps> = ({
   return (
     <motion.div
       ref={ghostRef}
-      className={`relative z-20 select-none ${className}`}
+      className={`relative z-20 select-none ${
+        interactive
+          ? 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF7518] rounded-full'
+          : ''
+      } ${className}`}
+      role={interactive ? 'button' : undefined}
+      tabIndex={interactive ? 0 : undefined}
+      aria-label={
+        interactive
+          ? 'Spooky Ghost Easter Egg. Click or press Enter to say hello.'
+          : undefined
+      }
       initial={{ y: 0, rotate: 0 }}
       animate={
         prefersReducedMotion
@@ -67,12 +89,10 @@ export const FloatingGhost: React.FC<FloatingGhostProps> = ({
         ease: 'easeInOut',
       }}
       onClick={interactive ? handleGhostClick : undefined}
+      onKeyDown={interactive ? handleKeyDown : undefined}
       onMouseEnter={() => {
         if (!hasBooed && interactive) {
-          setIsSpooked(true);
-          setHasBooed(true);
-          playSpookyBoo();
-          setTimeout(() => setIsSpooked(false), 2000);
+          triggerGhost();
         }
       }}
       style={{
