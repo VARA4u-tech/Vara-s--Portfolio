@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import LoadingScreen from '@/components/LoadingScreen';
 import AboutSection from '@/components/AboutSection';
 import EducationSection from '@/components/EducationSection';
@@ -11,12 +11,14 @@ import ProjectsSection from '@/components/ProjectsSection';
 import ContactSection from '@/components/ContactSection';
 
 import ScrollToTop from '@/components/ScrollToTop';
-import Terminal from '@/components/Terminal';
 import Finale from '@/components/Finale';
 import EasterEgg from '@/components/EasterEgg';
 import PixelCursor from '@/components/PixelCursor';
 import PixelGrid from '@/components/PixelGrid';
 import PixelPet from '@/components/PixelPet';
+
+// Lazy-loaded heavy interactive CLI terminal
+const Terminal = lazy(() => import('@/components/Terminal'));
 
 // Theme Architecture (Default, Halloween & Comic Book Pop-Art)
 import { ThemeProvider } from '@/context/ThemeContext';
@@ -59,7 +61,9 @@ const Index = () => {
         <EasterEgg />
         <Navbar />
         <ScrollToTop />
-        <Terminal />
+        <Suspense fallback={null}>
+          <Terminal />
+        </Suspense>
         <HeroSection />
         <AboutSection />
         <EducationSection />
