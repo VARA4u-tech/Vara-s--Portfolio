@@ -57,7 +57,11 @@ export const ThemeSelector: React.FC = () => {
   // Subtle first-time onboarding tip: appears after loading screen settles
   useEffect(() => {
     try {
-      if (localStorage.getItem('site_theme_hint_dismissed') === 'true') {
+      if (
+        localStorage.getItem('site_theme_hint_dismissed') === 'true' ||
+        localStorage.getItem('site_theme') === 'halloween' ||
+        localStorage.getItem('site_theme') === 'comic'
+      ) {
         return;
       }
     } catch {
@@ -83,6 +87,39 @@ export const ThemeSelector: React.FC = () => {
       window.removeEventListener('theme-hint-dismissed', onDismiss);
     };
   }, []);
+
+  const getHintMessage = () => {
+    if (theme === 'halloween') {
+      return (
+        <>
+          Enjoying{' '}
+          <strong className="font-black text-[#FF7518]">
+            Halloween Spirit
+          </strong>
+          ? Click here to switch back to{' '}
+          <strong className="font-black">Classic</strong> or try{' '}
+          <strong className="font-black">Comic Press</strong>!
+        </>
+      );
+    }
+    if (theme === 'comic') {
+      return (
+        <>
+          In <strong className="font-black text-[#D9B45B]">Comic Press</strong>{' '}
+          edition? Click here to switch back to{' '}
+          <strong className="font-black">Classic</strong> or try{' '}
+          <strong className="font-black">Halloween</strong>!
+        </>
+      );
+    }
+    return (
+      <>
+        Click here to explore the{' '}
+        <strong className="font-black">Retro Comic Press</strong> &amp;{' '}
+        <strong className="font-black">Halloween Spirit</strong> editions!
+      </>
+    );
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -226,9 +263,7 @@ export const ThemeSelector: React.FC = () => {
 
           {/* Content */}
           <p className="mt-2 text-[11px] leading-snug font-medium opacity-90">
-            Click here to explore the{' '}
-            <strong className="font-black">Retro Comic Press</strong> &amp;{' '}
-            <strong className="font-black">Halloween Spirit</strong> editions!
+            {getHintMessage()}
           </p>
 
           {/* Action Trigger */}
@@ -249,7 +284,7 @@ export const ThemeSelector: React.FC = () => {
                     : 'bg-black text-white border-black hover:bg-neutral-800'
               }`}
             >
-              Explore Themes →
+              {theme === 'default' ? 'Explore Themes →' : 'Switch Theme →'}
             </button>
           </div>
         </div>
